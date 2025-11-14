@@ -1,0 +1,16 @@
+node_modules
+
+/.cache
+/build
+/.vercel
+.env
+
+# Remix
+/.cache
+/build
+/public/build
+.env
+
+# misc
+.DS_Store
+*.log
