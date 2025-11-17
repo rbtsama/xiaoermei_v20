@@ -69,10 +69,6 @@ export default function ContractTemplatePage({ templates }: ContractTemplatePage
                     <option value={TemplateStatus.ACTIVE}>生效中</option>
                     <option value={TemplateStatus.INACTIVE}>已停用</option>
                   </select>
-
-                  <div className="flex-1"></div>
-
-                  <Button>+ 新建模板</Button>
                 </div>
               </CardContent>
             </Card>
@@ -88,9 +84,6 @@ export default function ContractTemplatePage({ templates }: ContractTemplatePage
                   <TableHeader>
                     <TableRow>
                       <TableHead>协议类型</TableHead>
-                      <TableHead>版本号</TableHead>
-                      <TableHead>生效日期</TableHead>
-                      <TableHead>使用次数</TableHead>
                       <TableHead>状态</TableHead>
                       <TableHead>最后修改</TableHead>
                       <TableHead className="text-right">操作</TableHead>
@@ -100,11 +93,6 @@ export default function ContractTemplatePage({ templates }: ContractTemplatePage
                     {filteredTemplates.map((tpl) => (
                       <TableRow key={tpl.templateId}>
                         <TableCell className="font-medium">{tpl.contractType}</TableCell>
-                        <TableCell className="font-mono text-sm">{tpl.version}</TableCell>
-                        <TableCell className="text-sm text-slate-600">{tpl.effectiveDate}</TableCell>
-                        <TableCell className="text-sm">
-                          <span className="text-blue-600">{tpl.usageCount}</span> 次
-                        </TableCell>
                         <TableCell>
                           <span
                             className={`text-xs px-2 py-1 rounded ${
