@@ -146,14 +146,38 @@ export default function RoomsPage({ rooms }: RoomsPageProps) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>房间号</TableHead>
-                  <TableHead>门店</TableHead>
-                  <TableHead>房型</TableHead>
-                  <TableHead>楼层</TableHead>
-                  <TableHead>状态</TableHead>
-                  <TableHead>客人信息</TableHead>
-                  <TableHead>入住/退房</TableHead>
-                  <TableHead>最后清洁</TableHead>
+                  <TableHead>
+                    <div>房间号</div>
+                    <div className="text-xs text-muted-foreground font-normal">房间编号</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>门店</div>
+                    <div className="text-xs text-muted-foreground font-normal">所属门店</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>房型</div>
+                    <div className="text-xs text-muted-foreground font-normal">房间类型</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>楼层</div>
+                    <div className="text-xs text-muted-foreground font-normal">所在楼层</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>状态</div>
+                    <div className="text-xs text-muted-foreground font-normal">空闲/已入住/清洁中/维修中</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>客人信息</div>
+                    <div className="text-xs text-muted-foreground font-normal">当前入住客人</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>入住/退房</div>
+                    <div className="text-xs text-muted-foreground font-normal">入离时间</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>最后清洁</div>
+                    <div className="text-xs text-muted-foreground font-normal">上次清洁时间</div>
+                  </TableHead>
                   <TableHead>操作</TableHead>
                 </TableRow>
               </TableHeader>

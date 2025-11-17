@@ -89,12 +89,30 @@ export default function RoomTypesPage({ roomTypes }: RoomTypesPageProps) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>房型信息</TableHead>
-                  <TableHead>门店</TableHead>
-                  <TableHead>面积/床型</TableHead>
-                  <TableHead>价格策略</TableHead>
-                  <TableHead>库存</TableHead>
-                  <TableHead>状态</TableHead>
+                  <TableHead>
+                    <div>房型信息</div>
+                    <div className="text-xs text-muted-foreground font-normal">房型名称和封面图</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>门店</div>
+                    <div className="text-xs text-muted-foreground font-normal">所属门店</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>面积/床型</div>
+                    <div className="text-xs text-muted-foreground font-normal">房间大小和床型配置</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>价格策略</div>
+                    <div className="text-xs text-muted-foreground font-normal">平日/周末/节假日差异定价</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>库存</div>
+                    <div className="text-xs text-muted-foreground font-normal">可售/总数</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>状态</div>
+                    <div className="text-xs text-muted-foreground font-normal">在售/暂停/已下架</div>
+                  </TableHead>
                   <TableHead>操作</TableHead>
                 </TableRow>
               </TableHeader>

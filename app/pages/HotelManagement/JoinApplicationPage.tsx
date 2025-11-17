@@ -120,12 +120,30 @@ export default function JoinApplicationPage({ applications }: JoinApplicationPag
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[120px]">留资时间</TableHead>
-                      <TableHead>酒店名称</TableHead>
-                      <TableHead className="w-[100px]">省市</TableHead>
-                      <TableHead className="w-[110px]">联系方式</TableHead>
-                      <TableHead className="w-[90px]">资质材料</TableHead>
-                      <TableHead className="w-[80px]">跟进状态</TableHead>
+                      <TableHead className="w-[120px]">
+                        <div>留资时间</div>
+                        <div className="text-xs text-muted-foreground font-normal">提交申请时间</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>酒店名称</div>
+                        <div className="text-xs text-muted-foreground font-normal">待入驻酒店名</div>
+                      </TableHead>
+                      <TableHead className="w-[100px]">
+                        <div>省市</div>
+                        <div className="text-xs text-muted-foreground font-normal">所在地区</div>
+                      </TableHead>
+                      <TableHead className="w-[110px]">
+                        <div>联系方式</div>
+                        <div className="text-xs text-muted-foreground font-normal">负责人手机号</div>
+                      </TableHead>
+                      <TableHead className="w-[90px]">
+                        <div>资质材料</div>
+                        <div className="text-xs text-muted-foreground font-normal">营业执照等</div>
+                      </TableHead>
+                      <TableHead className="w-[80px]">
+                        <div>跟进状态</div>
+                        <div className="text-xs text-muted-foreground font-normal">BD跟进进度</div>
+                      </TableHead>
                       <TableHead className="text-right w-[160px]">操作</TableHead>
                     </TableRow>
                   </TableHeader>

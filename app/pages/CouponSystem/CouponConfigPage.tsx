@@ -53,13 +53,34 @@ export default function CouponConfigPage({ coupons }: CouponConfigPageProps) {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>券名称</TableHead>
-                      <TableHead>类型</TableHead>
-                      <TableHead>优惠内容</TableHead>
-                      <TableHead>有效期</TableHead>
-                      <TableHead>发放/使用</TableHead>
-                      <TableHead>叠加规则</TableHead>
-                      <TableHead>状态</TableHead>
+                      <TableHead>
+                        <div>券名称</div>
+                        <div className="text-xs text-muted-foreground font-normal">优惠券名称</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>类型</div>
+                        <div className="text-xs text-muted-foreground font-normal">满减/折扣/立减</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>优惠内容</div>
+                        <div className="text-xs text-muted-foreground font-normal">具体优惠规则</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>有效期</div>
+                        <div className="text-xs text-muted-foreground font-normal">领取后有效天数</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>发放/使用</div>
+                        <div className="text-xs text-muted-foreground font-normal">已发/已用数量</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>叠加规则</div>
+                        <div className="text-xs text-muted-foreground font-normal">能否与积分/会员折扣叠加</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>状态</div>
+                        <div className="text-xs text-muted-foreground font-normal">生效中/已停用</div>
+                      </TableHead>
                       <TableHead className="text-right">操作</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -116,10 +137,16 @@ export default function CouponConfigPage({ coupons }: CouponConfigPageProps) {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="col-span-2">
                     <Label>优惠券名称</Label>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      清晰描述优惠内容，如：新人专享券-满200减30（必填，最多30字）
+                    </p>
                     <Input placeholder="例如：新人专享券-满200减30" />
                   </div>
                   <div>
                     <Label>优惠券类型</Label>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      满减券提升客单价，折扣券简单直接，立减券吸引力强
+                    </p>
                     <select
                       value={selectedType}
                       onChange={(e) => setSelectedType(e.target.value as CouponType)}
@@ -132,6 +159,9 @@ export default function CouponConfigPage({ coupons }: CouponConfigPageProps) {
                   </div>
                   <div>
                     <Label>有效天数</Label>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      用户领取后多少天内有效，建议7-30天
+                    </p>
                     <Input type="number" placeholder="领取后多久过期" />
                   </div>
 
@@ -139,10 +169,16 @@ export default function CouponConfigPage({ coupons }: CouponConfigPageProps) {
                     <>
                       <div>
                         <Label>满X元</Label>
+                        <p className="text-xs text-muted-foreground mb-2">
+                          订单满多少元可用，如：200元
+                        </p>
                         <Input type="number" placeholder="门槛金额" />
                       </div>
                       <div>
                         <Label>减Y元</Label>
+                        <p className="text-xs text-muted-foreground mb-2">
+                          优惠金额，如：减30元
+                        </p>
                         <Input type="number" placeholder="优惠金额" />
                       </div>
                     </>
@@ -151,6 +187,9 @@ export default function CouponConfigPage({ coupons }: CouponConfigPageProps) {
                   {selectedType === CouponType.DISCOUNT && (
                     <div className="col-span-2">
                       <Label>折扣（例如：85表示8.5折）</Label>
+                      <p className="text-xs text-muted-foreground mb-2">
+                        填写折扣数值，85=8.5折，90=9折
+                      </p>
                       <Input type="number" placeholder="85" />
                     </div>
                   )}
@@ -158,6 +197,9 @@ export default function CouponConfigPage({ coupons }: CouponConfigPageProps) {
                   {selectedType === CouponType.DIRECT_REDUCTION && (
                     <div className="col-span-2">
                       <Label>立减金额</Label>
+                      <p className="text-xs text-muted-foreground mb-2">
+                        无门槛立减，如：立减50元
+                      </p>
                       <Input type="number" placeholder="例如：50" />
                     </div>
                   )}

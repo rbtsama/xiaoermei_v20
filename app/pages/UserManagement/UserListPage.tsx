@@ -101,13 +101,34 @@ export default function UserListPage({ users }: UserListPageProps) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>用户信息</TableHead>
-                  <TableHead>会员等级</TableHead>
-                  <TableHead>积分余额</TableHead>
-                  <TableHead>订单统计</TableHead>
-                  <TableHead>消费金额</TableHead>
-                  <TableHead>注册时间</TableHead>
-                  <TableHead>状态</TableHead>
+                  <TableHead>
+                    <div>用户信息</div>
+                    <div className="text-xs text-muted-foreground font-normal">姓名和手机号</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>会员等级</div>
+                    <div className="text-xs text-muted-foreground font-normal">当前会员级别</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>积分余额</div>
+                    <div className="text-xs text-muted-foreground font-normal">可用积分数</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>订单统计</div>
+                    <div className="text-xs text-muted-foreground font-normal">累计订单数</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>消费金额</div>
+                    <div className="text-xs text-muted-foreground font-normal">累计消费总额</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>注册时间</div>
+                    <div className="text-xs text-muted-foreground font-normal">首次注册日期</div>
+                  </TableHead>
+                  <TableHead>
+                    <div>状态</div>
+                    <div className="text-xs text-muted-foreground font-normal">正常/冻结/封禁</div>
+                  </TableHead>
                   <TableHead>操作</TableHead>
                 </TableRow>
               </TableHeader>

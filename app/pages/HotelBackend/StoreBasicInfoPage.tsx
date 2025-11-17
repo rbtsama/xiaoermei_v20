@@ -46,6 +46,9 @@ export default function StoreBasicInfoPage({ store }: StoreBasicInfoPageProps) {
                   <Label htmlFor="name">
                     名称 <span className="text-red-500">*</span>
                   </Label>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    门店名称，如：原乡芦荻（必填，最多30字）
+                  </p>
                   <Input
                     id="name"
                     name="name"
@@ -60,6 +63,9 @@ export default function StoreBasicInfoPage({ store }: StoreBasicInfoPageProps) {
                   <Label htmlFor="city">
                     城市 <span className="text-red-500">*</span>
                   </Label>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    所在城市，如：桐庐（必填）
+                  </p>
                   <Input
                     id="city"
                     name="city"
@@ -74,6 +80,9 @@ export default function StoreBasicInfoPage({ store }: StoreBasicInfoPageProps) {
                   <Label htmlFor="phone">
                     电话 <span className="text-red-500">*</span>
                   </Label>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    门店联系电话，11位手机号（必填）
+                  </p>
                   <Input
                     id="phone"
                     name="phone"
@@ -87,6 +96,9 @@ export default function StoreBasicInfoPage({ store }: StoreBasicInfoPageProps) {
                 {/* 微信号 */}
                 <div className="space-y-2">
                   <Label htmlFor="wechat">微信号</Label>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    门店微信号，方便客户联系（选填）
+                  </p>
                   <Input
                     id="wechat"
                     name="wechat"

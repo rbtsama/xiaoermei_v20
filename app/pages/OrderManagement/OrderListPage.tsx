@@ -95,14 +95,38 @@ export default function OrderListPage({ orders }: OrderListPageProps) {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>订单号</TableHead>
-                      <TableHead>下单时间</TableHead>
-                      <TableHead>房客</TableHead>
-                      <TableHead>酒店</TableHead>
-                      <TableHead>入住日期</TableHead>
-                      <TableHead>间夜</TableHead>
-                      <TableHead className="text-right">实付金额</TableHead>
-                      <TableHead>状态</TableHead>
+                      <TableHead>
+                        <div>订单号</div>
+                        <div className="text-xs text-muted-foreground font-normal">唯一订单编号</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>下单时间</div>
+                        <div className="text-xs text-muted-foreground font-normal">创建订单时间</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>房客</div>
+                        <div className="text-xs text-muted-foreground font-normal">用户姓名和手机</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>酒店</div>
+                        <div className="text-xs text-muted-foreground font-normal">酒店名称和房型</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>入住日期</div>
+                        <div className="text-xs text-muted-foreground font-normal">入住-退房时间</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>间夜</div>
+                        <div className="text-xs text-muted-foreground font-normal">入住天数</div>
+                      </TableHead>
+                      <TableHead className="text-right">
+                        <div>实付金额</div>
+                        <div className="text-xs text-muted-foreground font-normal">用户实际支付</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>状态</div>
+                        <div className="text-xs text-muted-foreground font-normal">订单当前状态</div>
+                      </TableHead>
                       <TableHead className="text-right">操作</TableHead>
                     </TableRow>
                   </TableHeader>

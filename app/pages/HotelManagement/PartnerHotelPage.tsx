@@ -142,13 +142,34 @@ export default function PartnerHotelPage({ hotels }: PartnerHotelPageProps) {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>开通时间</TableHead>
-                      <TableHead>酒店名称</TableHead>
-                      <TableHead>省市区</TableHead>
-                      <TableHead>管理员账号</TableHead>
-                      <TableHead>抽佣比例</TableHead>
-                      <TableHead>盛付通号</TableHead>
-                      <TableHead>状态</TableHead>
+                      <TableHead>
+                        <div>开通时间</div>
+                        <div className="text-xs text-muted-foreground font-normal">酒店上线日期</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>酒店名称</div>
+                        <div className="text-xs text-muted-foreground font-normal">合作酒店名称</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>省市区</div>
+                        <div className="text-xs text-muted-foreground font-normal">酒店所在地</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>管理员账号</div>
+                        <div className="text-xs text-muted-foreground font-normal">酒店后台登录账号</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>抽佣比例</div>
+                        <div className="text-xs text-muted-foreground font-normal">平台佣金比例</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>盛付通号</div>
+                        <div className="text-xs text-muted-foreground font-normal">收款账户</div>
+                      </TableHead>
+                      <TableHead>
+                        <div>状态</div>
+                        <div className="text-xs text-muted-foreground font-normal">运营中/已停用</div>
+                      </TableHead>
                       <TableHead className="text-right">操作</TableHead>
                     </TableRow>
                   </TableHeader>
