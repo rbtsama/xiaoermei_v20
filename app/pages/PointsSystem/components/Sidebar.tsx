@@ -21,10 +21,24 @@ export default function Sidebar({ menuItems }: SidebarProps) {
   const location = useLocation()
   const { mode, toggleMode, isLearningMode } = useViewMode()
   const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({
-    '设计架构': true, // 默认展开设计架构
-    '产品架构': true, // 默认展开产品架构
-    '平台后台': true, // 默认展开平台后台
-    '积分系统': true  // 默认展开积分系统
+    // 默认展开所有菜单，提升用户体验
+    '设计架构': true,
+    '产品架构': true,
+    '平台后台': true,
+    '酒店入驻': true,
+    '酒店管理': true,
+    '订单管理': true,
+    '争议处理': true,
+    '会员管理': true,
+    '积分系统': true,
+    '优惠券': true,
+    '系统管理': true,
+    '酒店后台': true,
+    '经营管理': true,
+    '门店配置': true,
+    '房型管理': true,
+    '收益管理': true,
+    '系统设置': true
   })
 
   const toggleMenu = (title: string) => {
