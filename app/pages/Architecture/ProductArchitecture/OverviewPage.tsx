@@ -3,11 +3,11 @@
  * 展示整个酒店SAAS学习平台的完整功能架构脑图、深度分析和订单主线
  */
 
-import { useViewMode } from '~/contexts/ViewModeContext'
 import Sidebar, { menuConfig } from '~/pages/PointsSystem/components/Sidebar'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Badge } from '~/components/ui/badge'
-import { AlertTriangle, CheckCircle2, XCircle, Lightbulb, TrendingUp, Database, Users, Hotel, CreditCard, Gift, FileText, Settings, Shield, ShoppingCart, ArrowRight, Activity, Target, Zap, AlertCircle } from 'lucide-react'
+import { CheckCircle2, Lightbulb, TrendingUp, Database, Users, Hotel, CreditCard, Gift } from 'lucide-react'
+import DefectsList from './components/DefectsList'
 
 export default function OverviewPage() {
   return (
@@ -980,37 +980,18 @@ export async function loader({ request }) {
                 </div>
               </div>
 
-              <div className="mt-8 p-6 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-950 dark:to-blue-950 rounded-xl">
-                <h4 className="text-xl font-bold mb-4">改进建议优先级</h4>
-                <div className="grid grid-cols-3 gap-4 text-sm">
-                  <div className="p-4 bg-red-50 dark:bg-red-950 rounded border-2 border-red-300">
-                    <h5 className="font-bold text-red-600 mb-2">P0 - 立即修复</h5>
-                    <ul className="space-y-1 text-xs">
-                      <li>• 添加权限系统</li>
-                      <li>• 合并重复功能</li>
-                      <li>• 补充Dashboard</li>
-                    </ul>
-                  </div>
-                  <div className="p-4 bg-yellow-50 dark:bg-yellow-950 rounded border-2 border-yellow-300">
-                    <h5 className="font-bold text-yellow-600 mb-2">P1 - 尽快优化</h5>
-                    <ul className="space-y-1 text-xs">
-                      <li>• 合并三个日历</li>
-                      <li>• 添加数据分析</li>
-                      <li>• 完善PMS同步</li>
-                    </ul>
-                  </div>
-                  <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded border-2 border-blue-300">
-                    <h5 className="font-bold text-blue-600 mb-2">P2 - 逐步完善</h5>
-                    <ul className="space-y-1 text-xs">
-                      <li>• 收益管理系统</li>
-                      <li>• AI智能定价</li>
-                      <li>• 内容营销工具</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
             </CardContent>
           </Card>
+
+          {/* 设计缺陷详细清单 */}
+          <div className="space-y-6">
+            <div className="text-center space-y-2">
+              <h2 className="text-4xl font-bold">📋 设计缺陷详细清单</h2>
+              <p className="text-lg text-muted-foreground">20个已识别的设计问题 - 带编号便于讨论和修复</p>
+            </div>
+
+            <DefectsList />
+          </div>
         </div>
       </div>
     </div>
