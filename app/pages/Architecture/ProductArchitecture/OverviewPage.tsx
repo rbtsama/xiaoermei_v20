@@ -929,15 +929,6 @@ export default function OverviewPage() {
             </CardContent>
           </Card>
 
-          {/* 设计缺陷详细清单 */}
-          <div className="space-y-6">
-            <div className="text-center space-y-2">
-              <h2 className="text-4xl font-bold">📋 设计缺陷详细清单</h2>
-              <p className="text-lg text-muted-foreground">20个已识别的设计问题 - 带编号便于讨论和修复</p>
-            </div>
-
-            <DefectsList />
-          </div>
         </div>
       </div>
     </div>
