@@ -6,7 +6,7 @@
 import Sidebar, { menuConfig } from '~/pages/PointsSystem/components/Sidebar'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Badge } from '~/components/ui/badge'
-import { CheckCircle2, Lightbulb, TrendingUp, Database, Users, Hotel, CreditCard, Gift } from 'lucide-react'
+import { CheckCircle2, Lightbulb, TrendingUp, Database, Users, Hotel, CreditCard, Gift, ShoppingCart } from 'lucide-react'
 import DefectsList from './components/DefectsList'
 
 export default function OverviewPage() {
