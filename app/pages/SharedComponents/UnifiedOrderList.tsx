@@ -140,7 +140,9 @@ export default function UnifiedOrderList({
                     <TableRow key={order.id}>
                       <TableCell className="font-mono text-sm">
                         {order.orderNumber}
-                        {order.hasRefundRequest && (
+                        {order.hasRefundRequest &&
+                         order.status !== OrderStatus.REFUNDING &&
+                         order.status !== OrderStatus.REFUNDED && (
                           <Badge variant="destructive" className="ml-2">
                             <AlertCircle className="w-3 h-3 mr-1" />
                             退款
