@@ -1,0 +1,955 @@
+/**
+ * 配色系统页面 - 全局设计规范
+ * 展示小而美 Home Stay 的完整配色系统
+ */
+
+import Sidebar, { menuConfig } from '~/pages/PointsSystem/components/Sidebar'
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
+import {
+  CheckCircle2, AlertCircle, Info, Palette, Home, Search, Heart, User, MapPin,
+  Calendar, Clock, Star, Phone, Mail, MessageCircle, Camera, Image, Upload,
+  Download, Share2, Settings, Filter, Edit, Trash2, Plus, Minus, X, Check,
+  ChevronRight, ChevronLeft, ChevronDown, ChevronUp, Bell, ShoppingCart, Bed, Wifi,
+  Loader2, Menu, LogOut, Eye, EyeOff, Copy, ExternalLink, RefreshCw, BookOpen,
+  CreditCard, Gift, Tag, TrendingUp, Users, Building2, Map, Navigation, Coffee,
+  Utensils, Tv, Wind, Snowflake, Sun, Moon, CloudRain, Zap, Shield, Lock, Key,
+  Car, Bike, Train, Plane, Ship, Bus, Droplets, Flame,
+  Lightbulb, Thermometer, Waves, Trees, Flower2, Dog, Accessibility,
+  Baby, Briefcase, DoorOpen, Scissors, Shirt, Armchair, Lamp, Sofa
+} from 'lucide-react'
+
+export default function ColorSystemPage() {
+  return (
+    <div className="flex h-screen overflow-hidden">
+      <Sidebar menuItems={menuConfig} />
+      <div className="flex-1 overflow-y-auto bg-gray-50">
+        <div className="max-w-7xl mx-auto p-8 space-y-6">
+          {/* 页面标题 */}
+          <header className="text-center space-y-2">
+            <h1 className="text-4xl font-bold text-gray-900 flex items-center justify-center gap-3">
+              <Palette className="w-10 h-10 text-[#2C5F8D]" />
+              小而美 Home Stay 配色系统
+            </h1>
+            <p className="text-base text-gray-500">Version 1.0 | 全局设计规范</p>
+          </header>
+
+          {/* 设计理念 */}
+
+
+          <section>
+
+
+            <h2 className="text-2xl font-bold text-[#2C5F8D] mb-3">设计理念</h2>
+
+
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 via-purple-50 to-orange-50 border border-gray-200">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#2C5F8D]/5 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#C67A28]/5 rounded-full blur-3xl"></div>
+            <div className="relative px-6 py-5">
+              
+              <div className="max-w-4xl">
+                <p className="text-sm text-gray-700 leading-relaxed text-left mb-2.5">
+                  小而美 Home Stay 是面向年轻人的精品民宿预订平台，强调精选独特民宿、自然环境体验、人文关怀服务和年轻化审美。
+                </p>
+                <p className="text-sm text-gray-700 leading-relaxed text-left">
+                  配色系统取自四季自然色，传达舒适、柔和、可靠的品牌调性。从春日柔和的米白到冬日深邃的湖蓝，每一种颜色都承载着自然的温度与情感，为用户营造宁静、惬意的预订体验。
+                </p>
+              </div>
+            </div>
+          </div>
+          </section>
+
+          {/* 色彩系统 */}
+          <section>
+            <h2 className="text-2xl font-bold text-[#2C5F8D] mb-3">色彩系统</h2>
+
+            {/* 主色系统 - 四季自然色 */}
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">主色系统 - 四季自然色</h3>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+              <ColorCard name="米白" season="春" color="#F8F6F3" hex="#F8F6F3" contrast="-" usage="背景色、卡片底色" textColor="text-gray-900" />
+              <ColorCard name="湖蓝" season="夏" color="#4A8FBF" hex="#4A8FBF" contrast="5.2:1" usage="链接、交互元素" />
+              <ColorCard name="深橙" season="秋" color="#C67A28" hex="#C67A28" contrast="6.8:1" usage="价格、促销标签" />
+              <ColorCard name="深蓝" season="冬" color="#2C5F8D" hex="#2C5F8D" contrast="7.8:1" usage="主按钮、品牌色" />
+            </div>
+
+            {/* 功能色 + 中性色 */}
+            <h3 className="text-lg font-semibold text-gray-700 mb-3 mt-6">功能色 & 中性色</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+              <ColorCard name="森林绿" color="#5A8A65" hex="#5A8A65" contrast="6.2:1" usage="成功状态" compact />
+              <ColorCard name="砖瓦红" color="#B94D3D" hex="#B94D3D" contrast="7.1:1" usage="错误、警示" compact />
+              <ColorCard name="主文字" color="#2A2A2A" hex="#2A2A2A" contrast="15.8:1" usage="标题、正文" compact />
+              <ColorCard name="次文字" color="#6B6B6B" hex="#6B6B6B" contrast="5.7:1" usage="辅助说明" compact />
+              <ColorCard name="占位符" color="#999999" hex="#999999" contrast="4.2:1" usage="占位符" compact />
+            </div>
+          </section>
+
+          {/* 组件全库 - 4列布局 */}
+          <section>
+            <h2 className="text-2xl font-bold text-[#2C5F8D] mb-4">组件示例</h2>
+
+            <div className="grid lg:grid-cols-4 gap-4">
+              {/* 第1列 - 按钮基础 */}
+              <ComponentCard title="按钮系统 - 基础">
+                  <ComponentDemo label="主按钮 32px">
+                    <button className="h-8 px-4 text-sm font-medium text-white bg-[#2C5F8D] rounded hover:bg-[#2C5F8D]/90 transition-colors">立即预订</button>
+                    <button className="h-8 px-4 text-sm font-medium text-white bg-[#C67A28] rounded hover:bg-[#C67A28]/90 transition-colors">立即支付</button>
+                  </ComponentDemo>
+                  <ComponentDemo label="描边按钮">
+                    <button className="h-8 px-4 text-sm font-medium text-[#2C5F8D] border border-[#2C5F8D] rounded hover:bg-[#2C5F8D]/5 transition-colors">查看详情</button>
+                    <button className="h-8 px-4 text-sm font-medium text-gray-600 border border-gray-300 rounded hover:bg-gray-50 transition-colors">取消</button>
+                  </ComponentDemo>
+                  <ComponentDemo label="小按钮 28px">
+                    <button className="h-7 px-3 text-xs font-medium text-white bg-[#2C5F8D] rounded">选择</button>
+                    <button className="h-7 px-3 text-xs font-medium text-gray-600 bg-gray-100 rounded">已售罄</button>
+                  </ComponentDemo>
+                </ComponentCard>
+
+              {/* 第2列 - 按钮扩展 */}
+              <ComponentCard title="按钮系统 - 扩展">
+                  <ComponentDemo label="图标按钮">
+                    <button className="h-8 px-3 text-sm font-medium text-white bg-[#2C5F8D] rounded flex items-center gap-1.5">
+                      <Heart className="w-3.5 h-3.5" />收藏
+                    </button>
+                    <button className="h-8 px-3 text-sm font-medium text-[#2C5F8D] border border-[#2C5F8D] rounded flex items-center gap-1.5">
+                      <Share2 className="w-3.5 h-3.5" />分享
+                    </button>
+                  </ComponentDemo>
+                  <ComponentDemo label="加载状态">
+                    <button className="h-8 px-4 text-sm font-medium text-white bg-[#2C5F8D]/60 rounded flex items-center gap-2 cursor-not-allowed">
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />提交中...
+                    </button>
+                  </ComponentDemo>
+                  <ComponentDemo label="危险按钮">
+                    <button className="h-8 px-4 text-sm font-medium text-white bg-[#B94D3D] rounded hover:bg-[#B94D3D]/90 transition-colors">删除订单</button>
+                    <button className="h-8 px-4 text-sm font-medium text-[#B94D3D] border border-[#B94D3D] rounded hover:bg-[#B94D3D]/5 transition-colors">取消预订</button>
+                  </ComponentDemo>
+                  <ComponentDemo label="禁用状态">
+                    <button className="h-8 px-4 text-sm font-medium text-gray-400 bg-gray-100 rounded cursor-not-allowed" disabled>已禁用</button>
+                  </ComponentDemo>
+                  <ComponentDemo label="圆形图标按钮">
+                    <button className="w-8 h-8 rounded-full bg-[#2C5F8D] text-white flex items-center justify-center hover:bg-[#2C5F8D]/90 transition-colors">
+                      <Search className="w-4 h-4" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full border border-gray-300 text-gray-600 flex items-center justify-center hover:bg-gray-50 transition-colors">
+                      <Bell className="w-4 h-4" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-[#C67A28] text-white flex items-center justify-center hover:bg-[#C67A28]/90 transition-colors">
+                      <ShoppingCart className="w-4 h-4" />
+                    </button>
+                  </ComponentDemo>
+                </ComponentCard>
+
+              {/* 第3列 - Tab标签页 */}
+              <ComponentCard title="Tab标签页">
+                  <div className="flex border-b border-gray-200">
+                    <button className="px-3 py-2 text-sm font-medium text-[#2C5F8D] border-b-2 border-[#2C5F8D]">全部</button>
+                    <button className="px-3 py-2 text-sm text-gray-600 hover:text-gray-900">待支付</button>
+                    <button className="px-3 py-2 text-sm text-gray-600 hover:text-gray-900">待入住</button>
+                  </div>
+                  <div className="flex gap-2 mt-3">
+                    <button className="h-7 px-3 text-xs font-medium text-white bg-[#2C5F8D] rounded-full">全部</button>
+                    <button className="h-7 px-3 text-xs text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200">民宿</button>
+                    <button className="h-7 px-3 text-xs text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200">酒店</button>
+                  </div>
+                </ComponentCard>
+
+              {/* 第4列 - 表单基础 */}
+              <ComponentCard title="输入表单 - 基础">
+                  <ComponentDemo label="标准输入框 36px">
+                    <input type="text" placeholder="请输入手机号" className="w-full h-9 px-3 text-sm bg-[#F8F6F3] border border-gray-200 rounded focus:outline-none focus:border-[#2C5F8D]" />
+                  </ComponentDemo>
+                  <ComponentDemo label="搜索框">
+                    <div className="relative">
+                      <input type="text" placeholder="搜索房源" className="w-full h-9 pl-9 pr-3 text-sm bg-[#F8F6F3] rounded-full focus:outline-none focus:ring-2 focus:ring-[#2C5F8D]/20" />
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    </div>
+                  </ComponentDemo>
+                  <ComponentDemo label="带按钮组合">
+                    <div className="flex gap-2">
+                      <input type="text" placeholder="手机号" className="flex-1 h-9 px-3 text-sm bg-[#F8F6F3] border border-gray-200 rounded focus:outline-none focus:border-[#2C5F8D]" />
+                      <button className="h-9 px-3 text-sm font-medium text-white bg-[#2C5F8D] rounded whitespace-nowrap">获取验证码</button>
+                    </div>
+                  </ComponentDemo>
+                </ComponentCard>
+
+              {/* 第5列 - 表单扩展 */}
+              <ComponentCard title="表单组件 - 扩展">
+                  <ComponentDemo label="下拉选择">
+                    <select className="w-full h-9 px-3 text-sm bg-[#F8F6F3] border border-gray-200 rounded focus:outline-none focus:border-[#2C5F8D]">
+                      <option>请选择房型</option>
+                      <option>标准双床房</option>
+                      <option>大床房</option>
+                    </select>
+                  </ComponentDemo>
+                  <ComponentDemo label="复选框">
+                    <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                      <input type="checkbox" className="w-4 h-4 text-[#2C5F8D] border-gray-300 rounded focus:ring-[#2C5F8D]" defaultChecked />
+                      含早餐
+                    </label>
+                    <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                      <input type="checkbox" className="w-4 h-4 text-[#2C5F8D] border-gray-300 rounded focus:ring-[#2C5F8D]" />
+                      加床服务
+                    </label>
+                  </ComponentDemo>
+                  <ComponentDemo label="单选框">
+                    <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                      <input type="radio" name="bed" className="w-4 h-4 text-[#2C5F8D] border-gray-300 focus:ring-[#2C5F8D]" defaultChecked />
+                      大床
+                    </label>
+                    <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                      <input type="radio" name="bed" className="w-4 h-4 text-[#2C5F8D] border-gray-300 focus:ring-[#2C5F8D]" />
+                      双床
+                    </label>
+                  </ComponentDemo>
+                  <ComponentDemo label="开关">
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" className="sr-only peer" defaultChecked />
+                      <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#2C5F8D]"></div>
+                      <span className="ml-2 text-sm text-gray-700">接收通知</span>
+                    </label>
+                  </ComponentDemo>
+                  <ComponentDemo label="日期选择">
+                    <div className="relative">
+                      <input type="text" placeholder="选择日期" className="w-full h-9 pl-3 pr-9 text-sm bg-[#F8F6F3] border border-gray-200 rounded focus:outline-none focus:border-[#2C5F8D]" />
+                      <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    </div>
+                  </ComponentDemo>
+                </ComponentCard>
+
+              {/* 第6列 - 价格展示 */}
+              <ComponentCard title="价格展示">
+                  <ComponentDemo label="主价格">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-bold text-[#C67A28]">¥388</span>
+                      <span className="text-sm text-gray-400 line-through">¥568</span>
+                      <span className="inline-flex items-center h-5 px-1.5 text-xs font-bold text-white bg-[#B94D3D] rounded">省¥180</span>
+                    </div>
+                  </ComponentDemo>
+                  <ComponentDemo label="列表价格">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-lg font-semibold text-[#C67A28]">¥199</span>
+                      <span className="text-xs text-gray-500">/晚</span>
+                    </div>
+                  </ComponentDemo>
+                  <ComponentDemo label="金额明细">
+                    <div className="space-y-1.5">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">房费 × 2晚</span>
+                        <span className="text-gray-900 font-medium">¥776</span>
+                      </div>
+                      <div className="flex justify-between text-sm text-[#5A8A65]">
+                        <span>优惠券折扣</span>
+                        <span className="font-medium">-¥50</span>
+                      </div>
+                      <div className="h-px bg-gray-200"></div>
+                      <div className="flex justify-between">
+                        <span className="text-sm font-medium">合计</span>
+                        <span className="text-lg font-bold text-[#C67A28]">¥776</span>
+                      </div>
+                    </div>
+                  </ComponentDemo>
+                </ComponentCard>
+
+              {/* 第7列 - 消息通知 */}
+              <ComponentCard title="消息通知">
+                  <div className="flex items-start gap-2 p-2 bg-[#5A8A65]/10 border-l-2 border-[#5A8A65] rounded text-sm">
+                    <CheckCircle2 className="w-4 h-4 text-[#5A8A65] mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-gray-900">预订成功</p>
+                      <p className="text-xs text-gray-600 mt-0.5">订单已确认</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2 p-2 bg-[#B94D3D]/10 border-l-2 border-[#B94D3D] rounded text-sm mt-2">
+                    <AlertCircle className="w-4 h-4 text-[#B94D3D] mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-gray-900">预订失败</p>
+                      <p className="text-xs text-gray-600 mt-0.5">房源已被订</p>
+                    </div>
+                  </div>
+                </ComponentCard>
+
+              {/* 第8列 - 标签基础 */}
+              <ComponentCard title="标签徽章 - 基础">
+                  <ComponentDemo label="状态标签">
+                    <span className="inline-flex items-center h-6 px-2 text-xs font-medium text-[#5A8A65] bg-[#5A8A65]/10 rounded">
+                      <CheckCircle2 className="w-3 h-3 mr-1" />已入住
+                    </span>
+                    <span className="inline-flex items-center h-6 px-2 text-xs font-medium text-[#4A8FBF] bg-[#4A8FBF]/10 rounded">待确认</span>
+                    <span className="inline-flex items-center h-6 px-2 text-xs font-medium text-[#B94D3D] bg-[#B94D3D]/10 rounded">已取消</span>
+                  </ComponentDemo>
+                  <ComponentDemo label="促销标签">
+                    <span className="inline-flex items-center h-6 px-2 text-xs font-bold text-white bg-[#B94D3D] rounded">限时特惠</span>
+                    <span className="inline-flex items-center h-6 px-2 text-xs font-bold text-white bg-[#C67A28] rounded">首单立减</span>
+                  </ComponentDemo>
+                </ComponentCard>
+
+              {/* 第9列 - 标签扩展 */}
+              <ComponentCard title="标签徽章 - 扩展">
+                  <ComponentDemo label="数字徽章">
+                    <div className="relative inline-block">
+                      <Bell className="w-5 h-5 text-gray-600" />
+                      <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#B94D3D] text-[10px] font-bold text-white">3</span>
+                    </div>
+                    <div className="relative inline-block">
+                      <ShoppingCart className="w-5 h-5 text-gray-600" />
+                      <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#C67A28] text-[10px] font-bold text-white">5</span>
+                    </div>
+                  </ComponentDemo>
+                  <ComponentDemo label="圆点标记">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[#5A8A65]"></span>
+                      <span className="text-xs text-gray-700">可预订</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-[#B94D3D]"></span>
+                      <span className="text-xs text-gray-700">已满房</span>
+                    </div>
+                  </ComponentDemo>
+                  <ComponentDemo label="进度标签">
+                    <div className="w-full">
+                      <div className="flex items-center justify-between text-xs mb-1">
+                        <span className="text-gray-600">预订进度</span>
+                        <span className="text-[#2C5F8D] font-medium">75%</span>
+                      </div>
+                      <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="h-full bg-[#2C5F8D] rounded-full" style={{ width: '75%' }}></div>
+                      </div>
+                    </div>
+                  </ComponentDemo>
+                  <ComponentDemo label="特性标签">
+                    <span className="inline-flex items-center h-5 px-1.5 text-xs text-[#4A8FBF] bg-[#4A8FBF]/10 rounded">
+                      <Wifi className="w-3 h-3 mr-0.5" />免费WiFi
+                    </span>
+                    <span className="inline-flex items-center h-5 px-1.5 text-xs text-[#C67A28] bg-[#C67A28]/10 rounded">
+                      <Utensils className="w-3 h-3 mr-0.5" />含早餐
+                    </span>
+                    <span className="inline-flex items-center h-5 px-1.5 text-xs text-gray-600 bg-[#F8F6F3] rounded">
+                      <Bed className="w-3 h-3 mr-0.5" />双床
+                    </span>
+                  </ComponentDemo>
+                </ComponentCard>
+
+              {/* 第10列 - 房源卡片 */}
+              <ComponentCard title="房源卡片">
+                  <div className="p-3 bg-white border border-gray-200 rounded-lg">
+                    <div className="flex gap-2.5">
+                      <div className="relative w-20 h-20 bg-gray-200 rounded overflow-hidden flex-shrink-0">
+                        <div className="absolute inset-0 flex items-center justify-center text-xs text-gray-400">图</div>
+                        <span className="absolute top-1 left-1 inline-flex h-4 px-1.5 text-xs font-bold text-white bg-[#B94D3D] rounded">特惠</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-sm font-medium text-gray-900 truncate">山间小筑·独立小院</h4>
+                        <div className="flex gap-1 mt-1">
+                          <span className="inline-flex h-5 px-1.5 text-xs text-[#4A8FBF] bg-[#4A8FBF]/10 rounded">山景</span>
+                          <span className="inline-flex h-5 px-1.5 text-xs text-gray-600 bg-[#F8F6F3] rounded">小院</span>
+                        </div>
+                        <div className="flex items-center gap-1 mt-1">
+                          <div className="flex text-[#C67A28]">
+                            {[1,2,3,4,5].map(i => (
+                              <svg key={i} className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                              </svg>
+                            ))}
+                          </div>
+                          <span className="text-xs text-gray-600">4.9</span>
+                        </div>
+                        <div className="flex items-baseline justify-between mt-1">
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-lg font-bold text-[#C67A28]">¥388</span>
+                            <span className="text-xs text-gray-400 line-through">¥568</span>
+                          </div>
+                          <button className="h-6 px-2.5 text-xs font-medium text-white bg-[#2C5F8D] rounded">订</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ComponentCard>
+
+              {/* 第11列 - 订单卡片 */}
+              <ComponentCard title="订单卡片">
+                  <div className="p-3 bg-white border border-gray-200 rounded-lg">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="text-sm font-medium text-gray-900">山间小筑</h4>
+                      <span className="inline-flex h-5 px-1.5 text-xs font-medium text-[#4A8FBF] bg-[#4A8FBF]/10 rounded">待入住</span>
+                    </div>
+                    <div className="space-y-1 text-xs text-gray-600">
+                      <div className="flex justify-between">
+                        <span>订单号</span>
+                        <span className="text-gray-900">...001234</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>入住</span>
+                        <span className="text-gray-900">01/25-27 · 2晚</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>金额</span>
+                        <span className="text-base font-semibold text-[#C67A28]">¥776</span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 mt-2 pt-2 border-t border-gray-100">
+                      <button className="flex-1 h-7 text-xs text-gray-600 border border-gray-300 rounded">联系</button>
+                      <button className="flex-1 h-7 text-xs text-white bg-[#2C5F8D] rounded">详情</button>
+                    </div>
+                  </div>
+                </ComponentCard>
+
+              {/* 第12列 - 评价 */}
+              <ComponentCard title="评价">
+                  <div className="p-2.5 bg-[#F8F6F3] rounded-lg">
+                    <div className="flex items-start gap-2 mb-1.5">
+                      <div className="w-7 h-7 bg-gray-300 rounded-full flex-shrink-0"></div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-medium text-gray-900">张**</span>
+                          <span className="text-xs text-gray-500">01/15</span>
+                        </div>
+                        <div className="flex text-[#C67A28] mt-0.5">
+                          {[1,2,3,4,5].map(i => (
+                            <svg key={i} className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-700 leading-relaxed">房间干净，环境好，房东热情。下次还来！</p>
+                  </div>
+                </ComponentCard>
+            </div>
+          </section>
+
+          {/* 更多卡片样式 */}
+          <section>
+            <h2 className="text-2xl font-bold text-[#2C5F8D] mb-4">卡片扩展样式</h2>
+            <div className="grid lg:grid-cols-4 gap-4">
+              {/* 统计卡片 */}
+              <Card className="h-[420px] flex flex-col">
+                <CardHeader className="pb-2 flex-shrink-0">
+                  <CardTitle className="text-base">统计卡片</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3 flex-1 overflow-y-auto">
+                  <div className="p-3 bg-gradient-to-br from-[#2C5F8D]/10 to-[#4A8FBF]/10 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs text-gray-600">本月订单</span>
+                      <TrendingUp className="w-4 h-4 text-[#5A8A65]" />
+                    </div>
+                    <div className="text-2xl font-bold text-[#2C5F8D]">268</div>
+                    <div className="text-xs text-[#5A8A65] mt-1">↑ 18% 较上月</div>
+                  </div>
+                  <div className="p-3 bg-gradient-to-br from-[#C67A28]/10 to-[#C67A28]/5 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs text-gray-600">营业额</span>
+                      <CreditCard className="w-4 h-4 text-[#C67A28]" />
+                    </div>
+                    <div className="text-2xl font-bold text-[#C67A28]">¥89,320</div>
+                    <div className="text-xs text-gray-500 mt-1">环比上月</div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 信息卡片 */}
+              <Card className="h-[420px] flex flex-col">
+                <CardHeader className="pb-2 flex-shrink-0">
+                  <CardTitle className="text-base">信息卡片</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-1 overflow-y-auto">
+                  <div className="space-y-2">
+                    <div className="p-2.5 bg-[#F8F6F3] rounded-lg flex items-start gap-2">
+                      <MapPin className="w-4 h-4 text-[#2C5F8D] mt-0.5 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-gray-900">杭州西湖景区</p>
+                        <p className="text-xs text-gray-500 mt-0.5 truncate">浙江省杭州市西湖区...</p>
+                      </div>
+                    </div>
+                    <div className="p-2.5 bg-[#F8F6F3] rounded-lg flex items-start gap-2">
+                      <Phone className="w-4 h-4 text-[#2C5F8D] mt-0.5 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-gray-900">联系方式</p>
+                        <p className="text-xs text-gray-500 mt-0.5">186 1234 5678</p>
+                      </div>
+                    </div>
+                    <div className="p-2.5 bg-[#F8F6F3] rounded-lg flex items-start gap-2">
+                      <Clock className="w-4 h-4 text-[#2C5F8D] mt-0.5 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-gray-900">营业时间</p>
+                        <p className="text-xs text-gray-500 mt-0.5">全天24小时</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 特性卡片 */}
+              <Card className="h-[420px] flex flex-col">
+                <CardHeader className="pb-2 flex-shrink-0">
+                  <CardTitle className="text-base">设施特性</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-1 overflow-y-auto">
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="flex flex-col items-center p-2 bg-[#F8F6F3] rounded-lg">
+                      <Wifi className="w-5 h-5 text-[#2C5F8D] mb-1" />
+                      <span className="text-xs text-gray-700">WiFi</span>
+                    </div>
+                    <div className="flex flex-col items-center p-2 bg-[#F8F6F3] rounded-lg">
+                      <Wind className="w-5 h-5 text-[#2C5F8D] mb-1" />
+                      <span className="text-xs text-gray-700">空调</span>
+                    </div>
+                    <div className="flex flex-col items-center p-2 bg-[#F8F6F3] rounded-lg">
+                      <Tv className="w-5 h-5 text-[#2C5F8D] mb-1" />
+                      <span className="text-xs text-gray-700">电视</span>
+                    </div>
+                    <div className="flex flex-col items-center p-2 bg-[#F8F6F3] rounded-lg">
+                      <Coffee className="w-5 h-5 text-[#2C5F8D] mb-1" />
+                      <span className="text-xs text-gray-700">咖啡机</span>
+                    </div>
+                    <div className="flex flex-col items-center p-2 bg-[#F8F6F3] rounded-lg">
+                      <Utensils className="w-5 h-5 text-[#2C5F8D] mb-1" />
+                      <span className="text-xs text-gray-700">早餐</span>
+                    </div>
+                    <div className="flex flex-col items-center p-2 bg-[#F8F6F3] rounded-lg">
+                      <Bed className="w-5 h-5 text-[#2C5F8D] mb-1" />
+                      <span className="text-xs text-gray-700">加床</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 用户反馈卡片 */}
+              <Card className="h-[420px] flex flex-col">
+                <CardHeader className="pb-2 flex-shrink-0">
+                  <CardTitle className="text-base">用户反馈</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-1 overflow-y-auto">
+                  <div className="space-y-2">
+                    <div className="p-2.5 bg-[#F8F6F3] rounded-lg">
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
+                          <span className="text-xs font-medium text-gray-900">李**</span>
+                        </div>
+                        <div className="flex text-[#C67A28]">
+                          {[1,2,3,4,5].map(i => (
+                            <Star key={i} className="w-2.5 h-2.5 fill-current" />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-600">位置好，服务贴心</p>
+                    </div>
+                    <div className="p-2.5 bg-[#F8F6F3] rounded-lg">
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
+                          <span className="text-xs font-medium text-gray-900">王**</span>
+                        </div>
+                        <div className="flex text-[#C67A28]">
+                          {[1,2,3,4].map(i => (
+                            <Star key={i} className="w-2.5 h-2.5 fill-current" />
+                          ))}
+                          <Star className="w-2.5 h-2.5" />
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-600">房间很干净整洁</p>
+                    </div>
+                    <div className="p-2.5 bg-[#F8F6F3] rounded-lg">
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
+                          <span className="text-xs font-medium text-gray-900">张**</span>
+                        </div>
+                        <div className="flex text-[#C67A28]">
+                          {[1,2,3,4,5].map(i => (
+                            <Star key={i} className="w-2.5 h-2.5 fill-current" />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-600">性价比很高推荐</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          {/* 酒店业务图标库 */}
+          <section>
+            <h2 className="text-2xl font-bold text-[#2C5F8D] mb-4">酒店业务图标库</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* 预订相关 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">预订相关</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<Calendar className="w-5 h-5" />} label="日历" />
+                    <IconDemo icon={<Clock className="w-5 h-5" />} label="时间" />
+                    <IconDemo icon={<CheckCircle2 className="w-5 h-5" />} label="确认" />
+                    <IconDemo icon={<AlertCircle className="w-5 h-5" />} label="提醒" />
+                    <IconDemo icon={<Search className="w-5 h-5" />} label="搜索" />
+                    <IconDemo icon={<Filter className="w-5 h-5" />} label="筛选" />
+                    <IconDemo icon={<Edit className="w-5 h-5" />} label="编辑" />
+                    <IconDemo icon={<X className="w-5 h-5" />} label="关闭" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 房间设施 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">房间设施</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<Bed className="w-5 h-5" />} label="床位" />
+                    <IconDemo icon={<Wifi className="w-5 h-5" />} label="WiFi" />
+                    <IconDemo icon={<Tv className="w-5 h-5" />} label="电视" />
+                    <IconDemo icon={<Wind className="w-5 h-5" />} label="空调" />
+                    <IconDemo icon={<Coffee className="w-5 h-5" />} label="咖啡" />
+                    <IconDemo icon={<Utensils className="w-5 h-5" />} label="餐饮" />
+                    <IconDemo icon={<Sun className="w-5 h-5" />} label="日照" />
+                    <IconDemo icon={<Moon className="w-5 h-5" />} label="夜间" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 位置导航 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">位置导航</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<MapPin className="w-5 h-5" />} label="位置" />
+                    <IconDemo icon={<Map className="w-5 h-5" />} label="地图" />
+                    <IconDemo icon={<Navigation className="w-5 h-5" />} label="导航" />
+                    <IconDemo icon={<Building2 className="w-5 h-5" />} label="建筑" />
+                    <IconDemo icon={<Home className="w-5 h-5" />} label="住宿" />
+                    <IconDemo icon={<ChevronRight className="w-5 h-5" />} label="前进" />
+                    <IconDemo icon={<ChevronLeft className="w-5 h-5" />} label="返回" />
+                    <IconDemo icon={<ChevronDown className="w-5 h-5" />} label="展开" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 用户交互 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">用户交互</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<User className="w-5 h-5" />} label="用户" />
+                    <IconDemo icon={<Users className="w-5 h-5" />} label="群组" />
+                    <IconDemo icon={<Heart className="w-5 h-5" />} label="收藏" />
+                    <IconDemo icon={<Star className="w-5 h-5" />} label="评分" />
+                    <IconDemo icon={<Share2 className="w-5 h-5" />} label="分享" />
+                    <IconDemo icon={<Bell className="w-5 h-5" />} label="通知" />
+                    <IconDemo icon={<MessageCircle className="w-5 h-5" />} label="消息" />
+                    <IconDemo icon={<Phone className="w-5 h-5" />} label="电话" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 支付相关 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">支付相关</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<CreditCard className="w-5 h-5" />} label="支付" />
+                    <IconDemo icon={<ShoppingCart className="w-5 h-5" />} label="购物车" />
+                    <IconDemo icon={<Gift className="w-5 h-5" />} label="礼品" />
+                    <IconDemo icon={<Tag className="w-5 h-5" />} label="标签" />
+                    <IconDemo icon={<TrendingUp className="w-5 h-5" />} label="趋势" />
+                    <IconDemo icon={<Shield className="w-5 h-5" />} label="安全" />
+                    <IconDemo icon={<Lock className="w-5 h-5" />} label="锁定" />
+                    <IconDemo icon={<Key className="w-5 h-5" />} label="钥匙" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 媒体相关 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">媒体相关</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<Camera className="w-5 h-5" />} label="相机" />
+                    <IconDemo icon={<Image className="w-5 h-5" />} label="图片" />
+                    <IconDemo icon={<Upload className="w-5 h-5" />} label="上传" />
+                    <IconDemo icon={<Download className="w-5 h-5" />} label="下载" />
+                    <IconDemo icon={<Eye className="w-5 h-5" />} label="查看" />
+                    <IconDemo icon={<EyeOff className="w-5 h-5" />} label="隐藏" />
+                    <IconDemo icon={<Copy className="w-5 h-5" />} label="复制" />
+                    <IconDemo icon={<ExternalLink className="w-5 h-5" />} label="链接" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 系统操作 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">系统操作</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<Settings className="w-5 h-5" />} label="设置" />
+                    <IconDemo icon={<Menu className="w-5 h-5" />} label="菜单" />
+                    <IconDemo icon={<RefreshCw className="w-5 h-5" />} label="刷新" />
+                    <IconDemo icon={<Trash2 className="w-5 h-5" />} label="删除" />
+                    <IconDemo icon={<Plus className="w-5 h-5" />} label="添加" />
+                    <IconDemo icon={<Minus className="w-5 h-5" />} label="减少" />
+                    <IconDemo icon={<Check className="w-5 h-5" />} label="完成" />
+                    <IconDemo icon={<LogOut className="w-5 h-5" />} label="退出" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 其他常用 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">其他常用</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<BookOpen className="w-5 h-5" />} label="手册" />
+                    <IconDemo icon={<Info className="w-5 h-5" />} label="信息" />
+                    <IconDemo icon={<Mail className="w-5 h-5" />} label="邮件" />
+                    <IconDemo icon={<Loader2 className="w-5 h-5" />} label="加载" />
+                    <IconDemo icon={<CloudRain className="w-5 h-5" />} label="天气" />
+                    <IconDemo icon={<Zap className="w-5 h-5" />} label="闪电" />
+                    <IconDemo icon={<Snowflake className="w-5 h-5" />} label="冷气" />
+                    <IconDemo icon={<ChevronUp className="w-5 h-5" />} label="向上" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 交通出行 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">交通出行</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<Car className="w-5 h-5" />} label="汽车" />
+                    <IconDemo icon={<Building2 className="w-5 h-5" />} label="停车" />
+                    <IconDemo icon={<Bike className="w-5 h-5" />} label="自行车" />
+                    <IconDemo icon={<Train className="w-5 h-5" />} label="火车" />
+                    <IconDemo icon={<Plane className="w-5 h-5" />} label="飞机" />
+                    <IconDemo icon={<Ship className="w-5 h-5" />} label="轮船" />
+                    <IconDemo icon={<Bus className="w-5 h-5" />} label="巴士" />
+                    <IconDemo icon={<MapPin className="w-5 h-5" />} label="定位" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 卫浴设施 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">卫浴设施</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<Home className="w-5 h-5" />} label="浴室" />
+                    <IconDemo icon={<Droplets className="w-5 h-5" />} label="淋浴" />
+                    <IconDemo icon={<Droplets className="w-5 h-5" />} label="水滴" />
+                    <IconDemo icon={<Waves className="w-5 h-5" />} label="泳池" />
+                    <IconDemo icon={<Flame className="w-5 h-5" />} label="热水" />
+                    <IconDemo icon={<Thermometer className="w-5 h-5" />} label="温度" />
+                    <IconDemo icon={<Wind className="w-5 h-5" />} label="吹风" />
+                    <IconDemo icon={<Lightbulb className="w-5 h-5" />} label="照明" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 餐饮服务 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">餐饮服务</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<Utensils className="w-5 h-5" />} label="餐具" />
+                    <IconDemo icon={<Utensils className="w-5 h-5" />} label="用餐" />
+                    <IconDemo icon={<Coffee className="w-5 h-5" />} label="咖啡" />
+                    <IconDemo icon={<Coffee className="w-5 h-5" />} label="饮品" />
+                    <IconDemo icon={<Utensils className="w-5 h-5" />} label="美食" />
+                    <IconDemo icon={<ShoppingCart className="w-5 h-5" />} label="购物" />
+                    <IconDemo icon={<Flame className="w-5 h-5" />} label="厨房" />
+                    <IconDemo icon={<Gift className="w-5 h-5" />} label="礼品" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 环境景观 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">环境景观</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<Trees className="w-5 h-5" />} label="树木" />
+                    <IconDemo icon={<Trees className="w-5 h-5" />} label="树林" />
+                    <IconDemo icon={<Map className="w-5 h-5" />} label="山景" />
+                    <IconDemo icon={<Flower2 className="w-5 h-5" />} label="花园" />
+                    <IconDemo icon={<Sun className="w-5 h-5" />} label="阳光" />
+                    <IconDemo icon={<Moon className="w-5 h-5" />} label="夜景" />
+                    <IconDemo icon={<CloudRain className="w-5 h-5" />} label="天气" />
+                    <IconDemo icon={<Waves className="w-5 h-5" />} label="海景" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 特殊服务 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">特殊服务</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<Dog className="w-5 h-5" />} label="宠物" />
+                    <IconDemo icon={<Baby className="w-5 h-5" />} label="婴儿" />
+                    <IconDemo icon={<Accessibility className="w-5 h-5" />} label="无障碍" />
+                    <IconDemo icon={<Wind className="w-5 h-5" />} label="禁烟" />
+                    <IconDemo icon={<Briefcase className="w-5 h-5" />} label="商务" />
+                    <IconDemo icon={<DoorOpen className="w-5 h-5" />} label="开门" />
+                    <IconDemo icon={<Building2 className="w-5 h-5" />} label="会议" />
+                    <IconDemo icon={<Scissors className="w-5 h-5" />} label="理发" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 家具装饰 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">家具装饰</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<Bed className="w-5 h-5" />} label="床" />
+                    <IconDemo icon={<Sofa className="w-5 h-5" />} label="沙发" />
+                    <IconDemo icon={<Armchair className="w-5 h-5" />} label="座椅" />
+                    <IconDemo icon={<Lamp className="w-5 h-5" />} label="台灯" />
+                    <IconDemo icon={<Tv className="w-5 h-5" />} label="电视" />
+                    <IconDemo icon={<Wifi className="w-5 h-5" />} label="WiFi" />
+                    <IconDemo icon={<Shirt className="w-5 h-5" />} label="衣柜" />
+                    <IconDemo icon={<Wind className="w-5 h-5" />} label="空调" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 安全保障 */}
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">安全保障</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-4 gap-3">
+                    <IconDemo icon={<Shield className="w-5 h-5" />} label="安全" />
+                    <IconDemo icon={<Lock className="w-5 h-5" />} label="锁" />
+                    <IconDemo icon={<Key className="w-5 h-5" />} label="钥匙" />
+                    <IconDemo icon={<Eye className="w-5 h-5" />} label="监控" />
+                    <IconDemo icon={<Camera className="w-5 h-5" />} label="摄像" />
+                    <IconDemo icon={<Bell className="w-5 h-5" />} label="警报" />
+                    <IconDemo icon={<AlertCircle className="w-5 h-5" />} label="警示" />
+                    <IconDemo icon={<CheckCircle2 className="w-5 h-5" />} label="验证" />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+
+          {/* 页脚 */}
+          <footer className="text-center py-6 border-t border-gray-200">
+            <p className="text-sm text-gray-600">小而美 Home Stay 设计团队 © 2025</p>
+            <p className="text-xs text-gray-400 mt-1">Version 1.0 | 2025-11-20</p>
+          </footer>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// 颜色卡片组件
+function ColorCard({ name, season, color, hex, contrast, usage, textColor = "text-white", compact = false }: {
+  name: string
+  season?: string
+  color: string
+  hex: string
+  contrast: string
+  usage: string
+  textColor?: string
+  compact?: boolean
+}) {
+  const getWCAGGrade = (contrastValue: string) => {
+    if (contrastValue === '-') return null
+    const value = parseFloat(contrastValue)
+    if (value >= 7.0) return { grade: 'AAA', color: 'text-[#5A8A65]' }
+    if (value >= 4.5) return { grade: 'AA+', color: 'text-[#4A8FBF]' }
+    return null
+  }
+  const wcag = getWCAGGrade(contrast)
+
+  return (
+    <div className="bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+      <div className={`${compact ? 'h-20' : 'h-24'} flex items-center justify-center ${textColor} font-semibold gap-2.5`} style={{ backgroundColor: color }}>
+        {season && (
+          <>
+            <div className={compact ? 'text-xl' : 'text-2xl'}>{season}</div>
+            <div className={`${compact ? 'text-xs' : 'text-sm'} opacity-50`}>|</div>
+          </>
+        )}
+        <div className={compact ? 'text-base' : 'text-lg'}>{name}</div>
+      </div>
+      <div className={`${compact ? 'p-2' : 'p-3'} space-y-1`}>
+        <div className="flex items-center justify-between text-xs">
+          <code className="bg-gray-100 px-1.5 py-0.5 rounded font-mono text-gray-900 text-[10px]">{hex}</code>
+          {wcag ? (
+            <span className={`text-[10px] font-semibold ${wcag.color}`}>{contrast} {wcag.grade}</span>
+          ) : (
+            <span className="text-gray-400 text-[10px]">背景色</span>
+          )}
+        </div>
+        <p className="text-[10px] text-gray-600 leading-tight">{usage}</p>
+      </div>
+    </div>
+  )
+}
+
+// 组件卡片容器 - 固定高度，类似手机屏幕比例
+function ComponentCard({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <Card className="h-[420px] flex flex-col">
+      <CardHeader className="pb-2 flex-shrink-0">
+        <CardTitle className="text-base">{title}</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-2 flex-1 overflow-y-auto">
+        {children}
+      </CardContent>
+    </Card>
+  )
+}
+
+// 组件演示区域
+function ComponentDemo({ label, children }: { label?: string; children: React.ReactNode }) {
+  return (
+    <div className="space-y-1.5">
+      {label && <p className="text-xs text-gray-500 font-medium">{label}</p>}
+      <div className="flex gap-1.5 flex-wrap">{children}</div>
+    </div>
+  )
+}
+
+// 图标演示组件
+function IconDemo({ icon, label }: { icon: React.ReactNode; label: string }) {
+  return (
+    <div className="flex flex-col items-center gap-1 group cursor-pointer">
+      <div className="w-10 h-10 rounded-lg bg-[#F8F6F3] flex items-center justify-center text-[#2C5F8D] group-hover:bg-[#2C5F8D] group-hover:text-white transition-colors">
+        {icon}
+      </div>
+      <span className="text-[10px] text-gray-600 text-center">{label}</span>
+    </div>
+  )
+}
