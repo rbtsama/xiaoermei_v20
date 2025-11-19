@@ -12,29 +12,6 @@ import { Label } from '~/components/ui/label'
 import { Button } from '~/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
 import MainLayout from '../PointsSystem/components/MainLayout'
-import LogicPanel, { LogicTable, LogicList, LogicHighlight, LogicCode } from '../PointsSystem/components/LogicPanel'
-import OperationLogButton from '../PointsSystem/components/OperationLogButton'
-import { couponTypeLabels, couponStatusLabels } from './services/mocks/coupon.mock'
-
-interface CouponConfigPageProps {
-  coupons: CouponConfig[]
-}
-
-export default function CouponConfigPage({ coupons }: CouponConfigPageProps) {
-  const [showCreateDialog, setShowCreateDialog] = useState(false)
-  const [selectedType, setSelectedType] = useState<CouponType>(CouponType.FULL_REDUCTION)
-
-  return (
-    <MainLayout>
-      <div className="flex h-full">
-        {/* 左侧：实际后台界面 (60%) */}
-        <div className="w-[60%] h-full overflow-y-auto p-6">
-          <div className="max-w-6xl mx-auto space-y-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-slate-900">优惠券配置</h1>
-                <p className="text-slate-600 mt-2">创建和管理平台优惠券</p>
-              </div>
               <OperationLogButton moduleName="优惠券配置" />
             </div>
 
@@ -216,97 +193,6 @@ export default function CouponConfigPage({ coupons }: CouponConfigPageProps) {
 
         {/* 右侧：业务逻辑说明 (40%) */}
         <div className="w-[40%] h-full border-l">
-          <LogicPanel
-            title="优惠券配置"
-            sections={[
-              {
-                title: '业务场景',
-                content: (
-                  <>
-                    <p className="font-semibold mb-2">优惠券在酒店行业的使用：</p>
-                    <LogicList
-                      items={[
-                        <><strong>拉新</strong>：新人注册送满200减30券，促进首单转化</>,
-                        <><strong>促活</strong>：周末特惠券，提升周末入住率</>,
-                        <><strong>留存</strong>：会员升级赠券，增加粘性</>,
-                        <><strong>清库存</strong>：特定酒店/房型的优惠券，消化尾房</>
-                      ]}
-                    />
-                  </>
-                )
-              },
-              {
-                title: '优惠券类型设计',
-                content: (
-                  <>
-                    <LogicTable
-                      headers={['类型', '使用场景', '示例']}
-                      rows={[
-                        ['满减券', '提高客单价（用户为了用券会订更贵的房）', '满200减30'],
-                        ['折扣券', '通用促销，简单直接', '8.5折'],
-                        ['立减券', '吸引力最强，成本最高', '立减50元']
-                      ]}
-                    />
-
-                    <p className="font-semibold mt-4 mb-2">叠加规则设计：</p>
-                    <LogicHighlight type="warning">
-                      <p className="text-sm">
-                        <strong>为什么要限制叠加？</strong>
-                        <br />
-                        场景：房价¥300
-                        <br />
-                        如果允许无限叠加：
-                        <br />
-                        • 8.5折券：¥300 × 0.85 = ¥255
-                        <br />
-                        • 会员9折：¥255 × 0.9 = ¥229.5
-                        <br />
-                        • 积分抵扣30%：¥229.5 × 0.7 = ¥160.65
-                        <br />
-                        → 优惠过度，平台/商家亏损
-                        <br />
-                        <br />
-                        <strong>建议</strong>：优惠券和会员折扣二选一，积分可叠加
-                      </p>
-                    </LogicHighlight>
-                  </>
-                )
-              },
-              {
-                title: '字段说明',
-                content: (
-                  <LogicTable
-                    headers={['字段', '含义', '示例']}
-                    rows={[
-                      ['couponName', '优惠券名称', '新人专享券-满200减30'],
-                      ['couponType', '券类型', 'full_reduction满减 / discount折扣 / direct_reduction立减'],
-                      ['threshold', '【满减券】门槛金额', '200（满200元可用）'],
-                      ['reductionAmount', '【满减券】优惠金额', '30（减30元）'],
-                      ['discountRate', '【折扣券】折扣', '85（8.5折）'],
-                      ['directAmount', '【立减券】立减金额', '50（立减50元）'],
-                      ['validDays', '有效天数', '30（领取后30天过期）'],
-                      ['stackWithPoints', '能否与积分叠加', 'true可以 / false不可以'],
-                      ['stackWithMemberDiscount', '能否与会员折扣叠加', 'true可以 / false不可以'],
-                      ['totalCount', '总发行量', '10000（最多发1万张）'],
-                      ['issuedCount', '已发放数量', '3580'],
-                      ['usedCount', '已使用数量', '1256']
-                    ]}
-                  />
-                )
-              },
-              {
-                title: '📱 用户端（C端）呈现',
-                content: (
-                  <>
-                    <p className="font-semibold mb-2">后台配置如何影响用户端：</p>
-
-                    <div className="bg-slate-50 border rounded-lg p-4 mb-4">
-                      <p className="font-semibold text-sm mb-2">📱 页面1：优惠券中心</p>
-                      <div className="text-xs space-y-2">
-                        <div className="bg-red-50 border-l-4 border-red-500 p-2">
-                          <div className="flex justify-between items-center">
-                            <div>
-                              <div className="font-bold text-red-600">满200减30</div>
                               <div className="text-slate-500 text-xs">新人专享券</div>
                             </div>
                             <button className="bg-red-500 text-white px-3 py-1 rounded text-xs">立即领取</button>
@@ -353,10 +239,6 @@ export default function CouponConfigPage({ coupons }: CouponConfigPageProps) {
                       </div>
                     </div>
 
-                    <LogicHighlight type="success">
-                      <p className="text-sm">
-                        <strong>后台→前端的映射关系：</strong>
-                        <br />
                         • 后台设置"满200减30" → 前端校验"房费需≥¥200"
                         <br />
                         • 后台设置"有效期30天" → 前端显示"2025.02.14过期"
@@ -365,8 +247,6 @@ export default function CouponConfigPage({ coupons }: CouponConfigPageProps) {
                         <br />
                         • 后台设置"限定上海/北京" → 前端提示"仅限上海、北京使用"
                       </p>
-                    </LogicHighlight>
-                  </>
                 )
               }
             ]}

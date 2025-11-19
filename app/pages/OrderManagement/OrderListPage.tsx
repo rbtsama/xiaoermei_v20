@@ -11,47 +11,6 @@ import { Label } from '~/components/ui/label'
 import { Button } from '~/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
 import MainLayout from '../PointsSystem/components/MainLayout'
-import LogicPanel, { LogicTable, LogicList, LogicHighlight, LogicCode } from '../PointsSystem/components/LogicPanel'
-import OperationLogButton from '../PointsSystem/components/OperationLogButton'
-import { orderStatusLabels, paymentMethodLabels } from './services/mocks/order.mock'
-
-interface OrderListPageProps {
-  orders: Order[]
-}
-
-export default function OrderListPage({ orders }: OrderListPageProps) {
-  const [filterStatus, setFilterStatus] = useState<OrderStatus | 'all'>('all')
-  const [searchKeyword, setSearchKeyword] = useState('')
-
-  const filteredOrders = orders.filter(order => {
-    if (filterStatus !== 'all' && order.status !== filterStatus) return false
-    if (searchKeyword && !order.orderId.includes(searchKeyword) && !order.userName.includes(searchKeyword)) return false
-    return true
-  })
-
-  const getStatusColor = (status: OrderStatus) => {
-    const colors: Record<OrderStatus, string> = {
-      [OrderStatus.PENDING_PAYMENT]: 'bg-yellow-100 text-yellow-700',
-      [OrderStatus.PENDING_CONFIRM]: 'bg-blue-100 text-blue-700',
-      [OrderStatus.PENDING_CHECKIN]: 'bg-purple-100 text-purple-700',
-      [OrderStatus.CHECKED_IN]: 'bg-green-100 text-green-700',
-      [OrderStatus.COMPLETED]: 'bg-slate-100 text-slate-600',
-      [OrderStatus.CANCELLED]: 'bg-red-100 text-red-700'
-    }
-    return colors[status]
-  }
-
-  return (
-    <MainLayout>
-      <div className="flex h-full">
-        {/* 左侧：实际后台界面 (60%) */}
-        <div className="w-[60%] h-full overflow-y-auto p-6">
-          <div className="max-w-6xl mx-auto space-y-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-slate-900">订单列表</h1>
-                <p className="text-slate-600 mt-2">管理所有预订订单</p>
-              </div>
               <OperationLogButton moduleName="订单列表" />
             </div>
 
@@ -170,89 +129,6 @@ export default function OrderListPage({ orders }: OrderListPageProps) {
 
         {/* 右侧：业务逻辑说明 (40%) */}
         <div className="w-[40%] h-full border-l">
-          <LogicPanel
-            title="订单列表"
-            sections={[
-              {
-                title: '业务场景',
-                content: (
-                  <>
-                    <p className="font-semibold mb-2">订单管理的核心作用：</p>
-                    <LogicList
-                      items={[
-                        '客服查询：用户电话咨询订单状态',
-                        '商家确认：酒店查看待确认订单',
-                        '财务核算：统计佣金、退款',
-                        '数据分析：订单量、转化率、取消率'
-                      ]}
-                    />
-                  </>
-                )
-              },
-              {
-                title: '订单状态流转',
-                content: (
-                  <>
-                    <LogicCode>
-{`订单状态流转：
-
-待支付 → 用户下单但未付款（15分钟未付自动取消）
-   ↓ 支付
-待确认 → 已支付，等酒店确认（酒店24小时内确认）
-   ↓ 酒店确认
-待入住 → 酒店已确认，等待入住日期
-   ↓ 入住日到达
-已入住 → 房客正在入住中
-   ↓ 退房
-已完成 → 订单完成，发放积分
-
-任何环节都可能 → 已取消（用户/酒店取消）`}
-                    </LogicCode>
-                  </>
-                )
-              },
-              {
-                title: '价格明细计算',
-                content: (
-                  <>
-                    <p className="font-semibold mb-2">价格计算逻辑：</p>
-                    <LogicCode>
-{`示例订单：
-房费小计：¥1280（2晚×¥640）
-优惠券：-¥0
-积分抵扣：-¥10（1000积分）
-会员折扣：-¥128（钻石会员9折，优惠10%）
-─────────────────
-实付金额：¥1142
-
-平台佣金（5%）：¥57.1
-商家实收：¥1084.9`}
-                    </LogicCode>
-
-                    <LogicHighlight type="info">
-                      <p className="text-sm">
-                        <strong>佣金计算基准</strong>：基于实付金额（不是房费原价）
-                        <br />
-                        原因：用户实际支付¥1142，平台按这个金额抽佣更合理
-                      </p>
-                    </LogicHighlight>
-                  </>
-                )
-              },
-              {
-                title: '📱 用户端（C端）呈现',
-                content: (
-                  <>
-                    <p className="font-semibold mb-2">后台订单数据如何影响用户端：</p>
-
-                    <div className="bg-slate-50 border rounded-lg p-4 mb-4">
-                      <p className="font-semibold text-sm mb-2">📱 页面1：我的订单</p>
-                      <div className="text-xs space-y-2">
-                        <div className="border-b pb-2">
-                          <div className="flex justify-between">
-                            <span className="font-bold">亚朵酒店·上海新天地店</span>
-                            <span className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-xs">待入住</span>
-                          </div>
                           <div className="text-slate-500 mt-1">入住：01/18 - 01/19（1晚）</div>
                           <div className="text-slate-500">实付：¥428</div>
                         </div>
@@ -287,10 +163,6 @@ export default function OrderListPage({ orders }: OrderListPageProps) {
                       </div>
                     </div>
 
-                    <LogicHighlight type="success">
-                      <p className="text-sm">
-                        <strong>后台→前端的映射关系：</strong>
-                        <br />
                         • 后台状态"待入住" → 前端显示倒计时"距离入住还有2天"
                         <br />
                         • 后台状态"已入住" → 前端解锁"申请退款"按钮
@@ -299,8 +171,6 @@ export default function OrderListPage({ orders }: OrderListPageProps) {
                         <br />
                         • 后台价格明细 → 前端完整展示优惠明细
                       </p>
-                    </LogicHighlight>
-                  </>
                 )
               }
             ]}

@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 import { ArrowLeft, CheckCircle, XCircle, Calendar, AlertCircle } from 'lucide-react'
 import MainLayout from '~/pages/PointsSystem/components/MainLayout'
-import LogicPanel, { LogicList, LogicTable, LogicHighlight } from '~/pages/PointsSystem/components/LogicPanel'
 import { useViewMode } from '~/contexts/ViewModeContext'
 
 interface RefundDetailPageProps {
@@ -35,14 +34,6 @@ export default function RefundDetailPage({ refund }: RefundDetailPageProps) {
       content: (
         <div className="space-y-3">
           <p>退款详情页展示了客人退款申请的完整信息，帮助商家做出合理的处理决策。</p>
-          <LogicList items={[
-            '退款申请信息：包含申请时间、订单号、客人信息等基础数据',
-            '订单详情：展示房型、入住日期等订单相关信息',
-            '退款金额：对比支付金额和申请退款金额',
-            '退款原因：客人填写的退款理由',
-            '处理时间线：完整记录退款处理的各个环节',
-            '操作按钮：提供同意、拒绝、协商等处理选项',
-          ]} />
         </div>
       )
     },
@@ -51,20 +42,6 @@ export default function RefundDetailPage({ refund }: RefundDetailPageProps) {
       content: (
         <div className="space-y-3">
           <p>在处理退款申请时，建议遵循以下原则：</p>
-          <LogicTable
-            headers={['场景', '建议操作', '注意事项']}
-            rows={[
-              ['符合退款政策', '直接同意退款', '按政策规定的比例退款'],
-              ['不符合政策', '礼貌拒绝，说明原因', '可提供改期等替代方案'],
-              ['存在争议', '先与客人沟通', '了解详细情况后再做决定'],
-              ['需要证据', '要求客人提供照片等', '保存沟通记录'],
-              ['协商空间', '提出协商改期', '灵活处理，维护客户关系'],
-            ]}
-          />
-          <LogicHighlight type="info">
-            <strong>处理原则：</strong>合理合法、公平公正、及时响应、灵活处理
-          </LogicHighlight>
-        </div>
       )
     },
     {
@@ -72,31 +49,12 @@ export default function RefundDetailPage({ refund }: RefundDetailPageProps) {
       content: (
         <div className="space-y-3">
           <p>处理时间线记录了退款申请的完整流程，帮助追溯和分析：</p>
-          <LogicList items={[
-            <><strong>客人提交申请</strong>：记录申请时间和退款金额</>,
-            <><strong>商家处理</strong>：记录审核人员和处理结果</>,
-            <><strong>平台介入</strong>：如有争议，记录平台客服介入情况</>,
-            <><strong>退款执行</strong>：记录实际退款时间和方式</>,
-            <><strong>流程结束</strong>：标记最终状态（已退款/客人撤诉等）</>,
-          ]} />
-          <LogicHighlight type="warning">
-            <strong>重要：</strong>每个环节都会自动记录操作人和时间，确保流程可追溯。
-          </LogicHighlight>
-        </div>
       )
     },
     {
       title: '操作按钮说明',
       content: (
         <div className="space-y-3">
-          <LogicTable
-            headers={['按钮', '功能', '使用场景']}
-            rows={[
-              ['同意退款', '批准客人的退款申请', '符合退款政策，同意全额或部分退款'],
-              ['拒绝退款', '拒绝客人的退款申请', '不符合退款政策，需说明拒绝理由'],
-              ['协商改期', '与客人协商改期入住', '客人因行程变动申请退款，可改期解决'],
-            ]}
-          />
           <p className="text-sm text-muted-foreground">
             注：只有状态为"待审核"的申请才能进行处理操作。
           </p>
@@ -107,18 +65,6 @@ export default function RefundDetailPage({ refund }: RefundDetailPageProps) {
       title: '最佳实践',
       content: (
         <div className="space-y-3">
-          <LogicHighlight type="success">
-            <p className="mb-2"><strong>推荐做法：</strong></p>
-            <LogicList items={[
-              '及时响应：24小时内给出处理意见',
-              '证据留存：保存聊天记录、照片等证据',
-              '客户沟通：处理前先与客人电话沟通',
-              '灵活处理：在政策范围内尽量满足客人需求',
-              '记录完整：在系统中详细记录处理过程',
-              '数据分析：定期分析退款原因，改进服务',
-            ]} />
-          </LogicHighlight>
-        </div>
       )
     },
   ]
@@ -327,7 +273,6 @@ export default function RefundDetailPage({ refund }: RefundDetailPageProps) {
         {/* 右侧：LogicPanel（40%） */}
         {!isPresentationMode && (
           <div className="w-[40%]">
-            <LogicPanel title="退款详情处理" sections={logicSections} />
           </div>
         )}
       </div>

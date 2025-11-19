@@ -7,7 +7,6 @@ import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import { Label } from '~/components/ui/label'
 import MainLayout from '../PointsSystem/components/MainLayout'
-import LogicPanel, { LogicTable, LogicList, LogicHighlight } from '~/pages/PointsSystem/components/LogicPanel'
 
 interface StoreBreakfastPageProps {
   policy: BreakfastPolicy
@@ -160,126 +159,7 @@ export default function StoreBreakfastPage({ policy }: StoreBreakfastPageProps) 
         </Form>
         </div>
         </div>
-
-        {/* 右侧：产品&业务逻辑说明 (40%) */}
-        <div className="w-[40%] h-full border-l">
-          <LogicPanel
-            title="早餐政策"
-            sections={[
-              {
-                title: '业务场景',
-                content: (
-                  <>
-                    <p className="font-semibold mb-2">早餐服务的重要性：</p>
-                    <LogicList
-                      items={[
-                        <>早餐是酒店服务的<strong>重要加分项</strong>，影响客人满意度和复购率</>,
-                        <>OTA平台支持按"含早餐"筛选，<strong>影响搜索曝光</strong></>,
-                        <>明确早餐政策可减少客诉，避免"以为免费实际收费"的纠纷</>,
-                        <>儿童早餐收费规则需提前告知，避免到店后的<strong>价格争议</strong></>
-                      ]}
-                    />
-                    <LogicHighlight type="info">
-                      <p className="text-sm">
-                        <strong>用户偏好</strong>：携程数据显示，72%的用户倾向于选择含早餐的酒店，
-                        愿意为优质早餐多支付15-30元/人。早餐质量是影响评分的关键因素之一。
-                      </p>
-                    </LogicHighlight>
-                  </>
-                )
-              },
-              {
-                title: '功能说明',
-                content: (
-                  <>
-                    <p className="font-semibold mb-2">早餐政策配置项：</p>
-                    <LogicTable
-                      headers={['配置项', '选项', '说明']}
-                      rows={[
-                        ['是否提供', '提供 / 不提供', '门店是否提供早餐服务'],
-                        ['形式', '单点 / 自助餐 / 固定套餐', '早餐供应方式'],
-                        ['类型', '西式/中式/亚洲风味/清真/素食', '早餐菜品风格（可多选）'],
-                        ['时间', '每日开放 / 指定时间', '早餐供应时间段'],
-                        ['加1份早餐', '金额', '额外购买1份早餐的价格'],
-                        ['儿童早餐', '按年龄/按身高定价', '儿童早餐收费规则']
-                      ]}
-                    />
-
-                    <LogicHighlight type="success">
-                      <p className="text-sm">
-                        <strong>设计理念</strong>：早餐政策要清晰透明，
-                        包含时间、形式、价格、儿童规则，避免客人到店后产生误解。
-                      </p>
-                    </LogicHighlight>
-                  </>
-                )
-              },
-              {
-                title: '操作指南',
-                content: (
-                  <>
-                    <p className="font-semibold mb-2">早餐形式选择建议：</p>
-                    <LogicTable
-                      headers={['形式', '优点', '缺点', '适用场景']}
-                      rows={[
-                        ['自助餐', '品种丰富，客人自由选择', '成本高，食材浪费', '中高端酒店、客流稳定'],
-                        ['固定套餐', '成本可控，制作标准化', '选择少，部分客人不满意', '中小型酒店、预算有限'],
-                        ['单点', '按需制作，灵活性高', '效率低，等待时间长', '精品民宿、高端酒店']
-                      ]}
-                    />
-
-                    <p className="font-semibold mt-4 mb-2">儿童早餐收费规则设置：</p>
-                    <LogicList items={[
-                      '按年龄定价：0-6岁免费，7-12岁半价，13岁以上全价',
-                      '按身高定价：1.2米以下免费，1.2-1.5米半价，1.5米以上全价',
-                        '点击"增加"可添加多个年龄段/身高段规则',
-                      '每个规则设置最小值、最大值、费用（免费/收费+金额）'
-                    ]} />
-
-                    <LogicHighlight type="warning">
-                      <p className="text-sm">
-                        <strong>法律提示</strong>：儿童早餐收费规则必须在预订前明确告知，
-                        否则无法单方面收费。建议在早餐政策中清楚说明，避免纠纷。
-                      </p>
-                    </LogicHighlight>
-                  </>
-                )
-              },
-              {
-                title: '最佳实践',
-                content: (
-                  <>
-                    <p className="font-semibold mb-2">OTA平台的早餐要求：</p>
-                    <LogicList items={[
-                      <><strong>携程</strong>：必须标注早餐供应时间，建议上传早餐图片展示</>,
-                      <><strong>美团</strong>：支持"含早餐"筛选，建议勾选早餐类型（中式/西式）</>,
-                      <><strong>飞猪</strong>：儿童早餐政策必须填写，影响家庭客群预订</>,
-                      <>所有平台：早餐质量是评分重要因素，建议提升早餐品质</>
-                    ]} />
-
-                    <p className="font-semibold mt-4 mb-2">早餐服务优化建议：</p>
-                    <LogicList items={[
-                      '早餐时间建议：7:00-9:30（工作日），7:30-10:00（周末）',
-                      '中西结合：提供粥、包子、鸡蛋+牛奶、面包、水果',
-                      '特色菜品：增加当地特色小吃，提升差异化',
-                      '儿童友好：提供儿童餐椅、儿童餐具、儿童喜爱的食物',
-                      '素食选项：照顾特殊饮食需求客人'
-                    ]} />
-
-                    <LogicHighlight type="success">
-                      <p className="text-sm">
-                        <strong>优化建议</strong>：早餐是客人对酒店的第一印象之一，
-                        建议投入资源提升早餐质量。参考同类型酒店的早餐标准，
-                        定期收集客人反馈优化菜单。
-                      </p>
-                    </LogicHighlight>
-                  </>
-                )
-              }
-            ]}
-          />
         </div>
-      </div>
     </MainLayout>
   )
 }

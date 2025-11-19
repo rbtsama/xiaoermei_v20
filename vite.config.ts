@@ -101,6 +101,7 @@ export default defineConfig({
           route("/hotel-backend/members", "routes/hotel-backend/members.tsx")
           route("/hotel-backend/member-invitation", "routes/hotel-backend/member-invitation.tsx")
           route("/hotel-backend/store/benefits", "routes/hotel-backend/store.benefits.tsx")
+          route("/hotel-backend/business/overview", "routes/hotel-backend/business.overview.tsx")
         })
       },
     }),

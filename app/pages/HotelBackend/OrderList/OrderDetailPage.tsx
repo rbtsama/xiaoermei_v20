@@ -11,7 +11,6 @@ import { Button } from '~/components/ui/button'
 import { ArrowLeft, Printer, Edit, XCircle } from 'lucide-react'
 import { cn } from '~/lib/utils'
 import MainLayout from '~/pages/PointsSystem/components/MainLayout'
-import LogicPanel, { LogicTable, LogicList, LogicHighlight } from '~/pages/PointsSystem/components/LogicPanel'
 
 interface OrderDetailPageProps {
   order: Order
@@ -43,7 +42,7 @@ export default function OrderDetailPage({ order, error }: OrderDetailPageProps) 
     <MainLayout>
       <div className="flex h-full">
         {/* 左侧：订单详情界面 (60%) */}
-        <div className="w-[60%] h-full overflow-y-auto">
+        <div className="h-full overflow-y-auto p-6 bg-background">
           <div className="p-6 space-y-6">
             {/* 页面头部 */}
             <div className="flex items-center justify-between">
@@ -217,76 +216,7 @@ export default function OrderDetailPage({ order, error }: OrderDetailPageProps) 
             </div>
           </div>
         </div>
-
-        {/* 右侧：产品&业务逻辑说明 (40%) */}
-        <div className="w-[40%] h-full border-l">
-          <LogicPanel
-            title="订单详情页"
-            sections={[
-              {
-                title: '页面功能',
-                content: (
-                  <>
-                    <p className="font-semibold mb-2">订单详情页的作用：</p>
-                    <LogicList
-                      items={[
-                        <><strong>信息查看</strong>：一站式查看订单完整信息，无需多次跳转</>,
-                        <><strong>快速操作</strong>：直接在详情页执行修改、取消等操作</>,
-                        <><strong>打印凭证</strong>：为客人打印订单确认单或发票</>,
-                        <><strong>问题处理</strong>：客人来电咨询时，快速定位订单信息</>
-                      ]}
-                    />
-                  </>
-                )
-              },
-              {
-                title: '信息模块说明',
-                content: (
-                  <>
-                    <LogicTable
-                      headers={['模块', '包含信息', '用途']}
-                      rows={[
-                        ['订单基本信息', '订单号、下单时间、订单状态、支付状态', '快速了解订单整体状态'],
-                        ['客人信息', '姓名、联系电话', '联系客人或核实身份'],
-                        ['房间信息', '房型、入住/离店日期、间夜数', '安排房间和入住准备'],
-                        ['费用明细', '房费、优惠、实付金额', '核对账单或处理退款']
-                      ]}
-                    />
-                  </>
-                )
-              },
-              {
-                title: '操作按钮说明',
-                content: (
-                  <>
-                    <p className="font-semibold mb-2">根据订单状态显示不同操作：</p>
-                    <div className="space-y-4">
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                        <p className="font-semibold text-sm mb-2">待入住状态：</p>
-                        <LogicList
-                          items={[
-                            <><strong>修改订单</strong>：修改入住日期、房型等信息（可能需加收差价）</>,
-                            <><strong>取消订单</strong>：取消预订并退款（需符合退款政策）</>
-                          ]}
-                        />
-                      </div>
-                      <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                        <p className="font-semibold text-sm mb-2">已入住状态：</p>
-                        <LogicList
-                          items={[
-                            <><strong>办理退房</strong>：客人离店时点击，完成退房流程</>
-                          ]}
-                        />
-                      </div>
-                      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                        <p className="font-semibold text-sm mb-2">已完成状态：</p>
-                        <LogicList
-                          items={[
-                            <><strong>打印凭证</strong>：为客人打印订单确认单或发票</>
-                          ]}
-                        />
-                      </div>
-                    </div>
+        </div>
                   </>
                 )
               },
@@ -324,12 +254,6 @@ export default function OrderDetailPage({ order, error }: OrderDetailPageProps) 
                         </div>
                       </div>
                     </div>
-                    <LogicHighlight type="info">
-                      <p className="text-sm">
-                        <strong>注意</strong>：费用明细需与支付平台的订单金额保持一致，避免账目不符。
-                      </p>
-                    </LogicHighlight>
-                  </>
                 )
               },
               {
@@ -337,22 +261,6 @@ export default function OrderDetailPage({ order, error }: OrderDetailPageProps) 
                 content: (
                   <>
                     <p className="font-semibold mb-2">允许修改的场景：</p>
-                    <LogicTable
-                      headers={['修改项', '规则', '是否补差价']}
-                      rows={[
-                        ['入住日期', '入住前24小时可修改', '否'],
-                        ['离店日期', '随时可延长，缩短需退款', '延长需补差价'],
-                        ['房型升级', '随时可升级到更高房型', '是，补房型差价'],
-                        ['房型降级', '入住前24小时可降级', '是，退房型差价'],
-                        ['增加房间数', '有空房即可增加', '是，补新房间费用']
-                      ]}
-                    />
-                    <LogicHighlight type="warning">
-                      <p className="text-sm">
-                        <strong>重要</strong>：修改订单可能涉及补差价或退款，系统需自动计算差价并生成新的支付/退款单。
-                      </p>
-                    </LogicHighlight>
-                  </>
                 )
               },
               {
@@ -360,25 +268,7 @@ export default function OrderDetailPage({ order, error }: OrderDetailPageProps) 
                 content: (
                   <>
                     <p className="font-semibold mb-2">退款政策（可在"酒店政策"中配置）：</p>
-                    <LogicTable
-                      headers={['取消时间', '退款比例', '说明']}
-                      rows={[
-                        ['入住前72小时', '100%', '全额退款'],
-                        ['入住前24-72小时', '50%', '扣除50%房费作为违约金'],
-                        ['入住前24小时内', '0%', '不予退款'],
-                        ['已入住后取消', '不可取消', '需走退房流程']
-                      ]}
-                    />
                     <p className="font-semibold mt-4 mb-2">取消流程：</p>
-                    <LogicList
-                      items={[
-                        '1. 客人/酒店发起取消申请',
-                        '2. 系统根据政策计算退款金额',
-                        '3. 展示退款金额供确认',
-                        '4. 确认后发起退款流程',
-                        '5. 退款成功后订单状态变更为"已取消"'
-                      ]}
-                    />
                   </>
                 )
               },
@@ -387,20 +277,6 @@ export default function OrderDetailPage({ order, error }: OrderDetailPageProps) 
                 content: (
                   <>
                     <p className="font-semibold mb-2">打印凭证包含信息：</p>
-                    <LogicList
-                      items={[
-                        <><strong>订单确认单</strong>：订单号、客人信息、房间信息、入住时间</>,
-                        <><strong>费用明细</strong>：房费、优惠、实付金额</>,
-                        <><strong>酒店信息</strong>：酒店名称、地址、联系电话</>,
-                        <><strong>二维码</strong>：可扫码查看订单详情（可选）</>
-                      ]}
-                    />
-                    <LogicHighlight type="success">
-                      <p className="text-sm">
-                        <strong>使用场景</strong>：客人到店时出示订单确认单，前台核对信息后办理入住；或作为报销凭证使用。
-                      </p>
-                    </LogicHighlight>
-                  </>
                 )
               },
               {
@@ -408,16 +284,6 @@ export default function OrderDetailPage({ order, error }: OrderDetailPageProps) 
                 content: (
                   <>
                     <p className="font-semibold mb-2">订单详情页关联的其他数据：</p>
-                    <LogicTable
-                      headers={['关联数据', '用途', '来源']}
-                      rows={[
-                        ['房型信息', '展示房型详细配置', '房型管理模块'],
-                        ['客人历史订单', '查看客人订房记录', '订单列表'],
-                        ['优惠券使用记录', '展示使用了哪些优惠', '优惠券系统'],
-                        ['积分使用记录', '展示积分抵扣明细', '积分系统'],
-                        ['退款记录', '查看退款处理进度', '退款管理模块']
-                      ]}
-                    />
                     <p className="text-sm text-muted-foreground mt-4">
                       通过数据关联，订单详情页可以成为信息枢纽，快速跳转到相关模块查看更多信息。
                     </p>

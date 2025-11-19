@@ -11,41 +11,6 @@ import { Label } from '~/components/ui/label'
 import { Button } from '~/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
 import MainLayout from '../PointsSystem/components/MainLayout'
-import LogicPanel, { LogicTable, LogicList, LogicHighlight } from '../PointsSystem/components/LogicPanel'
-import OperationLogButton from '../PointsSystem/components/OperationLogButton'
-
-interface SigningRecordPageProps {
-  records: SigningRecord[]
-}
-
-export default function SigningRecordPage({ records }: SigningRecordPageProps) {
-  const [searchKeyword, setSearchKeyword] = useState('')
-  const [dateStart, setDateStart] = useState('')
-  const [dateEnd, setDateEnd] = useState('')
-  const [showDetailDialog, setShowDetailDialog] = useState(false)
-  const [currentRecord, setCurrentRecord] = useState<SigningRecord | null>(null)
-
-  const filteredRecords = records.filter(record => {
-    if (searchKeyword && !record.hotelName.includes(searchKeyword)) return false
-    return true
-  })
-
-  const openDetail = (record: SigningRecord) => {
-    setCurrentRecord(record)
-    setShowDetailDialog(true)
-  }
-
-  return (
-    <MainLayout>
-      <div className="flex h-full">
-        {/* 左侧：实际后台界面 (60%) */}
-        <div className="w-[60%] h-full overflow-y-auto p-6">
-          <div className="max-w-6xl mx-auto space-y-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-slate-900">签约记录</h1>
-                <p className="text-slate-600 mt-2">查询所有商家签约历史</p>
-              </div>
               <OperationLogButton moduleName="签约记录" />
             </div>
 
@@ -185,66 +150,6 @@ export default function SigningRecordPage({ records }: SigningRecordPageProps) {
 
         {/* 右侧：业务逻辑说明 (40%) */}
         <div className="w-[40%] h-full border-l">
-          <LogicPanel
-            title="签约记录"
-            sections={[
-              {
-                title: '业务场景',
-                content: (
-                  <>
-                    <p className="font-semibold mb-2">签约记录的使用场景：</p>
-                    <LogicList
-                      items={[
-                        'BD查询：某个酒店是什么时候签约的？',
-                        '法务审计：有多少商家签了V2.0版本的协议？',
-                        '纠纷处理：这个商家签约时的协议是怎么约定的？',
-                        '商家续签：协议到期，需要重新签署新版本'
-                      ]}
-                    />
-                  </>
-                )
-              },
-              {
-                title: '产品逻辑',
-                content: (
-                  <>
-                    <p className="font-semibold mb-2">为什么要保存"协议内容快照"？</p>
-                    <LogicHighlight type="info">
-                      <p className="text-sm">
-                        <strong>场景</strong>：
-                        <br />
-                        2024年7月1日，商家签署V2.0协议（抽佣4%）
-                        <br />
-                        2025年1月1日，平台更新V2.1协议（抽佣5%）
-                        <br />
-                        <br />
-                        <strong>问题</strong>：这个商家应该按4%还是5%抽佣？
-                        <br />
-                        <br />
-                        <strong>解决</strong>：
-                        <br />
-                        签约记录保存了"协议内容快照"（V2.0的完整文本）
-                        <br />
-                        → 查签约记录，看到当时约定是4%
-                        <br />→ 按4%执行（合同不溯及既往）
-                      </p>
-                    </LogicHighlight>
-
-                    <p className="font-semibold mt-4 mb-2">签约记录 vs 协议模板的区别：</p>
-                    <LogicTable
-                      headers={['对比项', '协议模板', '签约记录']}
-                      rows={[
-                        ['用途', '法务创建和维护', '记录某次具体签约'],
-                        ['可修改', '可以编辑（新版本）', '不可修改（历史快照）'],
-                        ['生命周期', '可停用但不删除', '永久保存'],
-                        ['使用场景', '新商家签约时选择', '查询历史、纠纷处理']
-                      ]}
-                    />
-                  </>
-                )
-              }
-            ]}
-          />
         </div>
       </div>
     </MainLayout>
