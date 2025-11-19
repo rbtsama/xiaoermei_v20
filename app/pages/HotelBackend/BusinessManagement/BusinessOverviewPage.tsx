@@ -3,6 +3,7 @@
  * 展示：今日数据、本月统计、待办事项
  */
 
+import Sidebar, { menuConfig } from '~/pages/PointsSystem/components/Sidebar'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Badge } from '~/components/ui/badge'
 import { TrendingUp, DollarSign, Users, BedDouble, AlertCircle, CheckCircle2 } from 'lucide-react'
@@ -16,7 +17,10 @@ export default function BusinessOverviewPage({ data }: BusinessOverviewPageProps
   const { today, thisMonth, todos } = data
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="flex h-screen overflow-hidden">
+      <Sidebar menuItems={menuConfig} />
+      <div className="flex-1 overflow-y-auto bg-background">
+        <div className="p-6 space-y-6">
       <div>
         <h1 className="text-3xl font-bold">经营概览</h1>
         <p className="text-muted-foreground mt-2">实时查看经营数据和待办事项</p>
@@ -209,6 +213,7 @@ export default function BusinessOverviewPage({ data }: BusinessOverviewPageProps
             </CardContent>
           </Card>
         </div>
+      </div>
       </div>
     </div>
   )
