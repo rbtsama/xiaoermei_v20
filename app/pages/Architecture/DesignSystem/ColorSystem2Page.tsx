@@ -24,28 +24,33 @@ export default function ColorSystem2Page() {
     <div className="flex h-screen overflow-hidden">
       <Sidebar menuItems={menuConfig} />
       <div className="flex-1 overflow-y-auto bg-gray-50 transition-all duration-300">
-        <div className="max-w-7xl mx-auto p-8 space-y-8">
+        <div className="max-w-7xl mx-auto p-8 space-y-16">
           {/* 页面标题 */}
-          <header className="text-center space-y-2">
+          <header className="text-center space-y-3 pt-4">
             <h1 className="text-4xl font-bold text-gray-900 flex items-center justify-center gap-3">
               <Palette className="w-10 h-10 text-[#458559]" strokeWidth={1.5} />
               小而美 Home Stay 配色系统
             </h1>
+            <p className="text-sm text-gray-500">Design System · 自然大地配色 · Version 2.0</p>
           </header>
 
           {/* 设计理念 */}
-          <section>
-            <h2 className="text-2xl font-bold text-[#458559] mb-3">设计理念</h2>
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-50 via-emerald-50 to-orange-50 border border-gray-200">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#458559]/5 rounded-full blur-3xl"></div>
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#A67B5B]/5 rounded-full blur-3xl"></div>
-              <div className="relative px-6 py-5">
-                <div className="max-w-4xl">
-                  <p className="text-sm text-gray-700 leading-relaxed text-left mb-2.5">
-                    小而美 Home Stay — 精选独特民宿，轻松愉悦出行，融入自然美景。
+          <section className="mt-12">
+            <h2 className="text-3xl font-bold text-[#458559] mb-6 text-center">设计理念</h2>
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-50 via-emerald-50 to-orange-50 border border-gray-200 shadow-sm">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-[#458559]/5 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#A67B5B]/5 rounded-full blur-3xl"></div>
+              <div className="relative px-8 py-10">
+                <div className="max-w-3xl mx-auto text-center space-y-4">
+                  <p className="text-base text-gray-800 leading-relaxed font-medium">
+                    小而美 Home Stay — 精选独特民宿，轻松愉悦出行，融入自然美景
                   </p>
-                  <p className="text-sm text-gray-700 leading-relaxed text-left">
-                    "山林间的呼吸，田野上的漫步，冰川下的宁静。森林绿如夏日树荫般清爽宜人，田野色如秋日麦浪般质朴温暖，冰川蓝如冬日湖面般澄澈纯净。" — 这是自然的馈赠，也是心灵的栖息。
+                  <p className="text-sm text-gray-700 leading-relaxed italic">
+                    "山林间的呼吸，田野上的漫步，冰川下的宁静。<br/>
+                    森林绿如夏日树荫般清爽宜人，田野色如秋日麦浪般质朴温暖，冰川蓝如冬日湖面般澄澈纯净。"
+                  </p>
+                  <p className="text-xs text-gray-600 pt-2">
+                    — 这是自然的馈赠，也是心灵的栖息
                   </p>
                 </div>
               </div>
@@ -53,34 +58,44 @@ export default function ColorSystem2Page() {
           </section>
 
           {/* 色彩系统 */}
-          <section>
-            <h2 className="text-2xl font-bold text-[#458559] mb-3">色彩系统</h2>
+          <section className="mt-16">
+            <h2 className="text-3xl font-bold text-[#458559] mb-8 text-center">色彩系统</h2>
 
             {/* 主色系统 */}
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">主色系统</h3>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
-              <ColorCard name="沙滩" season="春" color="#F8F6F3" hex="#F8F6F3" contrast="-" usage="背景色、卡片底色" textColor="text-gray-900" />
-              <ColorCard name="森林" season="夏" color="#458559" hex="#458559" contrast="7.0:1" usage="主按钮、品牌色" />
-              <ColorCard name="田野" season="秋" color="#A67B5B" hex="#A67B5B" contrast="5.2:1" usage="价格、促销标签" />
-              <ColorCard name="冰川" season="冬" color="#4A85B8" hex="#4A85B8" contrast="5.5:1" usage="链接、交互元素" />
+            <div className="mb-10">
+              <h3 className="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
+                <div className="w-1 h-5 bg-[#458559] rounded-full"></div>
+                主色系统
+              </h3>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <ColorCard name="沙滩" season="春" color="#F8F6F3" hex="#F8F6F3" contrast="-" usage="背景色、卡片底色" textColor="text-gray-900" />
+                <ColorCard name="森林" season="夏" color="#458559" hex="#458559" contrast="7.0:1" usage="主按钮、品牌色" />
+                <ColorCard name="田野" season="秋" color="#A67B5B" hex="#A67B5B" contrast="5.2:1" usage="价格、促销标签" />
+                <ColorCard name="冰川" season="冬" color="#4A85B8" hex="#4A85B8" contrast="5.5:1" usage="链接、交互元素" />
+              </div>
             </div>
 
             {/* 功能色 + 中性色 */}
-            <h3 className="text-lg font-semibold text-gray-700 mb-3 mt-6">功能色 & 中性色</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-              <ColorCard name="青松" color="#3D7350" hex="#3D7350" contrast="8.2:1" usage="成功状态" compact />
-              <ColorCard name="枫叶" color="#B94D3D" hex="#B94D3D" contrast="7.1:1" usage="错误、警示" compact />
-              <ColorCard name="主文字" color="#2A2A2A" hex="#2A2A2A" contrast="15.8:1" usage="标题、正文" compact />
-              <ColorCard name="次文字" color="#6B6B6B" hex="#6B6B6B" contrast="5.7:1" usage="辅助说明" compact />
-              <ColorCard name="占位符" color="#999999" hex="#999999" contrast="4.2:1" usage="占位符" compact />
+            <div>
+              <h3 className="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
+                <div className="w-1 h-5 bg-[#458559] rounded-full"></div>
+                功能色 & 中性色
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <ColorCard name="青松" color="#3D7350" hex="#3D7350" contrast="8.2:1" usage="成功状态" compact />
+                <ColorCard name="枫叶" color="#B94D3D" hex="#B94D3D" contrast="7.1:1" usage="错误、警示" compact />
+                <ColorCard name="主文字" color="#2A2A2A" hex="#2A2A2A" contrast="15.8:1" usage="标题、正文" compact />
+                <ColorCard name="次文字" color="#6B6B6B" hex="#6B6B6B" contrast="5.7:1" usage="辅助说明" compact />
+                <ColorCard name="占位符" color="#999999" hex="#999999" contrast="4.2:1" usage="占位符" compact />
+              </div>
             </div>
           </section>
 
           {/* ========== 组件示例 ========== */}
-          <section>
-            <h2 className="text-2xl font-bold text-[#458559] mb-4">组件示例</h2>
+          <section className="mt-16">
+            <h2 className="text-3xl font-bold text-[#458559] mb-8 text-center">组件示例</h2>
 
-            <div className="grid lg:grid-cols-3 gap-4">
+            <div className="grid lg:grid-cols-3 gap-6">
               {/* 1. 按钮模块 */}
               <ComponentSection title="按钮" icon={<ShoppingCart className="w-5 h-5" strokeWidth={1.5} />}>
               <div className="space-y-4">
@@ -750,9 +765,9 @@ export default function ColorSystem2Page() {
           </section>
 
           {/* 页脚 */}
-          <footer className="text-center py-6 border-t border-gray-200">
+          <footer className="text-center py-8 border-t border-gray-200 mt-16">
             <p className="text-xs text-gray-500">
-              Version 1.0 | 更新：2025-11-20 | © 小而美 Home Stay 设计团队
+              Version 2.0 | 更新：2025-11-21 | © 小而美 Home Stay 设计团队
             </p>
           </footer>
         </div>
@@ -784,26 +799,26 @@ function ColorCard({ name, season, color, hex, contrast, usage, textColor = "tex
   const wcag = getWCAGGrade(contrast)
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-      <div className={`${compact ? 'h-20' : 'h-24'} flex items-center justify-center ${textColor} font-semibold gap-2.5`} style={{ backgroundColor: color }}>
+    <div className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+      <div className={`${compact ? 'h-20' : 'h-28'} flex items-center justify-center ${textColor} font-semibold gap-2.5`} style={{ backgroundColor: color }}>
         {season && (
           <>
             <div className={compact ? 'text-xl' : 'text-2xl'}>{season}</div>
             <div className={`${compact ? 'text-xs' : 'text-sm'} opacity-50`}>|</div>
           </>
         )}
-        <div className={compact ? 'text-base' : 'text-lg'}>{name}</div>
+        <div className={compact ? 'text-base' : 'text-xl'}>{name}</div>
       </div>
-      <div className={`${compact ? 'p-2' : 'p-3'} space-y-1`}>
+      <div className={`${compact ? 'p-2.5' : 'p-4'} space-y-1.5`}>
         <div className="flex items-center justify-between text-xs">
-          <code className="bg-gray-100 px-1.5 py-0.5 rounded font-mono text-gray-900 text-[10px]">{hex}</code>
+          <code className="bg-gray-100 px-2 py-0.5 rounded font-mono text-gray-900 text-[10px]">{hex}</code>
           {wcag ? (
             <span className={`text-[10px] font-semibold ${wcag.color}`}>{contrast} {wcag.grade}</span>
           ) : (
             <span className="text-gray-400 text-[10px]">背景色</span>
           )}
         </div>
-        <p className="text-[10px] text-gray-600 leading-tight">{usage}</p>
+        <p className="text-[11px] text-gray-600 leading-snug">{usage}</p>
       </div>
     </div>
   )
@@ -812,9 +827,9 @@ function ColorCard({ name, season, color, hex, contrast, usage, textColor = "tex
 // 组件章节容器
 function ComponentSection({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6">
-      <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-        <div className="w-8 h-8 bg-[#458559]/10 rounded-lg flex items-center justify-center text-[#458559]">
+    <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+      <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2.5">
+        <div className="w-9 h-9 bg-[#458559]/10 rounded-xl flex items-center justify-center text-[#458559]">
           {icon}
         </div>
         {title}
