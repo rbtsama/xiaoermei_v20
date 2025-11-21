@@ -31,7 +31,7 @@ export default function ColorSystem2Page() {
               <Palette className="w-10 h-10 text-[#458559]" strokeWidth={1.5} />
               小而美 Home Stay 配色系统
             </h1>
-            <p className="text-sm text-gray-500">Design System · 自然大地配色 · Version 2.0</p>
+            <p className="text-sm text-gray-500">Design System · 自然大地配色</p>
           </header>
 
           {/* 设计理念 */}
@@ -65,7 +65,7 @@ export default function ColorSystem2Page() {
               </h3>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <ColorCard name="沙滩" season="春" color="#F8F6F3" hex="#F8F6F3" contrast="-" usage="背景色、卡片底色" textColor="text-gray-900" />
-                <ColorCard name="森林" season="夏" color="#458559" hex="#458559" contrast="7.0:1" usage="主按钮、品牌色" />
+                <ColorCard name="森林" season="夏" color="#458559" hex="#458559" contrast="7.0:1" usage="主按钮、品牌色" isBrand />
                 <ColorCard name="田野" season="秋" color="#A67B5B" hex="#A67B5B" contrast="5.2:1" usage="价格、促销标签" />
                 <ColorCard name="冰川" season="冬" color="#4A85B8" hex="#4A85B8" contrast="5.5:1" usage="链接、交互元素" />
               </div>
@@ -761,10 +761,7 @@ export default function ColorSystem2Page() {
           </section>
 
           {/* 页脚 */}
-          <footer className="text-center py-8 border-t border-gray-200 mt-16">
-            <p className="text-xs text-gray-500">
-              Version 2.0 | 更新：2025-11-21 | © 小而美 Home Stay 设计团队
-            </p>
+          <footer className="text-center py-8 mt-16">
           </footer>
         </div>
       </div>
@@ -775,7 +772,7 @@ export default function ColorSystem2Page() {
 // ========== 辅助组件 ==========
 
 // 颜色卡片
-function ColorCard({ name, season, color, hex, contrast, usage, textColor = "text-white", compact = false }: {
+function ColorCard({ name, season, color, hex, contrast, usage, textColor = "text-white", compact = false, isBrand = false }: {
   name: string
   season?: string
   color: string
@@ -784,6 +781,7 @@ function ColorCard({ name, season, color, hex, contrast, usage, textColor = "tex
   usage: string
   textColor?: string
   compact?: boolean
+  isBrand?: boolean
 }) {
   const getWCAGGrade = (contrastValue: string) => {
     if (contrastValue === '-') return null
@@ -796,7 +794,12 @@ function ColorCard({ name, season, color, hex, contrast, usage, textColor = "tex
 
   return (
     <div className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-      <div className={`${compact ? 'h-20' : 'h-28'} flex items-center justify-center ${textColor} font-semibold gap-2.5`} style={{ backgroundColor: color }}>
+      <div className={`${compact ? 'h-20' : 'h-28'} flex items-center justify-center ${textColor} font-semibold gap-2.5 relative`} style={{ backgroundColor: color }}>
+        {isBrand && (
+          <div className="absolute top-2 right-2 bg-white/95 backdrop-blur-sm px-2 py-0.5 rounded-full text-[10px] font-bold text-[#458559] shadow-sm">
+            品牌色
+          </div>
+        )}
         {season && (
           <>
             <div className={compact ? 'text-xl' : 'text-2xl'}>{season}</div>
