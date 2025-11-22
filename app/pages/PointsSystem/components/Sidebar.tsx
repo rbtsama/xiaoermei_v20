@@ -26,6 +26,7 @@ export default function Sidebar({ menuItems }: SidebarProps) {
     '产品架构': true,
     '技术架构': true,
     '设计规范': true,
+    '场景设计': true,
     '平台后台': true,
     '酒店入驻': true,
     '酒店管理': true,
@@ -195,6 +196,12 @@ export const menuConfig: MenuItem[] = [
         children: [
           { title: '配色系统', path: '/architecture/design/color-system' },
           { title: '配色系统2', path: '/architecture/design/color-system-2' }
+        ]
+      },
+      {
+        title: '场景设计',
+        children: [
+          { title: '核心场景', path: '/architecture/scenario' }
         ]
       }
     ]
