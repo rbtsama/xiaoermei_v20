@@ -21,5 +21,5 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export default function ScenarioRoute() {
   const { scenarios } = useLoaderData<typeof loader>()
-  return <ScenarioDesignPage scenarios={scenarios} isLearningMode={true} />
+  return <ScenarioDesignPage scenarios={scenarios} />
 }
