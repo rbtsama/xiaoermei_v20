@@ -69,7 +69,6 @@ export async function action({ request }: ActionFunctionArgs) {
         return json({ success: false, error: '未知操作' }, { status: 400 })
     }
   } catch (error) {
-    console.error('门店礼赠操作失败:', error)
     return json(
       { success: false, error: error instanceof Error ? error.message : '操作失败' },
       { status: 500 }

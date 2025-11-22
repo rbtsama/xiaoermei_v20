@@ -19,7 +19,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
     return json({ refund })
   } catch (error) {
-    console.error('加载退款详情失败:', error)
     throw new Response('加载失败', { status: 500 })
   }
 }

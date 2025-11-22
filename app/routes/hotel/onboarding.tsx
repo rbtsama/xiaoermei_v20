@@ -22,7 +22,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
     return json({ tasks, statistics, error: null })
   } catch (error) {
-    console.error('加载开通任务失败:', error)
     return json(
       { tasks: [], statistics: null, error: '加载数据失败' },
       { status: 500 }
@@ -54,7 +53,6 @@ export async function action({ request }: ActionFunctionArgs) {
         return json({ success: false, message: '未知操作' }, { status: 400 })
     }
   } catch (error) {
-    console.error('操作失败:', error)
     return json(
       { success: false, message: '操作失败' },
       { status: 500 }
@@ -82,7 +80,7 @@ export default function OnboardingRoute() {
         navigate('/hotel/onboarding', { replace: true })
       }
     } catch (error) {
-      console.error('生成账号失败:', error)
+      // 错误处理
     }
   }
 
@@ -102,7 +100,7 @@ export default function OnboardingRoute() {
         navigate('/hotel/onboarding', { replace: true })
       }
     } catch (error) {
-      console.error('标记上线失败:', error)
+      // 错误处理
     }
   }
 

@@ -39,8 +39,7 @@ export default function TagConfigPage({ tags }: TagConfigPageProps) {
     .sort((a, b) => a.order - b.order)
 
   const handleReorder = (currentIndex: number, direction: 'up' | 'down') => {
-    // 实际项目中会调用service
-    console.log('Reorder:', currentIndex, direction)
+    // 实际项目中会调用service进行排序
   }
 
   const handleEdit = (tag: Tag) => {

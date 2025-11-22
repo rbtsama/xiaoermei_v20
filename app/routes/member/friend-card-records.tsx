@@ -33,7 +33,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
     return json({ records, statistics, error: null })
   } catch (error) {
-    console.error('Failed to load friend card records:', error)
     return json(
       {
         records: [],

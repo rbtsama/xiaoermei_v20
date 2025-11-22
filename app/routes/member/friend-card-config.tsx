@@ -23,7 +23,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
     return json({ configs, error: null })
   } catch (error) {
-    console.error('Failed to load friend card configs:', error)
     return json(
       {
         configs: [],
@@ -92,7 +91,6 @@ export async function action({ request }: ActionFunctionArgs) {
         return json({ error: '无效的操作' }, { status: 400 })
     }
   } catch (error) {
-    console.error('Action failed:', error)
     return json(
       { error: error instanceof Error ? error.message : '操作失败' },
       { status: 500 }

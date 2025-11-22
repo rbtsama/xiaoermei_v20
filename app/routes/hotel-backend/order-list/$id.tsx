@@ -19,7 +19,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
     return json({ order, error: null })
   } catch (error) {
-    console.error('Failed to load order:', error)
     return json({ order: null, error: "加载订单失败" }, { status: 500 })
   }
 }
