@@ -20,6 +20,8 @@ export default defineConfig({
           route("/architecture/design/color-system", "routes/architecture/design/color-system.tsx")
           route("/architecture/design/color-system-2", "routes/architecture/design/color-system-2.tsx")
           route("/architecture/technical", "routes/architecture/technical/_index.tsx")
+          route("/architecture/scenario", "routes/architecture/scenario/_index.tsx")
+          route("/architecture/scenario/:id", "routes/architecture/scenario/$id.tsx")
 
           // Points System Routes
           route("/points-system/rule-config", "routes/points-system/rule-config.tsx")
