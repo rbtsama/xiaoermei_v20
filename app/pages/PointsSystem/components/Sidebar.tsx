@@ -32,10 +32,17 @@ export default function Sidebar({ menuItems }: SidebarProps) {
     '酒店管理': true,
     '订单管理': true,
     '争议处理': true,
-    '积分管理': true,
-    '会员管理': true,
+    '积分管理 *': true,
+    '会员管理 *': true,
     '优惠券': true,
     '系统管理': true,
+    '商户端': true,
+    '积分服务': true,
+    'VIP折扣': true,
+    '代客下单': true,
+    'C端小程序': true,
+    '用户中心': true,
+    '酒店浏览': true,
     '酒店后台': true,
     '经营管理': true,
     '门店配置': true,
@@ -56,6 +63,8 @@ export default function Sidebar({ menuItems }: SidebarProps) {
   // 递归渲染菜单项 - 支持多级嵌套
   const renderMenuItem = (item: MenuItem, level: number = 1): React.ReactNode => {
     const hasChildren = item.children && item.children.length > 0
+    const hasModification = item.title.includes('*')
+    const displayTitle = item.title.replace(' *', '')
 
     if (hasChildren) {
       return (
@@ -68,7 +77,10 @@ export default function Sidebar({ menuItems }: SidebarProps) {
                 : 'font-medium text-slate-700 hover:bg-slate-100'
             }`}
           >
-            <span>{item.title}</span>
+            <span>
+              {displayTitle}
+              {hasModification && <span className="text-red-600 ml-1">*</span>}
+            </span>
             {expandedMenus[item.title] ? (
               <ChevronDown className="w-4 h-4" />
             ) : (
@@ -87,6 +99,9 @@ export default function Sidebar({ menuItems }: SidebarProps) {
     }
 
     // 叶子节点（实际路径）
+    const hasModification = item.title.includes('*')
+    const displayTitle = item.title.replace(' *', '')
+
     return (
       <Link
         key={item.path}
@@ -98,7 +113,10 @@ export default function Sidebar({ menuItems }: SidebarProps) {
             : 'text-slate-600 hover:bg-slate-100'
         }`}
       >
-        {item.title}
+        <span>
+          {displayTitle}
+          {hasModification && <span className="text-red-600 ml-1">*</span>}
+        </span>
       </Link>
     )
   }
@@ -202,7 +220,7 @@ export const menuConfig: MenuItem[] = [
       {
         title: '场景设计',
         children: [
-          { title: '核心场景', path: '/architecture/scenario' }
+          { title: '核心场景 *', path: '/architecture/scenario' }
         ]
       }
     ]
@@ -246,19 +264,19 @@ export const menuConfig: MenuItem[] = [
       },
       // 用户运营：锦上添花
       {
-        title: '积分管理',
+        title: '积分管理 *',
         children: [
-          { title: '基础规则配置', path: '/platform-admin/points-management/base-rule' },
-          { title: '等级积分汇率', path: '/platform-admin/points-management/level-rates' },
-          { title: '积分统计', path: '/platform-admin/points-management/statistics' }
+          { title: '基础规则配置 *', path: '/platform-admin/points-management/base-rule' },
+          { title: '等级积分汇率 *', path: '/platform-admin/points-management/level-rates' },
+          { title: '积分统计 *', path: '/platform-admin/points-management/statistics' }
         ]
       },
       {
-        title: '会员管理',
+        title: '会员管理 *',
         children: [
-          { title: '升级规则配置', path: '/platform-admin/member-management/upgrade-rules' },
-          { title: '折扣规则配置', path: '/platform-admin/member-management/discount-rules' },
-          { title: '用户会员管理', path: '/platform-admin/member-management/users' }
+          { title: '升级规则配置 *', path: '/platform-admin/member-management/upgrade-rules' },
+          { title: '折扣规则配置 *', path: '/platform-admin/member-management/discount-rules' },
+          { title: '用户会员管理 *', path: '/platform-admin/member-management/users' }
         ]
       },
       {
@@ -277,6 +295,59 @@ export const menuConfig: MenuItem[] = [
           { title: '用户列表', path: '/user/list' },
           { title: '协议配置', path: '/system/agreements' },
           { title: '标签配置', path: '/system/tags' }
+        ]
+      }
+    ]
+  },
+  {
+    title: '商户端',
+    children: [
+      {
+        title: '积分服务',
+        children: [
+          { title: '服务配置 *', path: '/merchant-backend/points-service/config' }
+        ]
+      },
+      {
+        title: 'VIP折扣',
+        children: [
+          { title: '折扣配置 *', path: '/merchant-backend/vip-discount/config' }
+        ]
+      },
+      {
+        title: '代客下单',
+        children: [
+          { title: '创建订单 *', path: '/merchant-backend/agent-order/create' },
+          { title: '订单列表 *', path: '/merchant-backend/agent-order' }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'C端小程序',
+    children: [
+      {
+        title: '用户中心',
+        children: [
+          { title: '我的积分 *', path: '/c-client/user-center/my-points' },
+          { title: '会员中心 *', path: '/c-client/user-center/member-center' },
+          { title: '邀请好友 *', path: '/c-client/user-center/invite-friend' }
+        ]
+      },
+      {
+        title: '酒店浏览',
+        children: [
+          { title: '酒店列表 *', path: '/c-client/hotel/list' },
+          { title: '酒店详情 *', path: '/c-client/hotel/detail' },
+          { title: '订单确认 *', path: '/c-client/hotel/order-confirm' }
+        ]
+      },
+      {
+        title: '订单管理',
+        children: [
+          { title: '支付成功 *', path: '/c-client/order/payment-success' },
+          { title: '订单列表 *', path: '/c-client/order/list' },
+          { title: '订单详情 *', path: '/c-client/order/detail' }
         ]
       }
     ]

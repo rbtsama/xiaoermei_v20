@@ -120,6 +120,27 @@ export default defineConfig({
           route("/hotel-backend/business/statistics", "routes/hotel-backend/business.statistics.tsx")
           route("/hotel-backend/business/financial-statements", "routes/hotel-backend/business.financial-statements.tsx")
           route("/hotel-backend/business/settlements", "routes/hotel-backend/business.settlements.tsx")
+
+          // Merchant Backend - New Modules
+          route("/merchant-backend/points-service/config", "routes/merchant-backend/points-service/config.tsx")
+          route("/merchant-backend/vip-discount/config", "routes/merchant-backend/vip-discount/config.tsx")
+          route("/merchant-backend/agent-order", "routes/merchant-backend/agent-order/_index.tsx")
+          route("/merchant-backend/agent-order/create", "routes/merchant-backend/agent-order/create.tsx")
+
+          // C Client - User Center
+          route("/c-client/user-center/my-points", "routes/c-client/user-center/my-points.tsx")
+          route("/c-client/user-center/member-center", "routes/c-client/user-center/member-center.tsx")
+          route("/c-client/user-center/invite-friend", "routes/c-client/user-center/invite-friend.tsx")
+
+          // C Client - Hotel
+          route("/c-client/hotel/list", "routes/c-client/hotel/list.tsx")
+          route("/c-client/hotel/detail", "routes/c-client/hotel/detail.tsx")
+          route("/c-client/hotel/order-confirm", "routes/c-client/hotel/order-confirm.tsx")
+
+          // C Client - Order
+          route("/c-client/order/payment-success", "routes/c-client/order/payment-success.tsx")
+          route("/c-client/order/list", "routes/c-client/order/list.tsx")
+          route("/c-client/order/detail", "routes/c-client/order/detail.tsx")
         })
       },
     }),
