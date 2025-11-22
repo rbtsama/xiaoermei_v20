@@ -148,3 +148,108 @@
 
 ---
 
+
+## 2025-11-23 01:00:00
+
+### 平台后台功能模块创建 - 第1批（进行中）
+
+**修改内容：**
+
+1. **创建平台后台积分管理完整架构**
+   - 新建目录：`app/pages/PlatformAdmin/PointsManagement/{types,services/mocks,components}`
+   - **功能影响**：建立积分管理模块的完整文件结构
+
+2. **积分管理类型定义**（types/points.types.ts）
+   - PointsBaseRuleConfig: 积分基础规则配置
+   - MemberLevelPointsRate: 会员等级积分汇率配置（10个等级）
+   - PointsStatistics: 积分统计数据（发放/使用明细）
+   - UserPointsAccount: 用户积分账户
+   - PointsRecord: 积分明细记录
+   - 枚举类型：PointsIssueType（3种）、PointsUsageType（3种）
+   - **功能影响**：提供完整的TypeScript类型系统，确保类型安全
+
+3. **积分管理Mock数据**（services/mocks/points.mock.ts）
+   - 基础规则：注册奖励30分，邀请奖励30分，基础汇率1.0
+   - 等级汇率：VIP0-VIP9（1.0-2.0倍）
+   - 统计数据：累计发放123,456积分，使用98,765积分，流通24,691积分
+   - 用户账户：5个示例用户（不同等级）
+   - 积分记录：5条明细记录（包含注册、邀请、环保奖励、抵扣等）
+   - **功能影响**：提供真实业务场景的完整Mock数据
+
+4. **积分管理服务层**（services/points.service.ts）
+   - getBaseRuleConfig(): 获取基础规则配置
+   - updateBaseRuleConfig(): 更新基础规则
+   - getMemberLevelRates(): 获取所有等级汇率
+   - updateMemberLevelRate(): 更新指定等级汇率
+   - getStatistics(): 获取积分统计数据
+   - getUserAccounts(): 获取用户积分账户列表（支持搜索过滤）
+   - getUserPointsRecords(): 获取用户积分明细
+   - adjustUserPoints(): 手动调整用户积分
+   - **功能影响**：提供完整的业务逻辑和数据访问接口
+
+5. **积分基础规则配置页面**（BaseRuleConfigPage.tsx）
+   - 配置注册奖励积分（0-100分）
+   - 配置邀请奖励积分（0-100分）
+   - 配置基础兑换汇率（0.1-10.0）
+   - 集成学习内容弹窗（功能说明、配置项说明、业务流程、注意事项）
+   - 实时表单验证
+   - 显示最后更新信息
+   - **功能影响**：平台管理员可配置积分系统的核心规则
+
+6. **会员等级积分汇率配置页面**（MemberLevelRatesPage.tsx）
+   - 展示VIP0-VIP9共10个等级的汇率配置
+   - 实时价值预览（50积分示例）
+   - 编辑弹窗支持修改汇率倍数（1.0-3.0）
+   - 集成学习内容（计算示例、配置规则、业务影响）
+   - 汇率倍数实时预览
+   - **功能影响**：配置不同会员等级的积分价值，激励用户升级
+
+7. **创建会员管理模块架构**
+   - 新建目录：`app/pages/PlatformAdmin/MemberManagement/{types,services/mocks,components}`
+   - **功能影响**：建立会员管理模块的完整文件结构
+
+8. **会员管理类型定义**（types/member.types.ts）
+   - MemberLevelUpgradeRule: 升级规则（10个等级）
+   - MemberLevelDiscountRule: 折扣规则（10个等级）
+   - UserMemberInfo: 用户会员信息
+   - UserNightRecord: 用户间夜记录
+   - MemberLevelAdjustRecord: 等级调整记录
+   - **功能影响**：提供会员管理的完整类型定义
+
+9. **会员管理Mock数据**（services/mocks/member.mock.ts）
+   - 升级规则：VIP0-VIP9（5-400间夜，365天有效期）
+   - 折扣规则：VIP0-VIP9（100%-70%折扣）
+   - 用户信息：3个示例用户（不同等级和进度）
+   - 间夜记录：3条住宿记录
+   - 调整记录：3条等级变更记录（升级、降级、手动调整）
+   - **功能影响**：提供完整的会员业务数据
+
+10. **会员管理服务层**（services/member.service.ts）
+    - getUpgradeRules(): 获取升级规则
+    - updateUpgradeRule(): 更新升级规则
+    - getDiscountRules(): 获取折扣规则
+    - updateDiscountRule(): 更新折扣规则
+    - getUserInfos(): 获取用户列表（支持搜索）
+    - getUserDetail(): 获取用户详情（含间夜和调整记录）
+    - adjustUserLevel(): 手动调整用户等级
+    - **功能影响**：提供完整的会员管理业务逻辑
+
+**统计数据：**
+- 新建文件：11 个
+- 新增代码：约 1000 行
+- 类型定义：15 个接口，2 个枚举
+- Mock数据：覆盖所有业务场景
+- 服务方法：15 个
+
+**当前进度：**
+- ✅ 场景设计模块（7个场景完成）
+- ✅ 平台后台积分管理（类型+Mock+服务+2个页面）
+- ✅ 平台后台会员管理（类型+Mock+服务）
+- ⏳ 待创建：平台后台剩余5个页面
+- ⏳ 待创建：商户端5个页面
+- ⏳ 待创建：C端9个页面
+
+**下一步：**
+继续创建平台后台剩余5个页面（升级规则配置、折扣规则配置、用户管理、统计、明细查看）
+
+---
