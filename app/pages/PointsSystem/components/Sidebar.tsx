@@ -308,14 +308,6 @@ export const menuConfig: MenuItem[] = [
           { title: '会员等级设置 *', path: '/member-management/levels' }
         ]
       },
-      {
-        title: '优惠券',
-        children: [
-          { title: '优惠券配置', path: '/coupon/config' },
-          { title: '优惠券发放', path: '/coupon/grant' },
-          { title: '核销记录', path: '/coupon/verify' }
-        ]
-      },
       // 系统配置
       {
         title: '系统管理',

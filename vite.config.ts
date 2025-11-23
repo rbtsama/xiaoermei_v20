@@ -49,11 +49,6 @@ export default defineConfig({
           route("/member-management/members", "routes/member-management/members/_index.tsx")
           route("/member-management/members/:id", "routes/member-management/members.$id.tsx")
 
-          // Coupon System Routes
-          route("/coupon/config", "routes/coupon/config.tsx")
-          route("/coupon/grant", "routes/coupon/grant.tsx")
-          route("/coupon/verify", "routes/coupon/verify.tsx")
-
           // Order Management Routes
           route("/order/list", "routes/order/list.tsx")
           route("/order/detail", "routes/order/detail.tsx")
