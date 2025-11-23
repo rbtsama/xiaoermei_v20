@@ -32,7 +32,6 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
   const handleSave = () => {
     console.log('保存会员等级配置:', editedLevels)
     setIsEditMode(false)
-    alert('保存成功')
   }
 
   const updateLevel = (id: string, field: keyof MemberLevel, value: string | number) => {

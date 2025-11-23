@@ -34,7 +34,6 @@ export default function RuleConfigPage({ config: initialConfig, error }: RuleCon
     // 这里应该调用API保存
     console.log('保存配置:', config)
     setIsEditMode(false)
-    alert('保存成功')
   }
 
   if (error) {

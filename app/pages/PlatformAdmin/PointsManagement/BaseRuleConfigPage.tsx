@@ -33,7 +33,6 @@ export default function BaseRuleConfigPage({ config: initialConfig }: BaseRuleCo
     // 这里应该调用API保存
     console.log('保存配置:', formData)
     setIsEditMode(false)
-    alert('保存成功')
   }
 
   return (

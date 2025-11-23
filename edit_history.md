@@ -4,6 +4,28 @@
 
 ---
 
+## 2025-11-24 00:31:00
+
+### 移除保存成功弹窗提示
+
+**修改文件：**
+- `app/pages/PlatformAdmin/PointsManagement/BaseRuleConfigPage.tsx`
+- `app/pages/MemberManagement/MemberLevels/MemberLevelsPage.tsx`
+- `app/pages/PointsSystem/RuleConfigPage.tsx`
+
+**修改内容：**
+
+1. **移除保存成功的alert弹窗**
+   - 删除所有 `alert('保存成功')` 调用
+   - 保存后只关闭编辑模式，不再弹窗提示
+   - **功能影响**：用户体验更流畅，二次确认后直接完成操作，不需要再点击"确定"关闭弹窗
+
+**菜单标记：**
+- `积分管理 *` 菜单组保持标记
+- `会员管理 *` 菜单组保持标记
+
+---
+
 ## 2025-11-24 00:29:00
 
 ### 积分规则配置页面细节优化
