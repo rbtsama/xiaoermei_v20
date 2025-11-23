@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '~/com
 import { Input } from '~/components/ui/input'
 import { Label } from '~/components/ui/label'
 import { Textarea } from '~/components/ui/textarea'
+import { Switch } from '~/components/ui/switch'
 import { ArrowLeft } from 'lucide-react'
 import { Link } from '@remix-run/react'
 import SettingsPageHeader from '~/pages/SharedComponents/SettingsPageHeader'
@@ -361,20 +362,18 @@ export default function MemberLevelForm({ level, errors }: MemberLevelFormProps)
             <CardTitle>状态</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
-              <Label htmlFor="status">等级状态</Label>
-              <select
+            <div className="flex items-center gap-3">
+              <Switch
                 id="status"
-                name="status"
-                value={formData.status}
-                onChange={(e) => handleChange('status', e.target.value)}
-                className={`w-full px-3 py-2 border border-slate-300 rounded-md ${!isEditMode ? 'bg-slate-50 text-slate-500 cursor-not-allowed' : ''}`}
+                checked={formData.status === 'active'}
+                onCheckedChange={(checked) => handleChange('status', checked ? 'active' : 'inactive')}
                 disabled={!isEditMode}
-              >
-                <option value="active">启用</option>
-                <option value="inactive">停用</option>
-              </select>
+              />
+              <Label htmlFor="status" className="text-sm font-normal cursor-pointer">
+                {formData.status === 'active' ? '启用中' : '已禁用'}
+              </Label>
             </div>
+            <input type="hidden" name="status" value={formData.status} />
           </CardContent>
         </Card>
 

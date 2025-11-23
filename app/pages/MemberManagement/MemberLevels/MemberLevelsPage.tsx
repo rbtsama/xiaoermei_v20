@@ -4,6 +4,7 @@ import { Card, CardContent } from '~/components/ui/card'
 import { Input } from '~/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
 import { Badge } from '~/components/ui/badge'
+import { Switch } from '~/components/ui/switch'
 import { useViewMode } from '~/contexts/ViewModeContext'
 import Sidebar, { menuConfig } from '~/pages/PointsSystem/components/Sidebar'
 import LogicPanel, { LogicTable, LogicList, LogicHighlight } from '~/pages/PointsSystem/components/LogicPanel'
@@ -268,15 +269,18 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
 
                     {/* 状态 */}
                     <TableCell>
-                      <select
-                        value={level.status}
-                        onChange={(e) => updateLevel(level.id, 'status', e.target.value)}
-                        className={`px-2 py-1 text-sm border rounded ${!isEditMode ? 'bg-slate-50 text-slate-500 cursor-not-allowed border-0' : ''}`}
-                        disabled={!isEditMode}
-                      >
-                        <option value="active">启用</option>
-                        <option value="inactive">禁用</option>
-                      </select>
+                      <div className="flex items-center gap-2">
+                        <Switch
+                          checked={level.status === 'active'}
+                          onCheckedChange={(checked) =>
+                            updateLevel(level.id, 'status', checked ? 'active' : 'inactive')
+                          }
+                          disabled={!isEditMode}
+                        />
+                        <span className="text-sm text-muted-foreground">
+                          {level.status === 'active' ? '启用' : '禁用'}
+                        </span>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
