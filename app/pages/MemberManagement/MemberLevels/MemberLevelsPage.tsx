@@ -325,50 +325,37 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
 
                     {/* 会员卡图片 - 独立操作,不受修改设置限制 */}
                     <TableCell>
-                      <div className="flex items-center gap-2">
+                      <label className="cursor-pointer group">
                         {level.cardImage ? (
-                          <>
-                            <img src={level.cardImage} alt="会员卡" className="h-12 w-auto rounded border" />
-                            <label className="cursor-pointer">
-                              <Button variant="ghost" size="sm" asChild>
-                                <span>修改</span>
-                              </Button>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={(e) => {
-                                  const file = e.target.files?.[0]
-                                  if (file) {
-                                    const url = URL.createObjectURL(file)
-                                    updateLevel(level.id, 'cardImage', url)
-                                    console.log('上传会员卡图片:', { level: level.displayName, file: file.name })
-                                  }
-                                }}
-                              />
-                            </label>
-                          </>
-                        ) : (
-                          <label className="cursor-pointer">
-                            <Button variant="outline" size="sm" asChild>
-                              <span>上传图片</span>
-                            </Button>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              className="hidden"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0]
-                                if (file) {
-                                  const url = URL.createObjectURL(file)
-                                  updateLevel(level.id, 'cardImage', url)
-                                  console.log('上传会员卡图片:', { level: level.displayName, file: file.name })
-                                }
-                              }}
+                          <div className="relative inline-block">
+                            <img
+                              src={level.cardImage}
+                              alt="会员卡"
+                              className="h-16 w-auto rounded border border-slate-300 transition-opacity group-hover:opacity-80"
                             />
-                          </label>
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                              <span className="text-white text-sm font-medium">点击更换</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <Button variant="outline" size="sm" asChild>
+                            <span>上传图片</span>
+                          </Button>
                         )}
-                      </div>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0]
+                            if (file) {
+                              const url = URL.createObjectURL(file)
+                              updateLevel(level.id, 'cardImage', url)
+                              console.log('上传会员卡图片:', { level: level.displayName, file: file.name })
+                            }
+                          }}
+                        />
+                      </label>
                     </TableCell>
 
                     {/* 状态 - 不受修改设置限制，可独立操作 */}
