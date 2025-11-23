@@ -20,6 +20,8 @@ export const mockPointsRuleConfig: PointsRuleConfig = {
     earnRatio: 1, // 1元 = 1积分（参考美团）
     minOrderAmount: 50, // 满50元起算
     delayHours: 24, // 订单完成后24小时发放（参考携程）
+    registerBonus: 100, // 注册奖励100积分
+    inviteBonus: 50, // 邀请奖励50积分
     excludeCoupon: true, // 优惠券金额不计入
     excludeCommission: true // 平台佣金不计入
   },

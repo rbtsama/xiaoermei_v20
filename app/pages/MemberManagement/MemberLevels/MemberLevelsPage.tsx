@@ -5,7 +5,8 @@ import { Card, CardContent } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
-import { Plus, Edit } from 'lucide-react'
+import { Badge } from '~/components/ui/badge'
+import { Plus, Edit, Trash2 } from 'lucide-react'
 import { useViewMode } from '~/contexts/ViewModeContext'
 import Sidebar, { menuConfig } from '~/pages/PointsSystem/components/Sidebar'
 import LogicPanel, { LogicTable, LogicList, LogicHighlight } from '~/pages/PointsSystem/components/LogicPanel'
@@ -17,6 +18,25 @@ interface MemberLevelsPageProps {
 
 export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProps) {
   const { isLearningMode } = useViewMode()
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
+
+  // 全选/取消全选
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedIds(levels.map(l => l.id))
+    } else {
+      setSelectedIds([])
+    }
+  }
+
+  // 单选
+  const handleSelect = (id: string, checked: boolean) => {
+    if (checked) {
+      setSelectedIds([...selectedIds, id])
+    } else {
+      setSelectedIds(selectedIds.filter(sid => sid !== id))
+    }
+  }
 
   // LogicPanel 配置
   const logicSections = [
@@ -35,65 +55,90 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
       )
     },
     {
-      title: '等级设计',
+      title: '等级权益设计',
       content: (
         <div className="space-y-4">
-          <h4 className="font-semibold">如何设计会员等级体系</h4>
+          <p>每个会员等级包含以下权益配置：</p>
           <LogicList items={[
-            <><strong>注册会员：</strong>新用户注册即成为注册会员，享受基础权益</>,
-            <><strong>VIP1：</strong>预订订单达到3次及以上，或消费金额达到一定标准</>,
-            <><strong>VIP2：</strong>预订订单达到10次及以上，享受更多优惠和特权</>,
-            <><strong>VIP3：</strong>预订订单达到30次及以上，享受最高等级的专属服务</>
+            <><strong>升级规则：</strong>预订次数、消费金额双重条件，灵活组合</>,
+            <><strong>折扣权益：</strong>订房折扣范围和具体折扣，提升消费意愿</>,
+            <><strong>积分汇率：</strong>不同等级享受不同的积分获取比例</>,
+            <><strong>升级奖励：</strong>达到等级后赠送免费套餐，增加惊喜感</>
           ]} />
           <LogicHighlight type="success">
-            <strong>最佳实践：</strong>等级设置不宜过多（3-4级最佳），升级条件要合理，既有吸引力又不能太容易达到。
+            <strong>最佳实践：</strong>等级设置3-4级最佳，权益递进明显但不宜差距过大，保持吸引力。
           </LogicHighlight>
         </div>
       )
     },
     {
-      title: '升级条件',
+      title: '升级规则说明',
       content: (
         <div className="space-y-4">
           <p>会员等级升级通常基于以下条件：</p>
           <LogicList items={[
-            <><strong>预订次数：</strong>累计预订订单的次数（最常用）</>,
-            <><strong>消费金额：</strong>累计消费金额达到一定标准</>,
-            <><strong>间夜数：</strong>累计入住的间夜数量</>,
-            <><strong>时间周期：</strong>可设置为自然年度或滚动周期</>
+            <><strong>预订次数：</strong>累计预订订单的次数（主要条件）</>,
+            <><strong>消费金额：</strong>累计消费金额达到一定标准（辅助条件）</>,
+            <><strong>有效期：</strong>等级有效期（如1年、2年、永久）</>,
+            <><strong>组合条件：</strong>需同时满足预订次数和消费金额</>
           ]} />
           <LogicTable
-            headers={['等级', '升级条件（示例）', '有效期']}
+            headers={['等级', '升级条件', '有效期']}
             rows={[
               ['注册会员', '注册即可获得', '永久'],
-              ['VIP1', '预订订单 ≥ 3次', '1年'],
-              ['VIP2', '预订订单 ≥ 10次', '1年'],
-              ['VIP3', '预订订单 ≥ 30次', '1年']
+              ['VIP1', '预订 ≥ 1次 且 消费 ≥ ¥500', '2年'],
+              ['VIP2', '预订 ≥ 5次 且 消费 ≥ ¥2000', '2年'],
+              ['VIP3', '预订 ≥ 10次 且 消费 ≥ ¥5000', '2年']
             ]}
           />
         </div>
       )
     },
     {
-      title: '会员权益',
+      title: '折扣规则说明',
       content: (
         <div className="space-y-4">
-          <p>不同等级会员可享受的权益包括：</p>
+          <p>折扣规则控制会员的订房优惠：</p>
           <LogicList items={[
-            <><strong>订房折扣：</strong>VIP会员享受专属折扣（如VIP1享9折，VIP2享8.5折，VIP3享8折）</>,
-            <><strong>积分奖励：</strong>高等级会员享受更高的积分倍率</>,
-            <><strong>优先权益：</strong>
-              <ul className="ml-6 mt-2 space-y-1">
-                <li>• 优先预订热门房型</li>
-                <li>• 免费升级房型</li>
-                <li>• 延迟退房</li>
-                <li>• 专属客服通道</li>
-              </ul>
-            </>,
-            <><strong>专属服务：</strong>生日礼遇、节日问候、专属活动邀请等</>
+            <><strong>折扣范围：</strong>设置可调整的折扣区间（如 80% ~ 95%）</>,
+            <><strong>当前折扣：</strong>门店可在折扣范围内调整具体折扣</>,
+            <><strong>应用范围：</strong>折扣适用于平台所有门店</>,
+            <><strong>动态调整：</strong>平台可根据运营需要调整折扣范围</>
           ]} />
+          <LogicTable
+            headers={['等级', '折扣范围', '推荐折扣']}
+            rows={[
+              ['注册会员', '无折扣', '原价'],
+              ['VIP1', '80% ~ 95%', '90% (9折)'],
+              ['VIP2', '75% ~ 90%', '85% (8.5折)'],
+              ['VIP3', '65% ~ 85%', '80% (8折)']
+            ]}
+          />
+        </div>
+      )
+    },
+    {
+      title: '积分汇率说明',
+      content: (
+        <div className="space-y-4">
+          <p>积分汇率决定会员消费后获得的积分数量：</p>
+          <LogicList items={[
+            <><strong>基础汇率：</strong>注册会员 1元 = 1积分</>,
+            <><strong>VIP加成：</strong>高等级会员享受更高的积分倍率</>,
+            <><strong>激励消费：</strong>通过积分差异激励会员升级</>,
+            <><strong>积分价值：</strong>积分可用于兑换免费住宿、优惠券等</>
+          ]} />
+          <LogicTable
+            headers={['等级', '积分汇率', '消费¥1000可得积分']}
+            rows={[
+              ['注册会员', '1 : 1', '1000积分'],
+              ['VIP1', '1 : 1.2', '1200积分'],
+              ['VIP2', '1 : 2', '2000积分'],
+              ['VIP3', '1 : 3', '3000积分']
+            ]}
+          />
           <LogicHighlight type="info">
-            <strong>提示：</strong>权益设计要考虑成本控制，同时确保对客户有足够吸引力。
+            <strong>提示：</strong>积分汇率差异要明显，让用户感受到升级的价值。
           </LogicHighlight>
         </div>
       )
@@ -104,14 +149,13 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
         <LogicTable
           headers={['字段', '说明', '示例']}
           rows={[
-            ['默认等级', '等级名称和升级条件', '注册会员（注册即可）'],
-            ['获得等级条件', '完整的升级条件描述', '消费金额达到5000元'],
-            ['会员权益', '该等级享受的权益说明', '享受8折优惠、积分2倍'],
-            ['等级有效期', '等级的有效期限', '1年'],
-            ['预订订单要求', '达到等级所需的订单次数', '预订订单及以上3次'],
-            ['使用限制', '折扣使用的限制条件', '节假日不可用'],
-            ['折扣范围', '可设置的折扣范围', '80% ~ 95%'],
-            ['应用范围', '当前设置的具体折扣', '85%（8.5折）']
+            ['等级名称', '会员等级的名称', 'VIP1'],
+            ['升级条件', '达到该等级需满足的条件', '预订≥1次 且 消费≥¥500'],
+            ['等级有效期', '等级的有效期限', '2年'],
+            ['折扣范围', '可调整的折扣区间', '80% ~ 95%'],
+            ['当前折扣', '具体的折扣百分比', '90% (9折)'],
+            ['积分汇率', '消费1元可获得的积分', '1.2 (即1元=1.2积分)'],
+            ['升级奖励', '达到等级后赠送的套餐数', '1套免费住宿']
           ]}
         />
       )
@@ -131,92 +175,161 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
 
   const mainContent = (
     <div className="p-6 space-y-6">
+      {/* 页面标题 */}
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900">会员等级设置</h1>
+        <p className="text-sm text-slate-500 mt-1">
+          配置会员等级、升级规则、折扣权益、积分汇率和升级奖励
+        </p>
+      </div>
+
       {/* 顶部操作栏 */}
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
-          <Button>
-            <Plus className="h-4 w-4 mr-2" />
-            修改
-          </Button>
-          <Button variant="outline">
-            <Plus className="h-4 w-4 mr-2" />
-            删除
+          <Link to="/member-management/levels/create">
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              新增等级
+            </Button>
+          </Link>
+          <Button
+            variant="outline"
+            disabled={selectedIds.length === 0}
+            onClick={() => {
+              if (confirm(`确定要删除选中的 ${selectedIds.length} 个等级吗？`)) {
+                alert('删除功能待实现')
+              }
+            }}
+          >
+            <Trash2 className="h-4 w-4 mr-2" />
+            批量删除
           </Button>
         </div>
+        <Badge variant="outline" className="text-sm">
+          共 {levels.length} 个等级
+        </Badge>
       </div>
 
       {/* 会员等级列表 */}
       <Card>
         <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-12"></TableHead>
-                <TableHead>默认等级</TableHead>
-                <TableHead>获得等级条件</TableHead>
-                <TableHead>会员权益</TableHead>
-                <TableHead>等级有效期</TableHead>
-                <TableHead>预订订单要求</TableHead>
-                <TableHead>使用限制</TableHead>
-                <TableHead>折扣范围</TableHead>
-                <TableHead>应用范围</TableHead>
-                <TableHead className="text-right">操作</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {levels.map((level) => (
-                <TableRow key={level.id}>
-                  <TableCell>
-                    <input type="checkbox" className="w-4 h-4" />
-                  </TableCell>
-                  <TableCell>
-                    <div className="space-y-1">
-                      <div className="font-medium">{level.levelName}</div>
-                      <div className="text-sm text-muted-foreground">{level.upgradeCondition}</div>
-                    </div>
-                  </TableCell>
-                  <TableCell>{level.levelBenefits}</TableCell>
-                  <TableCell className="text-center">{level.validityPeriod}</TableCell>
-                  <TableCell className="text-center">
-                    {level.requiredNights > 0 ? `预订订单及以上${level.requiredNights}次` : '-'}
-                  </TableCell>
-                  <TableCell className="text-center">-</TableCell>
-                  <TableCell className="text-center">
-                    {level.discountRangeMin > 0 ? (
-                      <>{level.discountRangeMin} % ~ × ≤ {level.discountRangeMax}%</>
-                    ) : (
-                      '-'
-                    )}
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {level.discountPercentage > 0 ? (
-                      <div className="flex items-center justify-center gap-2">
-                        <Input
-                          type="number"
-                          defaultValue={level.discountPercentage}
-                          className="w-16 h-8 text-center"
-                        />
-                        <span>%</span>
-                      </div>
-                    ) : (
-                      '无折扣'
-                    )}
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {level.isDefault ? '无折扣' : '-'}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Link to={`/member-management/levels/${level.id}/edit`}>
-                      <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
-                        <Edit className="h-4 w-4 mr-1" />
-                        设置
-                      </Button>
-                    </Link>
-                  </TableCell>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-12">
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4"
+                      checked={selectedIds.length === levels.length && levels.length > 0}
+                      onChange={(e) => handleSelectAll(e.target.checked)}
+                    />
+                  </TableHead>
+                  <TableHead className="min-w-[120px]">等级名称</TableHead>
+                  <TableHead className="min-w-[180px]">升级条件</TableHead>
+                  <TableHead className="min-w-[100px]">有效期</TableHead>
+                  <TableHead className="min-w-[140px]">折扣范围</TableHead>
+                  <TableHead className="min-w-[120px]">当前折扣</TableHead>
+                  <TableHead className="min-w-[120px]">积分汇率</TableHead>
+                  <TableHead className="min-w-[120px]">升级奖励</TableHead>
+                  <TableHead className="min-w-[100px]">状态</TableHead>
+                  <TableHead className="text-right min-w-[100px]">操作</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {levels.map((level) => (
+                  <TableRow key={level.id}>
+                    <TableCell>
+                      <input
+                        type="checkbox"
+                        className="w-4 h-4"
+                        checked={selectedIds.includes(level.id)}
+                        onChange={(e) => handleSelect(level.id, e.target.checked)}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-1">
+                        <div className="font-medium">{level.levelName}</div>
+                        {level.isDefault && (
+                          <Badge variant="secondary" className="text-xs">默认等级</Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-sm">
+                        {level.requiredNights > 0 ? (
+                          <>
+                            <div>预订 ≥ {level.requiredNights}次</div>
+                            {level.requiredAmount && level.requiredAmount > 0 && (
+                              <div className="text-muted-foreground">消费 ≥ ¥{level.requiredAmount}</div>
+                            )}
+                          </>
+                        ) : (
+                          <div className="text-muted-foreground">注册即可</div>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-center">{level.validityPeriod}</TableCell>
+                    <TableCell className="text-center">
+                      {level.discountRangeMin > 0 ? (
+                        <div className="text-sm">
+                          {level.discountRangeMin}% ~ {level.discountRangeMax}%
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground">无折扣</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {level.discountPercentage > 0 ? (
+                        <div className="flex items-center justify-center gap-2">
+                          <span className="font-medium text-primary">{level.discountPercentage}%</span>
+                          <span className="text-xs text-muted-foreground">
+                            ({(level.discountPercentage / 10).toFixed(1)}折)
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground">无折扣</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {level.pointsEarnRatio > 0 ? (
+                        <div className="text-sm">
+                          <div className="font-medium">1 : {level.pointsEarnRatio}</div>
+                          <div className="text-xs text-muted-foreground">
+                            (¥1 = {level.pointsEarnRatio}积分)
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {level.upgradeGiftSets > 0 ? (
+                        <div className="text-sm">
+                          <span className="font-medium text-secondary">{level.upgradeGiftSets}套</span>
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={level.status === 'active' ? 'default' : 'secondary'}>
+                        {level.status === 'active' ? '启用中' : '已停用'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Link to={`/member-management/levels/${level.id}/edit`}>
+                        <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
+                          <Edit className="h-4 w-4 mr-1" />
+                          编辑
+                        </Button>
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
 
           {levels.length === 0 && (
             <div className="text-center py-12 text-muted-foreground">
@@ -227,10 +340,20 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
       </Card>
 
       {/* 说明文字 */}
-      <div className="text-sm text-muted-foreground">
-        小而美商家入驻详雅宝会员共同原资金门店显言有会入烧话，并共同商欣联合会员体系的会员等级、会员权益和订房折扣，
-        门店可以联合会员体系的范围内自行设置到不同等级会员的订房折扣。这订房折扣将适用于平台所有门店赋听注册的对应等级的会员。
-      </div>
+      <Card>
+        <CardContent className="p-4">
+          <div className="text-sm text-muted-foreground space-y-2">
+            <p className="font-medium text-foreground">配置说明：</p>
+            <ul className="list-disc list-inside space-y-1 ml-2">
+              <li><strong>升级规则：</strong>设置预订次数和消费金额两个条件，需同时满足才能升级</li>
+              <li><strong>折扣范围：</strong>平台设定的折扣区间，门店可在此范围内调整具体折扣</li>
+              <li><strong>积分汇率：</strong>不同等级会员消费相同金额可获得不同数量的积分</li>
+              <li><strong>升级奖励：</strong>达到等级后系统自动赠送的免费住宿套餐数量</li>
+              <li><strong>应用范围：</strong>所有配置将适用于平台所有门店的对应等级会员</li>
+            </ul>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 
@@ -242,7 +365,7 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
       </div>
       {isLearningMode && (
         <div className="w-[480px] border-l border-border overflow-hidden">
-          <LogicPanel title="会员等级" sections={logicSections} />
+          <LogicPanel title="会员等级设置" sections={logicSections} />
         </div>
       )}
     </div>

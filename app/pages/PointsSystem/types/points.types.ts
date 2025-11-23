@@ -15,6 +15,10 @@ export interface PointsEarnRule {
   minOrderAmount: number
   /** 发放时机（小时）：订单完成后多久发放积分 */
   delayHours: number
+  /** 注册奖励积分 */
+  registerBonus: number
+  /** 邀请奖励积分 */
+  inviteBonus: number
   /** 是否排除优惠券金额 */
   excludeCoupon: boolean
   /** 是否排除平台佣金 */

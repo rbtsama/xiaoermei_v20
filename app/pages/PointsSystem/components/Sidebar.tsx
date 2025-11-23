@@ -4,7 +4,7 @@
 
 import { Link, useLocation } from '@remix-run/react'
 import { ChevronDown, ChevronRight, ChevronLeft, BookOpen, Presentation, Menu } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useViewMode } from '~/contexts/ViewModeContext'
 
 interface MenuItem {
@@ -20,6 +20,9 @@ interface SidebarProps {
 export default function Sidebar({ menuItems }: SidebarProps) {
   const location = useLocation()
   const { mode, toggleMode, isLearningMode, isSidebarCollapsed, toggleSidebar } = useViewMode()
+  const menuScrollRef = useRef<HTMLDivElement>(null)
+  const scrollPositionRef = useRef<number>(0)
+
   const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({
     // 默认展开所有菜单，提升用户体验
     '设计架构': true,
@@ -51,6 +54,30 @@ export default function Sidebar({ menuItems }: SidebarProps) {
     '系统设置': true
   })
 
+  // 保存滚动位置
+  useEffect(() => {
+    const menuElement = menuScrollRef.current
+    if (menuElement) {
+      // 保存当前滚动位置
+      const handleScroll = () => {
+        scrollPositionRef.current = menuElement.scrollTop
+      }
+      menuElement.addEventListener('scroll', handleScroll)
+      return () => menuElement.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
+  // 路由变化时恢复滚动位置
+  useEffect(() => {
+    const menuElement = menuScrollRef.current
+    if (menuElement && scrollPositionRef.current > 0) {
+      // 使用 setTimeout 确保 DOM 已经更新
+      setTimeout(() => {
+        menuElement.scrollTop = scrollPositionRef.current
+      }, 0)
+    }
+  }, [location.pathname])
+
   const toggleMenu = (title: string) => {
     setExpandedMenus(prev => ({ ...prev, [title]: !prev[title] }))
   }
@@ -70,7 +97,10 @@ export default function Sidebar({ menuItems }: SidebarProps) {
       return (
         <div key={item.title}>
           <button
-            onClick={() => toggleMenu(item.title)}
+            onClick={(e) => {
+              e.preventDefault()
+              toggleMenu(item.title)
+            }}
             className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-md transition-colors ${
               level === 1
                 ? 'font-bold text-slate-900 hover:bg-slate-100'
@@ -105,6 +135,10 @@ export default function Sidebar({ menuItems }: SidebarProps) {
         to={item.path || '#'}
         preventScrollReset={true}
         reloadDocument={false}
+        onClick={(e) => {
+          // 阻止默认的滚动行为
+          e.stopPropagation()
+        }}
         className={`block px-3 py-2 text-sm rounded-md transition-colors ${
           isActive(item.path)
             ? 'bg-blue-50 text-blue-700 font-medium'
@@ -153,7 +187,7 @@ export default function Sidebar({ menuItems }: SidebarProps) {
           </div>
 
           {/* 菜单区域 */}
-          <div className="flex-1 overflow-y-auto p-4">
+          <div ref={menuScrollRef} className="flex-1 overflow-y-auto p-4">
             <nav className="space-y-2">
               {menuItems.map((item) => renderMenuItem(item, 1))}
             </nav>
@@ -264,17 +298,14 @@ export const menuConfig: MenuItem[] = [
       {
         title: '积分管理 *',
         children: [
-          { title: '基础规则配置 *', path: '/platform-admin/points-management/base-rule' },
-          { title: '等级积分汇率 *', path: '/platform-admin/points-management/level-rates' },
+          { title: '积分规则配置 *', path: '/platform-admin/points-management/base-rule' },
           { title: '积分统计 *', path: '/platform-admin/points-management/statistics' }
         ]
       },
       {
         title: '会员管理 *',
         children: [
-          { title: '升级规则配置 *', path: '/platform-admin/member-management/upgrade-rules' },
-          { title: '折扣规则配置 *', path: '/platform-admin/member-management/discount-rules' },
-          { title: '用户会员管理 *', path: '/platform-admin/member-management/users' }
+          { title: '会员等级设置 *', path: '/member-management/levels' }
         ]
       },
       {
