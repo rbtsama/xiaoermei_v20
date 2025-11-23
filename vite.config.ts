@@ -44,6 +44,8 @@ export default defineConfig({
           route("/member/friend-card-config", "routes/member/friend-card-config.tsx")
           route("/member/friend-card-records", "routes/member/friend-card-records.tsx")
           route("/member-management/levels", "routes/member-management/levels/_index.tsx")
+          route("/member-management/levels/create", "routes/member-management/levels/create.tsx")
+          route("/member-management/levels/:id/edit", "routes/member-management/levels/$id.edit.tsx")
           route("/member-management/members", "routes/member-management/members/_index.tsx")
           route("/member-management/members/:id", "routes/member-management/members.$id.tsx")
 
