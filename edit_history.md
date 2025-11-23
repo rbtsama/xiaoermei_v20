@@ -4,6 +4,63 @@
 
 ---
 
+## 2025-11-24 00:40:00
+
+### 修改记录独立化 - 每个页面单独记录
+
+**新增文件：**
+- `app/pages/MemberManagement/MemberLevels/services/mocks/memberLevels.changeLog.ts`
+- `app/pages/PlatformAdmin/PointsManagement/services/mocks/points.changeLog.ts`
+
+**修改文件：**
+- `app/pages/MemberManagement/MemberLevels/MemberLevelsPage.tsx`
+- `app/pages/MemberManagement/MemberLevels/components/MemberLevelForm.tsx`
+- `app/pages/PlatformAdmin/PointsManagement/BaseRuleConfigPage.tsx`
+
+**修改内容：**
+
+1. **创建会员等级设置专属修改记录**
+   - 文件：`memberLevels.changeLog.ts`
+   - 包含12条会员等级相关的修改记录
+   - 记录内容：VIP等级名称、字段修改、状态变更等
+   - **功能影响**：会员等级的修改记录与其他模块完全分离
+
+2. **创建积分规则配置专属修改记录**
+   - 文件：`points.changeLog.ts`
+   - 包含7条积分规则相关的修改记录
+   - 记录内容：注册奖励、邀请奖励、兑换汇率等
+   - **功能影响**：积分规则的修改记录与其他模块完全分离
+
+3. **应用独立的修改记录数据**
+   - 会员等级页面使用 `memberLevelsChangeLogs`
+   - 积分规则页面使用 `pointsRuleChangeLogs`
+   - 移除全局共享的 `mockMemberLevelChangeLogs` 和 `mockPointsRuleChangeLogs`
+   - **功能影响**：每个页面显示各自的修改历史，互不干扰
+
+4. **修改记录数据特点**
+   - 每条记录包含具体的等级/规则名称（如"VIP1 展示名称"）
+   - 修改内容更精确，易于追溯
+   - 每个模块的修改历史独立管理
+   - **功能影响**：运营人员可以清晰看到每个功能模块的修改历史
+
+**数据示例：**
+
+会员等级修改记录：
+- VIP1 展示名称：VIP会员 → VIP1
+- VIP2 折扣范围：85% ~ 95% → 80% ~ 90%
+- VIP0 状态：禁用 → 启用
+
+积分规则修改记录：
+- 注册奖励积分：50积分 → 100积分
+- 邀请奖励积分：30积分 → 50积分
+- 积分兑换汇率：50积分=1元 → 100积分=1元
+
+**菜单标记：**
+- `积分管理 *` 菜单组保持标记
+- `会员管理 *` 菜单组保持标记
+
+---
+
 ## 2025-11-24 00:38:00
 
 ### 状态开关独立操作机制优化

@@ -10,7 +10,7 @@ import { useViewMode } from '~/contexts/ViewModeContext'
 import Sidebar, { menuConfig } from '~/pages/PointsSystem/components/Sidebar'
 import LogicPanel, { LogicTable, LogicList, LogicHighlight } from '~/pages/PointsSystem/components/LogicPanel'
 import SettingsPageHeader from '~/pages/SharedComponents/SettingsPageHeader'
-import { mockMemberLevelChangeLogs } from '~/pages/SharedTypes/changeLog.mock'
+import { memberLevelsChangeLogs } from './services/mocks/memberLevels.changeLog'
 
 interface MemberLevelsPageProps {
   levels: MemberLevel[]
@@ -167,7 +167,7 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
         onEditToggle={handleEditToggle}
         onSave={handleSave}
         onCancel={handleCancel}
-        changeLogs={mockMemberLevelChangeLogs}
+        changeLogs={memberLevelsChangeLogs}
         changeLogTitle="会员等级设置 - 修改记录"
       />
 

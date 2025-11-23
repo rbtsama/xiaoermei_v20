@@ -10,7 +10,7 @@ import { Input } from '~/components/ui/input'
 import { Label } from '~/components/ui/label'
 import MainLayout from '~/pages/PointsSystem/components/MainLayout'
 import SettingsPageHeader from '~/pages/SharedComponents/SettingsPageHeader'
-import { mockPointsRuleChangeLogs } from '~/pages/SharedTypes/changeLog.mock'
+import { pointsRuleChangeLogs } from './services/mocks/points.changeLog'
 
 interface BaseRuleConfigPageProps {
   config: PointsBaseRuleConfig
@@ -46,7 +46,7 @@ export default function BaseRuleConfigPage({ config: initialConfig }: BaseRuleCo
             onEditToggle={handleEditToggle}
             onSave={handleSave}
             onCancel={handleCancel}
-            changeLogs={mockPointsRuleChangeLogs}
+            changeLogs={pointsRuleChangeLogs}
             changeLogTitle="积分规则配置 - 修改记录"
           />
 

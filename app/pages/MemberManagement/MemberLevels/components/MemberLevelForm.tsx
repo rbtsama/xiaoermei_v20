@@ -15,7 +15,7 @@ import { Switch } from '~/components/ui/switch'
 import { ArrowLeft } from 'lucide-react'
 import { Link } from '@remix-run/react'
 import SettingsPageHeader from '~/pages/SharedComponents/SettingsPageHeader'
-import { mockMemberLevelChangeLogs } from '~/pages/SharedTypes/changeLog.mock'
+import { memberLevelsChangeLogs } from '../services/mocks/memberLevels.changeLog'
 
 interface MemberLevelFormProps {
   level?: MemberLevel
@@ -120,7 +120,7 @@ export default function MemberLevelForm({ level, errors }: MemberLevelFormProps)
         onEditToggle={handleEditToggle}
         onSave={handleSave}
         onCancel={handleCancel}
-        changeLogs={isEditingExisting ? mockMemberLevelChangeLogs : []}
+        changeLogs={isEditingExisting ? memberLevelsChangeLogs : []}
         changeLogTitle={`${level?.levelName || '会员等级'} - 修改记录`}
       />
 
