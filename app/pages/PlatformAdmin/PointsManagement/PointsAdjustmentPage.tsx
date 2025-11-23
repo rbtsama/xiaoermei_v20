@@ -3,6 +3,7 @@
  */
 
 import { useState } from 'react'
+import { Form } from '@remix-run/react'
 import type { UserPointsInfo, PointsDetailRecord, AdjustmentType } from './types/pointsAdjustment.types'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Input } from '~/components/ui/input'
@@ -27,10 +28,7 @@ export default function PointsAdjustmentPage({ userInfo: initialUserInfo, detail
   const [adjustmentReason, setAdjustmentReason] = useState('')
   const [showConfirm, setShowConfirm] = useState(false)
 
-  const handleSearch = () => {
-    console.log('搜索用户:', searchUserId)
-    // 实际应该调用API搜索
-  }
+  // 搜索功能通过Form提交实现,无需handleSearch
 
   const handleAdjustment = () => {
     if (!userInfo || !adjustmentAmount || Number(adjustmentAmount) <= 0) {
@@ -78,22 +76,28 @@ export default function PointsAdjustmentPage({ userInfo: initialUserInfo, detail
               <CardTitle>用户搜索</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <Label htmlFor="searchUserId">用户ID</Label>
-                  <Input
-                    id="searchUserId"
-                    value={searchUserId}
-                    onChange={(e) => setSearchUserId(e.target.value)}
-                    placeholder="请输入用户ID（如：U001）"
-                  />
+              <Form method="get">
+                <div className="flex gap-4">
+                  <div className="flex-1">
+                    <Label htmlFor="userId">用户ID</Label>
+                    <Input
+                      id="userId"
+                      name="userId"
+                      value={searchUserId}
+                      onChange={(e) => setSearchUserId(e.target.value.toUpperCase())}
+                      placeholder="请输入用户ID（如：U001）"
+                    />
+                  </div>
+                  <div className="flex items-end">
+                    <Button type="submit">
+                      <Search className="h-4 w-4 mr-2" />
+                      搜索
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex items-end">
-                  <Button onClick={handleSearch}>
-                    <Search className="h-4 w-4 mr-2" />
-                    搜索
-                  </Button>
-                </div>
+              </Form>
+              <div className="mt-3 text-xs text-slate-500">
+                可搜索用户: U001(张三), U002(李四), U003(王五)
               </div>
             </CardContent>
           </Card>
