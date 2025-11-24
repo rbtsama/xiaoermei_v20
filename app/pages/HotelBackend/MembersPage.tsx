@@ -40,7 +40,7 @@ export default function MembersPage({ members }: MembersPageProps) {
               <div className="text-3xl font-bold text-purple-600">
                 {members.filter((m) => m.level === HotelMemberLevel.SVIP).length}
               </div>
-              <div className="text-sm text-slate-600 mt-2">超级VIP</div>
+              <div className="text-sm text-slate-900 mt-2">超级VIP</div>
             </CardContent>
           </Card>
           <Card>
@@ -48,15 +48,15 @@ export default function MembersPage({ members }: MembersPageProps) {
               <div className="text-3xl font-bold text-yellow-600">
                 {members.filter((m) => m.level === HotelMemberLevel.VIP).length}
               </div>
-              <div className="text-sm text-slate-600 mt-2">VIP</div>
+              <div className="text-sm text-slate-900 mt-2">VIP</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-6 text-center">
-              <div className="text-3xl font-bold text-slate-600">
+              <div className="text-3xl font-bold text-slate-900">
                 {members.filter((m) => m.level === HotelMemberLevel.NORMAL).length}
               </div>
-              <div className="text-sm text-slate-600 mt-2">普通会员</div>
+              <div className="text-sm text-slate-900 mt-2">普通会员</div>
             </CardContent>
           </Card>
         </div>

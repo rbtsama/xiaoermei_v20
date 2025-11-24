@@ -19,27 +19,27 @@ export default function PaymentSuccessPage() {
           <div className="my-6 p-4 bg-white rounded-xl border border-gray-200 text-left shadow-sm">
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-slate-600">订单号：</span>
+                <span className="text-slate-900">订单号：</span>
                 <span className="font-medium text-slate-900">20251128001</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-600">酒店：</span>
+                <span className="text-slate-900">酒店：</span>
                 <span className="font-medium text-slate-900">XX豪华酒店</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-600">房型：</span>
+                <span className="text-slate-900">房型：</span>
                 <span className="font-medium text-slate-900">豪华大床房</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-600">入住日期：</span>
+                <span className="text-slate-900">入住日期：</span>
                 <span className="font-medium text-slate-900">11月28日 14:00后</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-600">离店日期：</span>
+                <span className="text-slate-900">离店日期：</span>
                 <span className="font-medium text-slate-900">11月29日 12:00前</span>
               </div>
               <div className="flex justify-between pt-2 border-t border-slate-100">
-                <span className="text-slate-600">已支付：</span>
+                <span className="text-slate-900">已支付：</span>
                 <span className="text-xl font-bold text-[#A67B5B]">¥336</span>
               </div>
             </div>

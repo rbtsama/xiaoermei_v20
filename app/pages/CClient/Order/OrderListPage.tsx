@@ -65,7 +65,7 @@ export default function OrderListPage() {
                     <h3 className="font-semibold text-slate-900 text-base mb-1">
                       {order.hotelName}
                     </h3>
-                    <p className="text-sm text-slate-600">{order.roomType}</p>
+                    <p className="text-sm text-slate-900">{order.roomType}</p>
                     <p className="text-xs text-slate-500 mt-1">{order.dates}</p>
                   </div>
                   <Badge

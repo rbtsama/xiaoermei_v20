@@ -46,7 +46,7 @@ export default function PointsServiceConfigPage({ config }: PointsServiceConfigP
                   {config.ecoRewards.map((service) => (
                     <TableRow key={service.id}>
                       <TableCell className="font-medium">{service.serviceName}</TableCell>
-                      <TableCell className="text-sm text-slate-600">
+                      <TableCell className="text-sm text-slate-900">
                         {service.description || '-'}
                       </TableCell>
                       <TableCell>
@@ -97,7 +97,7 @@ export default function PointsServiceConfigPage({ config }: PointsServiceConfigP
                   {config.valueAddedServices.map((service) => (
                     <TableRow key={service.id}>
                       <TableCell className="font-medium">{service.serviceName}</TableCell>
-                      <TableCell className="text-sm text-slate-600">
+                      <TableCell className="text-sm text-slate-900">
                         {service.description || '-'}
                       </TableCell>
                       <TableCell>

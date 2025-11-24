@@ -131,11 +131,11 @@ export default function ValueAddedServicesPage({
               <Table>
                 <TableHeader>
                   <TableRow className="border-slate-200">
-                    <TableHead className="min-w-[150px] text-slate-600 font-semibold">服务名称</TableHead>
-                    <TableHead className="min-w-[250px] text-slate-600 font-semibold">服务说明</TableHead>
-                    <TableHead className="min-w-[120px] text-slate-600 font-semibold">积分奖励</TableHead>
-                    <TableHead className="min-w-[100px] text-slate-600 font-semibold">状态</TableHead>
-                    {isEditMode && <TableHead className="w-[80px] text-slate-600 font-semibold">操作</TableHead>}
+                    <TableHead className="min-w-[150px] text-slate-900 font-semibold">服务名称</TableHead>
+                    <TableHead className="min-w-[250px] text-slate-900 font-semibold">服务说明</TableHead>
+                    <TableHead className="min-w-[120px] text-slate-900 font-semibold">积分奖励</TableHead>
+                    <TableHead className="min-w-[100px] text-slate-900 font-semibold">状态</TableHead>
+                    {isEditMode && <TableHead className="w-[80px] text-slate-900 font-semibold">操作</TableHead>}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -167,7 +167,7 @@ export default function ValueAddedServicesPage({
                             className={`w-20 h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all ${!isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed border-0' : ''}`}
                             disabled={!isEditMode}
                           />
-                          <span className="text-sm text-slate-600">积分</span>
+                          <span className="text-sm text-slate-900">积分</span>
                         </div>
                       </TableCell>
                       <TableCell>
@@ -221,11 +221,11 @@ export default function ValueAddedServicesPage({
               <Table>
                 <TableHeader>
                   <TableRow className="border-slate-200">
-                    <TableHead className="min-w-[150px] text-slate-600 font-semibold">服务名称</TableHead>
-                    <TableHead className="min-w-[250px] text-slate-600 font-semibold">服务说明</TableHead>
-                    <TableHead className="min-w-[120px] text-slate-600 font-semibold">积分消耗</TableHead>
-                    <TableHead className="min-w-[100px] text-slate-600 font-semibold">状态</TableHead>
-                    {isEditMode && <TableHead className="w-[80px] text-slate-600 font-semibold">操作</TableHead>}
+                    <TableHead className="min-w-[150px] text-slate-900 font-semibold">服务名称</TableHead>
+                    <TableHead className="min-w-[250px] text-slate-900 font-semibold">服务说明</TableHead>
+                    <TableHead className="min-w-[120px] text-slate-900 font-semibold">积分消耗</TableHead>
+                    <TableHead className="min-w-[100px] text-slate-900 font-semibold">状态</TableHead>
+                    {isEditMode && <TableHead className="w-[80px] text-slate-900 font-semibold">操作</TableHead>}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -257,7 +257,7 @@ export default function ValueAddedServicesPage({
                             className={`w-20 h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all ${!isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed border-0' : ''}`}
                             disabled={!isEditMode}
                           />
-                          <span className="text-sm text-slate-600">积分</span>
+                          <span className="text-sm text-slate-900">积分</span>
                         </div>
                       </TableCell>
                       <TableCell>
@@ -294,7 +294,7 @@ export default function ValueAddedServicesPage({
           {/* 说明 */}
           <Card className="rounded-xl border-slate-200 bg-white shadow-sm">
             <CardContent className="p-4">
-              <div className="text-sm text-slate-600 space-y-2">
+              <div className="text-sm text-slate-900 space-y-2">
                 <p className="font-medium text-slate-900">配置说明:</p>
                 <ul className="list-disc list-inside space-y-1 ml-2">
                   <li>积分奖励: 用户的环保行为和良好习惯获得积分奖励</li>

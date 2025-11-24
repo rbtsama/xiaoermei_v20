@@ -113,19 +113,19 @@ export default function PointsAdjustmentPage({ userInfo: initialUserInfo, detail
                 <CardContent>
                   <div className="grid grid-cols-4 gap-6">
                     <div>
-                      <div className="text-sm text-slate-600">用户ID</div>
+                      <div className="text-sm text-slate-900">用户ID</div>
                       <div className="text-lg font-semibold text-slate-900 mt-1">{userInfo.userId}</div>
                     </div>
                     <div>
-                      <div className="text-sm text-slate-600">用户名</div>
+                      <div className="text-sm text-slate-900">用户名</div>
                       <div className="text-lg font-semibold text-slate-900 mt-1">{userInfo.userName}</div>
                     </div>
                     <div>
-                      <div className="text-sm text-slate-600">手机号</div>
+                      <div className="text-sm text-slate-900">手机号</div>
                       <div className="text-lg font-semibold text-slate-900 mt-1">{userInfo.phone}</div>
                     </div>
                     <div>
-                      <div className="text-sm text-slate-600">会员等级</div>
+                      <div className="text-sm text-slate-900">会员等级</div>
                       <Badge variant="outline" className="text-sm font-semibold mt-1 border-blue-300 text-blue-700 bg-blue-50">
                         {userInfo.memberLevel}
                       </Badge>
@@ -134,19 +134,19 @@ export default function PointsAdjustmentPage({ userInfo: initialUserInfo, detail
 
                   <div className="grid grid-cols-4 gap-6 mt-6 pt-6 border-t border-slate-200">
                     <div>
-                      <div className="text-sm text-slate-600">当前积分</div>
+                      <div className="text-sm text-slate-900">当前积分</div>
                       <div className="text-2xl font-bold text-blue-600 mt-1">{userInfo.currentPoints.toLocaleString()}</div>
                     </div>
                     <div>
-                      <div className="text-sm text-slate-600">累计获得</div>
+                      <div className="text-sm text-slate-900">累计获得</div>
                       <div className="text-lg font-semibold text-green-600 mt-1">+{userInfo.totalEarned.toLocaleString()}</div>
                     </div>
                     <div>
-                      <div className="text-sm text-slate-600">累计消耗</div>
+                      <div className="text-sm text-slate-900">累计消耗</div>
                       <div className="text-lg font-semibold text-orange-600 mt-1">-{userInfo.totalSpent.toLocaleString()}</div>
                     </div>
                     <div>
-                      <div className="text-sm text-slate-600">最后更新</div>
+                      <div className="text-sm text-slate-900">最后更新</div>
                       <div className="text-sm text-slate-900 mt-1">{userInfo.lastUpdateTime}</div>
                     </div>
                   </div>
@@ -232,12 +232,12 @@ export default function PointsAdjustmentPage({ userInfo: initialUserInfo, detail
                   <Table>
                     <TableHeader>
                       <TableRow className="border-slate-200">
-                        <TableHead className="text-slate-600 font-semibold">类型</TableHead>
-                        <TableHead className="text-slate-600 font-semibold">积分变动</TableHead>
-                        <TableHead className="text-slate-600 font-semibold">操作后余额</TableHead>
-                        <TableHead className="text-slate-600 font-semibold">说明</TableHead>
-                        <TableHead className="text-slate-600 font-semibold">操作人</TableHead>
-                        <TableHead className="text-slate-600 font-semibold">时间</TableHead>
+                        <TableHead className="text-slate-900 font-semibold">类型</TableHead>
+                        <TableHead className="text-slate-900 font-semibold">积分变动</TableHead>
+                        <TableHead className="text-slate-900 font-semibold">操作后余额</TableHead>
+                        <TableHead className="text-slate-900 font-semibold">说明</TableHead>
+                        <TableHead className="text-slate-900 font-semibold">操作人</TableHead>
+                        <TableHead className="text-slate-900 font-semibold">时间</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -266,13 +266,13 @@ export default function PointsAdjustmentPage({ userInfo: initialUserInfo, detail
                           <TableCell className="font-medium text-slate-900">
                             {record.balance.toLocaleString()}
                           </TableCell>
-                          <TableCell className="text-sm text-slate-600">
+                          <TableCell className="text-sm text-slate-900">
                             {record.description}
                           </TableCell>
                           <TableCell className="text-sm text-slate-900">
                             {record.operator}
                           </TableCell>
-                          <TableCell className="text-sm text-slate-600">
+                          <TableCell className="text-sm text-slate-900">
                             {record.createdAt}
                           </TableCell>
                         </TableRow>
@@ -303,7 +303,7 @@ export default function PointsAdjustmentPage({ userInfo: initialUserInfo, detail
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-xl">
             <h3 className="text-lg font-semibold text-slate-900 mb-2">确认积分调整</h3>
-            <div className="text-sm text-slate-600 mb-6 space-y-2">
+            <div className="text-sm text-slate-900 mb-6 space-y-2">
               <p>用户：<strong className="text-blue-600">{userInfo.userName}</strong>（{userInfo.userId}）</p>
               <p>当前积分：<strong className="text-slate-900">{userInfo.currentPoints.toLocaleString()}</strong></p>
               <p>调整类型：

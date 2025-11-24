@@ -48,7 +48,7 @@ export default function UpgradeRulesPage({ rules }: UpgradeRulesPageProps) {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">会员等级升级与保级规则配置</h1>
-            <p className="text-slate-600 mt-1">
+            <p className="text-slate-900 mt-1">
               配置VIP0-VIP9的升级条件、会员有效期、保级条件
             </p>
           </div>
@@ -56,7 +56,7 @@ export default function UpgradeRulesPage({ rules }: UpgradeRulesPageProps) {
             <div className="space-y-4">
               <section>
                 <h3 className="text-lg font-semibold mb-2">核心概念</h3>
-                <ul className="list-disc list-inside space-y-2 text-slate-600">
+                <ul className="list-disc list-inside space-y-2 text-slate-900">
                   <li><strong>升级条件：</strong>用户累计总间夜数达到此标准即可升级</li>
                   <li><strong>会员有效期：</strong>升级后会员等级的有效期（从升级日起计算）</li>
                   <li><strong>保级条件：</strong>有效期内需完成的间夜数，否则降级</li>
@@ -67,7 +67,7 @@ export default function UpgradeRulesPage({ rules }: UpgradeRulesPageProps) {
                 <h3 className="text-lg font-semibold mb-2">升级流程示例</h3>
                 <div className="p-3 bg-slate-100 rounded-lg space-y-2 text-sm">
                   <p><strong>场景：</strong>用户当前VIP2，累计间夜29晚</p>
-                  <ol className="list-decimal list-inside ml-2 space-y-1 text-slate-600">
+                  <ol className="list-decimal list-inside ml-2 space-y-1 text-slate-900">
                     <li>用户完成新订单，离店后增加1间夜</li>
                     <li>累计间夜数变为30晚</li>
                     <li>系统检测：30晚 ≥ VIP3升级条件（30晚）</li>
@@ -82,7 +82,7 @@ export default function UpgradeRulesPage({ rules }: UpgradeRulesPageProps) {
                 <h3 className="text-lg font-semibold mb-2">保级/降级流程示例</h3>
                 <div className="p-3 bg-slate-100 rounded-lg space-y-2 text-sm">
                   <p><strong>场景：</strong>用户VIP3有效期即将到期</p>
-                  <ol className="list-decimal list-inside ml-2 space-y-1 text-slate-600">
+                  <ol className="list-decimal list-inside ml-2 space-y-1 text-slate-900">
                     <li>定时任务每日凌晨检查会员有效期</li>
                     <li>发现用户A的VIP3今日到期</li>
                     <li>检查保级间夜：12晚（需要15晚）</li>
@@ -95,7 +95,7 @@ export default function UpgradeRulesPage({ rules }: UpgradeRulesPageProps) {
 
               <section>
                 <h3 className="text-lg font-semibold mb-2">配置规则</h3>
-                <ul className="list-disc list-inside space-y-1 text-slate-600">
+                <ul className="list-disc list-inside space-y-1 text-slate-900">
                   <li>升级条件必须递增：VIP9 &gt; VIP8 &gt; ... &gt; VIP1</li>
                   <li>保级条件 ≤ 升级条件</li>
                   <li>有效期建议为365天</li>
@@ -126,7 +126,7 @@ export default function UpgradeRulesPage({ rules }: UpgradeRulesPageProps) {
         <Card className="rounded-xl border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
             <CardTitle className="text-slate-900">会员等级升级与保级规则</CardTitle>
-            <CardDescription className="text-slate-600">
+            <CardDescription className="text-slate-900">
               配置VIP0-VIP9共10个等级的升级和保级规则
             </CardDescription>
           </CardHeader>
@@ -134,12 +134,12 @@ export default function UpgradeRulesPage({ rules }: UpgradeRulesPageProps) {
             <Table>
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="text-slate-600 font-semibold">等级</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">升级条件<br /><span className="text-xs text-slate-500">（累计间夜数）</span></TableHead>
-                  <TableHead className="text-slate-600 font-semibold">会员有效期<br /><span className="text-xs text-slate-500">（天）</span></TableHead>
-                  <TableHead className="text-slate-600 font-semibold">保级条件<br /><span className="text-xs text-slate-500">（有效期内间夜）</span></TableHead>
-                  <TableHead className="text-slate-600 font-semibold">最后更新</TableHead>
-                  <TableHead className="text-right text-slate-600 font-semibold">操作</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">等级</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">升级条件<br /><span className="text-xs text-slate-500">（累计间夜数）</span></TableHead>
+                  <TableHead className="text-slate-900 font-semibold">会员有效期<br /><span className="text-xs text-slate-500">（天）</span></TableHead>
+                  <TableHead className="text-slate-900 font-semibold">保级条件<br /><span className="text-xs text-slate-500">（有效期内间夜）</span></TableHead>
+                  <TableHead className="text-slate-900 font-semibold">最后更新</TableHead>
+                  <TableHead className="text-right text-slate-900 font-semibold">操作</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -210,7 +210,7 @@ export default function UpgradeRulesPage({ rules }: UpgradeRulesPageProps) {
                       onChange={(e) => setFormData({ ...formData, upgradeNights: parseInt(e.target.value) || 0 })}
                       className="max-w-xs h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                     />
-                    <span className="text-sm text-slate-600">间夜</span>
+                    <span className="text-sm text-slate-900">间夜</span>
                   </div>
                   <p className="text-xs text-slate-500">
                     用户累计总间夜数达到此标准即可升级（范围：1-999）
@@ -231,7 +231,7 @@ export default function UpgradeRulesPage({ rules }: UpgradeRulesPageProps) {
                       onChange={(e) => setFormData({ ...formData, validityDays: parseInt(e.target.value) || 365 })}
                       className="max-w-xs h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                     />
-                    <span className="text-sm text-slate-600">天</span>
+                    <span className="text-sm text-slate-900">天</span>
                   </div>
                   <p className="text-xs text-slate-500">
                     升级后会员等级的有效期（范围：30-730天，建议365天）
@@ -252,7 +252,7 @@ export default function UpgradeRulesPage({ rules }: UpgradeRulesPageProps) {
                       onChange={(e) => setFormData({ ...formData, maintainNights: parseInt(e.target.value) || 0 })}
                       className="max-w-xs h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                     />
-                    <span className="text-sm text-slate-600">间夜</span>
+                    <span className="text-sm text-slate-900">间夜</span>
                   </div>
                   <p className="text-xs text-slate-500">
                     有效期内需完成的间夜数，否则降级（范围：1-999，必须 ≤ 升级条件）

@@ -201,7 +201,7 @@ export default function AgreementConfigPage({ agreements }: AgreementConfigPageP
                     </div>
                   </div>
                 ) : (
-                  <div className="text-sm text-slate-600 space-y-4">
+                  <div className="text-sm text-slate-900 space-y-4">
                     <div className="flex items-center justify-between pb-3 border-b">
                       <div>
                         <div className="font-semibold text-slate-900">{selectedAgreement.title}</div>

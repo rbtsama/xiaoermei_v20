@@ -55,7 +55,7 @@ export default function InviteMemberPage({ records }: InviteMemberPageProps) {
                       <TableCell className="font-medium text-slate-900">
                         {record.inviteeName || record.inviteePhone}
                       </TableCell>
-                      <TableCell className="text-slate-600">{record.invitedAt}</TableCell>
+                      <TableCell className="text-slate-900">{record.invitedAt}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

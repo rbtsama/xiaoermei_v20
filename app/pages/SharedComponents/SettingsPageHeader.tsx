@@ -94,7 +94,7 @@ export default function SettingsPageHeader({
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
             <h3 className="text-lg font-semibold mb-2">确认保存</h3>
-            <p className="text-sm text-slate-600 mb-6">
+            <p className="text-sm text-slate-900 mb-6">
               确定要保存这些修改吗？修改将立即生效。
             </p>
             <div className="flex justify-end gap-3">

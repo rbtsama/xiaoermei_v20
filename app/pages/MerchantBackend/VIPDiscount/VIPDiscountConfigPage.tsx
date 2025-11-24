@@ -87,7 +87,7 @@ export default function VIPDiscountConfigPage({ config: initialConfig }: VIPDisc
                       <TableCell className="font-medium">VIP{discount.level}</TableCell>
                       <TableCell>{discount.levelName}</TableCell>
                       <TableCell>
-                        <span className="text-sm text-slate-600">
+                        <span className="text-sm text-slate-900">
                           {formatDiscountRange(discount.platformMinDiscount, discount.platformMaxDiscount)}
                         </span>
                       </TableCell>
@@ -110,7 +110,7 @@ export default function VIPDiscountConfigPage({ config: initialConfig }: VIPDisc
                               className={`w-20 h-8 ${!isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed border-0' : ''}`}
                               disabled={!isEditMode}
                             />
-                            <span className="text-sm text-slate-600">%</span>
+                            <span className="text-sm text-slate-900">%</span>
                           </div>
                         )}
                       </TableCell>

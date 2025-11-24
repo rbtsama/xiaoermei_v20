@@ -32,7 +32,7 @@ export default function OrderConfirmPage() {
         {/* 酒店信息 */}
         <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
           <h3 className="font-semibold text-slate-900 mb-2">XX豪华酒店 - 豪华大床房</h3>
-          <div className="flex items-center gap-2 text-sm text-slate-600 mb-1">
+          <div className="flex items-center gap-2 text-sm text-slate-900 mb-1">
             <MapPin className="w-3 h-3" />
             <span>北京市朝阳区XX路88号</span>
           </div>
@@ -57,7 +57,7 @@ export default function OrderConfirmPage() {
         {/* 房费明细 */}
         <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
           <div className="flex items-center justify-between">
-            <span className="text-slate-600">房费：</span>
+            <span className="text-slate-900">房费：</span>
             <span className="font-semibold text-slate-900">¥{roomFee}</span>
           </div>
           <p className="text-xs text-slate-500 mt-1">VIP3平日特惠价</p>
@@ -68,7 +68,7 @@ export default function OrderConfirmPage() {
           <h3 className="font-semibold text-slate-900 mb-3">积分服务</h3>
 
           <div className="mb-4">
-            <p className="text-sm text-slate-600 mb-2">环保奖励（离店后返还）</p>
+            <p className="text-sm text-slate-900 mb-2">环保奖励（离店后返还）</p>
             <div className="space-y-2">
               <label className="flex items-center gap-2">
                 <Checkbox
@@ -102,7 +102,7 @@ export default function OrderConfirmPage() {
           </div>
 
           <div>
-            <p className="text-sm text-slate-600 mb-2">增值服务（立即扣除）</p>
+            <p className="text-sm text-slate-900 mb-2">增值服务（立即扣除）</p>
             <div className="space-y-2">
               <label className="flex items-center gap-2">
                 <Checkbox
@@ -141,17 +141,17 @@ export default function OrderConfirmPage() {
           <h3 className="font-semibold text-slate-900 mb-3">积分抵扣</h3>
           <div className="space-y-2 text-sm mb-3">
             <div className="flex justify-between">
-              <span className="text-slate-600">当前积分：</span>
+              <span className="text-slate-900">当前积分：</span>
               <span className="font-medium">{currentPoints}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-600">积分价值：</span>
+              <span className="text-slate-900">积分价值：</span>
               <span className="font-medium">{pointsRate}倍（1积分={pointsRate}元）</span>
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm text-slate-600">使用积分</label>
+            <label className="text-sm text-slate-900">使用积分</label>
             <div className="flex items-center gap-2">
               <Input
                 type="number"
@@ -162,7 +162,7 @@ export default function OrderConfirmPage() {
                 placeholder="0"
                 className="flex-1"
               />
-              <span className="text-sm text-slate-600">积分</span>
+              <span className="text-sm text-slate-900">积分</span>
             </div>
             <p className="text-xs text-slate-500">
               最多可用{maxDeductPoints}积分
@@ -175,7 +175,7 @@ export default function OrderConfirmPage() {
           <h3 className="font-semibold text-slate-900 mb-3">费用明细</h3>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-slate-600">房费：</span>
+              <span className="text-slate-900">房费：</span>
               <span className="text-slate-900">¥{roomFee}</span>
             </div>
             {pointsDeduct > 0 && (
@@ -185,7 +185,7 @@ export default function OrderConfirmPage() {
               </div>
             )}
             {servicePoints > 0 && (
-              <div className="flex justify-between text-slate-600">
+              <div className="flex justify-between text-slate-900">
                 <span>积分服务：</span>
                 <span>-{servicePoints}积分</span>
               </div>
@@ -194,7 +194,7 @@ export default function OrderConfirmPage() {
 
           <div className="border-t border-slate-200 mt-3 pt-3">
             <div className="flex items-baseline justify-between">
-              <span className="text-slate-600">应付金额：</span>
+              <span className="text-slate-900">应付金额：</span>
               <span className="text-3xl font-bold text-[#A67B5B]">¥{finalAmount.toFixed(0)}</span>
             </div>
           </div>

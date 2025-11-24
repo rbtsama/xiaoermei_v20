@@ -133,12 +133,12 @@ export default function SigningRecordPage({ records, error }: SigningRecordPageP
                   <TableBody>
                     {filteredRecords.map((record) => (
                       <TableRow key={record.recordId}>
-                        <TableCell className="text-sm text-slate-600">{record.signedAt}</TableCell>
+                        <TableCell className="text-sm text-slate-900">{record.signedAt}</TableCell>
                         <TableCell className="font-medium">{record.hotelName}</TableCell>
                         <TableCell className="text-sm">{record.signerName}</TableCell>
                         <TableCell className="font-mono text-sm">{record.signerPhone}</TableCell>
                         <TableCell className="font-mono text-sm">{record.version}</TableCell>
-                        <TableCell className="text-sm text-slate-600">{record.operatorName}</TableCell>
+                        <TableCell className="text-sm text-slate-900">{record.operatorName}</TableCell>
                         <TableCell className="text-right">
                           <Button variant="outline" size="sm" onClick={() => openDetail(record)}>
                             查看详情
@@ -220,7 +220,7 @@ export default function SigningRecordPage({ records, error }: SigningRecordPageP
               {
                 title: '📋 签约记录的作用',
                 content: (
-                  <div className="text-sm text-slate-600 space-y-2">
+                  <div className="text-sm text-slate-900 space-y-2">
                     <p>• <strong>法律证据</strong>：保留签约时的完整信息（协议快照 + IP + 时间戳）</p>
                     <p>• <strong>历史追溯</strong>：即使协议模板修改，历史签约记录不变</p>
                     <p>• <strong>审计合规</strong>：记录操作人，满足监管要求</p>
@@ -230,7 +230,7 @@ export default function SigningRecordPage({ records, error }: SigningRecordPageP
               {
                 title: '🔍 查询功能',
                 content: (
-                  <div className="text-sm text-slate-600 space-y-2">
+                  <div className="text-sm text-slate-900 space-y-2">
                     <p>• <strong>时间范围筛选</strong>：快速找到特定时期的签约记录</p>
                     <p>• <strong>酒店名称搜索</strong>：查看某个商家的签约历史</p>
                     <p>• <strong>协议版本</strong>：追踪不同版本协议的使用情况</p>
@@ -240,7 +240,7 @@ export default function SigningRecordPage({ records, error }: SigningRecordPageP
               {
                 title: '📄 协议内容快照',
                 content: (
-                  <div className="text-sm text-slate-600 space-y-2">
+                  <div className="text-sm text-slate-900 space-y-2">
                     <p><strong>为什么需要快照？</strong></p>
                     <div className="bg-slate-50 p-3 rounded border-l-4 border-blue-500">
                       <p className="font-medium">场景示例：</p>
@@ -255,7 +255,7 @@ export default function SigningRecordPage({ records, error }: SigningRecordPageP
               {
                 title: '⚖️ 法律效力要素',
                 content: (
-                  <div className="text-sm text-slate-600">
+                  <div className="text-sm text-slate-900">
                     <div className="bg-green-50 p-3 rounded border-l-4 border-green-500 space-y-1">
                       <p>✅ <strong>签约时间</strong>：精确到秒</p>
                       <p>✅ <strong>签约人</strong>：姓名 + 手机号（实名认证）</p>

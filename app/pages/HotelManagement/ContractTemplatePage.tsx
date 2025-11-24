@@ -25,7 +25,7 @@ const templateStatusLabels: Record<TemplateStatus, string> = {
 }
 
 const OperationLogButton = ({ moduleName }: { moduleName: string }) => (
-  <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-600">
+  <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-900">
     📋 {moduleName}操作记录
   </Button>
 )
@@ -141,7 +141,7 @@ export default function ContractTemplatePage({ templates, error }: ContractTempl
                             {templateStatusLabels[tpl.status]}
                           </span>
                         </TableCell>
-                        <TableCell className="text-sm text-slate-600">
+                        <TableCell className="text-sm text-slate-900">
                           <div>{tpl.updatedAt || tpl.createdAt}</div>
                           <div className="text-xs text-slate-400">{tpl.updatedBy || tpl.createdBy}</div>
                         </TableCell>

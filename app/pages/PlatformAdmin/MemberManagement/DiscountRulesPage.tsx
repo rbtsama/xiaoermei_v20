@@ -52,7 +52,7 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">会员等级折扣规则配置</h1>
-            <p className="text-slate-600 mt-1">
+            <p className="text-slate-900 mt-1">
               配置各会员等级的平台基础折扣，以及商户可设置的折扣范围
             </p>
           </div>
@@ -60,10 +60,10 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
             <div className="space-y-4">
               <section>
                 <h3 className="text-lg font-semibold mb-2">折扣规则说明</h3>
-                <p className="text-slate-600 mb-3">
+                <p className="text-slate-900 mb-3">
                   平台设定基础折扣，商户可在允许范围内设置更优惠的折扣。这种机制平衡了平台控制力和商户灵活性。
                 </p>
-                <ul className="list-disc list-inside space-y-1 text-slate-600">
+                <ul className="list-disc list-inside space-y-1 text-slate-900">
                   <li><strong>平台基础折扣：</strong>该等级的默认折扣力度</li>
                   <li><strong>商户折扣范围：</strong>商户可设置的最低和最高折扣</li>
                   <li><strong>商户折扣最高 = 平台基础折扣</strong></li>
@@ -74,13 +74,13 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
                 <h3 className="text-lg font-semibold mb-2">价格计算示例</h3>
                 <div className="p-3 bg-slate-100 rounded-lg space-y-2 text-sm">
                   <p><strong>条件：</strong></p>
-                  <ul className="list-disc list-inside ml-2 text-slate-600">
+                  <ul className="list-disc list-inside ml-2 text-slate-900">
                     <li>VIP3平台基础折扣：9折</li>
                     <li>商户设置VIP3折扣：88折（在85折-9折范围内）</li>
                     <li>房型原价：¥500</li>
                   </ul>
                   <p className="mt-2"><strong>计算：</strong></p>
-                  <p className="text-slate-600">
+                  <p className="text-slate-900">
                     最终价格 = ¥500 × 0.88 = <span className="font-semibold text-blue-600">¥440</span>
                   </p>
                 </div>
@@ -88,7 +88,7 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
 
               <section>
                 <h3 className="text-lg font-semibold mb-2">配置规则</h3>
-                <ul className="list-disc list-inside space-y-1 text-slate-600">
+                <ul className="list-disc list-inside space-y-1 text-slate-900">
                   <li>平台基础折扣必须递减：VIP9 &lt; VIP8 &lt; ... &lt; VIP1</li>
                   <li>商户折扣最高 = 平台基础折扣</li>
                   <li>商户折扣最低 ≤ 商户折扣最高</li>
@@ -103,7 +103,7 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
         <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
             <CardTitle className="text-slate-900">会员等级折扣规则配置</CardTitle>
-            <CardDescription className="text-slate-600">
+            <CardDescription className="text-slate-900">
               平台设定基础折扣，商户可在允许范围内设置更优惠的折扣
             </CardDescription>
           </CardHeader>
@@ -193,7 +193,7 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
                       }
                       className="max-w-xs h-9 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
-                    <span className="text-sm text-slate-600">（例如：9折 = 0.9）</span>
+                    <span className="text-sm text-slate-900">（例如：9折 = 0.9）</span>
                   </div>
                 </div>
 
@@ -214,7 +214,7 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
                       className="w-32 h-9 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                       placeholder="最低"
                     />
-                    <span className="text-slate-600">~</span>
+                    <span className="text-slate-900">~</span>
                     <Input
                       value={formData.platformBaseDiscount}
                       disabled
@@ -230,10 +230,10 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
                 {/* 实时预览 */}
                 <div className="p-3 bg-slate-100 rounded-lg text-sm space-y-1">
                   <p className="font-semibold text-slate-700">实时预览（¥500房型）：</p>
-                  <p className="text-slate-600">
+                  <p className="text-slate-900">
                     平台基础价：¥{(500 * formData.platformBaseDiscount).toFixed(0)}
                   </p>
-                  <p className="text-slate-600">
+                  <p className="text-slate-900">
                     商户可设价格：¥{(500 * formData.merchantDiscountMin).toFixed(0)} ~ ¥
                     {(500 * formData.platformBaseDiscount).toFixed(0)}
                   </p>

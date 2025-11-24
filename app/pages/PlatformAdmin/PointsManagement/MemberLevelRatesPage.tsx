@@ -40,7 +40,7 @@ export default function MemberLevelRatesPage({ rates }: MemberLevelRatesPageProp
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">会员等级积分倍数配置</h1>
-            <p className="text-slate-600 mt-1">
+            <p className="text-slate-900 mt-1">
               配置不同会员等级的积分使用倍数，等级越高，积分价值越大
             </p>
           </div>
@@ -48,7 +48,7 @@ export default function MemberLevelRatesPage({ rates }: MemberLevelRatesPageProp
             <div className="space-y-4">
               <section>
                 <h3 className="text-lg font-semibold mb-2">什么是积分倍数？</h3>
-                <p className="text-slate-600">
+                <p className="text-slate-900">
                   积分倍数决定会员使用积分抵扣现金的实际价值。基础兑换率由"积分基础规则"设定，
                   不同会员等级享有不同的倍数加成。
                 </p>
@@ -58,12 +58,12 @@ export default function MemberLevelRatesPage({ rates }: MemberLevelRatesPageProp
                 <h3 className="text-lg font-semibold mb-2">计算示例</h3>
                 <div className="p-3 bg-slate-100 rounded-lg space-y-2 text-sm">
                   <p><strong>前提条件：</strong></p>
-                  <ul className="list-disc list-inside ml-2 text-slate-600">
+                  <ul className="list-disc list-inside ml-2 text-slate-900">
                     <li>基础兑换比率：1积分 = 1元</li>
                     <li>VIP3倍数：1.2倍</li>
                   </ul>
                   <p className="mt-2"><strong>计算过程：</strong></p>
-                  <p className="text-slate-600">
+                  <p className="text-slate-900">
                     VIP3用户使用50积分抵扣 = 50积分 × 1元 × 1.2倍 = <span className="font-semibold text-blue-600">¥60</span>
                   </p>
                 </div>
@@ -71,7 +71,7 @@ export default function MemberLevelRatesPage({ rates }: MemberLevelRatesPageProp
 
               <section>
                 <h3 className="text-lg font-semibold mb-2">配置规则</h3>
-                <ul className="list-disc list-inside space-y-1 text-slate-600">
+                <ul className="list-disc list-inside space-y-1 text-slate-900">
                   <li>倍数范围：1.0-3.0倍</li>
                   <li>必须保持递增：VIP9 &gt; VIP8 &gt; ... &gt; VIP0</li>
                   <li>修改后立即生效</li>
@@ -81,10 +81,10 @@ export default function MemberLevelRatesPage({ rates }: MemberLevelRatesPageProp
 
               <section>
                 <h3 className="text-lg font-semibold mb-2">业务影响</h3>
-                <p className="text-slate-600 mb-2">
+                <p className="text-slate-900 mb-2">
                   设置合理的倍数梯度可以：
                 </p>
-                <ol className="list-decimal list-inside space-y-1 text-slate-600">
+                <ol className="list-decimal list-inside space-y-1 text-slate-900">
                   <li>激励用户升级会员等级</li>
                   <li>提升高等级会员的忠诚度</li>
                   <li>增加用户消费频次</li>
@@ -110,7 +110,7 @@ export default function MemberLevelRatesPage({ rates }: MemberLevelRatesPageProp
         <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
             <CardTitle className="text-slate-900">会员等级积分倍数配置</CardTitle>
-            <CardDescription className="text-slate-600">
+            <CardDescription className="text-slate-900">
               配置VIP0-VIP9共10个等级的积分倍数
             </CardDescription>
           </CardHeader>
@@ -118,10 +118,10 @@ export default function MemberLevelRatesPage({ rates }: MemberLevelRatesPageProp
             <Table>
               <TableHeader>
                 <TableRow className="border-slate-200">
-                  <TableHead className="text-slate-600">会员等级</TableHead>
-                  <TableHead className="text-slate-600">积分倍数</TableHead>
-                  <TableHead className="text-slate-600">最后更新时间</TableHead>
-                  <TableHead className="text-right text-slate-600">操作</TableHead>
+                  <TableHead className="text-slate-900">会员等级</TableHead>
+                  <TableHead className="text-slate-900">积分倍数</TableHead>
+                  <TableHead className="text-slate-900">最后更新时间</TableHead>
+                  <TableHead className="text-right text-slate-900">操作</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -161,7 +161,7 @@ export default function MemberLevelRatesPage({ rates }: MemberLevelRatesPageProp
           <DialogContent className="sm:max-w-[440px]">
             <DialogHeader>
               <DialogTitle className="text-slate-900">编辑{editingRate?.levelName}积分倍数</DialogTitle>
-              <DialogDescription className="text-slate-600">
+              <DialogDescription className="text-slate-900">
                 修改该等级的积分使用倍数（范围：1.0-3.0）
               </DialogDescription>
             </DialogHeader>
@@ -183,7 +183,7 @@ export default function MemberLevelRatesPage({ rates }: MemberLevelRatesPageProp
                       onChange={(e) => setRateValue(parseFloat(e.target.value) || 1.0)}
                       className="h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 max-w-xs"
                     />
-                    <span className="text-sm text-slate-600">倍</span>
+                    <span className="text-sm text-slate-900">倍</span>
                   </div>
                   <p className="text-sm text-slate-500">
                     范围：1.0-3.0，保留1位小数
@@ -194,7 +194,7 @@ export default function MemberLevelRatesPage({ rates }: MemberLevelRatesPageProp
                   <p className="text-slate-700 mb-1">
                     <strong>实时预览：</strong>
                   </p>
-                  <p className="text-slate-600">
+                  <p className="text-slate-900">
                     该等级用户使用50积分可抵扣：
                     <span className="font-semibold text-blue-600 ml-2">
                       ¥{(50 * 1.0 * rateValue).toFixed(0)}

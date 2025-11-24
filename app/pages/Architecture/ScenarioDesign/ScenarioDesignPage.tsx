@@ -32,7 +32,7 @@ export default function ScenarioDesignPage({ scenarios }: ScenarioDesignPageProp
           {/* 页面头部 */}
           <div className="mb-6">
             <h1 className="text-3xl font-bold text-slate-900">场景设计</h1>
-            <p className="text-slate-600 mt-2">
+            <p className="text-slate-900 mt-2">
               核心业务场景的三端系统交互流程（平台后台、商户端、C端）
             </p>
             <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
@@ -68,7 +68,7 @@ export default function ScenarioDesignPage({ scenarios }: ScenarioDesignPageProp
                   <CardContent>
                     <div className="space-y-3">
                       {/* 流程步骤数量 */}
-                      <div className="flex items-center gap-2 text-sm text-slate-600">
+                      <div className="flex items-center gap-2 text-sm text-slate-900">
                         <Badge variant="outline" className="font-normal">
                           {scenario.flowSteps.length} 个步骤
                         </Badge>
@@ -80,7 +80,7 @@ export default function ScenarioDesignPage({ scenarios }: ScenarioDesignPageProp
                       {scenario.keyPoints.length > 0 && (
                         <div className="text-sm">
                           <span className="font-semibold text-slate-700">关键要点：</span>
-                          <span className="text-slate-600 ml-2">{scenario.keyPoints[0]}</span>
+                          <span className="text-slate-900 ml-2">{scenario.keyPoints[0]}</span>
                           {scenario.keyPoints.length > 1 && (
                             <span className="text-slate-400 ml-1">等 {scenario.keyPoints.length} 项</span>
                           )}

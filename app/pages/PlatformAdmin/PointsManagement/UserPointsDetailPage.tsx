@@ -47,7 +47,7 @@ export default function UserPointsDetailPage({
               <h1 className="text-2xl font-bold text-slate-900">
                 用户详情 - {userInfo.userName}
               </h1>
-              <p className="text-slate-600 mt-1">查看和管理用户的会员信息、积分明细</p>
+              <p className="text-slate-900 mt-1">查看和管理用户的会员信息、积分明细</p>
             </div>
           </div>
         </div>
@@ -61,15 +61,15 @@ export default function UserPointsDetailPage({
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-slate-600">手机号：</span>
+                <span className="text-slate-900">手机号：</span>
                 <span className="font-medium">{userInfo.phone}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-600">姓名：</span>
+                <span className="text-slate-900">姓名：</span>
                 <span className="font-medium">{userInfo.userName}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-600">注册时间：</span>
+                <span className="text-slate-900">注册时间：</span>
                 <span className="font-medium">{userInfo.registeredAt}</span>
               </div>
             </CardContent>
@@ -87,15 +87,15 @@ export default function UserPointsDetailPage({
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-slate-600">有效期至：</span>
+                <span className="text-slate-900">有效期至：</span>
                 <span className="font-medium">{userInfo.validityDate}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-600">累计总间夜：</span>
+                <span className="text-slate-900">累计总间夜：</span>
                 <span className="font-medium text-blue-600">{userInfo.totalNights}晚</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-600">保级进度：</span>
+                <span className="text-slate-900">保级进度：</span>
                 <span className="font-medium text-blue-600">
                   {userInfo.maintainNights}晚
                 </span>
@@ -110,7 +110,7 @@ export default function UserPointsDetailPage({
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-slate-900">积分信息</CardTitle>
-                <CardDescription className="text-slate-600">当前积分余额和积分价值</CardDescription>
+                <CardDescription className="text-slate-900">当前积分余额和积分价值</CardDescription>
               </div>
               <Button onClick={() => setAdjustDialogOpen(true)} className="h-9 gap-2 bg-blue-600 hover:bg-blue-700">
                 <Edit2 className="w-4 h-4" />
@@ -121,18 +121,18 @@ export default function UserPointsDetailPage({
           <CardContent>
             <div className="grid grid-cols-3 gap-6">
               <div>
-                <p className="text-sm text-slate-600 mb-1">当前积分</p>
+                <p className="text-sm text-slate-900 mb-1">当前积分</p>
                 <p className="text-3xl font-bold text-blue-600">{userInfo.pointsBalance}</p>
               </div>
               <div>
-                <p className="text-sm text-slate-600 mb-1">积分倍数</p>
+                <p className="text-sm text-slate-900 mb-1">积分倍数</p>
                 <p className="text-2xl font-semibold text-slate-900">
                   {userInfo.currentLevel === 0 ? 1.0 : (1.0 + userInfo.currentLevel * 0.1).toFixed(1)}倍
                 </p>
                 <p className="text-xs text-slate-500">({userInfo.currentLevelName}专享)</p>
               </div>
               <div>
-                <p className="text-sm text-slate-600 mb-1">可抵扣金额</p>
+                <p className="text-sm text-slate-900 mb-1">可抵扣金额</p>
                 <p className="text-2xl font-semibold text-blue-600">
                   ¥{(userInfo.pointsBalance * (1.0 + userInfo.currentLevel * 0.1)).toFixed(0)}
                 </p>
@@ -145,7 +145,7 @@ export default function UserPointsDetailPage({
         <Card className="mb-6 rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
             <CardTitle className="text-slate-900">间夜记录</CardTitle>
-            <CardDescription className="text-slate-600">用户的历史入住记录</CardDescription>
+            <CardDescription className="text-slate-900">用户的历史入住记录</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
@@ -163,9 +163,9 @@ export default function UserPointsDetailPage({
                 {nightRecords.map((record) => (
                   <TableRow key={record.id} className="hover:bg-slate-50 transition-colors">
                     <TableCell className="font-medium text-slate-900">{record.orderId}</TableCell>
-                    <TableCell className="text-slate-600">{record.hotelName}</TableCell>
-                    <TableCell className="text-slate-600">{record.checkInDate}</TableCell>
-                    <TableCell className="text-slate-600">{record.checkOutDate}</TableCell>
+                    <TableCell className="text-slate-900">{record.hotelName}</TableCell>
+                    <TableCell className="text-slate-900">{record.checkInDate}</TableCell>
+                    <TableCell className="text-slate-900">{record.checkOutDate}</TableCell>
                     <TableCell className="text-right font-semibold text-blue-600">
                       {record.nights}晚
                     </TableCell>
@@ -181,7 +181,7 @@ export default function UserPointsDetailPage({
         <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
             <CardTitle className="text-slate-900">积分明细</CardTitle>
-            <CardDescription className="text-slate-600">用户的积分获取和使用记录</CardDescription>
+            <CardDescription className="text-slate-900">用户的积分获取和使用记录</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
@@ -197,7 +197,7 @@ export default function UserPointsDetailPage({
               <TableBody>
                 {pointsRecords.map((record) => (
                   <TableRow key={record.id} className="hover:bg-slate-50 transition-colors">
-                    <TableCell className="text-sm text-slate-600">{record.createdAt}</TableCell>
+                    <TableCell className="text-sm text-slate-900">{record.createdAt}</TableCell>
                     <TableCell>
                       <Badge variant="outline" className="border-blue-200 text-blue-700">{record.typeName}</Badge>
                     </TableCell>
@@ -212,7 +212,7 @@ export default function UserPointsDetailPage({
                       </span>
                     </TableCell>
                     <TableCell className="text-right font-medium text-slate-900">{record.balance}</TableCell>
-                    <TableCell className="text-sm text-slate-600">{record.description}</TableCell>
+                    <TableCell className="text-sm text-slate-900">{record.description}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -235,7 +235,7 @@ export default function UserPointsDetailPage({
               <div className="space-y-4 py-4">
                 {/* 当前积分 */}
                 <div className="p-3 bg-slate-100 rounded-lg">
-                  <p className="text-sm text-slate-600">当前积分</p>
+                  <p className="text-sm text-slate-900">当前积分</p>
                   <p className="text-2xl font-bold text-slate-900">{userInfo.pointsBalance}</p>
                 </div>
 
@@ -274,7 +274,7 @@ export default function UserPointsDetailPage({
                       onChange={(e) => setAdjustAmount(parseInt(e.target.value) || 0)}
                       className="flex-1 h-9 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
-                    <span className="text-sm text-slate-600">积分</span>
+                    <span className="text-sm text-slate-900">积分</span>
                   </div>
                 </div>
 

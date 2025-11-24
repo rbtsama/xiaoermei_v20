@@ -60,7 +60,7 @@ export default function MobileFrame({
         {/* 右侧说明 */}
         <div className="ml-8 max-w-md">
           <h3 className="text-lg font-semibold text-slate-900 mb-2">小程序模拟</h3>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-slate-900">
             左侧显示的是手机端（375x667px）的小程序界面模拟。
             所有C端页面都使用这个手机框架展示，模拟真实的微信小程序体验。
           </p>

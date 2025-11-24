@@ -73,31 +73,31 @@ export default function RoomsPage({ rooms }: RoomsPageProps) {
           <Card>
             <CardContent className="pt-6 text-center">
               <div className="text-3xl font-bold text-green-600">{stats.available}</div>
-              <div className="text-sm text-slate-600 mt-2">空闲可售</div>
+              <div className="text-sm text-slate-900 mt-2">空闲可售</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-6 text-center">
               <div className="text-3xl font-bold text-blue-600">{stats.occupied}</div>
-              <div className="text-sm text-slate-600 mt-2">已入住</div>
+              <div className="text-sm text-slate-900 mt-2">已入住</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-6 text-center">
               <div className="text-3xl font-bold text-yellow-600">{stats.cleaning}</div>
-              <div className="text-sm text-slate-600 mt-2">清洁中</div>
+              <div className="text-sm text-slate-900 mt-2">清洁中</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-6 text-center">
               <div className="text-3xl font-bold text-red-600">{stats.maintenance}</div>
-              <div className="text-sm text-slate-600 mt-2">维修中</div>
+              <div className="text-sm text-slate-900 mt-2">维修中</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-6 text-center">
               <div className="text-3xl font-bold text-purple-600">{stats.reserved}</div>
-              <div className="text-sm text-slate-600 mt-2">已预订</div>
+              <div className="text-sm text-slate-900 mt-2">已预订</div>
             </CardContent>
           </Card>
         </div>
@@ -130,7 +130,7 @@ export default function RoomsPage({ rooms }: RoomsPageProps) {
                   </option>
                 ))}
               </select>
-              <div className="flex items-center text-sm text-slate-600">
+              <div className="flex items-center text-sm text-slate-900">
                 共 <span className="font-bold text-slate-900 mx-1">{filteredRooms.length}</span> 间
               </div>
             </div>

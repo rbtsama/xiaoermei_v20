@@ -19,7 +19,7 @@ interface MemberLevelPageProps {
 }
 
 const OperationLogButton = ({ moduleName }: { moduleName: string }) => (
-  <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-600">
+  <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-900">
     📋 {moduleName}操作记录
   </Button>
 )
@@ -255,7 +255,7 @@ export default function MemberLevelPage({ levels, error }: MemberLevelPageProps)
                   {/* 折扣自动计算 */}
                   <div className="mt-3 bg-blue-50 border border-blue-200 p-3 rounded-lg">
                     <p className="text-sm">
-                      <span className="text-slate-600">折扣：</span>
+                      <span className="text-slate-900">折扣：</span>
                       <span className="font-bold text-blue-600 text-lg ml-2">
                         {calculateDiscount(editingPromotionPrice, editingOriginalPrice)}
                       </span>

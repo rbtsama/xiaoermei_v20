@@ -85,7 +85,7 @@ export default function UserListPage({ users }: UserListPageProps) {
                 <option value={MemberLevel.SILVER}>银卡会员</option>
                 <option value={MemberLevel.NORMAL}>普通会员</option>
               </select>
-              <div className="text-sm text-slate-600 flex items-center">
+              <div className="text-sm text-slate-900 flex items-center">
                 共 <span className="font-bold text-slate-900 mx-1">{filteredUsers.length}</span> 个用户
               </div>
             </div>
@@ -160,7 +160,7 @@ export default function UserListPage({ users }: UserListPageProps) {
                     </TableCell>
 
                     {/* 订单统计 */}
-                    <TableCell className="text-sm text-slate-600">
+                    <TableCell className="text-sm text-slate-900">
                       {user.totalOrders} 单
                     </TableCell>
 

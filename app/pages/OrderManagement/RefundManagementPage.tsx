@@ -21,7 +21,7 @@ const refundStatusLabels: Record<RefundStatus, string> = {
 }
 
 const OperationLogButton = ({ moduleName }: { moduleName: string }) => (
-  <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-600">
+  <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-900">
     📋 {moduleName}操作记录
   </Button>
 )
@@ -91,7 +91,7 @@ export default function RefundManagementPage({ refunds, error }: RefundManagemen
                   <TableBody>
                     {refunds.map((refund) => (
                       <TableRow key={refund.refundId}>
-                        <TableCell className="text-sm text-slate-600">{refund.requestedAt}</TableCell>
+                        <TableCell className="text-sm text-slate-900">{refund.requestedAt}</TableCell>
                         <TableCell className="font-mono text-sm text-blue-600">{refund.orderId}</TableCell>
                         <TableCell className="text-sm">{refund.userName}</TableCell>
                         <TableCell className="text-sm">{refund.hotelName}</TableCell>

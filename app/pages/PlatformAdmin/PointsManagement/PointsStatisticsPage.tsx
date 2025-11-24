@@ -26,7 +26,7 @@ export default function PointsStatisticsPage({ statistics }: PointsStatisticsPag
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">积分发放与使用统计</h1>
-            <p className="text-slate-600 mt-1">
+            <p className="text-slate-900 mt-1">
               查看积分发放、使用、流通数据，分析用户行为
             </p>
           </div>
@@ -40,7 +40,7 @@ export default function PointsStatisticsPage({ statistics }: PointsStatisticsPag
         <Card className="mb-6 rounded-xl border-slate-200 shadow-sm">
           <CardContent className="pt-6">
             <div className="flex items-center gap-4">
-              <span className="text-sm text-slate-600">时间范围：</span>
+              <span className="text-sm text-slate-900">时间范围：</span>
               <Select value={dateRange} onValueChange={setDateRange}>
                 <SelectTrigger className="w-48 h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
                   <SelectValue />
@@ -61,7 +61,7 @@ export default function PointsStatisticsPage({ statistics }: PointsStatisticsPag
           <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardDescription className="text-slate-600">累计发放积分</CardDescription>
+                <CardDescription className="text-slate-900">累计发放积分</CardDescription>
                 <div className="p-2 bg-green-50 rounded-lg">
                   <TrendingUp className="w-4 h-4 text-green-600" />
                 </div>
@@ -78,7 +78,7 @@ export default function PointsStatisticsPage({ statistics }: PointsStatisticsPag
           <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardDescription className="text-slate-600">累计使用积分</CardDescription>
+                <CardDescription className="text-slate-900">累计使用积分</CardDescription>
                 <div className="p-2 bg-red-50 rounded-lg">
                   <TrendingDown className="w-4 h-4 text-red-600" />
                 </div>
@@ -95,7 +95,7 @@ export default function PointsStatisticsPage({ statistics }: PointsStatisticsPag
           <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardDescription className="text-slate-600">当前流通积分</CardDescription>
+                <CardDescription className="text-slate-900">当前流通积分</CardDescription>
                 <div className="p-2 bg-blue-50 rounded-lg">
                   <Activity className="w-4 h-4 text-blue-600" />
                 </div>
@@ -114,16 +114,16 @@ export default function PointsStatisticsPage({ statistics }: PointsStatisticsPag
         <Card className="mb-6 rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
             <CardTitle className="text-slate-900">积分发放明细</CardTitle>
-            <CardDescription className="text-slate-600">按发放类型统计积分发放情况</CardDescription>
+            <CardDescription className="text-slate-900">按发放类型统计积分发放情况</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow className="border-slate-200">
-                  <TableHead className="text-slate-600">发放类型</TableHead>
-                  <TableHead className="text-right text-slate-600">数量</TableHead>
-                  <TableHead className="text-right text-slate-600">占比</TableHead>
-                  <TableHead className="w-48 text-slate-600">占比图</TableHead>
+                  <TableHead className="text-slate-900">发放类型</TableHead>
+                  <TableHead className="text-right text-slate-900">数量</TableHead>
+                  <TableHead className="text-right text-slate-900">占比</TableHead>
+                  <TableHead className="w-48 text-slate-900">占比图</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -155,16 +155,16 @@ export default function PointsStatisticsPage({ statistics }: PointsStatisticsPag
         <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
             <CardTitle className="text-slate-900">积分使用明细</CardTitle>
-            <CardDescription className="text-slate-600">按使用类型统计积分消耗情况</CardDescription>
+            <CardDescription className="text-slate-900">按使用类型统计积分消耗情况</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
                 <TableRow className="border-slate-200">
-                  <TableHead className="text-slate-600">使用类型</TableHead>
-                  <TableHead className="text-right text-slate-600">数量</TableHead>
-                  <TableHead className="text-right text-slate-600">占比</TableHead>
-                  <TableHead className="w-48 text-slate-600">占比图</TableHead>
+                  <TableHead className="text-slate-900">使用类型</TableHead>
+                  <TableHead className="text-right text-slate-900">数量</TableHead>
+                  <TableHead className="text-right text-slate-900">占比</TableHead>
+                  <TableHead className="w-48 text-slate-900">占比图</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

@@ -459,7 +459,7 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
             <h3 className="text-lg font-semibold mb-2">确认修改状态</h3>
-            <p className="text-sm text-slate-600 mb-6">
+            <p className="text-sm text-slate-900 mb-6">
               确定要将 <strong className="text-primary">{confirmStatusChange.levelName}</strong> 的状态修改为
               <strong className="text-secondary ml-1">
                 {confirmStatusChange.newStatus === 'active' ? '启用' : '禁用'}

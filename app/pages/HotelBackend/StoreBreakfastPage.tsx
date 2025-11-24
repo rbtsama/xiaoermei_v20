@@ -123,7 +123,7 @@ export default function StoreBreakfastPage({ policy }: StoreBreakfastPageProps) 
                     </label>
                   </div>
 
-                  <div className="grid grid-cols-[1fr_1fr_1fr_auto] gap-3 items-center text-sm font-medium text-slate-600 pb-2 border-b">
+                  <div className="grid grid-cols-[1fr_1fr_1fr_auto] gap-3 items-center text-sm font-medium text-slate-900 pb-2 border-b">
                     <div>最小年龄(岁)</div>
                     <div>最大年龄(岁)</div>
                     <div>费用</div>

@@ -73,7 +73,7 @@ export default function RoomTypesPage({ roomTypes }: RoomTypesPageProps) {
                   </option>
                 ))}
               </select>
-              <div className="flex items-center text-sm text-slate-600">
+              <div className="flex items-center text-sm text-slate-900">
                 共 <span className="font-bold text-slate-900 mx-1">{filteredRoomTypes.length}</span> 个房型
               </div>
             </div>
@@ -151,17 +151,17 @@ export default function RoomTypesPage({ roomTypes }: RoomTypesPageProps) {
                     <TableCell className="text-sm">
                       <div className="space-y-1">
                         <div>
-                          <span className="text-slate-600">平日:</span>{' '}
+                          <span className="text-slate-900">平日:</span>{' '}
                           <span className="font-semibold">¥{roomType.basePrice}</span>
                         </div>
                         <div>
-                          <span className="text-slate-600">周末:</span>{' '}
+                          <span className="text-slate-900">周末:</span>{' '}
                           <span className="font-semibold text-orange-600">
                             ¥{roomType.weekendPrice}
                           </span>
                         </div>
                         <div>
-                          <span className="text-slate-600">节假日:</span>{' '}
+                          <span className="text-slate-900">节假日:</span>{' '}
                           <span className="font-semibold text-red-600">
                             ¥{roomType.holidayPrice}
                           </span>

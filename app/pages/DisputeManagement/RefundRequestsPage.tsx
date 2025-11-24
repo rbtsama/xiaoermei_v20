@@ -77,7 +77,7 @@ export default function RefundRequestsPage({ requests }: RefundRequestsPageProps
                 </select>
               </div>
               <div className="flex items-end gap-2">
-                <div className="text-sm text-slate-600">
+                <div className="text-sm text-slate-900">
                   共 <span className="font-bold text-slate-900">{filteredRequests.length}</span> 条
                 </div>
               </div>
@@ -134,7 +134,7 @@ export default function RefundRequestsPage({ requests }: RefundRequestsPageProps
                           {statusLabels[request.status]}
                         </span>
                       </TableCell>
-                      <TableCell className="text-sm text-slate-600">
+                      <TableCell className="text-sm text-slate-900">
                         {request.createdAt}
                       </TableCell>
                       <TableCell>

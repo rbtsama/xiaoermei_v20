@@ -59,7 +59,7 @@ export default function MemberCenterPage({
               VIP{upgradeTarget.level}
             </Badge>
           </div>
-          <p className="text-sm text-slate-600 mb-2">
+          <p className="text-sm text-slate-900 mb-2">
             距离VIP{upgradeTarget.level}还差{upgradeTarget.needs}间夜
           </p>
           <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
@@ -79,7 +79,7 @@ export default function MemberCenterPage({
             <h3 className="font-semibold text-slate-900">保级进度</h3>
             <span className="text-xs text-slate-500">有效期内</span>
           </div>
-          <p className="text-sm text-slate-600 mb-2">
+          <p className="text-sm text-slate-900 mb-2">
             已完成{maintainProgress.current}间夜，还需{maintainProgress.target - maintainProgress.current}间夜即可保级
           </p>
           <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">

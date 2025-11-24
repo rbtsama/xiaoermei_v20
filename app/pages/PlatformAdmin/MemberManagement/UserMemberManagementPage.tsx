@@ -46,7 +46,7 @@ export default function UserMemberManagementPage({
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">用户会员等级管理</h1>
-            <p className="text-slate-600 mt-1">
+            <p className="text-slate-900 mt-1">
               查询、手动调整特定用户的会员等级和积分余额
             </p>
           </div>
@@ -54,7 +54,7 @@ export default function UserMemberManagementPage({
             <div className="space-y-4">
               <section>
                 <h3 className="text-lg font-semibold mb-2">功能说明</h3>
-                <p className="text-slate-600">
+                <p className="text-slate-900">
                   本页面用于查询用户的会员信息，包括当前等级、累计间夜、保级进度等。
                   平台管理员可手动调整用户等级和积分（需填写原因）。
                 </p>
@@ -62,7 +62,7 @@ export default function UserMemberManagementPage({
 
               <section>
                 <h3 className="text-lg font-semibold mb-2">数据字段说明</h3>
-                <ul className="list-disc list-inside space-y-1 text-slate-600">
+                <ul className="list-disc list-inside space-y-1 text-slate-900">
                   <li><strong>累计间夜：</strong>用户历史总间夜数，用于判断升级条件</li>
                   <li><strong>保级进度：</strong>当前有效期内的间夜数 / 保级所需间夜数</li>
                   <li><strong>有效期至：</strong>会员等级的到期日期</li>
@@ -72,7 +72,7 @@ export default function UserMemberManagementPage({
 
               <section>
                 <h3 className="text-lg font-semibold mb-2">手动调整规则</h3>
-                <ul className="list-disc list-inside space-y-1 text-slate-600">
+                <ul className="list-disc list-inside space-y-1 text-slate-900">
                   <li>所有手动调整操作需记录操作日志</li>
                   <li>调整原因为必填项</li>
                   <li>调整等级不影响累计间夜数</li>
@@ -137,7 +137,7 @@ export default function UserMemberManagementPage({
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-slate-900">用户列表</CardTitle>
-                <CardDescription className="text-slate-600">共 {total} 位用户</CardDescription>
+                <CardDescription className="text-slate-900">共 {total} 位用户</CardDescription>
               </div>
             </div>
           </CardHeader>
@@ -145,14 +145,14 @@ export default function UserMemberManagementPage({
             <Table>
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
-                  <TableHead className="text-slate-600 font-semibold">手机号</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">姓名</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">会员等级</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">累计间夜</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">保级进度</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">有效期至</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">积分</TableHead>
-                  <TableHead className="text-right text-slate-600 font-semibold">操作</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">手机号</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">姓名</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">会员等级</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">累计间夜</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">保级进度</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">有效期至</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">积分</TableHead>
+                  <TableHead className="text-right text-slate-900 font-semibold">操作</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -174,7 +174,7 @@ export default function UserMemberManagementPage({
                         {user.maintainNights} 晚
                       </span>
                     </TableCell>
-                    <TableCell className="text-sm text-slate-600">
+                    <TableCell className="text-sm text-slate-900">
                       {user.validityDate}
                     </TableCell>
                     <TableCell>

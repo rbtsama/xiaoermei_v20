@@ -512,7 +512,7 @@ export default function StorePolicyPage({ policy }: StorePolicyPageProps) {
                       required
                       className="w-24"
                     />
-                    <span className="text-sm text-slate-600">折（100 = 不打折）</span>
+                    <span className="text-sm text-slate-900">折（100 = 不打折）</span>
                   </div>
                   <p className="text-xs text-slate-500">建议设置：95-100折</p>
                 </div>
@@ -534,7 +534,7 @@ export default function StorePolicyPage({ policy }: StorePolicyPageProps) {
                       required
                       className="w-24"
                     />
-                    <span className="text-sm text-slate-600">折</span>
+                    <span className="text-sm text-slate-900">折</span>
                   </div>
                   <p className="text-xs text-slate-500">建议设置：90-95折</p>
                 </div>
@@ -556,7 +556,7 @@ export default function StorePolicyPage({ policy }: StorePolicyPageProps) {
                       required
                       className="w-24"
                     />
-                    <span className="text-sm text-slate-600">折</span>
+                    <span className="text-sm text-slate-900">折</span>
                   </div>
                   <p className="text-xs text-slate-500">
                     <span className="text-amber-600 font-medium">平台最低：80折</span>，建议：85-90折
@@ -580,7 +580,7 @@ export default function StorePolicyPage({ policy }: StorePolicyPageProps) {
                       required
                       className="w-24"
                     />
-                    <span className="text-sm text-slate-600">折</span>
+                    <span className="text-sm text-slate-900">折</span>
                   </div>
                   <p className="text-xs text-slate-500">建议设置：80-88折</p>
                 </div>

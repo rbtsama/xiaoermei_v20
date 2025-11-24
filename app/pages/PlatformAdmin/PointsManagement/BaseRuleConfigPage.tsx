@@ -72,7 +72,7 @@ export default function BaseRuleConfigPage({ config: initialConfig }: BaseRuleCo
                     className={`h-9 max-w-xs border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all ${!isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''}`}
                     disabled={!isEditMode}
                   />
-                  <span className="text-sm text-slate-600">积分</span>
+                  <span className="text-sm text-slate-900">积分</span>
                 </div>
               </div>
 
@@ -92,7 +92,7 @@ export default function BaseRuleConfigPage({ config: initialConfig }: BaseRuleCo
                     className={`h-9 max-w-xs border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all ${!isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''}`}
                     disabled={!isEditMode}
                   />
-                  <span className="text-sm text-slate-600">积分</span>
+                  <span className="text-sm text-slate-900">积分</span>
                 </div>
               </div>
             </CardContent>
@@ -122,7 +122,7 @@ export default function BaseRuleConfigPage({ config: initialConfig }: BaseRuleCo
                       className={`h-9 w-32 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all ${!isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''}`}
                       disabled={!isEditMode}
                     />
-                    <span className="text-sm text-slate-600">积分 = 1 元</span>
+                    <span className="text-sm text-slate-900">积分 = 1 元</span>
                   </div>
                 </div>
               </div>

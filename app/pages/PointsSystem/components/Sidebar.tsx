@@ -163,7 +163,7 @@ export default function Sidebar({ menuItems }: SidebarProps) {
             className="p-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-r-md shadow-md transition-colors"
             title="展开菜单"
           >
-            <ChevronRight className="w-4 h-4 text-slate-600" />
+            <ChevronRight className="w-4 h-4 text-slate-900" />
           </button>
         </div>
       )}
@@ -182,7 +182,7 @@ export default function Sidebar({ menuItems }: SidebarProps) {
               className="p-2 hover:bg-slate-100 rounded-md transition-colors"
               title="收起菜单"
             >
-              <ChevronLeft className="w-4 h-4 text-slate-600" />
+              <ChevronLeft className="w-4 h-4 text-slate-900" />
             </button>
           </div>
 

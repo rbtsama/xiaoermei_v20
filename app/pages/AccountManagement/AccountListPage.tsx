@@ -205,7 +205,7 @@ export default function AccountListPage({ accounts, menuItems, error }: AccountL
                     <CardTitle>账号列表</CardTitle>
                     <CardDescription>共 {filteredAccounts.length} 个账号</CardDescription>
                   </div>
-                  <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-600">
+                  <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-900">
                     📋 操作记录
                   </Button>
                 </div>
@@ -325,7 +325,7 @@ export default function AccountListPage({ accounts, menuItems, error }: AccountL
                   ) : (
                     <>
                       <div className="flex justify-between items-center">
-                        <p className="text-sm text-slate-600">
+                        <p className="text-sm text-slate-900">
                           为该账号分配菜单的查看和编辑权限（编辑权限自动包含查看权限）
                         </p>
                         <PermissionQuickActions
@@ -394,7 +394,7 @@ export default function AccountListPage({ accounts, menuItems, error }: AccountL
                 </div>
 
                 <div className="bg-slate-50 p-3 rounded">
-                  <p className="text-xs text-slate-600">
+                  <p className="text-xs text-slate-900">
                     💡 提示：修改密码后需要重新登录
                   </p>
                 </div>

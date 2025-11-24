@@ -15,14 +15,14 @@ export default function OrderDetailPage() {
             <span className="text-2xl">🏨</span>
           </div>
           <p className="text-lg font-semibold text-slate-900 mb-1">待入住</p>
-          <p className="text-sm text-slate-600">订单号：20251128001</p>
+          <p className="text-sm text-slate-900">订单号：20251128001</p>
         </div>
 
         {/* 酒店信息 */}
         <div className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
           <h3 className="font-semibold text-slate-900 mb-3">酒店信息</h3>
           <p className="font-medium text-base mb-2 text-slate-900">XX豪华酒店</p>
-          <div className="space-y-1 text-sm text-slate-600">
+          <div className="space-y-1 text-sm text-slate-900">
             <div className="flex items-center gap-2">
               <MapPin className="w-4 h-4" />
               <span>北京市朝阳区XX路88号</span>
@@ -39,15 +39,15 @@ export default function OrderDetailPage() {
           <h3 className="font-semibold text-slate-900 mb-3">入住信息</h3>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-slate-600">房型：</span>
+              <span className="text-slate-900">房型：</span>
               <span className="font-medium text-slate-900">豪华大床房</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-600">入住：</span>
+              <span className="text-slate-900">入住：</span>
               <span className="font-medium text-slate-900">2025-11-28 14:00后</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-600">离店：</span>
+              <span className="text-slate-900">离店：</span>
               <span className="font-medium text-slate-900">2025-11-29 12:00前</span>
             </div>
           </div>
@@ -58,19 +58,19 @@ export default function OrderDetailPage() {
           <h3 className="font-semibold text-slate-900 mb-3">费用明细</h3>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-slate-600">房费：</span>
+              <span className="text-slate-900">房费：</span>
               <span className="text-slate-900">¥396</span>
             </div>
             <div className="flex justify-between text-[#3D7350]">
               <span>积分抵扣：</span>
               <span>-¥60（50积分×1.2）</span>
             </div>
-            <div className="flex justify-between text-slate-600">
+            <div className="flex justify-between text-slate-900">
               <span>积分服务：</span>
               <span>-20积分（单人早餐）</span>
             </div>
             <div className="flex justify-between pt-2 border-t border-slate-100">
-              <span className="font-medium text-slate-600">应付金额：</span>
+              <span className="font-medium text-slate-900">应付金额：</span>
               <span className="text-xl font-bold text-[#A67B5B]">¥336</span>
             </div>
           </div>

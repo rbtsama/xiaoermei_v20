@@ -84,7 +84,7 @@ export default function TagConfigPage({ tags }: TagConfigPageProps) {
                   <div className="font-semibold text-slate-900 mb-1">
                     {tagTypeLabels[type]}
                   </div>
-                  <div className="text-xs text-slate-600">
+                  <div className="text-xs text-slate-900">
                     {tagTypeDescriptions[type]}
                   </div>
                   <div className="text-xs text-slate-500 mt-2">
@@ -182,7 +182,7 @@ export default function TagConfigPage({ tags }: TagConfigPageProps) {
                             className="w-6 h-6 rounded border border-slate-300"
                             style={{ backgroundColor: tag.color }}
                           />
-                          <code className="text-xs text-slate-600">{tag.color}</code>
+                          <code className="text-xs text-slate-900">{tag.color}</code>
                         </div>
                       </TableCell>
 

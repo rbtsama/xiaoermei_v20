@@ -79,7 +79,7 @@ export default function ArbitratorsPage({ arbitrators }: ArbitratorsPageProps) {
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-base">{group.hotelName}</CardTitle>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-slate-600">
+                      <span className="text-xs text-slate-900">
                         {group.arbitrators.filter((a) => a.isActive).length} / {group.arbitrators.length} 激活
                       </span>
                       {group.arbitrators.length < 7 && (
@@ -118,7 +118,7 @@ export default function ArbitratorsPage({ arbitrators }: ArbitratorsPageProps) {
                                 {arb.isActive ? '激活' : '停用'}
                               </span>
                             </TableCell>
-                            <TableCell className="py-2 text-slate-600">
+                            <TableCell className="py-2 text-slate-900">
                               {arb.createdAt}
                             </TableCell>
                             <TableCell className="py-2">
@@ -178,7 +178,7 @@ export default function ArbitratorsPage({ arbitrators }: ArbitratorsPageProps) {
                           {arb.isActive ? '激活' : '停用'}
                         </span>
                       </TableCell>
-                      <TableCell className="text-sm text-slate-600">
+                      <TableCell className="text-sm text-slate-900">
                         {arb.createdAt}
                       </TableCell>
                       <TableCell>

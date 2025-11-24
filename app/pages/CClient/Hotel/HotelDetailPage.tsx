@@ -54,11 +54,11 @@ export default function HotelDetailPage() {
             ))}
             <Star className="w-4 h-4 text-amber-400" />
           </div>
-          <div className="flex items-center gap-2 text-sm text-slate-600 mb-1">
+          <div className="flex items-center gap-2 text-sm text-slate-900 mb-1">
             <MapPin className="w-4 h-4" />
             <span>北京市朝阳区XX路88号</span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-slate-600">
+          <div className="flex items-center gap-2 text-sm text-slate-900">
             <Phone className="w-4 h-4" />
             <span>010-12345678</span>
           </div>
@@ -75,7 +75,7 @@ export default function HotelDetailPage() {
               </div>
               <div className="p-3">
                 <h3 className="font-semibold text-slate-900 mb-2">{room.name}</h3>
-                <div className="flex items-center gap-3 text-xs text-slate-600 mb-3">
+                <div className="flex items-center gap-3 text-xs text-slate-900 mb-3">
                   <span>{room.area}㎡</span>
                   <span>•</span>
                   <span>{room.bedType}</span>

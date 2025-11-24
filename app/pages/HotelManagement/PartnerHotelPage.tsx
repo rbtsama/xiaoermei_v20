@@ -192,9 +192,9 @@ export default function PartnerHotelPage({ hotels }: PartnerHotelPageProps) {
                   <TableBody>
                     {filteredHotels.map((hotel) => (
                       <TableRow key={hotel.hotelId}>
-                        <TableCell className="text-sm text-slate-600">{hotel.activatedAt}</TableCell>
+                        <TableCell className="text-sm text-slate-900">{hotel.activatedAt}</TableCell>
                         <TableCell className="font-medium">{hotel.hotelName}</TableCell>
-                        <TableCell className="text-sm text-slate-600">
+                        <TableCell className="text-sm text-slate-900">
                           {hotel.province}/{hotel.city}/{hotel.district}
                         </TableCell>
                         <TableCell className="font-mono text-sm">{hotel.adminAccount}</TableCell>

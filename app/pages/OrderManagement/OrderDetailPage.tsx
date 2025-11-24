@@ -125,7 +125,7 @@ export default function OrderDetailPage({ order, error }: OrderDetailPageProps) 
               {
                 title: '💰 价格计算逻辑',
                 content: (
-                  <div className="text-sm text-slate-600 space-y-2">
+                  <div className="text-sm text-slate-900 space-y-2">
                     <p className="font-medium">计算公式：</p>
                     <div className="bg-slate-50 p-3 rounded font-mono text-xs">
                       <div>房费小计 = {order.roomPrice}</div>
@@ -140,7 +140,7 @@ export default function OrderDetailPage({ order, error }: OrderDetailPageProps) 
               {
                 title: '📱 用户端展示',
                 content: (
-                  <div className="text-sm text-slate-600">
+                  <div className="text-sm text-slate-900">
                     <p className="mb-2">用户在小程序/APP看到的订单详情：</p>
                     <div className="bg-white border rounded-lg p-4 space-y-2">
                       <div className="font-bold text-base">{order.hotelName}</div>

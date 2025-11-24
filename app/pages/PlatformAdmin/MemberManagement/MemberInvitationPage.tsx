@@ -22,7 +22,7 @@ export default function MemberInvitationPage({ invitations }: MemberInvitationPa
 
   const getVipLevelBadge = (level: number) => {
     if (level === 0) {
-      return <Badge variant="outline" className="text-slate-600">VIP0</Badge>
+      return <Badge variant="outline" className="text-slate-900">VIP0</Badge>
     }
     return <Badge className="bg-amber-100 text-amber-700">VIP{level}</Badge>
   }
@@ -55,12 +55,12 @@ export default function MemberInvitationPage({ invitations }: MemberInvitationPa
                     <TableRow key={record.id}>
                       <TableCell className="font-medium">{record.vipAcquiredAt}</TableCell>
                       <TableCell>{getVipLevelBadge(record.vipLevel)}</TableCell>
-                      <TableCell className="text-slate-600">{record.inviteeId}</TableCell>
+                      <TableCell className="text-slate-900">{record.inviteeId}</TableCell>
                       <TableCell>{getRoleBadge(record.inviterRole)}</TableCell>
-                      <TableCell className="text-slate-600">
+                      <TableCell className="text-slate-900">
                         {record.inviterRole === 'merchant' ? '-' : record.inviterId}
                       </TableCell>
-                      <TableCell className="text-sm text-slate-600">{record.userRegisteredAt}</TableCell>
+                      <TableCell className="text-sm text-slate-900">{record.userRegisteredAt}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

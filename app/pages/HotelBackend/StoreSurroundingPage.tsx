@@ -59,17 +59,17 @@ export default function StoreSurroundingPage({ surrounding }: StoreSurroundingPa
                 <CardContent className="space-y-3">
                   {items.map((item) => (
                     <div key={item.id} className="flex items-center gap-3 p-3 bg-slate-50 rounded">
-                      <span className="text-sm text-slate-600">离</span>
+                      <span className="text-sm text-slate-900">离</span>
                       <Input defaultValue={item.placeName} className="w-40" placeholder="地点名称" />
                       <select className="px-3 py-2 border rounded text-sm" defaultValue={item.distanceType}>
                         <option value={DistanceType.DRIVING}>驾驶距离</option>
                         <option value={DistanceType.WALKING}>步行距离</option>
                       </select>
-                      <span className="text-sm text-slate-600">约</span>
+                      <span className="text-sm text-slate-900">约</span>
                       <Input type="number" defaultValue={item.distanceKm} className="w-20" />
-                      <span className="text-sm text-slate-600">公里,用时约</span>
+                      <span className="text-sm text-slate-900">公里,用时约</span>
                       <Input type="number" defaultValue={item.timeMinutes} className="w-20" />
-                      <span className="text-sm text-slate-600">分钟</span>
+                      <span className="text-sm text-slate-900">分钟</span>
                       <Button type="button" variant="ghost" size="sm" className="text-red-600">
                         删除
                       </Button>

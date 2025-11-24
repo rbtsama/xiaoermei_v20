@@ -31,7 +31,7 @@ export default function StoreExtraBedPage({ policy, roomTypes }: StoreExtraBedPa
               </CardHeader>
               <CardContent>
                 <div className="space-y-2 text-sm">
-                  <div className="flex gap-2 items-center pb-2 border-b font-medium text-slate-600">
+                  <div className="flex gap-2 items-center pb-2 border-b font-medium text-slate-900">
                     <div className="w-16">按年龄定价</div>
                     <div className="w-20">收费标准</div>
                     <div className="w-16">固定金额</div>
@@ -62,7 +62,7 @@ export default function StoreExtraBedPage({ policy, roomTypes }: StoreExtraBedPa
             </CardHeader>
             <CardContent>
               <div className="space-y-1">
-                <div className="grid grid-cols-[2fr,2fr,2fr] gap-3 pb-2 border-b text-sm font-medium text-slate-600">
+                <div className="grid grid-cols-[2fr,2fr,2fr] gap-3 pb-2 border-b text-sm font-medium text-slate-900">
                   <div>房型</div>
                   <div>加床</div>
                   <div>婴儿床</div>

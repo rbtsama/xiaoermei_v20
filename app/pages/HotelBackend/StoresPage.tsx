@@ -47,7 +47,7 @@ export default function StoresPage({ stores }: StoresPageProps) {
           <Card>
             <CardContent className="pt-6 text-center">
               <div className="text-3xl font-bold text-blue-600">{stores.length}</div>
-              <div className="text-sm text-slate-600 mt-2">总门店数</div>
+              <div className="text-sm text-slate-900 mt-2">总门店数</div>
             </CardContent>
           </Card>
           <Card>
@@ -55,7 +55,7 @@ export default function StoresPage({ stores }: StoresPageProps) {
               <div className="text-3xl font-bold text-green-600">
                 {stores.filter((s) => s.status === StoreStatus.OPERATING).length}
               </div>
-              <div className="text-sm text-slate-600 mt-2">营业中</div>
+              <div className="text-sm text-slate-900 mt-2">营业中</div>
             </CardContent>
           </Card>
           <Card>
@@ -63,7 +63,7 @@ export default function StoresPage({ stores }: StoresPageProps) {
               <div className="text-3xl font-bold text-purple-600">
                 {stores.reduce((sum, s) => sum + s.totalRooms, 0)}
               </div>
-              <div className="text-sm text-slate-600 mt-2">总房间数</div>
+              <div className="text-sm text-slate-900 mt-2">总房间数</div>
             </CardContent>
           </Card>
           <Card>
@@ -73,7 +73,7 @@ export default function StoresPage({ stores }: StoresPageProps) {
                   stores.reduce((sum, s) => sum + s.rating, 0) / stores.length * 10
                 ) / 10}
               </div>
-              <div className="text-sm text-slate-600 mt-2">平均评分</div>
+              <div className="text-sm text-slate-900 mt-2">平均评分</div>
             </CardContent>
           </Card>
         </div>
@@ -115,27 +115,27 @@ export default function StoresPage({ stores }: StoresPageProps) {
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
-                        <span className="text-slate-600">店长:</span>{' '}
+                        <span className="text-slate-900">店长:</span>{' '}
                         <span className="font-medium">{store.manager}</span>
                       </div>
                       <div>
-                        <span className="text-slate-600">联系电话:</span>{' '}
+                        <span className="text-slate-900">联系电话:</span>{' '}
                         <span className="font-medium">{store.phone}</span>
                       </div>
                       <div>
-                        <span className="text-slate-600">总房间数:</span>{' '}
+                        <span className="text-slate-900">总房间数:</span>{' '}
                         <span className="font-semibold text-blue-600">
                           {store.totalRooms}
                         </span>
                       </div>
                       <div>
-                        <span className="text-slate-600">可用房间:</span>{' '}
+                        <span className="text-slate-900">可用房间:</span>{' '}
                         <span className="font-semibold text-green-600">
                           {store.availableRooms}
                         </span>
                       </div>
                       <div>
-                        <span className="text-slate-600">入住率:</span>{' '}
+                        <span className="text-slate-900">入住率:</span>{' '}
                         <span className="font-semibold">
                           {Math.round(
                             ((store.totalRooms - store.availableRooms) /
@@ -146,7 +146,7 @@ export default function StoresPage({ stores }: StoresPageProps) {
                         </span>
                       </div>
                       <div>
-                        <span className="text-slate-600">评分:</span>{' '}
+                        <span className="text-slate-900">评分:</span>{' '}
                         <span className="font-semibold text-yellow-600">
                           ⭐ {store.rating}
                         </span>
@@ -185,7 +185,7 @@ export default function StoresPage({ stores }: StoresPageProps) {
 
                 {/* 门店描述 */}
                 <div className="mt-4 pt-4 border-t border-slate-200">
-                  <p className="text-sm text-slate-600">{store.description}</p>
+                  <p className="text-sm text-slate-900">{store.description}</p>
                   <p className="text-xs text-slate-500 mt-2">
                     开业时间: {store.openedAt}
                   </p>

@@ -34,7 +34,7 @@ export default function OperationLogButton({ moduleName, logs = [] }: OperationL
         variant="ghost"
         size="sm"
         onClick={() => setShowDialog(true)}
-        className="text-slate-400 hover:text-slate-600 text-xs"
+        className="text-slate-400 hover:text-slate-900 text-xs"
       >
         📋 操作记录
       </Button>
@@ -68,7 +68,7 @@ export default function OperationLogButton({ moduleName, logs = [] }: OperationL
                       <div className="flex-shrink-0 w-20">
                         <span className="text-xs font-medium text-slate-700">{log.operatorName}</span>
                       </div>
-                      <div className="flex-1 text-sm text-slate-600">{log.description}</div>
+                      <div className="flex-1 text-sm text-slate-900">{log.description}</div>
                     </div>
                   ))}
                 </div>

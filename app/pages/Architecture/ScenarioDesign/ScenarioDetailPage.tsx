@@ -50,7 +50,7 @@ export default function ScenarioDetailPage({ scenario }: ScenarioDetailPageProps
               <CardDescription className="text-base">{scenario.description}</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center gap-3 text-sm text-slate-600">
+              <div className="flex items-center gap-3 text-sm text-slate-900">
                 <Badge variant="outline">{scenario.flowSteps.length} 个步骤</Badge>
                 <span>•</span>
                 <span>涉及 {new Set(scenario.flowSteps.map((s) => s.system)).size} 个系统</span>

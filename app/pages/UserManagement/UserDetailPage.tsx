@@ -34,7 +34,7 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
         {/* 返回按钮 */}
         <Link
           to="/user/list"
-          className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
+          className="inline-flex items-center gap-2 text-sm text-slate-900 hover:text-slate-900"
         >
           <ArrowLeft className="w-4 h-4" />
           返回用户列表
@@ -86,7 +86,7 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
               <div className="text-3xl font-bold text-blue-600">
                 {user.points.balance.toLocaleString()}
               </div>
-              <div className="text-sm text-slate-600 mt-2">积分余额</div>
+              <div className="text-sm text-slate-900 mt-2">积分余额</div>
             </CardContent>
           </Card>
           <Card>
@@ -94,7 +94,7 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
               <div className="text-3xl font-bold text-green-600">
                 {user.coupons.available}
               </div>
-              <div className="text-sm text-slate-600 mt-2">可用优惠券</div>
+              <div className="text-sm text-slate-900 mt-2">可用优惠券</div>
             </CardContent>
           </Card>
           <Card>
@@ -102,7 +102,7 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
               <div className="text-3xl font-bold text-purple-600">
                 {user.orderStats.totalOrders}
               </div>
-              <div className="text-sm text-slate-600 mt-2">总订单数</div>
+              <div className="text-sm text-slate-900 mt-2">总订单数</div>
             </CardContent>
           </Card>
           <Card>
@@ -110,7 +110,7 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
               <div className="text-3xl font-bold text-orange-600">
                 ¥{user.orderStats.totalAmount.toLocaleString()}
               </div>
-              <div className="text-sm text-slate-600 mt-2">总消费金额</div>
+              <div className="text-sm text-slate-900 mt-2">总消费金额</div>
             </CardContent>
           </Card>
         </div>
@@ -131,7 +131,7 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
                   {user.membership.benefits.map((benefit, index) => (
                     <div
                       key={index}
-                      className="flex items-center gap-2 text-sm text-slate-600"
+                      className="flex items-center gap-2 text-sm text-slate-900"
                     >
                       <span className="text-green-600">✓</span>
                       {benefit}
@@ -147,7 +147,7 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-slate-600">入住晚数</span>
+                    <span className="text-slate-900">入住晚数</span>
                     <span className="font-medium">
                       {user.membership.upgradeProgress.currentNights} /{' '}
                       {user.membership.upgradeProgress.requiredNights}
@@ -237,19 +237,19 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
                   <div className="text-2xl font-bold text-green-600">
                     {user.orderStats.completedOrders}
                   </div>
-                  <div className="text-xs text-slate-600 mt-1">已完成</div>
+                  <div className="text-xs text-slate-900 mt-1">已完成</div>
                 </div>
                 <div className="text-center p-3 bg-slate-50 rounded">
-                  <div className="text-2xl font-bold text-slate-600">
+                  <div className="text-2xl font-bold text-slate-900">
                     {user.orderStats.cancelledOrders}
                   </div>
-                  <div className="text-xs text-slate-600 mt-1">已取消</div>
+                  <div className="text-xs text-slate-900 mt-1">已取消</div>
                 </div>
                 <div className="text-center p-3 bg-blue-50 rounded">
                   <div className="text-2xl font-bold text-blue-600">
                     ¥{user.orderStats.averageAmount}
                   </div>
-                  <div className="text-xs text-slate-600 mt-1">平均金额</div>
+                  <div className="text-xs text-slate-900 mt-1">平均金额</div>
                 </div>
               </div>
 

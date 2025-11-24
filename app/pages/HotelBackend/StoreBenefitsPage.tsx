@@ -107,7 +107,7 @@ export default function StoreBenefitsPage({ config }: StoreBenefitsPageProps) {
                               {applicabilityLabels[benefit.applicability]}
                             </span>
                           </TableCell>
-                          <TableCell className="text-sm text-slate-600">{benefit.receptionTime}</TableCell>
+                          <TableCell className="text-sm text-slate-900">{benefit.receptionTime}</TableCell>
                           <TableCell>
                             <label className="relative inline-flex items-center cursor-pointer">
                               <input

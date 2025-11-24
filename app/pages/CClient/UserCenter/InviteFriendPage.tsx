@@ -70,7 +70,7 @@ export default function InviteFriendPage() {
           </div>
 
           <div className="mt-4 pt-4 border-t border-slate-200 text-center">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-900">
               已获得积分：<span className="font-semibold text-[#A67B5B]">90</span>
             </p>
           </div>

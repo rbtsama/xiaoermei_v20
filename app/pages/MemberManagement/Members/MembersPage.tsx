@@ -130,7 +130,7 @@ export default function MembersPage({ result, error }: MembersPageProps) {
             <div className="grid grid-cols-4 gap-4">
               {/* 注册日期 */}
               <div className="space-y-2 col-span-2">
-                <label className="text-sm text-slate-600 font-medium">注册日期</label>
+                <label className="text-sm text-slate-900 font-medium">注册日期</label>
                 <div className="flex gap-2 items-center">
                   <Input
                     type="date"
@@ -154,7 +154,7 @@ export default function MembersPage({ result, error }: MembersPageProps) {
 
               {/* 电话 */}
               <div className="space-y-2">
-                <label className="text-sm text-slate-600 font-medium">电话</label>
+                <label className="text-sm text-slate-900 font-medium">电话</label>
                 <Input
                   name="phone"
                   value={phone}
@@ -166,7 +166,7 @@ export default function MembersPage({ result, error }: MembersPageProps) {
 
               {/* 等级 */}
               <div className="space-y-2">
-                <label className="text-sm text-slate-600 font-medium">等级</label>
+                <label className="text-sm text-slate-900 font-medium">等级</label>
                 <Select name="level" value={level} onValueChange={setLevel}>
                   <SelectTrigger className="h-9">
                     <SelectValue placeholder="请选择等级" />
@@ -183,7 +183,7 @@ export default function MembersPage({ result, error }: MembersPageProps) {
 
               {/* 是否积分会员 */}
               <div className="space-y-2">
-                <label className="text-sm text-slate-600 font-medium">是否积分会员</label>
+                <label className="text-sm text-slate-900 font-medium">是否积分会员</label>
                 <Select name="isPointsMember" value={isPointsMember} onValueChange={setIsPointsMember}>
                   <SelectTrigger className="h-9">
                     <SelectValue placeholder="请选择是否积分会员" />
@@ -228,22 +228,22 @@ export default function MembersPage({ result, error }: MembersPageProps) {
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead className="text-slate-600 font-semibold">注册时间</TableHead>
-                <TableHead className="text-slate-600 font-semibold">昵称</TableHead>
-                <TableHead className="text-slate-600 font-semibold">姓名</TableHead>
-                <TableHead className="text-slate-600 font-semibold">电话</TableHead>
-                <TableHead className="text-slate-600 font-semibold">等级</TableHead>
-                <TableHead className="text-center text-slate-600 font-semibold">订单数</TableHead>
-                <TableHead className="text-center text-slate-600 font-semibold">间夜数</TableHead>
-                <TableHead className="text-center text-slate-600 font-semibold">消费金额</TableHead>
-                <TableHead className="text-center text-slate-600 font-semibold">是否积分会员</TableHead>
-                <TableHead className="text-right text-slate-600 font-semibold">操作</TableHead>
+                <TableHead className="text-slate-900 font-semibold">注册时间</TableHead>
+                <TableHead className="text-slate-900 font-semibold">昵称</TableHead>
+                <TableHead className="text-slate-900 font-semibold">姓名</TableHead>
+                <TableHead className="text-slate-900 font-semibold">电话</TableHead>
+                <TableHead className="text-slate-900 font-semibold">等级</TableHead>
+                <TableHead className="text-center text-slate-900 font-semibold">订单数</TableHead>
+                <TableHead className="text-center text-slate-900 font-semibold">间夜数</TableHead>
+                <TableHead className="text-center text-slate-900 font-semibold">消费金额</TableHead>
+                <TableHead className="text-center text-slate-900 font-semibold">是否积分会员</TableHead>
+                <TableHead className="text-right text-slate-900 font-semibold">操作</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {members.map((member) => (
                 <TableRow key={member.id} className="hover:bg-slate-50 transition-colors">
-                  <TableCell className="text-sm text-slate-600">{member.registrationTime}</TableCell>
+                  <TableCell className="text-sm text-slate-900">{member.registrationTime}</TableCell>
                   <TableCell className="text-slate-700">{member.nickname || '-'}</TableCell>
                   <TableCell className="text-slate-700">{member.name || '-'}</TableCell>
                   <TableCell className="text-slate-900 font-medium">{member.phone}</TableCell>

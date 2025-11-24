@@ -64,42 +64,42 @@ export default function MemberDetailPage({ member, error }: MemberDetailPageProp
         <CardContent className="space-y-6">
           <div className="grid grid-cols-3 gap-6">
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-slate-600">
+              <div className="flex items-center gap-2 text-sm text-slate-900">
                 <User className="h-4 w-4" />
                 <span>姓名</span>
               </div>
               <div className="font-medium text-slate-900">{member.name || '-'}</div>
             </div>
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-slate-600">
+              <div className="flex items-center gap-2 text-sm text-slate-900">
                 <User className="h-4 w-4" />
                 <span>昵称</span>
               </div>
               <div className="font-medium text-slate-900">{member.nickname || '-'}</div>
             </div>
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-slate-600">
+              <div className="flex items-center gap-2 text-sm text-slate-900">
                 <Phone className="h-4 w-4" />
                 <span>电话</span>
               </div>
               <div className="font-medium text-slate-900">{member.phone}</div>
             </div>
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-slate-600">
+              <div className="flex items-center gap-2 text-sm text-slate-900">
                 <Mail className="h-4 w-4" />
                 <span>邮箱</span>
               </div>
               <div className="font-medium text-slate-900">{member.email || '-'}</div>
             </div>
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-slate-600">
+              <div className="flex items-center gap-2 text-sm text-slate-900">
                 <Calendar className="h-4 w-4" />
                 <span>生日</span>
               </div>
               <div className="font-medium text-slate-900">{member.birthday || '-'}</div>
             </div>
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-slate-600">
+              <div className="flex items-center gap-2 text-sm text-slate-900">
                 <User className="h-4 w-4" />
                 <span>性别</span>
               </div>
@@ -108,15 +108,15 @@ export default function MemberDetailPage({ member, error }: MemberDetailPageProp
               </div>
             </div>
             <div className="space-y-2">
-              <div className="text-sm text-slate-600">注册时间</div>
+              <div className="text-sm text-slate-900">注册时间</div>
               <div className="font-medium text-slate-900">{member.registrationTime}</div>
             </div>
             <div className="space-y-2">
-              <div className="text-sm text-slate-600">成为会员</div>
+              <div className="text-sm text-slate-900">成为会员</div>
               <div className="font-medium text-slate-900">{member.memberSince}</div>
             </div>
             <div className="space-y-2">
-              <div className="text-sm text-slate-600">最近登录</div>
+              <div className="text-sm text-slate-900">最近登录</div>
               <div className="font-medium text-slate-900">{member.lastLoginTime || '-'}</div>
             </div>
           </div>
@@ -131,19 +131,19 @@ export default function MemberDetailPage({ member, error }: MemberDetailPageProp
         <CardContent>
           <div className="grid grid-cols-4 gap-6">
             <div className="space-y-2">
-              <div className="text-sm text-slate-600">订单数</div>
+              <div className="text-sm text-slate-900">订单数</div>
               <div className="text-2xl font-bold text-blue-600">{member.orderCount}</div>
             </div>
             <div className="space-y-2">
-              <div className="text-sm text-slate-600">间夜数</div>
+              <div className="text-sm text-slate-900">间夜数</div>
               <div className="text-2xl font-bold text-blue-600">{member.nightCount}</div>
             </div>
             <div className="space-y-2">
-              <div className="text-sm text-slate-600">消费金额</div>
+              <div className="text-sm text-slate-900">消费金额</div>
               <div className="text-2xl font-bold text-blue-600">¥{member.consumptionAmount}</div>
             </div>
             <div className="space-y-2">
-              <div className="text-sm text-slate-600">最近下单</div>
+              <div className="text-sm text-slate-900">最近下单</div>
               <div className="text-sm font-medium text-slate-700">{member.lastOrderTime || '-'}</div>
             </div>
           </div>
@@ -162,16 +162,16 @@ export default function MemberDetailPage({ member, error }: MemberDetailPageProp
           <CardContent>
             <div className="grid grid-cols-3 gap-6">
               <div className="space-y-2">
-                <div className="text-sm text-slate-600">当前积分</div>
+                <div className="text-sm text-slate-900">当前积分</div>
                 <div className="text-2xl font-bold text-green-600">{member.currentPoints}</div>
               </div>
               <div className="space-y-2">
-                <div className="text-sm text-slate-600">累计获得积分</div>
+                <div className="text-sm text-slate-900">累计获得积分</div>
                 <div className="text-2xl font-bold text-blue-600">{member.totalPoints}</div>
               </div>
               <div className="space-y-2">
-                <div className="text-sm text-slate-600">已使用积分</div>
-                <div className="text-2xl font-bold text-slate-600">{member.usedPoints}</div>
+                <div className="text-sm text-slate-900">已使用积分</div>
+                <div className="text-2xl font-bold text-slate-900">{member.usedPoints}</div>
               </div>
             </div>
           </CardContent>
@@ -187,14 +187,14 @@ export default function MemberDetailPage({ member, error }: MemberDetailPageProp
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead className="text-slate-600 font-semibold">订单号</TableHead>
-                <TableHead className="text-slate-600 font-semibold">酒店名称</TableHead>
-                <TableHead className="text-slate-600 font-semibold">房型</TableHead>
-                <TableHead className="text-slate-600 font-semibold">入住日期</TableHead>
-                <TableHead className="text-slate-600 font-semibold">间夜数</TableHead>
-                <TableHead className="text-slate-600 font-semibold">订单金额</TableHead>
-                <TableHead className="text-slate-600 font-semibold">状态</TableHead>
-                <TableHead className="text-slate-600 font-semibold">下单时间</TableHead>
+                <TableHead className="text-slate-900 font-semibold">订单号</TableHead>
+                <TableHead className="text-slate-900 font-semibold">酒店名称</TableHead>
+                <TableHead className="text-slate-900 font-semibold">房型</TableHead>
+                <TableHead className="text-slate-900 font-semibold">入住日期</TableHead>
+                <TableHead className="text-slate-900 font-semibold">间夜数</TableHead>
+                <TableHead className="text-slate-900 font-semibold">订单金额</TableHead>
+                <TableHead className="text-slate-900 font-semibold">状态</TableHead>
+                <TableHead className="text-slate-900 font-semibold">下单时间</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -203,7 +203,7 @@ export default function MemberDetailPage({ member, error }: MemberDetailPageProp
                   <TableCell className="font-medium text-slate-900">{order.orderNumber}</TableCell>
                   <TableCell className="text-slate-700">{order.hotelName}</TableCell>
                   <TableCell className="text-slate-700">{order.roomType}</TableCell>
-                  <TableCell className="text-sm text-slate-600">
+                  <TableCell className="text-sm text-slate-900">
                     {order.checkInDate} 至 {order.checkOutDate}
                   </TableCell>
                   <TableCell className="text-center text-slate-700">{order.nightCount}</TableCell>
@@ -218,7 +218,7 @@ export default function MemberDetailPage({ member, error }: MemberDetailPageProp
                       {ORDER_STATUS_LABELS[order.status].label}
                     </span>
                   </TableCell>
-                  <TableCell className="text-sm text-slate-600">{order.orderTime}</TableCell>
+                  <TableCell className="text-sm text-slate-900">{order.orderTime}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -117,7 +117,7 @@ export function PermissionQuickActions({
       <button
         onClick={onClearAll}
         disabled={disabled}
-        className="text-sm text-slate-600 hover:text-slate-700 underline disabled:opacity-50"
+        className="text-sm text-slate-900 hover:text-slate-700 underline disabled:opacity-50"
       >
         清空
       </button>

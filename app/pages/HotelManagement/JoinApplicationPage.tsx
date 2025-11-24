@@ -38,7 +38,7 @@ const getStatusColor = (status: FollowUpStatus) => {
 }
 
 const OperationLogButton = ({ moduleName }: { moduleName: string }) => (
-  <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-600">
+  <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-900">
     📋 {moduleName}操作记录
   </Button>
 )
@@ -190,9 +190,9 @@ export default function JoinApplicationPage({ applications, error }: JoinApplica
                   <TableBody>
                     {filteredApplications.map((app) => (
                       <TableRow key={app.applicationId}>
-                        <TableCell className="text-sm text-slate-600">{app.submittedAt}</TableCell>
+                        <TableCell className="text-sm text-slate-900">{app.submittedAt}</TableCell>
                         <TableCell className="font-medium">{app.hotelName}</TableCell>
-                        <TableCell className="text-sm text-slate-600">
+                        <TableCell className="text-sm text-slate-900">
                           <div>{app.province}</div>
                           <div className="text-xs text-slate-500">{app.city}</div>
                         </TableCell>

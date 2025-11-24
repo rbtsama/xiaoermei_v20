@@ -67,22 +67,22 @@ export default function ArbitrationCasesPage({ cases }: ArbitrationCasesPageProp
                         <h4 className="font-semibold text-sm text-slate-900 mb-2">退款申请信息</h4>
                         <div className="grid grid-cols-2 gap-2 text-xs">
                           <div>
-                            <span className="text-slate-600">用户:</span>{' '}
+                            <span className="text-slate-900">用户:</span>{' '}
                             <span className="font-medium">{arbitrationCase.refundRequest.userName}</span>
                           </div>
                           <div>
-                            <span className="text-slate-600">退款金额:</span>{' '}
+                            <span className="text-slate-900">退款金额:</span>{' '}
                             <span className="font-semibold text-red-600">
                               ¥{arbitrationCase.refundRequest.refundAmount}
                             </span>{' '}
                             ({arbitrationCase.refundRequest.refundRatio}%)
                           </div>
                           <div className="col-span-2">
-                            <span className="text-slate-600">退款理由:</span>{' '}
+                            <span className="text-slate-900">退款理由:</span>{' '}
                             {arbitrationCase.refundRequest.reason || '-'}
                           </div>
                           <div className="col-span-2">
-                            <span className="text-slate-600">商家回复:</span>{' '}
+                            <span className="text-slate-900">商家回复:</span>{' '}
                             {arbitrationCase.refundRequest.merchantResponse || '-'}
                           </div>
                         </div>
@@ -106,7 +106,7 @@ export default function ArbitrationCasesPage({ cases }: ArbitrationCasesPageProp
                           <div className="text-lg font-bold text-slate-700">
                             {arbitrationCase.pendingCount}
                           </div>
-                          <div className="text-xs text-slate-600">待投</div>
+                          <div className="text-xs text-slate-900">待投</div>
                         </div>
                       </div>
 
@@ -145,15 +145,15 @@ export default function ArbitrationCasesPage({ cases }: ArbitrationCasesPageProp
                                       </span>
                                     )}
                                     {vote.decision === ArbitrationDecision.PENDING && (
-                                      <span className="inline-flex px-1.5 py-0.5 text-xs rounded-full bg-slate-100 text-slate-600">
+                                      <span className="inline-flex px-1.5 py-0.5 text-xs rounded-full bg-slate-100 text-slate-900">
                                         待投
                                       </span>
                                     )}
                                   </TableCell>
-                                  <TableCell className="py-2 text-slate-600">
+                                  <TableCell className="py-2 text-slate-900">
                                     {vote.votedAt || '-'}
                                   </TableCell>
-                                  <TableCell className="py-2 text-slate-600">
+                                  <TableCell className="py-2 text-slate-900">
                                     {vote.comment || '-'}
                                   </TableCell>
                                 </TableRow>
@@ -178,7 +178,7 @@ export default function ArbitrationCasesPage({ cases }: ArbitrationCasesPageProp
                               ? '同意退款'
                               : '驳回申请'}
                           </div>
-                          <div className="text-xs mt-0.5 text-slate-600">
+                          <div className="text-xs mt-0.5 text-slate-900">
                             {arbitrationCase.completedAt}
                           </div>
                         </div>

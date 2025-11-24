@@ -89,8 +89,8 @@ export default function HomeBannerSection({ banners }: HomeBannerSectionProps) {
                     </TableCell>
                     <TableCell className="font-medium">{banner.displayText}</TableCell>
                     <TableCell className="text-sm text-red-600 font-medium">{banner.discountRate}折</TableCell>
-                    <TableCell className="text-sm text-slate-600">{banner.buttonText}</TableCell>
-                    <TableCell className="text-sm text-slate-600 whitespace-nowrap">
+                    <TableCell className="text-sm text-slate-900">{banner.buttonText}</TableCell>
+                    <TableCell className="text-sm text-slate-900 whitespace-nowrap">
                       {banner.validDateStart} 至 {banner.validDateEnd}
                     </TableCell>
                     <TableCell>
@@ -200,7 +200,7 @@ export default function HomeBannerSection({ banners }: HomeBannerSectionProps) {
                       className="w-24"
                       required
                     />
-                    <span className="text-sm text-slate-600">折（如85表示85折）</span>
+                    <span className="text-sm text-slate-900">折（如85表示85折）</span>
                   </div>
                 </div>
 

@@ -90,7 +90,7 @@ export default function ChangeLogDialog({ open, onClose, logs, title = '修改�
                     {/* 修改时间 */}
                     <div className="col-span-3">
                       <div className="text-xs text-muted-foreground mb-2">修改时间</div>
-                      <div className="text-sm text-slate-600">{log.operatedAt}</div>
+                      <div className="text-sm text-slate-900">{log.operatedAt}</div>
                     </div>
                   </div>
                 </div>

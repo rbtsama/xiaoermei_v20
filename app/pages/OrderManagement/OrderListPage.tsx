@@ -39,7 +39,7 @@ const getStatusColor = (status: OrderStatus) => {
 }
 
 const OperationLogButton = ({ moduleName }: { moduleName: string }) => (
-  <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-600">
+  <Button variant="ghost" size="sm" className="text-slate-400 hover:text-slate-900">
     📋 {moduleName}操作记录
   </Button>
 )
@@ -175,7 +175,7 @@ export default function OrderListPage({ orders, error }: OrderListPageProps) {
                     {filteredOrders.map((order) => (
                       <TableRow key={order.orderId}>
                         <TableCell className="font-mono text-sm text-blue-600">{order.orderId}</TableCell>
-                        <TableCell className="text-sm text-slate-600">{order.createdAt}</TableCell>
+                        <TableCell className="text-sm text-slate-900">{order.createdAt}</TableCell>
                         <TableCell className="text-sm">
                           <div>{order.userName}</div>
                           <div className="text-xs text-slate-500">{order.userPhone}</div>

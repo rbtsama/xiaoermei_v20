@@ -104,12 +104,12 @@ export default function StaffPage({ staff }: StaffPageProps) {
                     </TableCell>
 
                     {/* 创建时间 */}
-                    <TableCell className="text-sm text-slate-600">
+                    <TableCell className="text-sm text-slate-900">
                       {s.createdAt}
                     </TableCell>
 
                     {/* 创建人 */}
-                    <TableCell className="text-sm text-slate-600">
+                    <TableCell className="text-sm text-slate-900">
                       {s.createdBy}
                     </TableCell>
 
