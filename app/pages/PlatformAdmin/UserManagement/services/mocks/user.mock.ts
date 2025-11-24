@@ -140,6 +140,15 @@ export const mockUsers: User[] = [
     currentPoints: 18920,
     registeredAt: '2024-03-08 15:50:00',
     status: 'active'
+  },
+  {
+    userId: '154655',
+    nickname: '测试用户',
+    phone: '13800138000',
+    memberLevel: '白金会员',
+    currentPoints: 6850,
+    registeredAt: '2024-05-20 10:30:00',
+    status: 'active'
   }
 ]
 
@@ -387,6 +396,69 @@ export const mockUserDetails: Record<string, UserDetail> = {
         amount: 188,
         pointsEarned: 188,
         status: 'completed'
+      }
+    ]
+  },
+  '154655': {
+    userId: '154655',
+    nickname: '测试用户',
+    phone: '13800138000',
+    memberLevel: '白金会员',
+    currentPoints: 6850,
+    registeredAt: '2024-05-20 10:30:00',
+    status: 'active',
+    memberInfo: {
+      level: '白金会员',
+      levelProgress: {
+        current: 10500,
+        required: 15000,
+        percentage: 70.0
+      },
+      retentionProgress: {
+        current: 8200,
+        required: 12000,
+        percentage: 68.3
+      },
+      validUntil: '2025-12-31',
+      joinedAt: '2024-05-20 10:30:00'
+    },
+    pointsInfo: {
+      current: 6850,
+      totalEarned: 15620,
+      totalSpent: 8770,
+      deductibleAmount: 68.50,
+      lastUpdated: '2024-11-24 18:30:00'
+    },
+    recentOrders: [
+      {
+        orderId: '12511243210',
+        hotelName: '北京朝阳亚朵酒店',
+        roomType: '豪华大床房',
+        checkIn: '2024-11-20',
+        checkOut: '2024-11-22',
+        amount: 1176,
+        pointsEarned: 1294,
+        status: 'completed'
+      },
+      {
+        orderId: '12511185432',
+        hotelName: '上海浦东全季酒店',
+        roomType: '高级双床房',
+        checkIn: '2024-11-15',
+        checkOut: '2024-11-17',
+        amount: 856,
+        pointsEarned: 942,
+        status: 'completed'
+      },
+      {
+        orderId: '12511126789',
+        hotelName: '深圳福田维也纳酒店',
+        roomType: '商务大床房',
+        checkIn: '2024-12-01',
+        checkOut: '2024-12-03',
+        amount: 1288,
+        pointsEarned: 1417,
+        status: 'upcoming'
       }
     ]
   }

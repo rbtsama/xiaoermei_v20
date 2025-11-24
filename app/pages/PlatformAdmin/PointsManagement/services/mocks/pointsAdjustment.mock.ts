@@ -35,6 +35,16 @@ export const mockUserPointsInfo: Record<string, UserPointsInfo> = {
     totalEarned: 45000,
     totalSpent: 36100,
     lastUpdateTime: '2025/01/24 09:45:10'
+  },
+  '154655': {
+    userId: '154655',
+    userNickname: '测试用户',
+    phone: '13800138000',
+    memberLevel: 'VIP2',
+    currentPoints: 6850,
+    totalEarned: 15620,
+    totalSpent: 8770,
+    lastUpdateTime: '2024/11/24 18:30:00'
   }
 }
 
@@ -154,6 +164,58 @@ export const mockPointsDetails: Record<string, PointsDetailRecord[]> = {
       description: '运营活动奖励',
       operator: '兔子',
       createdAt: '2025/01/15 14:30:00'
+    }
+  ],
+  '154655': [
+    {
+      id: 'PD301',
+      type: 'earn',
+      typeLabel: '订单完成',
+      amount: 1294,
+      balance: 6850,
+      description: '订单 #12511243210 完成',
+      operator: '系统',
+      createdAt: '2024/11/24 18:30:00'
+    },
+    {
+      id: 'PD302',
+      type: 'earn',
+      typeLabel: '订单完成',
+      amount: 942,
+      balance: 5556,
+      description: '订单 #12511185432 完成',
+      operator: '系统',
+      createdAt: '2024/11/18 16:20:00'
+    },
+    {
+      id: 'PD303',
+      type: 'spend',
+      typeLabel: '积分抵扣',
+      amount: -800,
+      balance: 4614,
+      description: '订单 #12511106543 积分抵扣',
+      operator: '系统',
+      createdAt: '2024/11/10 10:15:00'
+    },
+    {
+      id: 'PD304',
+      type: 'adjust',
+      typeLabel: '平台调整',
+      amount: 500,
+      balance: 5414,
+      description: '会员升级奖励',
+      operator: '兔子',
+      createdAt: '2024/11/05 14:00:00'
+    },
+    {
+      id: 'PD305',
+      type: 'earn',
+      typeLabel: '订单完成',
+      amount: 680,
+      balance: 4914,
+      description: '订单 #12510280987 完成',
+      operator: '系统',
+      createdAt: '2024/10/28 12:40:00'
     }
   ]
 }
