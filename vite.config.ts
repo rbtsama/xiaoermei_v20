@@ -78,6 +78,10 @@ export default defineConfig({
           route("/platform-admin/member-management/user/:userId", "routes/platform-admin/member-management/user/$userId.tsx")
           route("/platform-admin/member-management/invitations", "routes/platform-admin/member-management/invitations.tsx")
 
+          // Platform Admin - User Management
+          route("/platform-admin/user-management/list", "routes/platform-admin/user-management/list.tsx")
+          route("/platform-admin/user-management/detail/:userId", "routes/platform-admin/user-management/detail.$userId.tsx")
+
           // System Settings Routes
           route("/system/agreements", "routes/system/agreements.tsx")
           route("/system/tags", "routes/system/tags.tsx")

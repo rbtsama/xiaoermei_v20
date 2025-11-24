@@ -2,8 +2,8 @@
  * 平台后台 - 积分调整页面
  */
 
-import { useState } from 'react'
-import { Form } from '@remix-run/react'
+import { useState, useEffect } from 'react'
+import { Form, useSearchParams } from '@remix-run/react'
 import type { UserPointsInfo, PointsDetailRecord, AdjustmentType } from './types/pointsAdjustment.types'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Input } from '~/components/ui/input'
@@ -19,16 +19,25 @@ interface PointsAdjustmentPageProps {
   details: PointsDetailRecord[]
 }
 
-export default function PointsAdjustmentPage({ userInfo: initialUserInfo, details: initialDetails }: PointsAdjustmentPageProps) {
-  const [searchUserId, setSearchUserId] = useState('')
-  const [userInfo, setUserInfo] = useState<UserPointsInfo | null>(initialUserInfo)
-  const [details, setDetails] = useState<PointsDetailRecord[]>(initialDetails)
+export default function PointsAdjustmentPage({ userInfo, details }: PointsAdjustmentPageProps) {
+  // 使用Remix的useSearchParams获取URL参数
+  const [searchParams] = useSearchParams()
+  const urlUserId = searchParams.get('userId') || ''
+
+  const [searchUserId, setSearchUserId] = useState(urlUserId)
   const [adjustmentType, setAdjustmentType] = useState<AdjustmentType>('increase')
   const [adjustmentAmount, setAdjustmentAmount] = useState('')
   const [adjustmentReason, setAdjustmentReason] = useState('')
   const [showConfirm, setShowConfirm] = useState(false)
 
-  // 搜索功能通过Form提交实现,无需handleSearch
+  // 当URL参数变化时更新搜索框
+  useEffect(() => {
+    if (urlUserId) {
+      setSearchUserId(urlUserId)
+    }
+  }, [urlUserId])
+
+  // 搜索功能通过Form提交实现,页面会重新加载获取新数据
 
   const handleAdjustment = () => {
     if (!userInfo || !adjustmentAmount || Number(adjustmentAmount) <= 0) {

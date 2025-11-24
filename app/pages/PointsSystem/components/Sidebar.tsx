@@ -37,6 +37,7 @@ export default function Sidebar({ menuItems }: SidebarProps) {
     '争议处理': true,
     '积分管理 *': true,
     '会员管理 *': true,
+    '用户管理': true,
     '系统管理': true,
     '商户端': true,
     '积分服务': true,
@@ -308,6 +309,12 @@ export const menuConfig: MenuItem[] = [
         children: [
           { title: '会员等级设置 *', path: '/member-management/levels' },
           { title: '会员邀请 *', path: '/platform-admin/member-management/invitations' }
+        ]
+      },
+      {
+        title: '用户管理',
+        children: [
+          { title: '用户列表', path: '/platform-admin/user-management/list' },
         ]
       },
       // 系统配置
