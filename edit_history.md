@@ -4,6 +4,198 @@
 
 ---
 
+## 2025-11-24 23:30:00
+
+### 全局表格样式规范统一
+
+**修改文件：**
+- `app/components/ui/table.tsx` - Table组件样式统一
+
+**问题背景：**
+项目中各个页面的表格样式不统一，表头样式、行高、行间距、hover颜色等各不相同。需要在Table组件层面统一样式规范，确保全局一致性。
+
+**修改内容：**
+
+#### 1. TableRow（表格行）样式统一
+
+**修改前**:
+```tsx
+className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+```
+
+**修改后**:
+```tsx
+className="border-b border-slate-200 transition-colors hover:bg-slate-50 data-[state=selected]:bg-slate-50"
+```
+
+**改进点**:
+- 边框颜色明确指定：`border-slate-200`
+- hover背景色：`hover:bg-slate-50`（浅灰色，统一）
+- 选中状态：`bg-slate-50`（与hover一致）
+- 不再使用 `muted` 变量，使用具体的slate色系
+
+#### 2. TableHead（表头）样式统一
+
+**修改前**:
+```tsx
+className="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+```
+
+**修改后**:
+```tsx
+className="h-10 px-4 text-left align-middle font-semibold text-slate-900 text-sm"
+```
+
+**改进点**:
+- **行高**: `h-12`（48px）→ `h-10`（**40px**，更紧凑）
+- **字重**: `font-medium` → `font-semibold`（**加粗，更醒目**）
+- **颜色**: `text-muted-foreground` → `text-slate-900`（**深色，更清晰**）
+- **字号**: 新增 `text-sm`（14px，统一小号文字）
+- 间距: `px-4`（16px，保持不变）
+
+#### 3. TableCell（单元格）样式统一
+
+**修改前**:
+```tsx
+className="p-4 align-middle"
+```
+
+**修改后**:
+```tsx
+className="h-12 px-4 align-middle text-sm text-slate-900"
+```
+
+**改进点**:
+- **行高**: 新增 `h-12`（**48px，统一行高**）
+- **间距**: `p-4` → `px-4`（只设置水平间距，垂直间距由h-12控制）
+- **字号**: 新增 `text-sm`（14px，统一小号文字）
+- **颜色**: 新增 `text-slate-900`（深色，默认文字颜色）
+
+#### 4. 统一样式规范总结
+
+**表头规范**:
+```
+高度: 40px (h-10)
+字号: 14px (text-sm)
+字重: semibold（加粗）
+颜色: slate-900（深黑色）
+间距: 16px (px-4)
+```
+
+**表格行规范**:
+```
+边框: slate-200
+Hover: bg-slate-50（浅灰背景）
+过渡: transition-colors
+```
+
+**单元格规范**:
+```
+高度: 48px (h-12)
+字号: 14px (text-sm)
+颜色: slate-900（深黑色）
+间距: 水平16px (px-4)
+```
+
+**行间距说明**:
+- 表头高度: 40px
+- 单元格高度: 48px
+- 总行高: 表头40px + 数据行48px × N
+- 紧凑且易读的平衡点
+
+**视觉对比**:
+
+**修改前**:
+```
+┌────────────────────────────────┐
+│ 表头1 | 表头2 | 表头3 |         │ ← 48px高，灰色，medium字重
+├────────────────────────────────┤
+│ 数据1 | 数据2 | 数据3 |         │ ← 不固定高度，黑色
+│ 数据1 | 数据2 | 数据3 |         │
+└────────────────────────────────┘
+```
+
+**修改后**:
+```
+┌────────────────────────────────┐
+│ 表头1 | 表头2 | 表头3 |         │ ← 40px高，深黑，semibold字重
+├────────────────────────────────┤
+│ 数据1 | 数据2 | 数据3 |         │ ← 48px高，深黑，统一
+│ 数据1 | 数据2 | 数据3 |         │ ← 48px高，hover浅灰背景
+└────────────────────────────────┘
+```
+
+**颜色统一**:
+- 边框: `border-slate-200`（浅灰边框）
+- 表头: `text-slate-900`（深黑文字）
+- 单元格: `text-slate-900`（深黑文字）
+- Hover: `bg-slate-50`（浅灰背景）
+
+**功能影响：**
+
+✅ **全局表格样式统一**：
+- 所有页面的表格自动应用统一样式
+- 表头40px高，深黑色，加粗
+- 单元格48px高，深黑色
+- hover浅灰背景
+- 边框统一slate-200
+
+✅ **视觉效果提升**：
+- 表头更醒目（semibold + slate-900）
+- 行高更紧凑（表头40px，单元格48px）
+- 颜色对比更清晰
+- hover交互更明显
+
+✅ **一致性保障**：
+- 修改Table组件源码
+- 全局自动生效
+- 无需逐页调整
+- 新增页面自动符合规范
+
+✅ **可读性优化**：
+- 文字统一14px（text-sm）
+- 深色文字（slate-900）对比度高
+- 48px行高适中，不压抑不松散
+- 16px水平间距舒适
+
+**适用页面**（自动生效）:
+- 用户管理列表
+- 积分调整明细
+- 会员等级设置
+- 会员邀请记录
+- 订单列表
+- 所有使用Table组件的页面
+
+**样式规范文档**:
+
+```typescript
+// 表头样式
+<TableHead>
+  高度: h-10 (40px)
+  字号: text-sm (14px)
+  字重: font-semibold
+  颜色: text-slate-900
+  间距: px-4 (16px)
+</TableHead>
+
+// 单元格样式
+<TableCell>
+  高度: h-12 (48px)
+  字号: text-sm (14px)
+  颜色: text-slate-900
+  间距: px-4 (16px)
+</TableCell>
+
+// 表格行样式
+<TableRow>
+  边框: border-b border-slate-200
+  Hover: hover:bg-slate-50
+  过渡: transition-colors
+</TableRow>
+```
+
+---
+
 ## 2025-11-24 23:20:00
 
 ### 全局按钮和标签圆角规范统一
