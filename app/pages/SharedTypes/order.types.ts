@@ -66,13 +66,13 @@ export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
  */
 export const ORDER_STATUS_COLORS: Record<OrderStatus, string> = {
   [OrderStatus.PENDING_PAYMENT]: 'orange',          // 橙色 - 待支付
-  [OrderStatus.PENDING_CHECKIN]: 'blue',            // 蓝色 - 待入住
-  [OrderStatus.CHECKED_IN]: 'green',                // 绿色 - 入住中
-  [OrderStatus.CHECKED_OUT]: 'slate',               // 灰色 - 已离店
-  [OrderStatus.COMPLETED]: 'green',                 // 绿色 - 已完成
-  [OrderStatus.PAYMENT_CANCELLED]: 'red',           // 红色 - 支付取消
-  [OrderStatus.CANCELLED]: 'red',                   // 红色 - 已取消
-  [OrderStatus.REFUND_REQUESTED]: 'orange',         // 橙色 - 退款申请
+  [OrderStatus.PENDING_CHECKIN]: 'orange',          // 橙色 - 待入住
+  [OrderStatus.CHECKED_IN]: 'blue',                 // 蓝色 - 入住中
+  [OrderStatus.CHECKED_OUT]: 'blue',                // 蓝色 - 已离店
+  [OrderStatus.COMPLETED]: 'black',                 // 黑色 - 已完成
+  [OrderStatus.PAYMENT_CANCELLED]: 'slate',         // 灰色 - 支付取消
+  [OrderStatus.CANCELLED]: 'slate',                 // 灰色 - 已取消
+  [OrderStatus.REFUND_REQUESTED]: 'red',            // 红色 - 退款申请
 }
 
 /**
