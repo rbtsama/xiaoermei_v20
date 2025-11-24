@@ -3,12 +3,11 @@
  */
 
 /**
- * 邀请记录(简化版 - 只记录受邀人和时间)
+ * 邀请记录
+ * 说明：受邀人在接受邀请后生成记录，显示为用户ID
  */
 export interface InviteRecord {
   id: string
-  inviteeId: string // 受邀人用户ID
-  inviteeName?: string // 受邀人姓名(可选)
-  inviteePhone?: string // 受邀人手机号(可选)
-  invitedAt: string // 受邀时间
+  inviteeId: string // 受邀人用户ID（6位数字格式）
+  invitedAt: string // 接受邀请时间
 }

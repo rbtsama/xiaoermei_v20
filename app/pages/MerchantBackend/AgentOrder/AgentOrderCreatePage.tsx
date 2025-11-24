@@ -9,7 +9,6 @@ import { Label } from '~/components/ui/label'
 import { Button } from '~/components/ui/button'
 import { Textarea } from '~/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
-import { Dialog, DialogContent } from '~/components/ui/dialog'
 import MainLayout from '~/pages/PointsSystem/components/MainLayout'
 import { QrCode, X, Download } from 'lucide-react'
 
@@ -221,34 +220,37 @@ export default function AgentOrderCreatePage() {
             </Button>
           </div>
 
-          {/* 付款码弹窗 */}
-          <Dialog open={qrDialogOpen} onOpenChange={setQrDialogOpen}>
-            <DialogContent className="max-w-sm p-0">
-              {/* 关闭按钮 */}
-              <button
-                onClick={() => setQrDialogOpen(false)}
-                className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none z-10"
-              >
-                <X className="h-4 w-4" />
-                <span className="sr-only">关闭</span>
-              </button>
+          {/* 付款码弹窗 - 全黑蒙层设计 */}
+          {qrDialogOpen && (
+            <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
+              {/* 弹窗内容 */}
+              <div className="bg-white rounded-lg max-w-sm w-full mx-4 relative">
+                {/* 关闭按钮 */}
+                <button
+                  onClick={() => setQrDialogOpen(false)}
+                  className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 transition-opacity z-10 text-slate-600 hover:text-slate-900"
+                >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">关闭</span>
+                </button>
 
-              <div className="p-6 space-y-4">
-                {/* 二维码 */}
-                <div className="flex items-center justify-center">
-                  <div className="w-64 h-64 bg-slate-100 rounded-lg flex items-center justify-center">
-                    <QrCode className="w-48 h-48 text-slate-400" />
+                <div className="p-6 space-y-4">
+                  {/* 二维码 */}
+                  <div className="flex items-center justify-center">
+                    <div className="w-64 h-64 bg-slate-100 rounded-lg flex items-center justify-center">
+                      <QrCode className="w-48 h-48 text-slate-400" />
+                    </div>
                   </div>
-                </div>
 
-                {/* 保存二维码按钮 */}
-                <Button onClick={handleDownloadQR} variant="outline" className="w-full gap-2">
-                  <Download className="w-4 h-4" />
-                  保存二维码
-                </Button>
+                  {/* 保存二维码按钮 */}
+                  <Button onClick={handleDownloadQR} variant="outline" className="w-full gap-2">
+                    <Download className="w-4 h-4" />
+                    保存二维码
+                  </Button>
+                </div>
               </div>
-            </DialogContent>
-          </Dialog>
+            </div>
+          )}
         </div>
       </div>
     </MainLayout>

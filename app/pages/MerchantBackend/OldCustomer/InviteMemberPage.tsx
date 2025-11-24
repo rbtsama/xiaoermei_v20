@@ -7,7 +7,6 @@ import type { InviteRecord } from './types/inviteMember.types'
 import { Card, CardContent } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
-import { Dialog, DialogContent } from '~/components/ui/dialog'
 import MainLayout from '~/pages/PointsSystem/components/MainLayout'
 import { QrCode, X, Download } from 'lucide-react'
 
@@ -53,7 +52,7 @@ export default function InviteMemberPage({ records }: InviteMemberPageProps) {
                   {sortedRecords.map((record) => (
                     <TableRow key={record.id}>
                       <TableCell className="font-medium text-slate-900">
-                        {record.inviteeName || record.inviteePhone}
+                        {record.inviteeId}
                       </TableCell>
                       <TableCell className="text-slate-900">{record.invitedAt}</TableCell>
                     </TableRow>
@@ -69,34 +68,37 @@ export default function InviteMemberPage({ records }: InviteMemberPageProps) {
             </CardContent>
           </Card>
 
-          {/* 邀请二维码弹窗 */}
-          <Dialog open={qrDialogOpen} onOpenChange={setQrDialogOpen}>
-            <DialogContent className="max-w-sm p-0">
-              {/* 关闭按钮 */}
-              <button
-                onClick={() => setQrDialogOpen(false)}
-                className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none z-10"
-              >
-                <X className="h-4 w-4" />
-                <span className="sr-only">关闭</span>
-              </button>
+          {/* 邀请二维码弹窗 - 全黑蒙层设计 */}
+          {qrDialogOpen && (
+            <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
+              {/* 弹窗内容 */}
+              <div className="bg-white rounded-lg max-w-sm w-full mx-4 relative">
+                {/* 关闭按钮 */}
+                <button
+                  onClick={() => setQrDialogOpen(false)}
+                  className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100 transition-opacity z-10 text-slate-600 hover:text-slate-900"
+                >
+                  <X className="h-4 w-4" />
+                  <span className="sr-only">关闭</span>
+                </button>
 
-              <div className="p-6 space-y-4">
-                {/* 二维码 */}
-                <div className="flex items-center justify-center">
-                  <div className="w-64 h-64 bg-slate-100 rounded-lg flex items-center justify-center">
-                    <QrCode className="w-48 h-48 text-slate-400" />
+                <div className="p-6 space-y-4">
+                  {/* 二维码 */}
+                  <div className="flex items-center justify-center">
+                    <div className="w-64 h-64 bg-slate-100 rounded-lg flex items-center justify-center">
+                      <QrCode className="w-48 h-48 text-slate-400" />
+                    </div>
                   </div>
-                </div>
 
-                {/* 保存图片按钮 */}
-                <Button onClick={handleDownloadQR} variant="outline" className="w-full gap-2">
-                  <Download className="w-4 h-4" />
-                  保存图片
-                </Button>
+                  {/* 保存图片按钮 */}
+                  <Button onClick={handleDownloadQR} variant="outline" className="w-full gap-2">
+                    <Download className="w-4 h-4" />
+                    保存图片
+                  </Button>
+                </div>
               </div>
-            </DialogContent>
-          </Dialog>
+            </div>
+          )}
         </div>
       </div>
     </MainLayout>
