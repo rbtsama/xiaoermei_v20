@@ -141,7 +141,7 @@ export default function AgentOrderCreatePage() {
                         value={room.id}
                         disabled={!room.available}
                       >
-                        {room.name} {!room.available && '- 不可售'}
+                        {room.name}
                       </SelectItem>
                     ))}
                   </SelectContent>

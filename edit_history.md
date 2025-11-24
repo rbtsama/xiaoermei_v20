@@ -4,6 +4,178 @@
 
 ---
 
+## 2025-11-25 00:00:00
+
+### 三处显示优化 - 积分服务配置 + VIP折扣 + 专属订单
+
+**修改文件：**
+1. `app/pages/MerchantBackend/PointsService/PointsServiceConfigPage.tsx` - 积分服务图标和文字颜色
+2. `app/pages/MerchantBackend/VIPDiscount/VIPDiscountConfigPage.tsx` - VIP0本店折扣
+3. `app/pages/MerchantBackend/AgentOrder/AgentOrderCreatePage.tsx` - 房型不可售显示
+
+**修改内容：**
+
+#### 1. 积分服务配置图标和文字改为黑色
+
+**修改位置**: 商户端 - 积分服务配置页面
+
+**积分奖励**:
+- **图标颜色**: `text-green-600` → `text-slate-900`（绿色 → 黑色）
+- **积分文字**: `text-green-600` → `text-slate-900`（绿色 → 黑色）
+
+**积分换购**:
+- **图标颜色**: `text-secondary` → `text-slate-900`（橙色 → 黑色）
+- **积分文字**: `text-secondary` → `text-slate-900`（橙色 → 黑色）
+
+**代码对比**:
+```tsx
+// 修改前
+<CardTitle>
+  <Gift className="w-5 h-5 text-green-600" />  ← 绿色图标
+  积分奖励
+</CardTitle>
+<span className="text-green-600">50 积分</span>  ← 绿色文字
+
+<CardTitle>
+  <ShoppingBag className="w-5 h-5 text-secondary" />  ← 橙色图标
+  积分换购
+</CardTitle>
+<span className="text-secondary">100 积分</span>  ← 橙色文字
+
+// 修改后
+<CardTitle>
+  <Gift className="w-5 h-5 text-slate-900" />  ← 黑色图标
+  积分奖励
+</CardTitle>
+<span className="text-slate-900">50 积分</span>  ← 黑色文字
+
+<CardTitle>
+  <ShoppingBag className="w-5 h-5 text-slate-900" />  ← 黑色图标
+  积分换购
+</CardTitle>
+<span className="text-slate-900">100 积分</span>  ← 黑色文字
+```
+
+**原因**:
+- 积分数值是普通信息展示，不需要用颜色强调
+- 统一使用黑色，视觉更专业
+- 减少彩色元素，界面更清爽
+
+#### 2. VIP0支持本店折扣设置
+
+**修改位置**: 商户端 - VIP折扣配置页面
+
+**修改前**:
+```tsx
+{discount.level === 0 ? (
+  <span className="text-sm text-slate-400">100%</span>  // VIP0不可编辑
+) : (
+  <Input ... />  // 其他等级可编辑
+)}
+```
+
+**修改后**:
+```tsx
+<div className="flex items-center gap-2">
+  <Input ... />  // 所有等级都可编辑，包括VIP0
+  <span>%</span>
+</div>
+```
+
+**改进点**:
+- 移除VIP0的特殊判断（`level === 0`）
+- VIP0也可以设置本店折扣
+- 与其他等级保持一致
+- 业务更灵活
+
+**说明文字更新**:
+- 旧: "VIP0无会员折扣,仅显示不可编辑"
+- 新: "所有会员等级（包括VIP0）都可以设置本店折扣"
+
+#### 3. 房型不可售显示简化
+
+**修改位置**: 创建专属订单页面 - 房型选择
+
+**修改前**:
+```tsx
+<SelectItem disabled={!room.available}>
+  {room.name} {!room.available && '- 不可售'}
+</SelectItem>
+// 示例: 行政套房 - 不可售
+```
+
+**修改后**:
+```tsx
+<SelectItem disabled={!room.available}>
+  {room.name}
+</SelectItem>
+// 示例: 行政套房（置灰显示）
+```
+
+**改进点**:
+- 移除"- 不可售"文字
+- 依靠 `disabled` 属性自动置灰
+- SelectItem的disabled状态已清晰表达不可选
+- 界面更简洁
+
+**视觉效果**:
+```
+修改前:
+┌─────────────────┐
+│ 豪华大床房      │  ← 正常颜色
+│ 豪华双床房      │  ← 正常颜色
+│ 行政套房 - 不可售│  ← 灰色 + 文字说明
+│ 总统套房        │  ← 正常颜色
+└─────────────────┘
+
+修改后:
+┌─────────────────┐
+│ 豪华大床房      │  ← 正常颜色
+│ 豪华双床房      │  ← 正常颜色
+│ 行政套房        │  ← 灰色（自动置灰）
+│ 总统套房        │  ← 正常颜色
+└─────────────────┘
+```
+
+**功能影响：**
+
+✅ **积分服务配置视觉统一**：
+- 图标和积分数值都使用黑色
+- 不再用绿色/橙色区分奖励和消耗
+- 界面更专业，减少彩色干扰
+- 积分数值本身已足够清晰（+50、-100）
+
+✅ **VIP0折扣设置灵活**：
+- VIP0也可以设置本店折扣
+- 商户可以为基础会员提供折扣优惠
+- 与其他等级设置规则统一
+- 业务逻辑更合理
+
+✅ **房型选择更简洁**：
+- 不可售房型自动置灰
+- 无需显示"- 不可售"文字
+- disabled状态已清晰表达
+- 下拉框选项更清爽
+
+**颜色使用原则**:
+
+**应该使用颜色的场景**:
+- ✅ 订单状态（橙/蓝/黑/灰/红，表达紧急程度）
+- ✅ 重要提示（红色警告，绿色成功）
+
+**不应该使用颜色的场景**:
+- ❌ 普通数值展示（积分、金额等）
+- ❌ 功能分类图标（奖励、换购等）
+- ❌ 简单信息展示
+
+**统一为黑色的好处**:
+- 视觉更专业
+- 信息层级更清晰
+- 减少颜色过载
+- 符合后台管理系统规范
+
+---
+
 ## 2025-11-24 23:50:00
 
 ### 会员等级开关和会员邀请显示优化

@@ -92,27 +92,23 @@ export default function VIPDiscountConfigPage({ config: initialConfig }: VIPDisc
                         </span>
                       </TableCell>
                       <TableCell>
-                        {discount.level === 0 ? (
-                          <span className="text-sm text-slate-400">100%</span>
-                        ) : (
-                          <div className="flex items-center gap-2">
-                            <Input
-                              type="number"
-                              min={Math.round(discount.platformMinDiscount * 100)}
-                              max={Math.round(discount.platformMaxDiscount * 100)}
-                              step="1"
-                              value={Math.round(discount.storeDiscount * 100)}
-                              onChange={(e) => {
-                                const percent = parseInt(e.target.value) || 0
-                                const value = percent / 100
-                                updateStoreDiscount(discount.id, value)
-                              }}
-                              className={`w-20 h-8 ${!isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed border-0' : ''}`}
-                              disabled={!isEditMode}
-                            />
-                            <span className="text-sm text-slate-900">%</span>
-                          </div>
-                        )}
+                        <div className="flex items-center gap-2">
+                          <Input
+                            type="number"
+                            min={Math.round(discount.platformMinDiscount * 100)}
+                            max={Math.round(discount.platformMaxDiscount * 100)}
+                            step="1"
+                            value={Math.round(discount.storeDiscount * 100)}
+                            onChange={(e) => {
+                              const percent = parseInt(e.target.value) || 0
+                              const value = percent / 100
+                              updateStoreDiscount(discount.id, value)
+                            }}
+                            className={`w-20 h-8 ${!isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed border-0' : ''}`}
+                            disabled={!isEditMode}
+                          />
+                          <span className="text-sm text-slate-900">%</span>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -129,7 +125,7 @@ export default function VIPDiscountConfigPage({ config: initialConfig }: VIPDisc
                 <ul className="list-disc list-inside space-y-1 ml-2">
                   <li>本店折扣设置必须在平台折扣范围内(包含边界值)</li>
                   <li>默认值为平台折扣的最大值(最优惠)</li>
-                  <li>VIP0无会员折扣,仅显示不可编辑</li>
+                  <li>所有会员等级（包括VIP0）都可以设置本店折扣</li>
                   <li>折扣以百分比形式显示,例如 15% 表示打 8.5 折</li>
                 </ul>
               </div>

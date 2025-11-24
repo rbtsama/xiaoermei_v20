@@ -28,7 +28,7 @@ export default function PointsServiceConfigPage({ config }: PointsServiceConfigP
           <Card className="mb-6">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Gift className="w-5 h-5 text-green-600" />
+                <Gift className="w-5 h-5 text-slate-900" />
                 积分奖励
               </CardTitle>
             </CardHeader>
@@ -50,7 +50,7 @@ export default function PointsServiceConfigPage({ config }: PointsServiceConfigP
                         {service.description || '-'}
                       </TableCell>
                       <TableCell>
-                        <span className="font-semibold text-green-600">
+                        <span className="font-semibold text-slate-900">
                           {Math.abs(service.pointsAmount)} 积分
                         </span>
                       </TableCell>
@@ -79,7 +79,7 @@ export default function PointsServiceConfigPage({ config }: PointsServiceConfigP
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <ShoppingBag className="w-5 h-5 text-secondary" />
+                <ShoppingBag className="w-5 h-5 text-slate-900" />
                 积分换购
               </CardTitle>
             </CardHeader>
@@ -101,7 +101,7 @@ export default function PointsServiceConfigPage({ config }: PointsServiceConfigP
                         {service.description || '-'}
                       </TableCell>
                       <TableCell>
-                        <span className="font-semibold text-secondary">
+                        <span className="font-semibold text-slate-900">
                           {service.pointsAmount} 积分
                         </span>
                       </TableCell>
