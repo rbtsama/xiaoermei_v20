@@ -207,8 +207,8 @@ export const mockMemberLevelDiscountRules: MemberLevelDiscountRule[] = [
  */
 export const mockUserMemberInfos: UserMemberInfo[] = [
   {
-    userId: 'user-1',
-    userName: '张三',
+    userId: '100000',
+    userNickname: '旅行达人',
     phone: '13812341234',
     currentLevel: 3,
     currentLevelName: 'VIP3',
@@ -219,8 +219,8 @@ export const mockUserMemberInfos: UserMemberInfo[] = [
     registeredAt: '2024-05-20 14:30:00',
   },
   {
-    userId: 'user-2',
-    userName: '李四',
+    userId: '100001',
+    userNickname: '阳光少年',
     phone: '13923455678',
     currentLevel: 2,
     currentLevelName: 'VIP2',
@@ -231,8 +231,8 @@ export const mockUserMemberInfos: UserMemberInfo[] = [
     registeredAt: '2024-08-15 09:20:00',
   },
   {
-    userId: 'user-3',
-    userName: '王五',
+    userId: '100002',
+    userNickname: '微笑的猫咪',
     phone: '13634569012',
     currentLevel: 1,
     currentLevelName: 'VIP1',
@@ -250,7 +250,7 @@ export const mockUserMemberInfos: UserMemberInfo[] = [
 export const mockUserNightRecords: UserNightRecord[] = [
   {
     id: 'night-1',
-    orderId: '20251101001',
+    orderId: '12511011234',
     hotelName: 'XX豪华酒店',
     checkInDate: '2025-11-01',
     checkOutDate: '2025-11-03',
@@ -259,7 +259,7 @@ export const mockUserNightRecords: UserNightRecord[] = [
   },
   {
     id: 'night-2',
-    orderId: '20251015001',
+    orderId: '12510155678',
     hotelName: 'YY精品酒店',
     checkInDate: '2025-10-15',
     checkOutDate: '2025-10-16',
@@ -268,7 +268,7 @@ export const mockUserNightRecords: UserNightRecord[] = [
   },
   {
     id: 'night-3',
-    orderId: '20250920001',
+    orderId: '12509209012',
     hotelName: 'ZZ商务酒店',
     checkInDate: '2025-09-20',
     checkOutDate: '2025-09-22',
@@ -283,8 +283,8 @@ export const mockUserNightRecords: UserNightRecord[] = [
 export const mockMemberLevelAdjustRecords: MemberLevelAdjustRecord[] = [
   {
     id: 'adjust-1',
-    userId: 'user-1',
-    userName: '张三',
+    userId: '100000',
+    userNickname: '旅行达人',
     fromLevel: 2,
     toLevel: 3,
     adjustType: 'upgrade',
@@ -295,8 +295,8 @@ export const mockMemberLevelAdjustRecords: MemberLevelAdjustRecord[] = [
   },
   {
     id: 'adjust-2',
-    userId: 'user-4',
-    userName: '赵六',
+    userId: '100003',
+    userNickname: '星空漫步',
     fromLevel: 3,
     toLevel: 2,
     adjustType: 'downgrade',
@@ -307,14 +307,14 @@ export const mockMemberLevelAdjustRecords: MemberLevelAdjustRecord[] = [
   },
   {
     id: 'adjust-3',
-    userId: 'user-5',
-    userName: '孙七',
+    userId: '100004',
+    userNickname: '',
     fromLevel: 0,
     toLevel: 2,
     adjustType: 'manual',
     adjustTypeName: '手动调整',
     reason: '客诉补偿',
-    operator: '管理员-张三',
+    operator: '管理员',
     createdAt: '2025-11-20 15:00:00',
   },
 ]

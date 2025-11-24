@@ -11,7 +11,7 @@ export type UserStatus = 'active' | 'disabled'
 // 用户基本信息
 export interface User {
   userId: string
-  name: string
+  nickname: string // 微信昵称，可为空
   phone: string
   memberLevel: MemberLevel
   currentPoints: number
@@ -63,7 +63,7 @@ export interface OrderSummary {
 
 // 用户筛选参数
 export interface UserFilterParams {
-  search?: string // 搜索关键词（用户ID、手机号、姓名）
+  search?: string // 搜索关键词（用户ID、手机号、昵称）
   memberLevel?: MemberLevel // 会员等级筛选
   status?: UserStatus // 状态筛选
   registeredFrom?: string // 注册起始日期
@@ -74,7 +74,7 @@ export interface UserFilterParams {
 export interface PointsAdjustmentRecord {
   id: string
   userId: string
-  userName: string
+  userNickname: string // 用户昵称，可为空
   amount: number // 正数为增加，负数为减少
   reason: string
   operator: string
@@ -85,7 +85,7 @@ export interface PointsAdjustmentRecord {
 export interface LevelAdjustmentRecord {
   id: string
   userId: string
-  userName: string
+  userNickname: string // 用户昵称，可为空
   fromLevel: MemberLevel
   toLevel: MemberLevel
   reason: string

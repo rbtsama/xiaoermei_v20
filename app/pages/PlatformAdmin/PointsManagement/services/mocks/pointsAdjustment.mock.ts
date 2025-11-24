@@ -6,9 +6,9 @@ import type { UserPointsInfo, PointsDetailRecord } from '../../types/pointsAdjus
 
 // 模拟用户积分信息
 export const mockUserPointsInfo: Record<string, UserPointsInfo> = {
-  'U001': {
-    userId: 'U001',
-    userName: '张三',
+  '100000': {
+    userId: '100000',
+    userNickname: '旅行达人',
     phone: '13812348888',
     memberLevel: 'VIP3',
     currentPoints: 2580,
@@ -16,9 +16,9 @@ export const mockUserPointsInfo: Record<string, UserPointsInfo> = {
     totalSpent: 13220,
     lastUpdateTime: '2025/01/23 15:30:20'
   },
-  'U002': {
-    userId: 'U002',
-    userName: '李四',
+  '100001': {
+    userId: '100001',
+    userNickname: '阳光少年',
     phone: '13923456666',
     memberLevel: 'VIP1',
     currentPoints: 450,
@@ -26,9 +26,9 @@ export const mockUserPointsInfo: Record<string, UserPointsInfo> = {
     totalSpent: 750,
     lastUpdateTime: '2025/01/22 10:15:30'
   },
-  'U003': {
-    userId: 'U003',
-    userName: '王五',
+  '100002': {
+    userId: '100002',
+    userNickname: '微笑的猫咪',
     phone: '13634569999',
     memberLevel: 'VIP5',
     currentPoints: 8900,
@@ -40,14 +40,14 @@ export const mockUserPointsInfo: Record<string, UserPointsInfo> = {
 
 // 模拟积分明细记录
 export const mockPointsDetails: Record<string, PointsDetailRecord[]> = {
-  'U001': [
+  '100000': [
     {
       id: 'PD001',
       type: 'earn',
       typeLabel: '订单完成',
       amount: 580,
       balance: 2580,
-      description: '订单 #202501230001 完成',
+      description: '订单 #12501230001 完成',
       operator: '系统',
       createdAt: '2025/01/23 15:30:20'
     },
@@ -57,7 +57,7 @@ export const mockPointsDetails: Record<string, PointsDetailRecord[]> = {
       typeLabel: '积分抵扣',
       amount: -500,
       balance: 2000,
-      description: '订单 #202501220005 积分抵扣',
+      description: '订单 #12501220005 积分抵扣',
       operator: '系统',
       createdAt: '2025/01/22 10:20:15'
     },
@@ -77,7 +77,7 @@ export const mockPointsDetails: Record<string, PointsDetailRecord[]> = {
       typeLabel: '订单完成',
       amount: 320,
       balance: 2300,
-      description: '订单 #202501180003 完成',
+      description: '订单 #12501180003 完成',
       operator: '系统',
       createdAt: '2025/01/18 18:45:22'
     },
@@ -92,14 +92,14 @@ export const mockPointsDetails: Record<string, PointsDetailRecord[]> = {
       createdAt: '2025/01/15 11:20:10'
     }
   ],
-  'U002': [
+  '100001': [
     {
       id: 'PD101',
       type: 'earn',
       typeLabel: '订单完成',
       amount: 200,
       balance: 450,
-      description: '订单 #202501220008 完成',
+      description: '订单 #12501220008 完成',
       operator: '系统',
       createdAt: '2025/01/22 10:15:30'
     },
@@ -119,19 +119,19 @@ export const mockPointsDetails: Record<string, PointsDetailRecord[]> = {
       typeLabel: '积分抵扣',
       amount: -150,
       balance: 150,
-      description: '订单 #202501120002 积分抵扣',
+      description: '订单 #12501120002 积分抵扣',
       operator: '系统',
       createdAt: '2025/01/12 16:30:45'
     }
   ],
-  'U003': [
+  '100002': [
     {
       id: 'PD201',
       type: 'earn',
       typeLabel: '订单完成',
       amount: 1200,
       balance: 8900,
-      description: '订单 #202501240001 完成',
+      description: '订单 #12501240001 完成',
       operator: '系统',
       createdAt: '2025/01/24 09:45:10'
     },
@@ -141,7 +141,7 @@ export const mockPointsDetails: Record<string, PointsDetailRecord[]> = {
       typeLabel: '积分抵扣',
       amount: -3000,
       balance: 7700,
-      description: '订单 #202501200012 积分抵扣',
+      description: '订单 #12501200012 积分抵扣',
       operator: '系统',
       createdAt: '2025/01/20 20:15:30'
     },

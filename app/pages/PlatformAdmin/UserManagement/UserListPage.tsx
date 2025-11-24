@@ -91,7 +91,7 @@ export default function UserListPage({ users, memberLevels }: UserListPageProps)
                       name="search"
                       value={searchValue}
                       onChange={(e) => setSearchValue(e.target.value)}
-                      placeholder="用户ID、手机号或姓名"
+                      placeholder="用户ID、手机号或昵称"
                       className="h-9 mt-1.5 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                     />
                   </div>
@@ -212,7 +212,7 @@ export default function UserListPage({ users, memberLevels }: UserListPageProps)
                   <TableHeader>
                     <TableRow className="border-slate-200 bg-slate-50">
                       <TableHead className="text-slate-900 font-semibold">用户ID</TableHead>
-                      <TableHead className="text-slate-900 font-semibold">姓名</TableHead>
+                      <TableHead className="text-slate-900 font-semibold">昵称</TableHead>
                       <TableHead className="text-slate-900 font-semibold">手机号</TableHead>
                       <TableHead className="text-slate-900 font-semibold">会员等级</TableHead>
                       <TableHead className="text-slate-900 font-semibold">当前积分</TableHead>
@@ -228,7 +228,7 @@ export default function UserListPage({ users, memberLevels }: UserListPageProps)
                           {user.userId}
                         </TableCell>
                         <TableCell className="text-slate-900">
-                          {user.name}
+                          {user.nickname || <span className="text-slate-400">未设置</span>}
                         </TableCell>
                         <TableCell className="text-slate-900">
                           {user.phone}

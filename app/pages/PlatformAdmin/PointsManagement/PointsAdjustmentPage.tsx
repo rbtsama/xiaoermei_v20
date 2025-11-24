@@ -64,7 +64,7 @@ export default function PointsAdjustmentPage({ userInfo, details }: PointsAdjust
     setShowConfirm(false)
     setAdjustmentAmount('')
     setAdjustmentReason('')
-    alert('积分调整成功')
+    // 移除成功提示弹窗 - 确认弹窗关闭即表示操作完成
   }
 
   return (

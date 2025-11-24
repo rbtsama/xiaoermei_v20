@@ -7,8 +7,8 @@ import type { User, UserDetail, MemberLevel } from '../../types/user.types'
 // 用户列表数据（15个用户）
 export const mockUsers: User[] = [
   {
-    userId: 'U001',
-    name: '张三',
+    userId: '100000',
+    nickname: '旅行达人',
     phone: '13812348888',
     memberLevel: '钻石会员',
     currentPoints: 12580,
@@ -16,8 +16,8 @@ export const mockUsers: User[] = [
     status: 'active'
   },
   {
-    userId: 'U002',
-    name: '李四',
+    userId: '100001',
+    nickname: '阳光少年',
     phone: '13923456666',
     memberLevel: '白金会员',
     currentPoints: 8650,
@@ -25,8 +25,8 @@ export const mockUsers: User[] = [
     status: 'active'
   },
   {
-    userId: 'U003',
-    name: '王五',
+    userId: '100002',
+    nickname: '微笑的猫咪',
     phone: '13634569999',
     memberLevel: '金卡会员',
     currentPoints: 4320,
@@ -34,8 +34,8 @@ export const mockUsers: User[] = [
     status: 'active'
   },
   {
-    userId: 'U004',
-    name: '赵六',
+    userId: '100003',
+    nickname: '星空漫步',
     phone: '13745677777',
     memberLevel: '银卡会员',
     currentPoints: 2150,
@@ -43,8 +43,8 @@ export const mockUsers: User[] = [
     status: 'active'
   },
   {
-    userId: 'U005',
-    name: '钱七',
+    userId: '100004',
+    nickname: '',
     phone: '13556785555',
     memberLevel: '普通会员',
     currentPoints: 850,
@@ -52,8 +52,8 @@ export const mockUsers: User[] = [
     status: 'active'
   },
   {
-    userId: 'U006',
-    name: '孙八',
+    userId: '100005',
+    nickname: '咖啡时光',
     phone: '13367894444',
     memberLevel: '金卡会员',
     currentPoints: 5670,
@@ -61,8 +61,8 @@ export const mockUsers: User[] = [
     status: 'disabled'
   },
   {
-    userId: 'U007',
-    name: '周九',
+    userId: '100006',
+    nickname: '简单生活',
     phone: '18878903333',
     memberLevel: '白金会员',
     currentPoints: 9420,
@@ -70,8 +70,8 @@ export const mockUsers: User[] = [
     status: 'active'
   },
   {
-    userId: 'U008',
-    name: '吴十',
+    userId: '100007',
+    nickname: '',
     phone: '18689012222',
     memberLevel: '银卡会员',
     currentPoints: 1980,
@@ -79,8 +79,8 @@ export const mockUsers: User[] = [
     status: 'active'
   },
   {
-    userId: 'U009',
-    name: '郑十一',
+    userId: '100008',
+    nickname: '梦想家',
     phone: '18590121111',
     memberLevel: '钻石会员',
     currentPoints: 15680,
@@ -88,8 +88,8 @@ export const mockUsers: User[] = [
     status: 'active'
   },
   {
-    userId: 'U010',
-    name: '王十二',
+    userId: '100009',
+    nickname: '清风',
     phone: '15201238888',
     memberLevel: '普通会员',
     currentPoints: 520,
@@ -97,8 +97,8 @@ export const mockUsers: User[] = [
     status: 'active'
   },
   {
-    userId: 'U011',
-    name: '刘十三',
+    userId: '100010',
+    nickname: '夜猫子',
     phone: '15112347777',
     memberLevel: '金卡会员',
     currentPoints: 6830,
@@ -106,8 +106,8 @@ export const mockUsers: User[] = [
     status: 'active'
   },
   {
-    userId: 'U012',
-    name: '陈十四',
+    userId: '100011',
+    nickname: '都市行者',
     phone: '15023456666',
     memberLevel: '白金会员',
     currentPoints: 11250,
@@ -115,8 +115,8 @@ export const mockUsers: User[] = [
     status: 'active'
   },
   {
-    userId: 'U013',
-    name: '杨十五',
+    userId: '100012',
+    nickname: '',
     phone: '15934565555',
     memberLevel: '银卡会员',
     currentPoints: 2680,
@@ -124,8 +124,8 @@ export const mockUsers: User[] = [
     status: 'active'
   },
   {
-    userId: 'U014',
-    name: '黄十六',
+    userId: '100013',
+    nickname: '自由飞翔',
     phone: '15845674444',
     memberLevel: '普通会员',
     currentPoints: 320,
@@ -133,8 +133,8 @@ export const mockUsers: User[] = [
     status: 'disabled'
   },
   {
-    userId: 'U015',
-    name: '林十七',
+    userId: '100014',
+    nickname: '山间清风',
     phone: '15756783333',
     memberLevel: '钻石会员',
     currentPoints: 18920,
@@ -145,9 +145,9 @@ export const mockUsers: User[] = [
 
 // 用户详情数据
 export const mockUserDetails: Record<string, UserDetail> = {
-  'U001': {
-    userId: 'U001',
-    name: '张三',
+  '100000': {
+    userId: '100000',
+    nickname: '旅行达人',
     phone: '13812348888',
     memberLevel: '钻石会员',
     currentPoints: 12580,
@@ -177,7 +177,7 @@ export const mockUserDetails: Record<string, UserDetail> = {
     },
     recentOrders: [
       {
-        orderId: 'O2024112001',
+        orderId: '12511201234',
         hotelName: '北京三里屯亚朵酒店',
         roomType: '豪华大床房',
         checkIn: '2024-11-15',
@@ -187,7 +187,7 @@ export const mockUserDetails: Record<string, UserDetail> = {
         status: 'completed'
       },
       {
-        orderId: 'O2024111501',
+        orderId: '12511155678',
         hotelName: '上海外滩全季酒店',
         roomType: '高级双床房',
         checkIn: '2024-11-10',
@@ -197,7 +197,7 @@ export const mockUserDetails: Record<string, UserDetail> = {
         status: 'completed'
       },
       {
-        orderId: 'O2024110801',
+        orderId: '12511089012',
         hotelName: '杭州西湖希尔顿酒店',
         roomType: '行政套房',
         checkIn: '2024-12-01',
@@ -208,9 +208,9 @@ export const mockUserDetails: Record<string, UserDetail> = {
       }
     ]
   },
-  'U002': {
-    userId: 'U002',
-    name: '李四',
+  '100001': {
+    userId: '100001',
+    nickname: '阳光少年',
     phone: '13923456666',
     memberLevel: '白金会员',
     currentPoints: 8650,
@@ -240,7 +240,7 @@ export const mockUserDetails: Record<string, UserDetail> = {
     },
     recentOrders: [
       {
-        orderId: 'O2024111802',
+        orderId: '12511183456',
         hotelName: '深圳南山维也纳酒店',
         roomType: '商务大床房',
         checkIn: '2024-11-12',
@@ -250,7 +250,7 @@ export const mockUserDetails: Record<string, UserDetail> = {
         status: 'completed'
       },
       {
-        orderId: 'O2024110502',
+        orderId: '12511057890',
         hotelName: '广州天河宜必思酒店',
         roomType: '标准双床房',
         checkIn: '2024-11-05',
@@ -261,9 +261,9 @@ export const mockUserDetails: Record<string, UserDetail> = {
       }
     ]
   },
-  'U003': {
-    userId: 'U003',
-    name: '王五',
+  '100002': {
+    userId: '100002',
+    nickname: '微笑的猫咪',
     phone: '13634569999',
     memberLevel: '金卡会员',
     currentPoints: 4320,
@@ -293,7 +293,7 @@ export const mockUserDetails: Record<string, UserDetail> = {
     },
     recentOrders: [
       {
-        orderId: 'O2024111603',
+        orderId: '12511161234',
         hotelName: '成都春熙路如家酒店',
         roomType: '经济大床房',
         checkIn: '2024-11-10',
@@ -304,9 +304,9 @@ export const mockUserDetails: Record<string, UserDetail> = {
       }
     ]
   },
-  'U004': {
-    userId: 'U004',
-    name: '赵六',
+  '100003': {
+    userId: '100003',
+    nickname: '星空漫步',
     phone: '13745677777',
     memberLevel: '银卡会员',
     currentPoints: 2150,
@@ -336,7 +336,7 @@ export const mockUserDetails: Record<string, UserDetail> = {
     },
     recentOrders: [
       {
-        orderId: 'O2024111404',
+        orderId: '12511145678',
         hotelName: '西安钟楼7天酒店',
         roomType: '标准大床房',
         checkIn: '2024-11-08',
@@ -347,9 +347,9 @@ export const mockUserDetails: Record<string, UserDetail> = {
       }
     ]
   },
-  'U005': {
-    userId: 'U005',
-    name: '钱七',
+  '100004': {
+    userId: '100004',
+    nickname: '',
     phone: '13556785555',
     memberLevel: '普通会员',
     currentPoints: 850,
@@ -379,7 +379,7 @@ export const mockUserDetails: Record<string, UserDetail> = {
     },
     recentOrders: [
       {
-        orderId: 'O2024111005',
+        orderId: '12511109012',
         hotelName: '重庆解放碑汉庭酒店',
         roomType: '特惠房',
         checkIn: '2024-11-05',

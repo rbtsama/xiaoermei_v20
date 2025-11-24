@@ -194,19 +194,19 @@ export const mockRoomTypes: RoomType[] = [
 // ===== 4. 房间信息 =====
 export const mockRooms: Room[] = [
   // 人民广场店 - 2楼标准大床房
-  { id: 'room-001', storeId: 'store-001', storeName: '上海人民广场店', roomTypeId: 'rt-001', roomTypeName: '标准大床房', roomNumber: '2001', floor: 2, status: RoomStatus.OCCUPIED, currentGuestName: '张三', checkInDate: '01/15/25', checkOutDate: '01/17/25', lastCleanedAt: '01/15/25 14:00:00' },
+  { id: 'room-001', storeId: 'store-001', storeName: '上海人民广场店', roomTypeId: 'rt-001', roomTypeName: '标准大床房', roomNumber: '2001', floor: 2, status: RoomStatus.OCCUPIED, currentGuestNickname: '旅行达人', checkInDate: '01/15/25', checkOutDate: '01/17/25', lastCleanedAt: '01/15/25 14:00:00' },
   { id: 'room-002', storeId: 'store-001', storeName: '上海人民广场店', roomTypeId: 'rt-001', roomTypeName: '标准大床房', roomNumber: '2002', floor: 2, status: RoomStatus.AVAILABLE, lastCleanedAt: '01/16/25 10:30:00' },
   { id: 'room-003', storeId: 'store-001', storeName: '上海人民广场店', roomTypeId: 'rt-001', roomTypeName: '标准大床房', roomNumber: '2003', floor: 2, status: RoomStatus.CLEANING, lastCleanedAt: '01/16/25 09:00:00' },
   { id: 'room-004', storeId: 'store-001', storeName: '上海人民广场店', roomTypeId: 'rt-001', roomTypeName: '标准大床房', roomNumber: '2004', floor: 2, status: RoomStatus.RESERVED, checkInDate: '01/17/25' },
   { id: 'room-005', storeId: 'store-001', storeName: '上海人民广场店', roomTypeId: 'rt-001', roomTypeName: '标准大床房', roomNumber: '2005', floor: 2, status: RoomStatus.MAINTENANCE, notes: '空调故障维修中', lastMaintenanceAt: '01/16/25 08:00:00' },
 
   // 人民广场店 - 3楼豪华双床房
-  { id: 'room-006', storeId: 'store-001', storeName: '上海人民广场店', roomTypeId: 'rt-002', roomTypeName: '豪华双床房', roomNumber: '3001', floor: 3, status: RoomStatus.OCCUPIED, currentGuestName: '李四', checkInDate: '01/14/25', checkOutDate: '01/18/25' },
+  { id: 'room-006', storeId: 'store-001', storeName: '上海人民广场店', roomTypeId: 'rt-002', roomTypeName: '豪华双床房', roomNumber: '3001', floor: 3, status: RoomStatus.OCCUPIED, currentGuestNickname: '阳光少年', checkInDate: '01/14/25', checkOutDate: '01/18/25' },
   { id: 'room-007', storeId: 'store-001', storeName: '上海人民广场店', roomTypeId: 'rt-002', roomTypeName: '豪华双床房', roomNumber: '3002', floor: 3, status: RoomStatus.AVAILABLE },
   { id: 'room-008', storeId: 'store-001', storeName: '上海人民广场店', roomTypeId: 'rt-002', roomTypeName: '豪华双床房', roomNumber: '3003', floor: 3, status: RoomStatus.AVAILABLE },
 
   // 迪士尼店 - 亲子房
-  { id: 'room-009', storeId: 'store-003', storeName: '上海迪士尼店', roomTypeId: 'rt-004', roomTypeName: '亲子主题房', roomNumber: '1001', floor: 1, status: RoomStatus.OCCUPIED, currentGuestName: '王五', checkInDate: '01/15/25', checkOutDate: '01/16/25' },
+  { id: 'room-009', storeId: 'store-003', storeName: '上海迪士尼店', roomTypeId: 'rt-004', roomTypeName: '亲子主题房', roomNumber: '1001', floor: 1, status: RoomStatus.OCCUPIED, currentGuestNickname: '微笑的猫咪', checkInDate: '01/15/25', checkOutDate: '01/16/25' },
   { id: 'room-010', storeId: 'store-003', storeName: '上海迪士尼店', roomTypeId: 'rt-004', roomTypeName: '亲子主题房', roomNumber: '1002', floor: 1, status: RoomStatus.AVAILABLE },
 ]
 
@@ -214,7 +214,7 @@ export const mockRooms: Room[] = [
 export const mockHotelMembers: HotelMember[] = [
   {
     id: 'hm-001',
-    name: '陈女士',
+    nickname: '都市行者',
     phone: '13812341111',
     level: HotelMemberLevel.SVIP,
     levelName: '超级VIP',
@@ -228,7 +228,7 @@ export const mockHotelMembers: HotelMember[] = [
   },
   {
     id: 'hm-002',
-    name: '刘先生',
+    nickname: '夜猫子',
     phone: '13923452222',
     level: HotelMemberLevel.VIP,
     levelName: 'VIP',
@@ -241,7 +241,7 @@ export const mockHotelMembers: HotelMember[] = [
   },
   {
     id: 'hm-003',
-    name: '孙女士',
+    nickname: '',
     phone: '18689013333',
     level: HotelMemberLevel.NORMAL,
     levelName: '普通会员',

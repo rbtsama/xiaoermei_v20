@@ -4,6 +4,139 @@
 
 ---
 
+## 2025-11-24 21:35:00
+
+### 统一模拟数据格式规范 + 移除积分调整成功提示
+
+#### 1. 移除积分调整成功提示弹窗
+
+**修改文件：**
+- `app/pages/PlatformAdmin/PointsManagement/PointsAdjustmentPage.tsx`
+
+**修改内容：**
+- 移除第67行的 `alert('积分调整成功')` 提示
+- 确认弹窗关闭即表示操作完成，无需额外成功提示
+
+**功能影响：**
+- 用户点击确认后，弹窗直接关闭，不再显示"积分调整成功"的系统弹窗
+- 简化操作流程，提升用户体验
+
+#### 2. 统一全局模拟数据格式规范
+
+**问题背景：**
+用户是通过小程序注册，没有真实姓名，只有微信昵称（可为空），需要统一数据格式以符合真实业务场景。
+
+**修改的Mock数据文件（6个主要文件）：**
+1. `app/pages/PlatformAdmin/UserManagement/services/mocks/user.mock.ts`
+2. `app/pages/PlatformAdmin/PointsManagement/services/mocks/pointsAdjustment.mock.ts`
+3. `app/pages/PlatformAdmin/PointsManagement/services/mocks/points.mock.ts`
+4. `app/pages/PlatformAdmin/MemberManagement/services/mocks/member.mock.ts`
+5. `app/pages/MerchantBackend/AgentOrder/services/mocks/agentOrder.mock.ts`
+6. `app/pages/SharedTypes/mocks/order.mock.ts`
+
+**修改的类型定义文件：**
+- `app/pages/PlatformAdmin/UserManagement/types/user.types.ts`
+
+**修改的页面文件：**
+- `app/pages/PlatformAdmin/UserManagement/UserListPage.tsx`
+
+**具体修改规则：**
+
+##### A. 用户ID格式统一
+- **旧格式**: `U001`, `U002`, `USR001` 等
+- **新格式**: `100000`, `100001`, `100002` ...（6位数字，自增）
+- **起始ID**: 100000
+
+##### B. 订单编号格式统一
+- **旧格式**: `O2024112001`, `20251118001`, `DKD2025120101234` 等
+- **新格式**: `1` + `YYMMDD` + `XXXX`（4位序号）
+- **示例**: `12511241234`（2025年11月24日生成的订单）
+- **总长度**: 11位
+
+##### C. 用户姓名字段统一
+- **旧字段**: `name`, `userName`, `customerName`
+- **新字段**: `nickname`, `userNickname`, `customerNickname`
+- **值**: 微信风格昵称或空字符串
+- **昵称示例**:
+  - "旅行达人"
+  - "阳光少年"
+  - "微笑的猫咪"
+  - "星空漫步"
+  - "" （空字符串，显示为"未设置"）
+
+**类型定义更新：**
+```typescript
+// User接口更新
+export interface User {
+  userId: string         // 从 U001 改为 100000
+  nickname: string       // 从 name 改为 nickname，微信昵称可为空
+  phone: string
+  memberLevel: MemberLevel
+  currentPoints: number
+  registeredAt: string
+  status: UserStatus
+}
+
+// PointsAdjustmentRecord接口更新
+export interface PointsAdjustmentRecord {
+  userId: string
+  userNickname: string   // 从 userName 改为 userNickname
+  // ...
+}
+```
+
+**页面组件更新：**
+- 用户列表页面：表头"姓名"改为"昵称"
+- 搜索提示：从"用户ID、手机号或姓名"改为"用户ID、手机号或昵称"
+- 昵称为空时显示灰色"未设置"文字
+
+**数据示例对比：**
+
+修改前：
+```typescript
+{
+  userId: 'U001',
+  name: '张三',
+  phone: '13812348888',
+  orderId: 'O2024112001'
+}
+```
+
+修改后：
+```typescript
+{
+  userId: '100000',
+  nickname: '旅行达人',  // 或 '' 空字符串
+  phone: '13812348888',
+  orderId: '12511241234'
+}
+```
+
+**功能影响：**
+
+✅ **真实业务场景还原**：
+- 符合小程序注册用户的真实数据特征
+- 没有真实姓名，只有微信授权昵称
+- 昵称可以为空（用户未授权或未设置）
+
+✅ **数据格式统一**：
+- 用户ID统一为6位数字格式（100000起）
+- 订单号统一为11位格式（1+日期+序号）
+- 昵称字段命名统一
+
+✅ **涉及的功能模块**：
+1. **平台后台**：用户管理、积分调整、会员管理
+2. **商户端**：代客下单
+3. **订单系统**：订单列表、订单详情
+4. **积分系统**：积分明细、积分调整记录
+
+**注意事项：**
+- 昵称为空字符串时，页面显示为灰色"未设置"文字
+- 用户ID全部改为6位数字，TypeScript类型仍为string（保持灵活性）
+- 订单号生成规则：`1` + `251124`（今日日期YYMMDD） + `0001-9999`（4位递增序号）
+
+---
+
 ## 2025-11-24 21:25:00
 
 ### 全局移除手机号脱敏显示
