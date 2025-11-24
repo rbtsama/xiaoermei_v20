@@ -81,7 +81,7 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
                   </ul>
                   <p className="mt-2"><strong>计算：</strong></p>
                   <p className="text-slate-600">
-                    最终价格 = ¥500 × 0.88 = <span className="font-semibold text-primary">¥440</span>
+                    最终价格 = ¥500 × 0.88 = <span className="font-semibold text-blue-600">¥440</span>
                   </p>
                 </div>
               </section>
@@ -100,33 +100,33 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
         </div>
 
         {/* 配置表格 */}
-        <Card>
+        <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
-            <CardTitle>会员等级折扣规则配置</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-slate-900">会员等级折扣规则配置</CardTitle>
+            <CardDescription className="text-slate-600">
               平台设定基础折扣，商户可在允许范围内设置更优惠的折扣
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead>等级</TableHead>
-                  <TableHead>平台基础折扣</TableHead>
-                  <TableHead>商户折扣范围</TableHead>
-                  <TableHead>价格示例（¥500房型）</TableHead>
-                  <TableHead>最后更新</TableHead>
-                  <TableHead className="text-right">操作</TableHead>
+                <TableRow className="hover:bg-transparent">
+                  <TableHead className="text-slate-900">等级</TableHead>
+                  <TableHead className="text-slate-900">平台基础折扣</TableHead>
+                  <TableHead className="text-slate-900">商户折扣范围</TableHead>
+                  <TableHead className="text-slate-900">价格示例（¥500房型）</TableHead>
+                  <TableHead className="text-slate-900">最后更新</TableHead>
+                  <TableHead className="text-right text-slate-900">操作</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {rules.map((rule) => {
                   const examplePrice = rule.level === 0 ? 500 : (500 * rule.platformBaseDiscount).toFixed(0)
                   return (
-                    <TableRow key={rule.id}>
-                      <TableCell className="font-medium">{rule.levelName}</TableCell>
+                    <TableRow key={rule.id} className="hover:bg-slate-50 transition-colors">
+                      <TableCell className="font-medium text-slate-900">{rule.levelName}</TableCell>
                       <TableCell>
-                        <span className="font-semibold text-primary">
+                        <span className="font-semibold text-blue-600">
                           {formatDiscount(rule.platformBaseDiscount)}
                         </span>
                       </TableCell>
@@ -143,13 +143,13 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
                         {rule.level === 0 ? (
                           <span className="text-slate-500">¥500（原价）</span>
                         ) : (
-                          <span className="text-secondary font-semibold">¥{examplePrice}</span>
+                          <span className="text-blue-600 font-semibold">¥{examplePrice}</span>
                         )}
                       </TableCell>
                       <TableCell className="text-sm text-slate-500">{rule.updatedAt}</TableCell>
                       <TableCell className="text-right">
                         {rule.level !== 0 && (
-                          <Button variant="ghost" size="sm" onClick={() => handleEdit(rule)}>
+                          <Button variant="ghost" size="sm" onClick={() => handleEdit(rule)} className="hover:bg-slate-100">
                             <Edit className="w-4 h-4 mr-1" />
                             编辑
                           </Button>
@@ -191,7 +191,7 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
                       onChange={(e) =>
                         setFormData({ ...formData, platformBaseDiscount: parseFloat(e.target.value) || 1.0 })
                       }
-                      className="max-w-xs"
+                      className="max-w-xs h-9 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
                     <span className="text-sm text-slate-600">（例如：9折 = 0.9）</span>
                   </div>
@@ -211,14 +211,14 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
                       onChange={(e) =>
                         setFormData({ ...formData, merchantDiscountMin: parseFloat(e.target.value) || 1.0 })
                       }
-                      className="w-32"
+                      className="w-32 h-9 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                       placeholder="最低"
                     />
                     <span className="text-slate-600">~</span>
                     <Input
                       value={formData.platformBaseDiscount}
                       disabled
-                      className="w-32"
+                      className="w-32 h-9"
                       placeholder="最高"
                     />
                   </div>
@@ -240,10 +240,10 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
                 </div>
               </div>
               <div className="flex justify-end gap-2">
-                <Button type="button" variant="outline" onClick={() => setEditDialogOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => setEditDialogOpen(false)} className="h-9">
                   取消
                 </Button>
-                <Button type="submit">确定</Button>
+                <Button type="submit" className="h-9 bg-blue-600 hover:bg-blue-700">确定</Button>
               </div>
             </Form>
           </DialogContent>

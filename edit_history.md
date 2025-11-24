@@ -4,6 +4,82 @@
 
 ---
 
+## 2025-11-24 16:45:00
+
+### 全站剩余页面UI优化 - 按照CLAUDE.md Part 4规范
+
+**修改文件：**
+- `app/pages/PlatformAdmin/PointsManagement/UserPointsDetailPage.tsx` - 用户积分明细页面UI优化
+- `app/pages/PlatformAdmin/MemberManagement/DiscountRulesPage.tsx` - 会员折扣规则页面UI优化
+- `app/pages/PlatformAdmin/MemberManagement/UpgradeRulesPage.tsx` - 会员升级规则页面UI优化(待完成)
+- `app/pages/PlatformAdmin/MemberManagement/UserMemberManagementPage.tsx` - 用户会员管理页面UI优化(待完成)
+- `app/pages/MemberManagement/Members/MembersPage.tsx` - 会员列表页面UI优化(待完成)
+- `app/pages/MemberManagement/Members/MemberDetailPage.tsx` - 会员详情页面UI优化(待完成)
+- `app/pages/CClient/UserCenter/MyPointsPage.tsx` - C端我的积分页面UI优化(待完成)
+- `app/pages/CClient/UserCenter/MemberCenterPage.tsx` - C端会员中心页面UI优化(待完成)
+- `app/pages/CClient/UserCenter/InviteFriendPage.tsx` - C端邀请好友页面UI优化(待完成)
+- `app/pages/CClient/Hotel/HotelListPage.tsx` - C端酒店列表页面UI优化(待完成)
+- `app/pages/CClient/Hotel/HotelDetailPage.tsx` - C端酒店详情页面UI优化(待完成)
+- `app/pages/CClient/Hotel/OrderConfirmPage.tsx` - C端订单确认页面UI优化(待完成)
+- `app/pages/CClient/Order/PaymentSuccessPage.tsx` - C端支付成功页面UI优化(待完成)
+- `app/pages/CClient/Order/OrderListPage.tsx` - C端订单列表页面UI优化(待完成)
+- `app/pages/CClient/Order/OrderDetailPage.tsx` - C端订单详情页面UI优化(待完成)
+
+**修改内容：**
+
+### 已完成优化 (2个平台后台页面)
+
+1. **UserPointsDetailPage.tsx - 用户积分明细页面**
+   - 卡片样式：`rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow`
+   - 标题样式：`text-slate-900` 深色文字
+   - 按钮优化：`h-9 bg-blue-600 hover:bg-blue-700`
+   - 表格优化：
+     - 表头：`text-slate-900` + `hover:bg-transparent`
+     - 行：`hover:bg-slate-50 transition-colors`
+     - 数据高亮：蓝色 `text-blue-600` 统一品牌色
+   - Badge标签：`border-blue-200 text-blue-700`
+   - 输入框：`h-9 focus:border-blue-500 focus:ring-2 focus:ring-blue-200`
+   - Dialog对话框按钮统一样式
+
+2. **DiscountRulesPage.tsx - 会员折扣规则页面**
+   - 卡片样式：`rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow`
+   - 表格样式统一优化（同UserPointsDetailPage）
+   - 数据展示：`text-blue-600` 主色调
+   - 输入框：`h-9 focus:border-blue-500 focus:ring-2 focus:ring-blue-200`
+   - 按钮：`h-9 bg-blue-600 hover:bg-blue-700`
+
+### 待完成优化 (13个页面)
+
+**平台后台 (2个):**
+- UpgradeRulesPage.tsx
+- UserMemberManagementPage.tsx
+
+**会员管理 (2个):**
+- MembersPage.tsx
+- MemberDetailPage.tsx
+
+**C端小程序 (9个):**
+- MyPointsPage.tsx
+- MemberCenterPage.tsx
+- InviteFriendPage.tsx
+- HotelListPage.tsx
+- HotelDetailPage.tsx
+- OrderConfirmPage.tsx
+- PaymentSuccessPage.tsx
+- OrderListPage.tsx
+- OrderDetailPage.tsx
+
+**UI优化规范应用：**
+- 后台页面：品牌蓝 #3b82f6 (blue-600)
+- C端小程序：森林绿 #458559、田野色 #A67B5B、冰川蓝 #4A85B8
+- 统一组件样式：按钮h-9、圆角rounded-xl、阴影hover效果、过渡动画
+
+**类型检查状态：**
+- 类型错误数：128个 (均为旧有错误，与UI优化无关)
+- 新增UI优化未引入类型错误
+
+---
+
 ## 2025-11-24 15:30:00
 
 ### UI规范整理和全站页面优化

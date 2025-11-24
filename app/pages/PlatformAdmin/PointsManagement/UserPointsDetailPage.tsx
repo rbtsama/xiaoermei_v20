@@ -39,7 +39,7 @@ export default function UserPointsDetailPage({
         {/* 页面头部 */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm" className="gap-2">
+            <Button variant="ghost" size="sm" className="gap-2 hover:bg-slate-100">
               <ArrowLeft className="w-4 h-4" />
               返回列表
             </Button>
@@ -55,9 +55,9 @@ export default function UserPointsDetailPage({
         {/* 基本信息和会员信息 */}
         <div className="grid grid-cols-2 gap-6 mb-6">
           {/* 基本信息 */}
-          <Card>
+          <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader>
-              <CardTitle>基本信息</CardTitle>
+              <CardTitle className="text-slate-900">基本信息</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex justify-between">
@@ -76,11 +76,11 @@ export default function UserPointsDetailPage({
           </Card>
 
           {/* 会员信息 */}
-          <Card>
+          <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>会员信息</CardTitle>
-                <Badge className="bg-purple-100 text-purple-700">
+                <CardTitle className="text-slate-900">会员信息</CardTitle>
+                <Badge className="bg-blue-100 text-blue-700 border-0">
                   {userInfo.currentLevelName}
                 </Badge>
               </div>
@@ -92,11 +92,11 @@ export default function UserPointsDetailPage({
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-600">累计总间夜：</span>
-                <span className="font-medium text-primary">{userInfo.totalNights}晚</span>
+                <span className="font-medium text-blue-600">{userInfo.totalNights}晚</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-600">保级进度：</span>
-                <span className="font-medium text-secondary">
+                <span className="font-medium text-blue-600">
                   {userInfo.maintainNights}晚
                 </span>
               </div>
@@ -105,14 +105,14 @@ export default function UserPointsDetailPage({
         </div>
 
         {/* 积分信息 */}
-        <Card className="mb-6">
+        <Card className="mb-6 rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>积分信息</CardTitle>
-                <CardDescription>当前积分余额和积分价值</CardDescription>
+                <CardTitle className="text-slate-900">积分信息</CardTitle>
+                <CardDescription className="text-slate-600">当前积分余额和积分价值</CardDescription>
               </div>
-              <Button onClick={() => setAdjustDialogOpen(true)} className="gap-2">
+              <Button onClick={() => setAdjustDialogOpen(true)} className="h-9 gap-2 bg-blue-600 hover:bg-blue-700">
                 <Edit2 className="w-4 h-4" />
                 手动调整积分
               </Button>
@@ -122,10 +122,10 @@ export default function UserPointsDetailPage({
             <div className="grid grid-cols-3 gap-6">
               <div>
                 <p className="text-sm text-slate-600 mb-1">当前积分</p>
-                <p className="text-3xl font-bold text-primary">{userInfo.pointsBalance}</p>
+                <p className="text-3xl font-bold text-blue-600">{userInfo.pointsBalance}</p>
               </div>
               <div>
-                <p className="text-sm text-slate-600 mb-1">积分汇率</p>
+                <p className="text-sm text-slate-600 mb-1">积分倍数</p>
                 <p className="text-2xl font-semibold text-slate-900">
                   {userInfo.currentLevel === 0 ? 1.0 : (1.0 + userInfo.currentLevel * 0.1).toFixed(1)}倍
                 </p>
@@ -133,7 +133,7 @@ export default function UserPointsDetailPage({
               </div>
               <div>
                 <p className="text-sm text-slate-600 mb-1">可抵扣金额</p>
-                <p className="text-2xl font-semibold text-secondary">
+                <p className="text-2xl font-semibold text-blue-600">
                   ¥{(userInfo.pointsBalance * (1.0 + userInfo.currentLevel * 0.1)).toFixed(0)}
                 </p>
               </div>
@@ -142,31 +142,31 @@ export default function UserPointsDetailPage({
         </Card>
 
         {/* 间夜记录 */}
-        <Card className="mb-6">
+        <Card className="mb-6 rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
-            <CardTitle>间夜记录</CardTitle>
-            <CardDescription>用户的历史入住记录</CardDescription>
+            <CardTitle className="text-slate-900">间夜记录</CardTitle>
+            <CardDescription className="text-slate-600">用户的历史入住记录</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead>订单号</TableHead>
-                  <TableHead>酒店名称</TableHead>
-                  <TableHead>入住日期</TableHead>
-                  <TableHead>离店日期</TableHead>
-                  <TableHead className="text-right">间夜数</TableHead>
-                  <TableHead>记录时间</TableHead>
+                <TableRow className="hover:bg-transparent">
+                  <TableHead className="text-slate-900">订单号</TableHead>
+                  <TableHead className="text-slate-900">酒店名称</TableHead>
+                  <TableHead className="text-slate-900">入住日期</TableHead>
+                  <TableHead className="text-slate-900">离店日期</TableHead>
+                  <TableHead className="text-right text-slate-900">间夜数</TableHead>
+                  <TableHead className="text-slate-900">记录时间</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {nightRecords.map((record) => (
-                  <TableRow key={record.id}>
-                    <TableCell className="font-medium">{record.orderId}</TableCell>
-                    <TableCell>{record.hotelName}</TableCell>
-                    <TableCell>{record.checkInDate}</TableCell>
-                    <TableCell>{record.checkOutDate}</TableCell>
-                    <TableCell className="text-right font-semibold text-primary">
+                  <TableRow key={record.id} className="hover:bg-slate-50 transition-colors">
+                    <TableCell className="font-medium text-slate-900">{record.orderId}</TableCell>
+                    <TableCell className="text-slate-600">{record.hotelName}</TableCell>
+                    <TableCell className="text-slate-600">{record.checkInDate}</TableCell>
+                    <TableCell className="text-slate-600">{record.checkOutDate}</TableCell>
+                    <TableCell className="text-right font-semibold text-blue-600">
                       {record.nights}晚
                     </TableCell>
                     <TableCell className="text-sm text-slate-500">{record.createdAt}</TableCell>
@@ -178,28 +178,28 @@ export default function UserPointsDetailPage({
         </Card>
 
         {/* 积分明细 */}
-        <Card>
+        <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader>
-            <CardTitle>积分明细</CardTitle>
-            <CardDescription>用户的积分获取和使用记录</CardDescription>
+            <CardTitle className="text-slate-900">积分明细</CardTitle>
+            <CardDescription className="text-slate-600">用户的积分获取和使用记录</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead>时间</TableHead>
-                  <TableHead>类型</TableHead>
-                  <TableHead className="text-right">金额</TableHead>
-                  <TableHead className="text-right">余额</TableHead>
-                  <TableHead>说明</TableHead>
+                <TableRow className="hover:bg-transparent">
+                  <TableHead className="text-slate-900">时间</TableHead>
+                  <TableHead className="text-slate-900">类型</TableHead>
+                  <TableHead className="text-right text-slate-900">金额</TableHead>
+                  <TableHead className="text-right text-slate-900">余额</TableHead>
+                  <TableHead className="text-slate-900">说明</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {pointsRecords.map((record) => (
-                  <TableRow key={record.id}>
+                  <TableRow key={record.id} className="hover:bg-slate-50 transition-colors">
                     <TableCell className="text-sm text-slate-600">{record.createdAt}</TableCell>
                     <TableCell>
-                      <Badge variant="outline">{record.typeName}</Badge>
+                      <Badge variant="outline" className="border-blue-200 text-blue-700">{record.typeName}</Badge>
                     </TableCell>
                     <TableCell className="text-right">
                       <span
@@ -211,7 +211,7 @@ export default function UserPointsDetailPage({
                         {record.amount}
                       </span>
                     </TableCell>
-                    <TableCell className="text-right font-medium">{record.balance}</TableCell>
+                    <TableCell className="text-right font-medium text-slate-900">{record.balance}</TableCell>
                     <TableCell className="text-sm text-slate-600">{record.description}</TableCell>
                   </TableRow>
                 ))}
@@ -245,7 +245,7 @@ export default function UserPointsDetailPage({
                     type="button"
                     variant={adjustType === 'increase' ? 'default' : 'outline'}
                     onClick={() => setAdjustType('increase')}
-                    className="gap-2"
+                    className={`h-9 gap-2 ${adjustType === 'increase' ? 'bg-blue-600 hover:bg-blue-700' : ''}`}
                   >
                     <TrendingUp className="w-4 h-4" />
                     增加
@@ -254,7 +254,7 @@ export default function UserPointsDetailPage({
                     type="button"
                     variant={adjustType === 'decrease' ? 'default' : 'outline'}
                     onClick={() => setAdjustType('decrease')}
-                    className="gap-2"
+                    className={`h-9 gap-2 ${adjustType === 'decrease' ? 'bg-blue-600 hover:bg-blue-700' : ''}`}
                   >
                     <TrendingDown className="w-4 h-4" />
                     减少
@@ -272,7 +272,7 @@ export default function UserPointsDetailPage({
                       min="1"
                       value={adjustAmount}
                       onChange={(e) => setAdjustAmount(parseInt(e.target.value) || 0)}
-                      className="flex-1"
+                      className="flex-1 h-9 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
                     <span className="text-sm text-slate-600">积分</span>
                   </div>
@@ -287,6 +287,7 @@ export default function UserPointsDetailPage({
                     value={adjustReason}
                     onChange={(e) => setAdjustReason(e.target.value)}
                     placeholder="请输入调整原因"
+                    className="h-9 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     required
                   />
                 </div>
@@ -303,10 +304,10 @@ export default function UserPointsDetailPage({
                 </div>
               </div>
               <div className="flex justify-end gap-2">
-                <Button type="button" variant="outline" onClick={() => setAdjustDialogOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => setAdjustDialogOpen(false)} className="h-9">
                   取消
                 </Button>
-                <Button type="submit" disabled={!adjustReason || adjustAmount <= 0}>
+                <Button type="submit" disabled={!adjustReason || adjustAmount <= 0} className="h-9 bg-blue-600 hover:bg-blue-700">
                   确定
                 </Button>
               </div>
