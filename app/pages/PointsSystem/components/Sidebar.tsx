@@ -40,6 +40,7 @@ export default function Sidebar({ menuItems }: SidebarProps) {
     '用户管理': true,
     '系统管理': true,
     '商户端': true,
+    '门店信息': true,
     '积分服务': true,
     'VIP折扣': true,
     '老客服务 *': true,
@@ -345,6 +346,19 @@ export const menuConfig: MenuItem[] = [
   {
     title: '商户端',
     children: [
+      {
+        title: '门店信息',
+        children: [
+          { title: '基本信息', path: '/merchant-backend/store/basic-info' },
+          { title: '政策相关', path: '/merchant-backend/store/policy' },
+          { title: '门店设施', path: '/merchant-backend/store/facilities' },
+          { title: '周边信息', path: '/merchant-backend/store/surrounding' },
+          { title: '早餐政策', path: '/merchant-backend/store/breakfast' },
+          { title: '加床政策', path: '/merchant-backend/store/extra-bed' },
+          { title: '门店图片', path: '/merchant-backend/store/images' },
+          { title: '支付结算', path: '/merchant-backend/store/payment-settlement' }
+        ]
+      },
       {
         title: '积分服务',
         children: [
