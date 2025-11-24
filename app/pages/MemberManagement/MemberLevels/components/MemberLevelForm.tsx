@@ -383,7 +383,7 @@ export default function MemberLevelForm({ level, errors }: MemberLevelFormProps)
         {/* 状态 - 不受修改设置限制，可独立操作 */}
         <Card>
           <CardHeader>
-            <CardTitle>状态</CardTitle>
+            <CardTitle>启用</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-3">

@@ -4,6 +4,78 @@
 
 ---
 
+## 2025-11-24 22:00:00
+
+### 统一所有状态滑块标题为"启用"
+
+**修改文件：** 共6个文件
+
+1. `app/pages/PlatformAdmin/PointsManagement/ValueAddedServicesPage.tsx`
+2. `app/pages/MerchantBackend/PointsService/PointsServiceConfigPage.tsx`
+3. `app/pages/MemberManagement/MemberLevels/MemberLevelsPage.tsx`
+4. `app/pages/MemberManagement/MemberLevels/components/MemberLevelForm.tsx`
+5. `app/pages/MemberInvitation/InvitationConfigPage.tsx`
+6. `app/pages/FriendCard/FriendCardConfigPage.tsx`
+
+**修改内容：**
+
+将所有使用Switch组件的表格列标题和卡片标题统一从"状态"改为"启用"
+
+#### 具体修改位置
+
+**平台后台 - 积分增值服务**:
+- 积分奖励表格：`TableHead` "状态" → "启用"
+- 积分换购表格：`TableHead` "状态" → "启用"
+
+**商户端 - 积分服务配置**:
+- 积分奖励表格：`TableHead` "状态" → "启用"
+- 积分换购表格：`TableHead` "状态" → "启用"
+
+**会员等级设置**:
+- 会员等级列表：`TableHead` "状态" → "启用"
+- 会员等级编辑表单：`CardTitle` "状态" → "启用"
+
+**会员邀请配置**:
+- 邀请配置管理：`TableHead` "状态" → "启用"
+
+**亲友礼遇卡配置**:
+- 配置列表：`TableHead` "状态" → "启用"
+
+**功能影响：**
+
+✅ **命名更直观**：
+- "状态"是一个抽象概念（可能是启用、禁用、暂停等）
+- "启用"直接表达开关的作用，用户一看就懂
+- 减少理解成本
+
+✅ **语义更明确**：
+- 滑块组件本身就是开关，标题用"启用"更符合组件特性
+- 开关往右 = 启用，往左 = 禁用
+- 标题和操作行为一致
+
+✅ **统一用户体验**：
+- 全局6个功能模块的开关标题统一
+- 降低用户认知负担
+- 提升界面专业度
+
+**UI对比**:
+
+修改前：
+```
+| 服务名称 | 服务说明 | 积分奖励 | 状态 |
+|----------|----------|----------|------|
+| 环保打扫 | ...     | 50      | [开关] |
+```
+
+修改后：
+```
+| 服务名称 | 服务说明 | 积分奖励 | 启用 |
+|----------|----------|----------|------|
+| 环保打扫 | ...     | 50      | [开关] |
+```
+
+---
+
 ## 2025-11-24 21:50:00
 
 ### 重构用户管理页面 - 精确搜索 + 直接显示详情

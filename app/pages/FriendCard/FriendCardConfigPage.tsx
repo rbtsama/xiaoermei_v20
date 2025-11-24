@@ -151,7 +151,7 @@ export default function FriendCardConfigPage({ configs, error }: FriendCardConfi
                 <TableHead>体验等级</TableHead>
                 <TableHead>体验时长</TableHead>
                 <TableHead>体验次数</TableHead>
-                <TableHead>状态</TableHead>
+                <TableHead>启用</TableHead>
                 <TableHead>更新时间</TableHead>
                 <TableHead className="text-right">操作</TableHead>
               </TableRow>

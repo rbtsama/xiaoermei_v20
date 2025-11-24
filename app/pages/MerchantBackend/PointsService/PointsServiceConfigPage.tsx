@@ -39,7 +39,7 @@ export default function PointsServiceConfigPage({ config }: PointsServiceConfigP
                     <TableHead className="min-w-[150px]">服务名称</TableHead>
                     <TableHead className="min-w-[250px]">服务说明</TableHead>
                     <TableHead className="min-w-[120px]">奖励积分</TableHead>
-                    <TableHead className="min-w-[100px]">状态</TableHead>
+                    <TableHead className="min-w-[100px]">启用</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -90,7 +90,7 @@ export default function PointsServiceConfigPage({ config }: PointsServiceConfigP
                     <TableHead className="min-w-[150px]">服务名称</TableHead>
                     <TableHead className="min-w-[250px]">服务说明</TableHead>
                     <TableHead className="min-w-[120px]">消耗积分</TableHead>
-                    <TableHead className="min-w-[100px]">状态</TableHead>
+                    <TableHead className="min-w-[100px]">启用</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

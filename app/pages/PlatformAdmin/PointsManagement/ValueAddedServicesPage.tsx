@@ -134,7 +134,7 @@ export default function ValueAddedServicesPage({
                     <TableHead className="min-w-[150px] text-slate-900 font-semibold">服务名称</TableHead>
                     <TableHead className="min-w-[250px] text-slate-900 font-semibold">服务说明</TableHead>
                     <TableHead className="min-w-[120px] text-slate-900 font-semibold">积分奖励</TableHead>
-                    <TableHead className="min-w-[100px] text-slate-900 font-semibold">状态</TableHead>
+                    <TableHead className="min-w-[100px] text-slate-900 font-semibold">启用</TableHead>
                     {isEditMode && <TableHead className="w-[80px] text-slate-900 font-semibold">操作</TableHead>}
                   </TableRow>
                 </TableHeader>
@@ -224,7 +224,7 @@ export default function ValueAddedServicesPage({
                     <TableHead className="min-w-[150px] text-slate-900 font-semibold">服务名称</TableHead>
                     <TableHead className="min-w-[250px] text-slate-900 font-semibold">服务说明</TableHead>
                     <TableHead className="min-w-[120px] text-slate-900 font-semibold">积分消耗</TableHead>
-                    <TableHead className="min-w-[100px] text-slate-900 font-semibold">状态</TableHead>
+                    <TableHead className="min-w-[100px] text-slate-900 font-semibold">启用</TableHead>
                     {isEditMode && <TableHead className="w-[80px] text-slate-900 font-semibold">操作</TableHead>}
                   </TableRow>
                 </TableHeader>
