@@ -10,17 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '~/components/ui/select'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '~/components/ui/table'
-import { Trash2, Plus } from 'lucide-react'
+import { Trash2, Plus, ChevronUp, ChevronDown } from 'lucide-react'
 import EditableSection from './components/EditableSection'
-import FormField from './components/FormField'
 import type { SurroundingInfo, NearbyLocation } from './types/storeInfo.types'
 import { LOCATION_CATEGORIES } from './types/storeInfo.types'
 
@@ -76,10 +67,10 @@ export default function SurroundingInfoPage({ data, onSave }: SurroundingInfoPag
     }
   }
 
-  const addLocation = () => {
+  const addLocation = (category: string) => {
     const newLocation: NearbyLocation = {
       id: `temp-${Date.now()}`,
-      category: 'attraction',
+      category: category as any,
       name: '',
       distance: 0,
       distanceType: 'straight',
@@ -104,6 +95,29 @@ export default function SurroundingInfoPage({ data, onSave }: SurroundingInfoPag
         loc.id === id ? { ...loc, [field]: value } : loc
       ),
     }))
+  }
+
+  const moveLocation = (id: string, direction: 'up' | 'down') => {
+    setFormData((prev) => {
+      const currentIndex = prev.locations.findIndex((loc) => loc.id === id)
+      if (currentIndex === -1) return prev
+
+      const newLocations = [...prev.locations]
+      const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1
+
+      if (targetIndex < 0 || targetIndex >= newLocations.length) return prev
+
+      // Swap
+      ;[newLocations[currentIndex], newLocations[targetIndex]] = [
+        newLocations[targetIndex],
+        newLocations[currentIndex],
+      ]
+
+      return {
+        ...prev,
+        locations: newLocations,
+      }
+    })
   }
 
   const getCategoryLabel = (value: string) => {
@@ -133,99 +147,138 @@ export default function SurroundingInfoPage({ data, onSave }: SurroundingInfoPag
         isSaving={isSaving}
       >
         {isEditing ? (
-          <div className="space-y-4">
-            <Table>
-              <TableHeader>
-                <TableRow className="border-slate-200">
-                  <TableHead className="text-slate-600 font-semibold">类别</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">名称</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">距离(米)</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">距离类型</TableHead>
-                  <TableHead className="text-slate-600 font-semibold w-20">操作</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {formData.locations.map((location) => (
-                  <TableRow key={location.id} className="hover:bg-slate-50 transition-colors">
-                    <TableCell>
-                      <Select
-                        value={location.category}
-                        onValueChange={(value: any) =>
-                          updateLocation(location.id, 'category', value)
-                        }
-                      >
-                        <SelectTrigger className="h-9 border-slate-300">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {LOCATION_CATEGORIES.map((cat) => (
-                            <SelectItem key={cat.value} value={cat.value}>
-                              {cat.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        value={location.name}
-                        onChange={(e) => updateLocation(location.id, 'name', e.target.value)}
-                        placeholder="请输入名称"
-                        className="h-9 border-slate-300"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Input
-                        type="number"
-                        min="0"
-                        value={location.distance}
-                        onChange={(e) =>
-                          updateLocation(location.id, 'distance', parseInt(e.target.value) || 0)
-                        }
-                        placeholder="距离"
-                        className="h-9 border-slate-300"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Select
-                        value={location.distanceType}
-                        onValueChange={(value: 'straight' | 'driving') =>
-                          updateLocation(location.id, 'distanceType', value)
-                        }
-                      >
-                        <SelectTrigger className="h-9 border-slate-300">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="straight">直线距离</SelectItem>
-                          <SelectItem value="driving">驾车距离</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removeLocation(location.id)}
-                        className="h-8 w-8 p-0 hover:bg-red-50 hover:text-red-600"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+          <div className="space-y-8">
+            {LOCATION_CATEGORIES.map((category) => {
+              const categoryLocations = formData.locations.filter(
+                (loc) => loc.category === category.value
+              )
 
-            <Button
-              type="button"
-              variant="outline"
-              onClick={addLocation}
-              className="h-9 border-blue-300 text-blue-600 hover:bg-blue-50"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              增加周边位置
-            </Button>
+              return (
+                <div key={category.value} className="space-y-3">
+                  {/* 分类标题 */}
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-200">
+                    <h4 className="text-sm font-semibold text-slate-900">{category.label}</h4>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => addLocation(category.value)}
+                      className="h-8 border-blue-300 text-blue-600 hover:bg-blue-50"
+                    >
+                      <Plus className="h-3.5 w-3.5 mr-1.5" />
+                      新增
+                    </Button>
+                  </div>
+
+                  {/* 位置列表 */}
+                  <div className="space-y-2">
+                    {categoryLocations.length > 0 ? (
+                      categoryLocations.map((location, index) => {
+                        const globalIndex = formData.locations.findIndex(
+                          (loc) => loc.id === location.id
+                        )
+                        return (
+                          <div
+                            key={location.id}
+                            className="grid grid-cols-12 gap-3 items-center p-3 bg-slate-50 rounded border border-slate-200"
+                          >
+                            {/* 名称 */}
+                            <div className="col-span-4">
+                              <Input
+                                value={location.name}
+                                onChange={(e) =>
+                                  updateLocation(location.id, 'name', e.target.value)
+                                }
+                                placeholder="位置名称"
+                                className="h-9 border-slate-300 bg-white"
+                              />
+                            </div>
+
+                            {/* 距离 */}
+                            <div className="col-span-2">
+                              <Input
+                                type="number"
+                                min="0"
+                                value={location.distance}
+                                onChange={(e) =>
+                                  updateLocation(
+                                    location.id,
+                                    'distance',
+                                    parseInt(e.target.value) || 0
+                                  )
+                                }
+                                placeholder="距离(米)"
+                                className="h-9 border-slate-300 bg-white"
+                              />
+                            </div>
+
+                            {/* 距离类型 */}
+                            <div className="col-span-3">
+                              <Select
+                                value={location.distanceType}
+                                onValueChange={(value: 'straight' | 'driving') =>
+                                  updateLocation(location.id, 'distanceType', value)
+                                }
+                              >
+                                <SelectTrigger className="h-9 border-slate-300 bg-white">
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="straight">直线距离</SelectItem>
+                                  <SelectItem value="driving">驾车距离</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+
+                            {/* 操作按钮 */}
+                            <div className="col-span-3 flex items-center gap-1">
+                              {/* 上移 */}
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => moveLocation(location.id, 'up')}
+                                disabled={globalIndex === 0}
+                                className="h-8 w-8 p-0 hover:bg-slate-200 disabled:opacity-30"
+                                title="上移"
+                              >
+                                <ChevronUp className="h-4 w-4" />
+                              </Button>
+
+                              {/* 下移 */}
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => moveLocation(location.id, 'down')}
+                                disabled={globalIndex === formData.locations.length - 1}
+                                className="h-8 w-8 p-0 hover:bg-slate-200 disabled:opacity-30"
+                                title="下移"
+                              >
+                                <ChevronDown className="h-4 w-4" />
+                              </Button>
+
+                              {/* 删除 */}
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeLocation(location.id)}
+                                className="h-8 w-8 p-0 hover:bg-red-50 hover:text-red-600"
+                                title="删除"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        )
+                      })
+                    ) : (
+                      <div className="text-center text-slate-400 py-4 text-sm">
+                        暂无{category.label}信息，点击上方"新增"按钮添加
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         ) : (
           <div className="space-y-6">
