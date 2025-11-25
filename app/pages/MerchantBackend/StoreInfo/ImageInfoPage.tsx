@@ -35,6 +35,7 @@ export default function ImageInfoPage({ data, onSave, onSaveShareText }: ImageIn
       }
     }
     setFormData(data)
+    setShareTextValue(data.shareText || '')
     setIsEditing(false)
   }
 
@@ -87,7 +88,8 @@ export default function ImageInfoPage({ data, onSave, onSaveShareText }: ImageIn
 
   // 模拟图片上传（实际项目中需要调用真实的上传API）
   const handleShareImageUpload = () => {
-    const mockImageUrl = `https://placehold.co/500x400/2C5F8D/white?text=Share+Image+${Date.now()}`
+    // 1:1 比例的占位图
+    const mockImageUrl = `https://placehold.co/600x600/2C5F8D/white?text=Share+Image`
     updateField('shareImage', mockImageUrl)
   }
 
@@ -97,9 +99,10 @@ export default function ImageInfoPage({ data, onSave, onSaveShareText }: ImageIn
       return
     }
 
+    // 2:3 比例的占位图
     const newImage: StoreImage = {
       id: `img-${Date.now()}`,
-      url: `https://placehold.co/1000x1500/2C5F8D/white?text=Main+Image+${Date.now()}`,
+      url: `https://placehold.co/1000x1500/2C5F8D/white?text=Main+${formData.mainImages.length + 1}`,
       sortOrder: formData.mainImages.length + 1,
     }
 
@@ -144,11 +147,12 @@ export default function ImageInfoPage({ data, onSave, onSaveShareText }: ImageIn
         isSaving={isSaving}
       >
         <div className="space-y-6">
-          <FormField label="分享封面图" hint="建议尺寸5:4，支持png、jpg格式">
+          {/* 分享封面图 */}
+          <FormField label="分享封面图" hint="建议比例1:1，宽度500px~800px，支持png、jpg格式">
             {isEditing ? (
               <div className="space-y-3">
                 {formData.shareImage && (
-                  <div className="relative w-64 h-52 border-2 border-slate-200 rounded overflow-hidden">
+                  <div className="relative w-48 h-48 border-2 border-slate-200 rounded overflow-hidden">
                     <img
                       src={formData.shareImage}
                       alt="分享封面图"
@@ -169,11 +173,12 @@ export default function ImageInfoPage({ data, onSave, onSaveShareText }: ImageIn
                     type="button"
                     variant="outline"
                     onClick={handleShareImageUpload}
-                    className="h-32 w-64 border-2 border-dashed border-slate-300 hover:border-blue-500"
+                    className="h-48 w-48 border-2 border-dashed border-slate-300 hover:border-blue-500"
                   >
                     <div className="flex flex-col items-center gap-2">
                       <Upload className="h-8 w-8 text-slate-400" />
                       <span className="text-sm text-slate-600">点击上传图片</span>
+                      <span className="text-xs text-slate-500">1:1 比例</span>
                     </div>
                   </Button>
                 )}
@@ -184,7 +189,7 @@ export default function ImageInfoPage({ data, onSave, onSaveShareText }: ImageIn
                   <img
                     src={formData.shareImage}
                     alt="分享封面图"
-                    className="w-64 h-52 object-cover border border-slate-200 rounded"
+                    className="w-48 h-48 object-cover border border-slate-200 rounded"
                   />
                 ) : (
                   <span className="text-slate-500">未上传</span>
@@ -193,7 +198,8 @@ export default function ImageInfoPage({ data, onSave, onSaveShareText }: ImageIn
             )}
           </FormField>
 
-          <FormField label="分享展示文案">
+          {/* 分享展示文案 */}
+          <FormField label="分享展示文案" hint="分享链接时显示的标题">
             <div className="flex items-center gap-3">
               <Input
                 value={shareTextValue}
@@ -225,21 +231,27 @@ export default function ImageInfoPage({ data, onSave, onSaveShareText }: ImageIn
         <FormField
           label="图片列表"
           required
-          hint="建议比例2:3，宽度1000px~2000px，最多5张，支持png、jpg格式，单张不超过5MB"
+          hint="建议比例2:3，宽度1000px~2000px，最多5张，支持png、jpg格式，单张不大于5M"
         >
           {isEditing ? (
             <div className="space-y-4">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {/* 图片列表 - 横向排列 */}
+              <div className="flex flex-wrap gap-4">
                 {formData.mainImages.map((image, index) => (
                   <div
                     key={image.id}
-                    className="relative border-2 border-slate-200 rounded overflow-hidden aspect-[2/3] group"
+                    className="relative border-2 border-slate-200 rounded overflow-hidden w-40 h-60 group flex-shrink-0"
                   >
                     <img
                       src={image.url}
                       alt={`主页图片 ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
+                    {/* 序号标签 */}
+                    <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded">
+                      {index + 1}
+                    </div>
+                    {/* 操作按钮（hover显示） */}
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                       <Button
                         variant="secondary"
@@ -247,6 +259,7 @@ export default function ImageInfoPage({ data, onSave, onSaveShareText }: ImageIn
                         className="h-8 w-8 p-0"
                         onClick={() => moveMainImage(image.id, 'up')}
                         disabled={index === 0}
+                        title="向前移动"
                       >
                         <MoveUp className="h-4 w-4" />
                       </Button>
@@ -256,6 +269,7 @@ export default function ImageInfoPage({ data, onSave, onSaveShareText }: ImageIn
                         className="h-8 w-8 p-0"
                         onClick={() => moveMainImage(image.id, 'down')}
                         disabled={index === formData.mainImages.length - 1}
+                        title="向后移动"
                       >
                         <MoveDown className="h-4 w-4" />
                       </Button>
@@ -264,22 +278,21 @@ export default function ImageInfoPage({ data, onSave, onSaveShareText }: ImageIn
                         size="sm"
                         className="h-8 w-8 p-0"
                         onClick={() => removeMainImage(image.id)}
+                        title="删除"
                       >
                         <X className="h-4 w-4" />
                       </Button>
                     </div>
-                    <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded">
-                      {index + 1}
-                    </div>
                   </div>
                 ))}
 
+                {/* 上传按钮 */}
                 {formData.mainImages.length < 5 && (
                   <Button
                     type="button"
                     variant="outline"
                     onClick={handleMainImageUpload}
-                    className="aspect-[2/3] border-2 border-dashed border-slate-300 hover:border-blue-500"
+                    className="w-40 h-60 border-2 border-dashed border-slate-300 hover:border-blue-500 flex-shrink-0"
                   >
                     <div className="flex flex-col items-center gap-2">
                       <Upload className="h-8 w-8 text-slate-400" />
@@ -287,21 +300,25 @@ export default function ImageInfoPage({ data, onSave, onSaveShareText }: ImageIn
                       <span className="text-xs text-slate-500">
                         {formData.mainImages.length}/5
                       </span>
+                      <span className="text-xs text-slate-500">2:3 比例</span>
                     </div>
                   </Button>
                 )}
               </div>
 
               <p className="text-sm text-slate-600">
-                提示：拖动图片可调整顺序，第一张图片将作为门店封面
+                提示：点击图片上的按钮可调整顺序或删除，第一张图片将作为门店封面
               </p>
             </div>
           ) : (
             <div>
               {formData.mainImages.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <div className="flex flex-wrap gap-4">
                   {formData.mainImages.map((image, index) => (
-                    <div key={image.id} className="relative aspect-[2/3] rounded overflow-hidden">
+                    <div
+                      key={image.id}
+                      className="relative w-40 h-60 rounded overflow-hidden flex-shrink-0"
+                    >
                       <img
                         src={image.url}
                         alt={`主页图片 ${index + 1}`}

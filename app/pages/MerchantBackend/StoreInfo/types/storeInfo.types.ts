@@ -2,7 +2,7 @@
 
 // ==================== 基本信息 ====================
 export interface BasicInfo {
-  // 门店身份
+  // 门店身份（锁定字段）
   name: string // 门店名称（锁定）
   city: string // 城市（锁定）
   address: string // 详细地址（锁定）
@@ -10,46 +10,63 @@ export interface BasicInfo {
   roomCount: number // 房间数（锁定）
 
   // 联系方式
-  contactPhone: string // 联系电话
-  contactName: string // 联系人名称
+  contactPhone: string // 联系电话 ★必填
+  contactName: string // 联系人名称 ★必填
   email?: string // 邮箱地址
 
-  // 门店描述
-  description: string // 门店描述
+  // 门店展示
+  logo?: string // 门店Logo图片
+  slogan?: string // Slogan/门店推荐语
+  recommendTags: string[] // 门店推荐标签 ★必填，最多2项
+  description: string // 门店介绍 ★必填
 
-  // 预订限制
-  latestBookingTime: string // 当天最晚预订时间（格式：HH:mm）
+  // 列表展示
+  listCover: string // 列表封面 ★必填
+
+  // 视频素材
+  video?: string // 门店视频
+  videoCover?: string // 视频封面
+
+  // 动态信息
+  latestNews: string[] // 最新情报图片
 }
 
 // ==================== 政策相关 ====================
 export interface PolicyInfo {
-  // 入住及退房时间
-  checkinStartTime: string // 开始办理入住时间（格式：HH:mm）
-  checkoutEndTime: string // 最晚退房时间（格式：HH:mm）
+  // 预订时间
+  checkinStartTime: string // 开始办理入住时间 ★必填（格式：HH:mm）
+  checkoutEndTime: string // 最晚退房时间 ★必填（格式：HH:mm）
   checkinNote?: string // 入住备注
 
-  // 取消政策
-  cancellationRule: 'no_cancel' | 'free_cancel' // 取消规则
+  // 取消规则
+  cancellationRule: 'no_cancel' | 'free_cancel' // 取消规则 ★必填
   freeCancelDays?: number // 入住日前X天
-  freeCancelTime?: string // XX:XX 前可免费取消
+  freeCancelTime?: string // XX:XX前（格式：HH:mm）
   afterCancelRule?: 'not_allowed' | 'penalty' // 超时处理
 
   // 办理入住年龄
-  ageRestriction: 'no_limit' | 'limited' // 年龄限制
+  ageRestriction: 'no_limit' | 'limited' // 年龄限制 ★必填
   minAge?: number // 最小年龄
+  maxAge?: number | 'unlimited' // 最大年龄
+
+  // 儿童政策
+  childPolicy: 'allowed' | 'on_request' | 'not_allowed' // 儿童政策 ★必填
+  childNote?: string // 儿童政策说明
 
   // 宠物政策
-  petPolicy: 'not_allowed' | 'allowed' | 'on_request' // 宠物政策
-  petNote?: string // 宠物补充说明
+  petPolicy: 'allowed' | 'on_request' | 'not_allowed' // 宠物政策 ★必填
+  petNote?: string // 宠物政策说明
 
-  // 支付方式
-  paymentMethods: {
-    acceptedCards: string[] // 接受的银行卡种类
-    thirdPartyPayments: string[] // 第三方支付
-    cashPayment: boolean // 现金支付
-  }
+  // 押金政策
+  depositType: 'none' | 'fixed' | 'per_room' | 'per_day' // 押金类型 ★必填
+  depositAmount?: number // 押金金额
 
-  // 预订担保可用银行卡
+  // 前台支付方式
+  acceptedCards: string[] // 银行卡
+  thirdPartyPayments: string[] // 第三方支付
+  cashPayment: boolean // 现金支付
+
+  // 预订担保银行卡
   guaranteeCards: string[] // 可用卡种
 
   // 政策补充
@@ -58,32 +75,16 @@ export interface PolicyInfo {
 
 // ==================== 门店设施 ====================
 export interface FacilityInfo {
-  // 房间设施
-  roomFacilities: string[]
+  // 亮点标签（复选，最多选择）
+  highlights: string[] // 免费WiFi、免费停车、宠物友好、近地铁、含早、亲子友好、行李寄存、网红打卡、浴缸、私汤温泉
 
-  // 娱乐设施
-  entertainmentFacilities: string[]
-
-  // 公共区域
-  publicAreas: string[]
-
-  // 前台服务
-  frontDeskServices: string[]
-
-  // 餐饮服务
-  diningServices: string[]
-
-  // 商务服务
-  businessServices: string[]
-
-  // 清洁服务
-  cleaningServices: string[]
-
-  // 交通设施
-  transportFacilities: string[]
-
-  // 安全设施
-  safetyFacilities: string[]
+  // 详细设施（按服务类型分组）
+  transportServices: string[] // 交通服务
+  cleaningServices: string[] // 清洁服务
+  safetyServices: string[] // 安全安保
+  sportsServices: string[] // 运动设施
+  spaServices: string[] // 康体设施
+  accessibilityServices: string[] // 无障碍设施
 }
 
 // ==================== 周边信息 ====================
@@ -103,18 +104,18 @@ export interface SurroundingInfo {
 export interface BreakfastPriceRule {
   id: string
   minValue: number // 最小年龄/身高
-  maxValue: number // 最大年龄/身高
+  maxValue: number | 'unlimited' // 最大年龄/身高
   isFree: boolean // 是否免费
   price?: number // 价格（收费时必填）
 }
 
 export interface BreakfastPolicy {
-  provided: boolean // 是否提供早餐
+  provided: boolean // 是否提供早餐 ★必填
   breakfastType?: 'buffet' | 'set_meal' | 'alacarte' // 早餐类型
-  cuisineType?: string[] // 菜系
-  breakfastTime?: 'daily' | 'specified' // 早餐时间
-  breakfastStartTime?: string // 开始时间
-  breakfastEndTime?: string // 结束时间
+  cuisineTypes?: string[] // 菜系（多选）
+  timeType?: 'daily' | 'specified' // 早餐时间类型
+  startTime?: string // 开始时间（格式：HH:mm）
+  endTime?: string // 结束时间（格式：HH:mm）
   additionalPrice?: number // 加1份早餐价格
 
   // 儿童早餐收费详情
@@ -180,7 +181,7 @@ export const CARD_TYPES = [
   { value: 'visa', label: 'Visa' },
   { value: 'master', label: 'Master' },
   { value: 'amex', label: 'Amex' },
-  { value: 'jcb', label: 'Jcb' },
+  { value: 'jcb', label: 'JCB' },
   { value: 'diners', label: 'Diners Club' },
   { value: 'unionpay', label: '银联' },
   { value: 'discover', label: '发现卡' },
@@ -188,11 +189,122 @@ export const CARD_TYPES = [
 
 // 第三方支付
 export const THIRD_PARTY_PAYMENTS = [
-  { value: 'wechat', label: '微信' },
+  { value: 'wechat', label: '微信支付' },
   { value: 'alipay', label: '支付宝' },
   { value: 'unionpay', label: '云闪付' },
   { value: 'applepay', label: 'Apple Pay' },
   { value: 'paypal', label: 'PayPal' },
+]
+
+// 门店亮点标签
+export const HIGHLIGHT_TAGS = [
+  { value: 'free_wifi', label: '免费WiFi' },
+  { value: 'free_parking', label: '免费停车' },
+  { value: 'pet_friendly', label: '宠物友好' },
+  { value: 'near_subway', label: '近地铁' },
+  { value: 'breakfast', label: '含早' },
+  { value: 'family_friendly', label: '亲子友好' },
+  { value: 'luggage_storage', label: '行李寄存' },
+  { value: 'instagram_worthy', label: '网红打卡' },
+  { value: 'bathtub', label: '浴缸' },
+  { value: 'hot_spring', label: '私汤温泉' },
+]
+
+// 门店推荐标签（最多2项）
+export const RECOMMEND_TAGS = [
+  { value: 'luxury', label: '高端奢华' },
+  { value: 'budget', label: '经济实惠' },
+  { value: 'romantic', label: '浪漫情侣' },
+  { value: 'family', label: '亲子家庭' },
+  { value: 'business', label: '商务出行' },
+  { value: 'scenic', label: '景区周边' },
+  { value: 'city_center', label: '市中心' },
+  { value: 'quiet', label: '安静舒适' },
+  { value: 'unique', label: '特色民宿' },
+  { value: 'hot_spring', label: '温泉养生' },
+]
+
+// 交通服务
+export const TRANSPORT_SERVICES = [
+  '免费停车',
+  '收费停车',
+  '充电桩',
+  '免费接送服务',
+  '收费接送服务',
+  '租车服务',
+  '代叫车服务',
+  '免费班车',
+]
+
+// 清洁服务
+export const CLEANING_SERVICES = [
+  '每日清洁',
+  '更换床单',
+  '更换毛巾',
+  '深度清洁',
+  '洗衣服务',
+  '干洗服务',
+  '熨烫服务',
+]
+
+// 安全安保
+export const SAFETY_SERVICES = [
+  '公共区域监控',
+  '门禁系统',
+  '保险箱',
+  '医务室',
+  '急救包',
+  '安全报警器',
+  '火灾报警器',
+  '烟雾报警器',
+  '一氧化碳报警器',
+  '灭火器',
+  '安保人员',
+  '24小时安保',
+]
+
+// 运动设施
+export const SPORTS_SERVICES = [
+  '健身房',
+  '游泳池',
+  '恒温泳池',
+  '室内泳池',
+  '室外泳池',
+  '瑜伽室',
+  '乒乓球',
+  '台球',
+  '网球场',
+  '篮球场',
+  '足球场',
+  '高尔夫球场',
+  '骑行',
+  '徒步',
+]
+
+// 康体设施
+export const SPA_SERVICES = [
+  'SPA',
+  '按摩',
+  '桑拿',
+  '汗蒸',
+  '温泉',
+  '私汤',
+  '公共浴池',
+  '美容美发',
+  '足浴',
+]
+
+// 无障碍设施
+export const ACCESSIBILITY_SERVICES = [
+  '无障碍通道',
+  '无障碍客房',
+  '无障碍卫生间',
+  '无障碍电梯',
+  '无障碍停车位',
+  '轮椅租赁',
+  '助听设备',
+  '盲文标识',
+  '低位设施',
 ]
 
 // 周边位置类别
@@ -203,60 +315,6 @@ export const LOCATION_CATEGORIES = [
   { value: 'shopping', label: '购物' },
   { value: 'hospital', label: '医疗' },
   { value: 'other', label: '其他' },
-]
-
-// 房间设施
-export const ROOM_FACILITIES = [
-  '空调', '暖气', '电风扇', '书桌', '衣橱', '化妆镜', '电视', '音响', '阳台',
-  '小院', '落地窗', '浴缸', '淋浴', '吹风机', '拖鞋', '24H热水', '洗漱用品',
-  '卫浴毛巾', '电热水壶', '冰箱', '保险箱', '遮光窗帘', '独卫', '投影仪',
-  '麻将机', '棋牌', '独立淋浴间', '防潮', '智能马桶', '无烟',
-]
-
-// 娱乐设施
-export const ENTERTAINMENT_FACILITIES = [
-  '茶室', '酒吧', '手工活动', '泳池', '恒温泳池', '景观泳池', '水上乐园',
-  '海滩', '徒步旅行', '种植采摘', '亲近动物', '桌面足球', '投影设备',
-  '家庭影院', '露天电影', '户外篝火', '壁炉烤火',
-]
-
-// 公共区域
-export const PUBLIC_AREAS = [
-  '公用WIFI', '电梯', '非经营休息区', '暖气', '加湿器', '净水机', '音响',
-  '新风', '禁烟', '吸烟区', '户外家具', '图书室', '花园', '野餐区',
-  '礼品廊', '厨房', '烧烤',
-]
-
-// 前台服务
-export const FRONT_DESK_SERVICES = [
-  '保险柜', '储物柜', '电子身份证', '信用卡结算',
-]
-
-// 餐饮服务
-export const DINING_SERVICES = [
-  '早餐送餐', '咖啡厅', '小吃吧', '便利店', '清真饮食',
-]
-
-// 商务服务
-export const BUSINESS_SERVICES = [
-  '会议室', '商务中心', '多功能厅', '共享办公', '专用展览厅', '商务服务',
-  '婚宴服务', '快递服务', '多媒体演示系统', '传真/复印',
-]
-
-// 清洁服务
-export const CLEANING_SERVICES = [
-  '每日清洁', '更换床单', '更换毛巾', '深度清洁',
-]
-
-// 交通设施
-export const TRANSPORT_FACILITIES = [
-  '免费停车', '充电桩', '免费接送服务', '租车服务',
-]
-
-// 安全设施
-export const SAFETY_FACILITIES = [
-  '公共区域监控', '门禁系统', '医务室', '急救包', '安全报警器',
-  '火灾报警器', '烟雾报警器', '一氧化碳报警器', '灭火器', '安保人员',
 ]
 
 // 早餐类型
@@ -272,7 +330,66 @@ export const CUISINE_TYPES = [
   { value: 'western', label: '西式' },
   { value: 'japanese', label: '日式' },
   { value: 'korean', label: '韩式' },
-  { value: 'asian', label: '亚洲风味' },
+  { value: 'southeast_asian', label: '东南亚' },
   { value: 'halal', label: '清真' },
   { value: 'vegetarian', label: '素食' },
+  { value: 'local', label: '本地特色' },
+]
+
+// 取消规则选项
+export const CANCELLATION_RULES = [
+  { value: 'no_cancel', label: '不可取消' },
+  { value: 'free_cancel', label: '免费取消' },
+]
+
+// 超时取消处理
+export const AFTER_CANCEL_RULES = [
+  { value: 'not_allowed', label: '不可取消' },
+  { value: 'penalty', label: '收取罚金' },
+]
+
+// 年龄限制选项
+export const AGE_RESTRICTIONS = [
+  { value: 'no_limit', label: '无限制' },
+  { value: 'limited', label: '有限制' },
+]
+
+// 儿童政策选项
+export const CHILD_POLICIES = [
+  { value: 'allowed', label: '允许' },
+  { value: 'on_request', label: '需确认' },
+  { value: 'not_allowed', label: '不允许' },
+]
+
+// 宠物政策选项
+export const PET_POLICIES = [
+  { value: 'allowed', label: '允许' },
+  { value: 'on_request', label: '需确认' },
+  { value: 'not_allowed', label: '不允许' },
+]
+
+// 押金类型选项
+export const DEPOSIT_TYPES = [
+  { value: 'none', label: '无需押金' },
+  { value: 'fixed', label: '固定金额' },
+  { value: 'per_room', label: '每间房' },
+  { value: 'per_day', label: '每天' },
+]
+
+// 早餐时间类型
+export const BREAKFAST_TIME_TYPES = [
+  { value: 'daily', label: '每日相同' },
+  { value: 'specified', label: '指定日期' },
+]
+
+// 儿童计价方式
+export const CHILD_PRICING_TYPES = [
+  { value: 'age', label: '按年龄' },
+  { value: 'height', label: '按身高' },
+]
+
+// 加床类型
+export const EXTRA_BED_TYPES = [
+  { value: 'single', label: '单人床' },
+  { value: 'double', label: '双人床' },
 ]

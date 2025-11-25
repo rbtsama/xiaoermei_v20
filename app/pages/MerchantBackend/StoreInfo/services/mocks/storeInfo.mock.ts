@@ -16,12 +16,26 @@ export const mockStoreInfo: StoreInfo = {
     contactName: '张经理',
     email: 'yunqi@example.com',
 
-    // 门店描述
+    // 门店展示
+    logo: 'https://placehold.co/200x200/2C5F8D/white?text=Logo',
+    slogan: '隐于竹海，归于山林',
+    recommendTags: ['luxury', 'scenic'],
     description:
       '云栖山居坐落于杭州西湖区龙坞茶镇，毗邻云栖竹径景区。民宿依山而建，掩映在竹林茶园之中，环境清幽。这里远离城市喧嚣，却交通便利，距离西湖景区仅20分钟车程。\n\n民宿采用现代简约设计风格，融合江南园林元素。12间客房各具特色，配备智能家居系统、独立卫浴、观景阳台等设施。公共区域设有茶室、书吧、户外露台，可观山景品茗。\n\n我们提供特色茶文化体验、徒步路线推荐、当地美食指引等服务，致力于为宾客打造一个静心休憩的山居时光。',
 
-    // 预订限制
-    latestBookingTime: '22:00',
+    // 列表展示
+    listCover: 'https://placehold.co/800x600/2C5F8D/white?text=List+Cover',
+
+    // 视频素材
+    video: 'https://example.com/store-video.mp4',
+    videoCover: 'https://placehold.co/800x600/4A8FBF/white?text=Video+Cover',
+
+    // 动态信息
+    latestNews: [
+      'https://placehold.co/400x300/C67A28/white?text=News+1',
+      'https://placehold.co/400x300/5A8A65/white?text=News+2',
+      'https://placehold.co/400x300/B94D3D/white?text=News+3',
+    ],
   },
 
   policyInfo: {
@@ -40,16 +54,22 @@ export const mockStoreInfo: StoreInfo = {
     ageRestriction: 'limited',
     minAge: 18,
 
+    // 儿童政策
+    childPolicy: 'allowed',
+    childNote: '12岁以下儿童可免费入住，需使用现有床铺。',
+
     // 宠物政策
     petPolicy: 'on_request',
     petNote: '小型宠物（10kg以下）需提前申请，经审核通过后可携带入住，需额外支付清洁费用200元/晚。',
 
-    // 支付方式
-    paymentMethods: {
-      acceptedCards: ['visa', 'master', 'unionpay', 'jcb'],
-      thirdPartyPayments: ['wechat', 'alipay', 'unionpay'],
-      cashPayment: true,
-    },
+    // 押金政策
+    depositType: 'fixed',
+    depositAmount: 500,
+
+    // 前台支付方式
+    acceptedCards: ['visa', 'master', 'unionpay', 'jcb'],
+    thirdPartyPayments: ['wechat', 'alipay', 'unionpay'],
+    cashPayment: true,
 
     // 预订担保可用银行卡
     guaranteeCards: ['visa', 'master', 'unionpay', 'amex'],
@@ -60,81 +80,26 @@ export const mockStoreInfo: StoreInfo = {
   },
 
   facilityInfo: {
-    // 房间设施
-    roomFacilities: [
-      '空调',
-      '暖气',
-      '书桌',
-      '衣橱',
-      '化妆镜',
-      '电视',
-      '阳台',
-      '小院',
-      '落地窗',
-      '浴缸',
-      '淋浴',
-      '吹风机',
-      '拖鞋',
-      '24H热水',
-      '洗漱用品',
-      '卫浴毛巾',
-      '电热水壶',
-      '冰箱',
-      '遮光窗帘',
-      '独卫',
-      '智能马桶',
-      '无烟',
+    // 亮点标签
+    highlights: [
+      'free_wifi',
+      'free_parking',
+      'breakfast',
+      'family_friendly',
+      'bathtub',
     ],
 
-    // 娱乐设施
-    entertainmentFacilities: [
-      '茶室',
-      '手工活动',
-      '徒步旅行',
-      '种植采摘',
-      '投影设备',
-      '家庭影院',
-      '户外篝火',
-    ],
-
-    // 公共区域
-    publicAreas: [
-      '公用WIFI',
-      '电梯',
-      '非经营休息区',
-      '暖气',
-      '加湿器',
-      '净水机',
-      '音响',
-      '新风',
-      '禁烟',
-      '吸烟区',
-      '户外家具',
-      '图书室',
-      '花园',
-      '野餐区',
-      '烧烤',
-    ],
-
-    // 前台服务
-    frontDeskServices: ['保险柜', '储物柜', '电子身份证', '信用卡结算'],
-
-    // 餐饮服务
-    diningServices: ['早餐送餐', '咖啡厅', '小吃吧'],
-
-    // 商务服务
-    businessServices: ['会议室', '快递服务'],
+    // 交通服务
+    transportServices: ['免费停车', '充电桩', '免费接送服务', '代叫车服务'],
 
     // 清洁服务
-    cleaningServices: ['每日清洁', '更换床单', '更换毛巾', '深度清洁'],
+    cleaningServices: ['每日清洁', '更换床单', '更换毛巾', '深度清洁', '洗衣服务'],
 
-    // 交通设施
-    transportFacilities: ['免费停车', '充电桩', '免费接送服务'],
-
-    // 安全设施
-    safetyFacilities: [
+    // 安全安保
+    safetyServices: [
       '公共区域监控',
       '门禁系统',
+      '保险箱',
       '急救包',
       '安全报警器',
       '火灾报警器',
@@ -142,6 +107,15 @@ export const mockStoreInfo: StoreInfo = {
       '灭火器',
       '安保人员',
     ],
+
+    // 运动设施
+    sportsServices: ['健身房', '徒步'],
+
+    // 康体设施
+    spaServices: ['SPA', '按摩'],
+
+    // 无障碍设施
+    accessibilityServices: ['无障碍通道', '无障碍停车位'],
   },
 
   surroundingInfo: {
@@ -222,10 +196,10 @@ export const mockStoreInfo: StoreInfo = {
   breakfastPolicy: {
     provided: true,
     breakfastType: 'set_meal',
-    cuisineType: ['chinese', 'western'],
-    breakfastTime: 'specified',
-    breakfastStartTime: '07:30',
-    breakfastEndTime: '09:30',
+    cuisineTypes: ['chinese', 'western'],
+    timeType: 'specified',
+    startTime: '07:30',
+    endTime: '09:30',
     additionalPrice: 38,
 
     // 儿童早餐收费详情

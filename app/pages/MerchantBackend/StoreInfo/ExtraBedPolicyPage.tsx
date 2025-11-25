@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
+import { Card, CardContent } from '~/components/ui/card'
+import { Checkbox } from '~/components/ui/checkbox'
 import { Input } from '~/components/ui/input'
 import { Label } from '~/components/ui/label'
-import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group'
 import {
   Select,
   SelectContent,
@@ -18,8 +19,8 @@ import {
   TableRow,
 } from '~/components/ui/table'
 import EditableSection from './components/EditableSection'
-import FormField from './components/FormField'
 import type { ExtraBedPolicy, RoomExtraBedPolicy } from './types/storeInfo.types'
+import { EXTRA_BED_TYPES } from './types/storeInfo.types'
 
 interface ExtraBedPolicyPageProps {
   data: ExtraBedPolicy
@@ -120,236 +121,275 @@ export default function ExtraBedPolicyPage({ data, onSave }: ExtraBedPolicyPageP
   return (
     <div className="space-y-6">
       <EditableSection
-        title="房型加床/婴儿床政策"
+        title="加床政策配置"
         isEditing={isEditing}
         onEdit={handleEdit}
         onSave={handleSave}
         onCancel={handleCancel}
         isSaving={isSaving}
       >
-        <div className="space-y-8">
+        <div className="space-y-6">
           {courtyards.map((courtyard) => (
-            <div key={courtyard}>
-              <h4 className="text-sm font-semibold text-slate-700 mb-3">{courtyard}</h4>
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="border-slate-200">
-                      <TableHead className="text-slate-600 font-semibold">房型</TableHead>
-                      <TableHead className="text-slate-600 font-semibold">
-                        提供加床
-                      </TableHead>
-                      <TableHead className="text-slate-600 font-semibold">加床床型</TableHead>
-                      <TableHead className="text-slate-600 font-semibold">加床数量</TableHead>
-                      <TableHead className="text-slate-600 font-semibold">
-                        加床价格(元)
-                      </TableHead>
-                      <TableHead className="text-slate-600 font-semibold">
-                        提供婴儿床
-                      </TableHead>
-                      <TableHead className="text-slate-600 font-semibold">
-                        婴儿床数量
-                      </TableHead>
-                      <TableHead className="text-slate-600 font-semibold">
-                        婴儿床价格(元)
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {groupedPolicies[courtyard].map((policy) => (
-                      <TableRow
-                        key={policy.roomTypeId}
-                        className="hover:bg-slate-50 transition-colors"
-                      >
-                        <TableCell className="font-medium text-slate-900">
-                          {policy.roomTypeName}
-                        </TableCell>
-
-                        {/* 提供加床 */}
-                        <TableCell>
-                          {isEditing ? (
-                            <Select
-                              value={policy.extraBedProvided ? 'yes' : 'no'}
-                              onValueChange={(value) =>
-                                updateRoomPolicy(
-                                  policy.roomTypeId,
-                                  'extraBedProvided',
-                                  value === 'yes'
-                                )
-                              }
-                            >
-                              <SelectTrigger className="h-9 border-slate-300 w-24">
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="yes">提供</SelectItem>
-                                <SelectItem value="no">不提供</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          ) : (
-                            <span className="text-slate-900">
-                              {policy.extraBedProvided ? '提供' : '不提供'}
-                            </span>
-                          )}
-                        </TableCell>
-
-                        {/* 加床床型 */}
-                        <TableCell>
-                          {policy.extraBedProvided &&
-                            (isEditing ? (
-                              <Select
-                                value={policy.extraBedType || ''}
-                                onValueChange={(value: 'single' | 'double') =>
-                                  updateRoomPolicy(policy.roomTypeId, 'extraBedType', value)
-                                }
-                              >
-                                <SelectTrigger className="h-9 border-slate-300 w-24">
-                                  <SelectValue placeholder="选择" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="single">单人床</SelectItem>
-                                  <SelectItem value="double">双人床</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            ) : (
-                              <span className="text-slate-900">
-                                {policy.extraBedType === 'single'
-                                  ? '单人床'
-                                  : policy.extraBedType === 'double'
-                                    ? '双人床'
-                                    : '—'}
-                              </span>
-                            ))}
-                        </TableCell>
-
-                        {/* 加床数量 */}
-                        <TableCell>
-                          {policy.extraBedProvided &&
-                            (isEditing ? (
-                              <Input
-                                type="number"
-                                min="0"
-                                value={policy.extraBedCount || ''}
-                                onChange={(e) =>
-                                  updateRoomPolicy(
-                                    policy.roomTypeId,
-                                    'extraBedCount',
-                                    parseInt(e.target.value) || 0
-                                  )
-                                }
-                                className="h-9 border-slate-300 w-20"
-                              />
-                            ) : (
-                              <span className="text-slate-900">{policy.extraBedCount || '—'}</span>
-                            ))}
-                        </TableCell>
-
-                        {/* 加床价格 */}
-                        <TableCell>
-                          {policy.extraBedProvided &&
-                            (isEditing ? (
-                              <Input
-                                type="number"
-                                min="0"
-                                value={policy.extraBedPrice ?? ''}
-                                onChange={(e) =>
-                                  updateRoomPolicy(
-                                    policy.roomTypeId,
-                                    'extraBedPrice',
-                                    parseFloat(e.target.value) || 0
-                                  )
-                                }
-                                className="h-9 border-slate-300 w-24"
-                              />
-                            ) : (
-                              <span className="text-slate-900">
-                                {policy.extraBedPrice !== undefined
-                                  ? `¥${policy.extraBedPrice}`
-                                  : '—'}
-                              </span>
-                            ))}
-                        </TableCell>
-
-                        {/* 提供婴儿床 */}
-                        <TableCell>
-                          {isEditing ? (
-                            <Select
-                              value={policy.cribProvided ? 'yes' : 'no'}
-                              onValueChange={(value) =>
-                                updateRoomPolicy(
-                                  policy.roomTypeId,
-                                  'cribProvided',
-                                  value === 'yes'
-                                )
-                              }
-                            >
-                              <SelectTrigger className="h-9 border-slate-300 w-24">
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="yes">提供</SelectItem>
-                                <SelectItem value="no">不提供</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          ) : (
-                            <span className="text-slate-900">
-                              {policy.cribProvided ? '提供' : '不提供'}
-                            </span>
-                          )}
-                        </TableCell>
-
-                        {/* 婴儿床数量 */}
-                        <TableCell>
-                          {policy.cribProvided &&
-                            (isEditing ? (
-                              <Input
-                                type="number"
-                                min="0"
-                                value={policy.cribCount || ''}
-                                onChange={(e) =>
-                                  updateRoomPolicy(
-                                    policy.roomTypeId,
-                                    'cribCount',
-                                    parseInt(e.target.value) || 0
-                                  )
-                                }
-                                className="h-9 border-slate-300 w-20"
-                              />
-                            ) : (
-                              <span className="text-slate-900">{policy.cribCount || '—'}</span>
-                            ))}
-                        </TableCell>
-
-                        {/* 婴儿床价格 */}
-                        <TableCell>
-                          {policy.cribProvided &&
-                            (isEditing ? (
-                              <Input
-                                type="number"
-                                min="0"
-                                value={policy.cribPrice ?? ''}
-                                onChange={(e) =>
-                                  updateRoomPolicy(
-                                    policy.roomTypeId,
-                                    'cribPrice',
-                                    parseFloat(e.target.value) || 0
-                                  )
-                                }
-                                className="h-9 border-slate-300 w-24"
-                              />
-                            ) : (
-                              <span className="text-slate-900">
-                                {policy.cribPrice !== undefined ? `¥${policy.cribPrice}` : '—'}
-                              </span>
-                            ))}
-                        </TableCell>
+            <Card key={courtyard} className="rounded-xl border-slate-200 bg-white shadow-sm">
+              <CardContent className="p-6">
+                <h3 className="text-base font-semibold text-slate-900 mb-4">{courtyard}</h3>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="border-slate-200">
+                        <TableHead className="text-slate-600 font-semibold w-[180px]">
+                          房型名称
+                        </TableHead>
+                        <TableHead className="text-slate-600 font-semibold text-center" colSpan={4}>
+                          加床配置
+                        </TableHead>
+                        <TableHead className="text-slate-600 font-semibold text-center" colSpan={3}>
+                          婴儿床配置
+                        </TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </div>
+                      <TableRow className="border-slate-200 bg-slate-50">
+                        <TableHead className="text-slate-600 font-medium"></TableHead>
+                        <TableHead className="text-slate-600 font-medium w-[100px]">
+                          提供加床
+                        </TableHead>
+                        <TableHead className="text-slate-600 font-medium w-[120px]">
+                          床型
+                        </TableHead>
+                        <TableHead className="text-slate-600 font-medium w-[100px]">
+                          数量
+                        </TableHead>
+                        <TableHead className="text-slate-600 font-medium w-[120px]">
+                          价格(元)
+                        </TableHead>
+                        <TableHead className="text-slate-600 font-medium w-[100px]">
+                          提供婴儿床
+                        </TableHead>
+                        <TableHead className="text-slate-600 font-medium w-[100px]">
+                          数量
+                        </TableHead>
+                        <TableHead className="text-slate-600 font-medium w-[120px]">
+                          价格(元)
+                        </TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {groupedPolicies[courtyard].map((policy) => (
+                        <TableRow
+                          key={policy.roomTypeId}
+                          className="hover:bg-slate-50 transition-colors"
+                        >
+                          {/* 房型名称 */}
+                          <TableCell className="font-medium text-slate-900">
+                            {policy.roomTypeName}
+                          </TableCell>
+
+                          {/* 提供加床 */}
+                          <TableCell className="text-center">
+                            {isEditing ? (
+                              <div className="flex justify-center">
+                                <Checkbox
+                                  checked={policy.extraBedProvided}
+                                  onCheckedChange={(checked) =>
+                                    updateRoomPolicy(
+                                      policy.roomTypeId,
+                                      'extraBedProvided',
+                                      checked === true
+                                    )
+                                  }
+                                  className="border-slate-300"
+                                />
+                              </div>
+                            ) : (
+                              <span className="text-slate-900">
+                                {policy.extraBedProvided ? '✓' : '—'}
+                              </span>
+                            )}
+                          </TableCell>
+
+                          {/* 加床床型 */}
+                          <TableCell>
+                            {policy.extraBedProvided ? (
+                              isEditing ? (
+                                <Select
+                                  value={policy.extraBedType || ''}
+                                  onValueChange={(value: 'single' | 'double') =>
+                                    updateRoomPolicy(policy.roomTypeId, 'extraBedType', value)
+                                  }
+                                >
+                                  <SelectTrigger className="h-9 border-slate-300">
+                                    <SelectValue placeholder="选择床型" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {EXTRA_BED_TYPES.map((type) => (
+                                      <SelectItem key={type.value} value={type.value}>
+                                        {type.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              ) : (
+                                <span className="text-slate-900">
+                                  {EXTRA_BED_TYPES.find((t) => t.value === policy.extraBedType)
+                                    ?.label || '—'}
+                                </span>
+                              )
+                            ) : (
+                              <span className="text-slate-400">—</span>
+                            )}
+                          </TableCell>
+
+                          {/* 加床数量 */}
+                          <TableCell>
+                            {policy.extraBedProvided ? (
+                              isEditing ? (
+                                <Input
+                                  type="number"
+                                  min="0"
+                                  max="10"
+                                  value={policy.extraBedCount || ''}
+                                  onChange={(e) =>
+                                    updateRoomPolicy(
+                                      policy.roomTypeId,
+                                      'extraBedCount',
+                                      parseInt(e.target.value) || 0
+                                    )
+                                  }
+                                  className="h-9 border-slate-300"
+                                  placeholder="数量"
+                                />
+                              ) : (
+                                <span className="text-slate-900">{policy.extraBedCount || '—'}</span>
+                              )
+                            ) : (
+                              <span className="text-slate-400">—</span>
+                            )}
+                          </TableCell>
+
+                          {/* 加床价格 */}
+                          <TableCell>
+                            {policy.extraBedProvided ? (
+                              isEditing ? (
+                                <Input
+                                  type="number"
+                                  min="0"
+                                  step="0.01"
+                                  value={policy.extraBedPrice ?? ''}
+                                  onChange={(e) =>
+                                    updateRoomPolicy(
+                                      policy.roomTypeId,
+                                      'extraBedPrice',
+                                      parseFloat(e.target.value) || 0
+                                    )
+                                  }
+                                  className="h-9 border-slate-300"
+                                  placeholder="价格"
+                                />
+                              ) : (
+                                <span className="text-slate-900">
+                                  {policy.extraBedPrice !== undefined
+                                    ? `¥${policy.extraBedPrice.toFixed(2)}`
+                                    : '—'}
+                                </span>
+                              )
+                            ) : (
+                              <span className="text-slate-400">—</span>
+                            )}
+                          </TableCell>
+
+                          {/* 提供婴儿床 */}
+                          <TableCell className="text-center">
+                            {isEditing ? (
+                              <div className="flex justify-center">
+                                <Checkbox
+                                  checked={policy.cribProvided}
+                                  onCheckedChange={(checked) =>
+                                    updateRoomPolicy(
+                                      policy.roomTypeId,
+                                      'cribProvided',
+                                      checked === true
+                                    )
+                                  }
+                                  className="border-slate-300"
+                                />
+                              </div>
+                            ) : (
+                              <span className="text-slate-900">
+                                {policy.cribProvided ? '✓' : '—'}
+                              </span>
+                            )}
+                          </TableCell>
+
+                          {/* 婴儿床数量 */}
+                          <TableCell>
+                            {policy.cribProvided ? (
+                              isEditing ? (
+                                <Input
+                                  type="number"
+                                  min="0"
+                                  max="10"
+                                  value={policy.cribCount || ''}
+                                  onChange={(e) =>
+                                    updateRoomPolicy(
+                                      policy.roomTypeId,
+                                      'cribCount',
+                                      parseInt(e.target.value) || 0
+                                    )
+                                  }
+                                  className="h-9 border-slate-300"
+                                  placeholder="数量"
+                                />
+                              ) : (
+                                <span className="text-slate-900">{policy.cribCount || '—'}</span>
+                              )
+                            ) : (
+                              <span className="text-slate-400">—</span>
+                            )}
+                          </TableCell>
+
+                          {/* 婴儿床价格 */}
+                          <TableCell>
+                            {policy.cribProvided ? (
+                              isEditing ? (
+                                <Input
+                                  type="number"
+                                  min="0"
+                                  step="0.01"
+                                  value={policy.cribPrice ?? ''}
+                                  onChange={(e) =>
+                                    updateRoomPolicy(
+                                      policy.roomTypeId,
+                                      'cribPrice',
+                                      parseFloat(e.target.value) || 0
+                                    )
+                                  }
+                                  className="h-9 border-slate-300"
+                                  placeholder="价格"
+                                />
+                              ) : (
+                                <span className="text-slate-900">
+                                  {policy.cribPrice !== undefined
+                                    ? `¥${policy.cribPrice.toFixed(2)}`
+                                    : '—'}
+                                </span>
+                              )
+                            ) : (
+                              <span className="text-slate-400">—</span>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
           ))}
+
+          {courtyards.length === 0 && (
+            <div className="text-center py-12 text-slate-500">
+              暂无房型数据，请先在房型管理模块添加房型
+            </div>
+          )}
         </div>
       </EditableSection>
     </div>

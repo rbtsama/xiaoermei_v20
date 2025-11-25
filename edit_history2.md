@@ -338,3 +338,186 @@
 
 ---
 
+## 2025-11-26 15:30:00
+
+### 商户端门店信息7个子页面PRD实现
+
+**修改文件：**
+
+#### 类型定义
+- `app/pages/MerchantBackend/StoreInfo/types/storeInfo.types.ts` - 完全重写
+
+#### 页面组件（6个重写）
+- `app/pages/MerchantBackend/StoreInfo/BasicInfoPage.tsx` - 基本信息页面
+- `app/pages/MerchantBackend/StoreInfo/PolicyInfoPage.tsx` - 政策相关页面
+- `app/pages/MerchantBackend/StoreInfo/FacilityInfoPage.tsx` - 门店设施页面
+- `app/pages/MerchantBackend/StoreInfo/BreakfastPolicyPage.tsx` - 早餐政策页面
+- `app/pages/MerchantBackend/StoreInfo/ExtraBedPolicyPage.tsx` - 加床政策页面
+- `app/pages/MerchantBackend/StoreInfo/ImageInfoPage.tsx` - 门店图片页面
+
+#### Mock数据
+- `app/pages/MerchantBackend/StoreInfo/services/mocks/storeInfo.mock.ts` - 更新匹配新类型
+
+**修改内容：**
+
+#### 1. 基本信息页面 (BasicInfoPage)
+
+**页面分区：**
+- **门店身份**（锁定字段）：门店名称、城市、详细地址、类型、房间数
+- **联系方式**：联系电话★、联系人名称★、邮箱地址
+- **门店展示**：Logo、Slogan、推荐标签★（最多2项）、门店介绍★
+- **列表展示**：列表封面★（比例2:3）
+- **视频素材**：门店视频、视频封面
+- **动态信息**：最新情报图片
+
+**特性：**
+- 锁定字段使用灰色背景，不可编辑
+- 必填字段显示红色星号★
+- 每个分区独立编辑/保存
+
+#### 2. 政策相关页面 (PolicyInfoPage)
+
+**页面分区（9个）：**
+- **预订时间**：入住开始时间★、最晚退房时间★、入住备注
+- **取消规则**：取消规则★（不可取消/免费取消）
+  - 条件展开：免费取消时显示入住日前X天★、XX:XX前★、超时处理★
+- **办理入住年龄**：年龄限制★（无限制/有限制）
+  - 条件展开：有限制时显示最小年龄★、最大年龄
+- **儿童政策**：儿童政策★（允许/需确认/不允许）、儿童政策说明
+- **宠物政策**：宠物政策★（允许/需确认/不允许）、宠物政策说明
+- **押金政策**：押金类型★（无需押金/固定金额/每间房/每天）
+  - 条件展开：需要押金时显示押金金额★
+- **前台支付方式**：银行卡（多选）、第三方支付（多选）、现金支付（开关）
+- **预订担保银行卡**：可用卡种（多选）
+- **政策补充**：补充说明
+
+**特性：**
+- 条件字段动态显示/隐藏
+- RadioGroup用于单选，Checkbox用于多选
+- Switch用于开关
+
+#### 3. 门店设施页面 (FacilityInfoPage)
+
+**页面分区（7个）：**
+- **亮点标签**：10个选项（免费WiFi、免费停车、宠物友好、近地铁、含早、亲子友好、行李寄存、网红打卡、浴缸、私汤温泉）
+- **交通服务**：8个选项
+- **清洁服务**：7个选项
+- **安全安保**：12个选项
+- **运动设施**：14个选项
+- **康体设施**：9个选项
+- **无障碍设施**：9个选项
+
+**特性：**
+- 所有设施使用 Checkbox 多选
+- 使用 grid-cols-4 布局
+- 使用常量数组定义选项
+
+#### 4. 早餐政策页面 (BreakfastPolicyPage)
+
+**页面分区：**
+- **早餐提供**：是否提供早餐★（开关）
+  - 条件展开：提供时显示全部配置
+- **早餐类型**：自助餐/套餐/点餐
+- **菜系**：多选（中式、西式、日式、韩式、东南亚、清真、素食、本地特色）
+- **早餐时间**：每日相同/指定日期、开始时间、结束时间
+- **加餐价格**：加1份早餐价格
+- **儿童早餐收费**：计价方式（按年龄/按身高）、收费规则列表
+
+**特性：**
+- 动态收费规则列表，支持添加/删除
+- maxValue支持"不限"（值为'unlimited'）
+- 提供开关控制整体配置显示
+
+#### 5. 加床政策页面 (ExtraBedPolicyPage)
+
+**页面结构：**
+- 按院落分组显示房型表格
+- 每个房型一行，显示：
+  - 房型名称
+  - 是否提供加床（Checkbox）
+  - 加床配置（床型、数量、价格）- 条件显示
+  - 是否提供婴儿床（Checkbox）
+  - 婴儿床配置（数量、价格）- 条件显示
+
+**特性：**
+- 表格布局，按院落分组
+- 条件字段根据Checkbox状态显示/隐藏
+- 整体保存所有房型配置
+
+#### 6. 门店图片页面 (ImageInfoPage)
+
+**页面分区：**
+- **小程序分享图**：
+  - 分享封面图（比例1:1）
+  - 分享展示文案（带独立保存按钮）
+- **门店主页首图**：
+  - 图片列表（比例2:3，最多5张）
+  - 支持排序（上移/下移）
+  - 支持删除
+
+**特性：**
+- 文案字段有独立保存按钮
+- 图片列表支持拖拽排序
+- 图片数量限制提示
+
+#### 7. 类型定义更新
+
+**新增/修改类型：**
+```typescript
+// PolicyInfo 新增字段
+childPolicy: 'allowed' | 'on_request' | 'not_allowed'
+childNote?: string
+depositType: 'none' | 'fixed' | 'per_room' | 'per_day'
+depositAmount?: number
+acceptedCards: string[]  // 从 paymentMethods 对象扁平化
+thirdPartyPayments: string[]
+cashPayment: boolean
+
+// FacilityInfo 结构变更
+highlights: string[]  // 亮点标签
+transportServices: string[]
+cleaningServices: string[]
+safetyServices: string[]
+sportsServices: string[]
+spaServices: string[]
+accessibilityServices: string[]
+
+// BreakfastPolicy 字段重命名
+cuisineTypes (原 cuisineType)
+timeType (原 breakfastTime)
+startTime (原 breakfastStartTime)
+```
+
+**新增常量：**
+- `HIGHLIGHT_TAGS` - 亮点标签选项
+- `RECOMMEND_TAGS` - 推荐标签选项
+- `TRANSPORT_SERVICES` - 交通服务选项
+- `CLEANING_SERVICES` - 清洁服务选项
+- `SAFETY_SERVICES` - 安全安保选项
+- `SPORTS_SERVICES` - 运动设施选项
+- `SPA_SERVICES` - 康体设施选项
+- `ACCESSIBILITY_SERVICES` - 无障碍设施选项
+- 以及其他枚举常量
+
+**功能影响：**
+
+✅ **完整PRD实现**：
+- 7个子页面全部按PRD规格实现
+- 字段、分组、交互逻辑完全对应
+
+✅ **统一交互模式**：
+- 所有页面使用 View/Edit 两态模式
+- EditableSection 组件统一分区编辑
+- FormField 组件统一字段展示（必填标记、锁定样式）
+
+✅ **条件逻辑支持**：
+- 政策页面多处条件展开
+- 早餐政策根据开关控制配置显示
+- 加床政策根据Checkbox控制详细配置
+
+✅ **表单验证**：
+- 必填字段标记
+- 动态列表增删
+- 数量限制提示
+
+---

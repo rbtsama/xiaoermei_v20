@@ -4,6 +4,13 @@ import { Textarea } from '~/components/ui/textarea'
 import { Label } from '~/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group'
 import { Checkbox } from '~/components/ui/checkbox'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '~/components/ui/select'
 import EditableSection from './components/EditableSection'
 import FormField from './components/FormField'
 import type { PolicyInfo } from './types/storeInfo.types'
@@ -66,8 +73,16 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
 
     // 如果选择年龄限制，验证最小年龄
     if (formData.ageRestriction === 'limited') {
-      if (!formData.minAge || formData.minAge < 0) {
-        alert('请填写最小年龄')
+      if (!formData.minAge || formData.minAge < 18) {
+        alert('请填写最小年龄（最小18岁）')
+        return
+      }
+    }
+
+    // 如果押金类型不是none，验证押金金额
+    if (formData.depositType !== 'none') {
+      if (!formData.depositAmount || formData.depositAmount <= 0) {
+        alert('请填写押金金额')
         return
       }
     }
@@ -87,57 +102,20 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  const toggleCard = (cardValue: string, category: 'accepted' | 'guarantee') => {
-    const field = category === 'accepted' ? 'acceptedCards' : 'guaranteeCards'
-    const currentCards =
-      category === 'accepted'
-        ? formData.paymentMethods.acceptedCards
-        : formData.guaranteeCards
-
-    if (currentCards.includes(cardValue)) {
-      if (category === 'accepted') {
-        updateField('paymentMethods', {
-          ...formData.paymentMethods,
-          acceptedCards: currentCards.filter((c) => c !== cardValue),
-        })
-      } else {
-        updateField(
-          'guaranteeCards',
-          currentCards.filter((c) => c !== cardValue)
-        )
-      }
+  const toggleArrayItem = (field: keyof PolicyInfo, value: string) => {
+    const currentArray = formData[field] as string[]
+    if (currentArray.includes(value)) {
+      updateField(field, currentArray.filter((item) => item !== value) as any)
     } else {
-      if (category === 'accepted') {
-        updateField('paymentMethods', {
-          ...formData.paymentMethods,
-          acceptedCards: [...currentCards, cardValue],
-        })
-      } else {
-        updateField('guaranteeCards', [...currentCards, cardValue])
-      }
-    }
-  }
-
-  const toggleThirdParty = (value: string) => {
-    const current = formData.paymentMethods.thirdPartyPayments
-    if (current.includes(value)) {
-      updateField('paymentMethods', {
-        ...formData.paymentMethods,
-        thirdPartyPayments: current.filter((p) => p !== value),
-      })
-    } else {
-      updateField('paymentMethods', {
-        ...formData.paymentMethods,
-        thirdPartyPayments: [...current, value],
-      })
+      updateField(field, [...currentArray, value] as any)
     }
   }
 
   return (
     <div className="space-y-6">
-      {/* 入住及退房时间 */}
+      {/* 预订时间 */}
       <EditableSection
-        title="入住及退房时间"
+        title="预订时间"
         isEditing={isEditing}
         onEdit={handleEdit}
         onSave={handleSave}
@@ -145,7 +123,7 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
         isSaving={isSaving}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FormField label="开始办理入住时间" required hint="默认14:00">
+          <FormField label="开始办理入住时间" required hint="格式：HH:mm">
             {isEditing ? (
               <Input
                 type="time"
@@ -160,7 +138,7 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
             )}
           </FormField>
 
-          <FormField label="最晚退房时间" required hint="默认12:00">
+          <FormField label="最晚退房时间" required hint="格式：HH:mm">
             {isEditing ? (
               <Input
                 type="time"
@@ -193,8 +171,8 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
         </div>
       </EditableSection>
 
-      {/* 取消政策 */}
-      <EditableSection title="取消政策" isEditing={isEditing} hideActions>
+      {/* 取消规则 */}
+      <EditableSection title="取消规则" isEditing={isEditing} hideActions>
         <div className="space-y-6">
           <FormField label="取消规则" required>
             {isEditing ? (
@@ -228,38 +206,36 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
 
           {formData.cancellationRule === 'free_cancel' && (
             <div className="pl-6 border-l-2 border-blue-200 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField label="免费取消截止" required>
-                  {isEditing ? (
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-slate-600">入住日前</span>
-                      <Input
-                        type="number"
-                        min="0"
-                        value={formData.freeCancelDays || ''}
-                        onChange={(e) =>
-                          updateField('freeCancelDays', parseInt(e.target.value) || 0)
-                        }
-                        className="h-9 w-20 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                      />
-                      <span className="text-sm text-slate-600">天</span>
-                      <Input
-                        type="time"
-                        value={formData.freeCancelTime || ''}
-                        onChange={(e) => updateField('freeCancelTime', e.target.value)}
-                        className="h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                      />
-                      <span className="text-sm text-slate-600">前可免费取消</span>
-                    </div>
-                  ) : (
-                    <div className="h-9 flex items-center text-slate-900">
-                      入住日前 {formData.freeCancelDays} 天 {formData.freeCancelTime} 前可免费取消
-                    </div>
-                  )}
-                </FormField>
-              </div>
+              <FormField label="免费取消截止" required>
+                {isEditing ? (
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-sm text-slate-600">入住日前</span>
+                    <Input
+                      type="number"
+                      min="0"
+                      value={formData.freeCancelDays || ''}
+                      onChange={(e) =>
+                        updateField('freeCancelDays', parseInt(e.target.value) || 0)
+                      }
+                      className="h-9 w-20 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                    />
+                    <span className="text-sm text-slate-600">天</span>
+                    <Input
+                      type="time"
+                      value={formData.freeCancelTime || ''}
+                      onChange={(e) => updateField('freeCancelTime', e.target.value)}
+                      className="h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                    />
+                    <span className="text-sm text-slate-600">前可免费取消</span>
+                  </div>
+                ) : (
+                  <div className="h-9 flex items-center text-slate-900">
+                    入住日前 {formData.freeCancelDays} 天 {formData.freeCancelTime} 前可免费取消
+                  </div>
+                )}
+              </FormField>
 
-              <FormField label="超时处理" required>
+              <FormField label="此后取消处理" required>
                 {isEditing ? (
                   <RadioGroup
                     value={formData.afterCancelRule || ''}
@@ -325,28 +301,128 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
           </FormField>
 
           {formData.ageRestriction === 'limited' && (
-            <div className="pl-6 border-l-2 border-blue-200">
-              <FormField label="最小年龄" required>
-                {isEditing ? (
-                  <div className="flex items-center gap-2">
-                    <Input
-                      type="number"
-                      min="0"
-                      max="100"
-                      value={formData.minAge || ''}
-                      onChange={(e) => updateField('minAge', parseInt(e.target.value) || 0)}
-                      className="h-9 w-24 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
-                    />
-                    <span className="text-sm text-slate-600">岁</span>
-                  </div>
-                ) : (
-                  <div className="h-9 flex items-center text-slate-900">
-                    {formData.minAge} 岁
-                  </div>
-                )}
-              </FormField>
+            <div className="pl-6 border-l-2 border-blue-200 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField label="最小年龄" required>
+                  {isEditing ? (
+                    <Select
+                      value={formData.minAge?.toString() || ''}
+                      onValueChange={(value) => updateField('minAge', parseInt(value))}
+                    >
+                      <SelectTrigger className="h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
+                        <SelectValue placeholder="请选择最小年龄" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Array.from({ length: 83 }, (_, i) => i + 18).map((age) => (
+                          <SelectItem key={age} value={age.toString()}>
+                            {age} 岁
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <div className="h-9 flex items-center text-slate-900">
+                      {formData.minAge ? `${formData.minAge} 岁` : '—'}
+                    </div>
+                  )}
+                </FormField>
+
+                <FormField label="最大年龄">
+                  {isEditing ? (
+                    <Select
+                      value={
+                        formData.maxAge === 'unlimited'
+                          ? 'unlimited'
+                          : formData.maxAge?.toString() || ''
+                      }
+                      onValueChange={(value) =>
+                        updateField('maxAge', value === 'unlimited' ? 'unlimited' : parseInt(value))
+                      }
+                    >
+                      <SelectTrigger className="h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
+                        <SelectValue placeholder="请选择最大年龄" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="unlimited">不限</SelectItem>
+                        {Array.from({ length: 83 }, (_, i) => i + 18).map((age) => (
+                          <SelectItem key={age} value={age.toString()}>
+                            {age} 岁
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <div className="h-9 flex items-center text-slate-900">
+                      {formData.maxAge === 'unlimited'
+                        ? '不限'
+                        : formData.maxAge
+                          ? `${formData.maxAge} 岁`
+                          : '—'}
+                    </div>
+                  )}
+                </FormField>
+              </div>
             </div>
           )}
+        </div>
+      </EditableSection>
+
+      {/* 儿童政策 */}
+      <EditableSection title="儿童政策" isEditing={isEditing} hideActions>
+        <div className="space-y-4">
+          <FormField label="儿童政策" required>
+            {isEditing ? (
+              <RadioGroup
+                value={formData.childPolicy}
+                onValueChange={(value: 'allowed' | 'on_request' | 'not_allowed') =>
+                  updateField('childPolicy', value)
+                }
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="allowed" id="child_allowed" />
+                  <Label htmlFor="child_allowed" className="font-normal cursor-pointer">
+                    允许携带儿童
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="on_request" id="child_on_request" />
+                  <Label htmlFor="child_on_request" className="font-normal cursor-pointer">
+                    需提前确认
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="not_allowed" id="child_not_allowed" />
+                  <Label htmlFor="child_not_allowed" className="font-normal cursor-pointer">
+                    不接待儿童
+                  </Label>
+                </div>
+              </RadioGroup>
+            ) : (
+              <div className="h-9 flex items-center text-slate-900">
+                {formData.childPolicy === 'allowed'
+                  ? '允许携带儿童'
+                  : formData.childPolicy === 'on_request'
+                    ? '需提前确认'
+                    : '不接待儿童'}
+              </div>
+            )}
+          </FormField>
+
+          <FormField label="儿童政策说明">
+            {isEditing ? (
+              <Textarea
+                value={formData.childNote || ''}
+                onChange={(e) => updateField('childNote', e.target.value)}
+                placeholder="请输入儿童政策补充说明"
+                rows={3}
+                className="border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 resize-none"
+              />
+            ) : (
+              <div className="text-slate-900 whitespace-pre-wrap">
+                {formData.childNote || '—'}
+              </div>
+            )}
+          </FormField>
         </div>
       </EditableSection>
 
@@ -357,62 +433,137 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
             {isEditing ? (
               <RadioGroup
                 value={formData.petPolicy}
-                onValueChange={(value: 'not_allowed' | 'allowed' | 'on_request') =>
+                onValueChange={(value: 'allowed' | 'on_request' | 'not_allowed') =>
                   updateField('petPolicy', value)
                 }
               >
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="not_allowed" id="pet_not_allowed" />
-                  <Label htmlFor="pet_not_allowed" className="font-normal cursor-pointer">
-                    不可携带宠物
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
                   <RadioGroupItem value="allowed" id="pet_allowed" />
                   <Label htmlFor="pet_allowed" className="font-normal cursor-pointer">
-                    可携带宠物
+                    允许携带宠物
                   </Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="on_request" id="pet_on_request" />
                   <Label htmlFor="pet_on_request" className="font-normal cursor-pointer">
-                    应要求可携带宠物
+                    需提前确认
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="not_allowed" id="pet_not_allowed" />
+                  <Label htmlFor="pet_not_allowed" className="font-normal cursor-pointer">
+                    不允许携带宠物
                   </Label>
                 </div>
               </RadioGroup>
             ) : (
               <div className="h-9 flex items-center text-slate-900">
-                {formData.petPolicy === 'not_allowed'
-                  ? '不可携带宠物'
-                  : formData.petPolicy === 'allowed'
-                    ? '可携带宠物'
-                    : '应要求可携带宠物'}
+                {formData.petPolicy === 'allowed'
+                  ? '允许携带宠物'
+                  : formData.petPolicy === 'on_request'
+                    ? '需提前确认'
+                    : '不允许携带宠物'}
               </div>
             )}
           </FormField>
 
-          {formData.petPolicy !== 'not_allowed' && (
-            <FormField label="宠物补充说明">
-              {isEditing ? (
-                <Textarea
-                  value={formData.petNote || ''}
-                  onChange={(e) => updateField('petNote', e.target.value)}
-                  placeholder="请输入宠物政策补充说明"
-                  rows={3}
-                  className="border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 resize-none"
-                />
-              ) : (
-                <div className="text-slate-900 whitespace-pre-wrap">
-                  {formData.petNote || '—'}
+          <FormField label="宠物政策说明">
+            {isEditing ? (
+              <Textarea
+                value={formData.petNote || ''}
+                onChange={(e) => updateField('petNote', e.target.value)}
+                placeholder="请输入宠物政策补充说明"
+                rows={3}
+                className="border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 resize-none"
+              />
+            ) : (
+              <div className="text-slate-900 whitespace-pre-wrap">
+                {formData.petNote || '—'}
+              </div>
+            )}
+          </FormField>
+        </div>
+      </EditableSection>
+
+      {/* 押金政策 */}
+      <EditableSection title="押金政策" isEditing={isEditing} hideActions>
+        <div className="space-y-4">
+          <FormField label="是否需要押金" required>
+            {isEditing ? (
+              <RadioGroup
+                value={formData.depositType}
+                onValueChange={(value: 'none' | 'fixed' | 'per_room' | 'per_day') =>
+                  updateField('depositType', value)
+                }
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="none" id="deposit_none" />
+                  <Label htmlFor="deposit_none" className="font-normal cursor-pointer">
+                    否
+                  </Label>
                 </div>
-              )}
-            </FormField>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="fixed" id="deposit_fixed" />
+                  <Label htmlFor="deposit_fixed" className="font-normal cursor-pointer">
+                    固定金额
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="per_room" id="deposit_per_room" />
+                  <Label htmlFor="deposit_per_room" className="font-normal cursor-pointer">
+                    按预订房间数量
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="per_day" id="deposit_per_day" />
+                  <Label htmlFor="deposit_per_day" className="font-normal cursor-pointer">
+                    按预订天数
+                  </Label>
+                </div>
+              </RadioGroup>
+            ) : (
+              <div className="h-9 flex items-center text-slate-900">
+                {formData.depositType === 'none'
+                  ? '否'
+                  : formData.depositType === 'fixed'
+                    ? '固定金额'
+                    : formData.depositType === 'per_room'
+                      ? '按预订房间数量'
+                      : '按预订天数'}
+              </div>
+            )}
+          </FormField>
+
+          {formData.depositType !== 'none' && (
+            <div className="pl-6 border-l-2 border-blue-200">
+              <FormField label="押金金额" required>
+                {isEditing ? (
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={formData.depositAmount || ''}
+                      onChange={(e) =>
+                        updateField('depositAmount', parseFloat(e.target.value) || 0)
+                      }
+                      className="h-9 w-32 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                    />
+                    <span className="text-sm text-slate-600">元</span>
+                  </div>
+                ) : (
+                  <div className="h-9 flex items-center text-slate-900">
+                    ¥{formData.depositAmount?.toFixed(2) || '0.00'}
+                  </div>
+                )}
+              </FormField>
+            </div>
           )}
         </div>
       </EditableSection>
 
-      {/* 支付方式 */}
-      <EditableSection title="支付方式" isEditing={isEditing} hideActions>
+      {/* 前台可用支付方式 */}
+      <EditableSection title="前台可用支付方式" isEditing={isEditing} hideActions>
         <div className="space-y-6">
           <FormField label="可接受的银行卡">
             {isEditing ? (
@@ -420,12 +571,12 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
                 {CARD_TYPES.map((card) => (
                   <div key={card.value} className="flex items-center space-x-2">
                     <Checkbox
-                      id={`card-${card.value}`}
-                      checked={formData.paymentMethods.acceptedCards.includes(card.value)}
-                      onCheckedChange={() => toggleCard(card.value, 'accepted')}
+                      id={`accepted-card-${card.value}`}
+                      checked={formData.acceptedCards.includes(card.value)}
+                      onCheckedChange={() => toggleArrayItem('acceptedCards', card.value)}
                     />
                     <Label
-                      htmlFor={`card-${card.value}`}
+                      htmlFor={`accepted-card-${card.value}`}
                       className="font-normal cursor-pointer"
                     >
                       {card.label}
@@ -435,10 +586,8 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
               </div>
             ) : (
               <div className="text-slate-900">
-                {formData.paymentMethods.acceptedCards.length > 0
-                  ? CARD_TYPES.filter((c) =>
-                      formData.paymentMethods.acceptedCards.includes(c.value)
-                    )
+                {formData.acceptedCards.length > 0
+                  ? CARD_TYPES.filter((c) => formData.acceptedCards.includes(c.value))
                       .map((c) => c.label)
                       .join('、')
                   : '—'}
@@ -453,10 +602,8 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
                   <div key={payment.value} className="flex items-center space-x-2">
                     <Checkbox
                       id={`payment-${payment.value}`}
-                      checked={formData.paymentMethods.thirdPartyPayments.includes(
-                        payment.value
-                      )}
-                      onCheckedChange={() => toggleThirdParty(payment.value)}
+                      checked={formData.thirdPartyPayments.includes(payment.value)}
+                      onCheckedChange={() => toggleArrayItem('thirdPartyPayments', payment.value)}
                     />
                     <Label
                       htmlFor={`payment-${payment.value}`}
@@ -469,10 +616,8 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
               </div>
             ) : (
               <div className="text-slate-900">
-                {formData.paymentMethods.thirdPartyPayments.length > 0
-                  ? THIRD_PARTY_PAYMENTS.filter((p) =>
-                      formData.paymentMethods.thirdPartyPayments.includes(p.value)
-                    )
+                {formData.thirdPartyPayments.length > 0
+                  ? THIRD_PARTY_PAYMENTS.filter((p) => formData.thirdPartyPayments.includes(p.value))
                       .map((p) => p.label)
                       .join('、')
                   : '—'}
@@ -485,21 +630,16 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="cash-payment"
-                  checked={formData.paymentMethods.cashPayment}
-                  onCheckedChange={(checked) =>
-                    updateField('paymentMethods', {
-                      ...formData.paymentMethods,
-                      cashPayment: checked === true,
-                    })
-                  }
+                  checked={formData.cashPayment}
+                  onCheckedChange={(checked) => updateField('cashPayment', checked === true)}
                 />
                 <Label htmlFor="cash-payment" className="font-normal cursor-pointer">
-                  现金支付
+                  支持现金支付
                 </Label>
               </div>
             ) : (
-              <div className="text-slate-900">
-                {formData.paymentMethods.cashPayment ? '支持' : '不支持'}
+              <div className="h-9 flex items-center text-slate-900">
+                {formData.cashPayment ? '支持' : '不支持'}
               </div>
             )}
           </FormField>
@@ -516,7 +656,7 @@ export default function PolicyInfoPage({ data, onSave }: PolicyInfoPageProps) {
                   <Checkbox
                     id={`guarantee-${card.value}`}
                     checked={formData.guaranteeCards.includes(card.value)}
-                    onCheckedChange={() => toggleCard(card.value, 'guarantee')}
+                    onCheckedChange={() => toggleArrayItem('guaranteeCards', card.value)}
                   />
                   <Label
                     htmlFor={`guarantee-${card.value}`}
