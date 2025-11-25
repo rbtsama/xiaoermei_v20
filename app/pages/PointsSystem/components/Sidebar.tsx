@@ -302,11 +302,9 @@ export const menuConfig: MenuItem[] = [
         ]
       },
       {
-        title: '争议处理',
+        title: '争议处理 *',
         children: [
-          { title: '退款申请', path: '/dispute/refund-requests' },
-          { title: '仲裁案件', path: '/dispute/arbitration-cases' },
-          { title: '仲裁委员', path: '/dispute/arbitrators' }
+          { title: '退款申请 *', path: '/dispute/refund-requests' }
         ]
       },
       // 用户运营：锦上添花

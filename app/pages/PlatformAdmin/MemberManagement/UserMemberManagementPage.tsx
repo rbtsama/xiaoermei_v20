@@ -46,9 +46,6 @@ export default function UserMemberManagementPage({
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">用户会员等级管理</h1>
-            <p className="text-slate-900 mt-1">
-              查询、手动调整特定用户的会员等级和积分余额
-            </p>
           </div>
           <LearningModal title="用户会员等级管理 - 学习内容" isLearningMode={isLearningMode}>
             <div className="space-y-4">
@@ -85,9 +82,9 @@ export default function UserMemberManagementPage({
         </div>
 
         {/* 搜索筛选 */}
-        <Card className="mb-6 rounded-xl border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader>
-            <CardTitle className="text-slate-900">搜索筛选</CardTitle>
+        <Card className="mb-6 rounded-xl border-slate-200 bg-white shadow-md hover:shadow-lg transition-all duration-200">
+          <CardHeader className="border-b border-slate-100">
+            <CardTitle className="text-base font-semibold text-slate-900">搜索筛选</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-end gap-4">
@@ -122,22 +119,22 @@ export default function UserMemberManagementPage({
                   </SelectContent>
                 </Select>
               </div>
-              <Button className="h-9 gap-2 bg-blue-600 hover:bg-blue-700">
+              <Button className="h-9 gap-2 bg-blue-600 hover:bg-blue-700 font-medium shadow-sm transition-all">
                 <Search className="w-4 h-4" />
                 搜索
               </Button>
-              <Button variant="outline" className="h-9">重置</Button>
+              <Button variant="outline" className="h-9 border-slate-300 hover:border-slate-400 hover:bg-slate-50 transition-all">重置</Button>
             </div>
           </CardContent>
         </Card>
 
         {/* 用户列表 */}
-        <Card className="rounded-xl border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader>
+        <Card className="rounded-xl border-slate-200 bg-white shadow-md hover:shadow-lg transition-all duration-200">
+          <CardHeader className="border-b border-slate-100">
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="text-slate-900">用户列表</CardTitle>
-                <CardDescription className="text-slate-900">共 {total} 位用户</CardDescription>
+                <CardTitle className="text-base font-semibold text-slate-900">用户列表</CardTitle>
+                <CardDescription className="text-slate-600">共 {total} 位用户</CardDescription>
               </div>
             </div>
           </CardHeader>

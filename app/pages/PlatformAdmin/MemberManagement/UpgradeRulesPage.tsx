@@ -48,9 +48,6 @@ export default function UpgradeRulesPage({ rules }: UpgradeRulesPageProps) {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">会员等级升级与保级规则配置</h1>
-            <p className="text-slate-900 mt-1">
-              配置VIP0-VIP9的升级条件、会员有效期、保级条件
-            </p>
           </div>
           <LearningModal title="会员等级升级规则 - 学习内容" isLearningMode={isLearningMode}>
             <div className="space-y-4">
@@ -123,10 +120,10 @@ export default function UpgradeRulesPage({ rules }: UpgradeRulesPageProps) {
         </Card>
 
         {/* 规则配置表格 */}
-        <Card className="rounded-xl border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader>
-            <CardTitle className="text-slate-900">会员等级升级与保级规则</CardTitle>
-            <CardDescription className="text-slate-900">
+        <Card className="rounded-xl border-slate-200 bg-white shadow-md hover:shadow-lg transition-all duration-200">
+          <CardHeader className="border-b border-slate-100">
+            <CardTitle className="text-base font-semibold text-slate-900">会员等级升级与保级规则</CardTitle>
+            <CardDescription className="text-slate-600">
               配置VIP0-VIP9共10个等级的升级和保级规则
             </CardDescription>
           </CardHeader>
@@ -267,13 +264,13 @@ export default function UpgradeRulesPage({ rules }: UpgradeRulesPageProps) {
                 )}
               </div>
               <div className="flex justify-end gap-2">
-                <Button type="button" variant="outline" onClick={() => setEditDialogOpen(false)} className="h-9">
+                <Button type="button" variant="outline" onClick={() => setEditDialogOpen(false)} className="h-9 border-slate-300 hover:border-slate-400 hover:bg-slate-50 transition-all">
                   取消
                 </Button>
                 <Button
                   type="submit"
                   disabled={formData.maintainNights > formData.upgradeNights}
-                  className="h-9 bg-blue-600 hover:bg-blue-700"
+                  className="h-9 bg-blue-600 hover:bg-blue-700 font-medium shadow-sm transition-all"
                 >
                   确定
                 </Button>

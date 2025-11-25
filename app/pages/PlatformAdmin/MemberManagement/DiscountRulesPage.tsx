@@ -52,9 +52,6 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">会员等级折扣规则配置</h1>
-            <p className="text-slate-900 mt-1">
-              配置各会员等级的平台基础折扣，以及商户可设置的折扣范围
-            </p>
           </div>
           <LearningModal title="会员等级折扣规则 - 学习内容" isLearningMode={isLearningMode}>
             <div className="space-y-4">
@@ -100,10 +97,10 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
         </div>
 
         {/* 配置表格 */}
-        <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader>
-            <CardTitle className="text-slate-900">会员等级折扣规则配置</CardTitle>
-            <CardDescription className="text-slate-900">
+        <Card className="rounded-xl border-slate-200 shadow-md hover:shadow-lg transition-all duration-200">
+          <CardHeader className="border-b border-slate-100">
+            <CardTitle className="text-base font-semibold text-slate-900">会员等级折扣规则配置</CardTitle>
+            <CardDescription className="text-slate-600">
               平台设定基础折扣，商户可在允许范围内设置更优惠的折扣
             </CardDescription>
           </CardHeader>
@@ -230,10 +227,10 @@ export default function DiscountRulesPage({ rules }: DiscountRulesPageProps) {
                 </div>
               </div>
               <div className="flex justify-end gap-2">
-                <Button type="button" variant="outline" onClick={() => setEditDialogOpen(false)} className="h-9">
+                <Button type="button" variant="outline" onClick={() => setEditDialogOpen(false)} className="h-9 border-slate-300 hover:border-slate-400 hover:bg-slate-50 transition-all">
                   取消
                 </Button>
-                <Button type="submit" className="h-9 bg-blue-600 hover:bg-blue-700">确定</Button>
+                <Button type="submit" className="h-9 bg-blue-600 hover:bg-blue-700 font-medium shadow-sm transition-all">确定</Button>
               </div>
             </Form>
           </DialogContent>

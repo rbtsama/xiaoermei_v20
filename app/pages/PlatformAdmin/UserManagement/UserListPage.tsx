@@ -64,19 +64,16 @@ export default function UserListPage({ users, memberLevels }: UserListPageProps)
   return (
     <MainLayout>
       <div className="h-screen overflow-y-auto bg-slate-50">
-        <div className="max-w-7xl mx-auto p-6 space-y-6">
+        <div className="max-w-7xl mx-auto p-8 space-y-8">
           {/* 页面标题 */}
           <div>
             <h1 className="text-2xl font-bold text-slate-900">用户列表</h1>
-            <p className="text-sm text-slate-500 mt-1">
-              查看和管理所有平台用户
-            </p>
           </div>
 
           {/* 搜索和筛选 */}
-          <Card className="rounded-xl border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-slate-900">搜索筛选</CardTitle>
+          <Card className="rounded-xl border-slate-200 bg-white shadow-md hover:shadow-lg transition-all duration-200">
+            <CardHeader className="border-b border-slate-100">
+              <CardTitle className="text-base font-semibold text-slate-900">搜索筛选</CardTitle>
             </CardHeader>
             <CardContent>
               <Form method="get" className="space-y-4">
@@ -195,12 +192,12 @@ export default function UserListPage({ users, memberLevels }: UserListPageProps)
           </Card>
 
           {/* 用户列表 */}
-          <Card className="rounded-xl border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
-            <CardHeader>
+          <Card className="rounded-xl border-slate-200 bg-white shadow-md hover:shadow-lg transition-all duration-200">
+            <CardHeader className="border-b border-slate-100">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg font-semibold text-slate-900">
+                <CardTitle className="text-base font-semibold text-slate-900">
                   用户列表
-                  <span className="ml-2 text-sm font-normal text-slate-500">
+                  <span className="ml-2 text-sm font-normal text-slate-600">
                     共 {users.length} 位用户
                   </span>
                 </CardTitle>

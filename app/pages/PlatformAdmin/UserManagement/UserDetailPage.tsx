@@ -52,7 +52,7 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
   return (
     <MainLayout>
       <div className="h-screen overflow-y-auto bg-slate-50">
-        <div className="max-w-7xl mx-auto p-6 space-y-6">
+        <div className="max-w-7xl mx-auto p-8 space-y-8">
           {/* 页面标题和操作 */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -65,9 +65,6 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
               </Link>
               <div>
                 <h1 className="text-2xl font-bold text-slate-900">用户详情</h1>
-                <p className="text-sm text-slate-500 mt-1">
-                  查看和管理用户完整信息
-                </p>
               </div>
             </div>
 
@@ -107,9 +104,9 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
           </div>
 
           {/* 基本信息 */}
-          <Card className="rounded-xl border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-slate-900">基本信息</CardTitle>
+          <Card className="rounded-xl border-slate-200 bg-white shadow-md hover:shadow-lg transition-all duration-200">
+            <CardHeader className="border-b border-slate-100">
+              <CardTitle className="text-base font-semibold text-slate-900">基本信息</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-5 gap-6">
@@ -150,9 +147,9 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
           </Card>
 
           {/* 会员信息 */}
-          <Card className="rounded-xl border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+          <Card className="rounded-xl border-slate-200 bg-white shadow-md hover:shadow-lg transition-all duration-200">
+            <CardHeader className="border-b border-slate-100">
+              <CardTitle className="text-base font-semibold text-slate-900 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-blue-600" />
                 会员信息
               </CardTitle>
@@ -212,10 +209,10 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
           </Card>
 
           {/* 积分信息 */}
-          <Card className="rounded-xl border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-                <Coins className="w-5 h-5 text-amber-600" />
+          <Card className="rounded-xl border-slate-200 bg-white shadow-md hover:shadow-lg transition-all duration-200">
+            <CardHeader className="border-b border-slate-100">
+              <CardTitle className="text-base font-semibold text-slate-900 flex items-center gap-2">
+                <Coins className="w-5 h-5 text-blue-600" />
                 积分信息
               </CardTitle>
             </CardHeader>
@@ -256,12 +253,12 @@ export default function UserDetailPage({ user }: UserDetailPageProps) {
           </Card>
 
           {/* 订单历史 */}
-          <Card className="rounded-xl border-slate-200 bg-white shadow-sm hover:shadow-md transition-shadow">
-            <CardHeader>
-              <CardTitle className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-                <ShoppingBag className="w-5 h-5 text-green-600" />
+          <Card className="rounded-xl border-slate-200 bg-white shadow-md hover:shadow-lg transition-all duration-200">
+            <CardHeader className="border-b border-slate-100">
+              <CardTitle className="text-base font-semibold text-slate-900 flex items-center gap-2">
+                <ShoppingBag className="w-5 h-5 text-blue-600" />
                 订单历史
-                <span className="text-sm font-normal text-slate-500">
+                <span className="text-sm font-normal text-slate-600">
                   （最近 {user.recentOrders.length} 笔订单）
                 </span>
               </CardTitle>

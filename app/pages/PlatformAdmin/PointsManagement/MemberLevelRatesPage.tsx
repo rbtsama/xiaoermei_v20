@@ -40,9 +40,6 @@ export default function MemberLevelRatesPage({ rates }: MemberLevelRatesPageProp
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">会员等级积分倍数配置</h1>
-            <p className="text-slate-900 mt-1">
-              配置不同会员等级的积分使用倍数，等级越高，积分价值越大
-            </p>
           </div>
           <LearningModal title="会员等级积分倍数 - 学习内容" isLearningMode={isLearningMode}>
             <div className="space-y-4">
@@ -107,10 +104,10 @@ export default function MemberLevelRatesPage({ rates }: MemberLevelRatesPageProp
         </Card>
 
         {/* 倍数配置表格 */}
-        <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader>
-            <CardTitle className="text-slate-900">会员等级积分倍数配置</CardTitle>
-            <CardDescription className="text-slate-900">
+        <Card className="rounded-xl border-slate-200 shadow-md hover:shadow-lg transition-all duration-200">
+          <CardHeader className="border-b border-slate-100">
+            <CardTitle className="text-base font-semibold text-slate-900">会员等级积分倍数配置</CardTitle>
+            <CardDescription className="text-slate-600">
               配置VIP0-VIP9共10个等级的积分倍数
             </CardDescription>
           </CardHeader>

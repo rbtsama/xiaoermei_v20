@@ -59,8 +59,7 @@ export default defineConfig({
 
           // Dispute Management Routes
           route("/dispute/refund-requests", "routes/dispute/refund-requests.tsx")
-          route("/dispute/arbitration-cases", "routes/dispute/arbitration-cases.tsx")
-          route("/dispute/arbitrators", "routes/dispute/arbitrators.tsx")
+          route("/dispute/refund-requests/:id", "routes/dispute/refund-request-detail.tsx")
 
           // Platform Admin - Hotel Monitoring
           route("/platform-admin/hotel-monitor", "routes/platform-admin/hotel-monitor.tsx")
@@ -130,6 +129,9 @@ export default defineConfig({
           route("/merchant-backend/vip-discount/config", "routes/merchant-backend/vip-discount/config.tsx")
           route("/merchant-backend/agent-order/create", "routes/merchant-backend/agent-order/create.tsx")
           route("/merchant-backend/old-customer/invite-member", "routes/merchant-backend/old-customer/invite-member.tsx")
+
+          // Merchant Backend - Store Info
+          route("/merchant-backend/store-info", "routes/merchant-backend/store-info/_index.tsx", { index: true })
 
           // C Client - User Center
           route("/c-client/user-center/my-points", "routes/c-client/user-center/my-points.tsx")

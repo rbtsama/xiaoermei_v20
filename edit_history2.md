@@ -58,3 +58,136 @@
 
 ---
 
+## 2025-11-25 11:30:00
+
+### 需求1：后台UI规范统一
+
+**修改文件：**
+- `app/pages/PlatformAdmin/UserManagement/UserListPage.tsx`
+- `app/pages/PlatformAdmin/UserManagement/UserDetailPage.tsx`
+- `app/pages/PlatformAdmin/MemberManagement/DiscountRulesPage.tsx`
+- `app/pages/PlatformAdmin/MemberManagement/UserMemberManagementPage.tsx`
+- `app/pages/PlatformAdmin/MemberManagement/UpgradeRulesPage.tsx`
+- `app/pages/PlatformAdmin/PointsManagement/MemberLevelRatesPage.tsx`
+- `app/pages/PlatformAdmin/PointsManagement/PointsStatisticsPage.tsx`
+- `app/pages/MerchantBackend/StoreInfo/StoreInfoMainPage.tsx`
+
+**修改内容：**
+
+#### 1. 标签圆角统一为2px
+- Badge组件已默认使用 `rounded-sm`（2px圆角），符合规范
+
+#### 2. 删除页面顶部标题的副标题
+删除了以下页面的副标题描述文字：
+- **用户列表**: 删除"查看和管理所有平台用户"
+- **用户详情**: 删除"查看和管理用户完整信息"
+- **会员等级折扣规则配置**: 删除"配置各会员等级的平台基础折扣，以及商户可设置的折扣范围"
+- **用户会员等级管理**: 删除"查询、手动调整特定用户的会员等级和积分余额"
+- **会员等级升级与保级规则配置**: 删除"配置VIP0-VIP9的升级条件、会员有效期、保级条件"
+- **会员等级积分倍数配置**: 删除"配置不同会员等级的积分使用倍数，等级越高，积分价值越大"
+- **积分发放与使用统计**: 删除"查看积分发放、使用、流通数据，分析用户行为"
+- **门店信息**: 删除"管理门店的基本信息、政策、设施等配置"
+
+**功能影响：**
+
+✅ **页面更简洁**：
+- 标题区域更紧凑，减少视觉干扰
+- 副标题信息可通过页面内容自行理解
+
+---
+
+## 2025-11-25 11:45:00
+
+### 需求2：争议处理模块重构
+
+**修改文件：**
+- `app/pages/PointsSystem/components/Sidebar.tsx` - 菜单配置
+- `vite.config.ts` - 路由配置
+- `app/pages/DisputeManagement/types/dispute.types.ts` - 类型定义
+- `app/pages/DisputeManagement/services/mocks/dispute.mock.ts` - 模拟数据
+- `app/pages/DisputeManagement/services/mocks/index.ts` - 导出配置
+- `app/pages/DisputeManagement/RefundRequestsPage.tsx` - 退款申请列表页面
+- `app/pages/DisputeManagement/RefundRequestDetailPage.tsx` - 新增：退款申请详情页面
+- `app/routes/dispute/refund-requests.tsx` - 列表路由
+- `app/routes/dispute/refund-request-detail.tsx` - 新增：详情路由
+
+**删除文件：**
+- `app/routes/dispute/arbitration-cases.tsx` - 仲裁案件路由
+- `app/routes/dispute/arbitrators.tsx` - 仲裁委员路由
+- `app/pages/DisputeManagement/ArbitrationCasesPage.tsx` - 仲裁案件页面
+- `app/pages/DisputeManagement/ArbitratorsPage.tsx` - 仲裁委员页面
+
+**修改内容：**
+
+#### 1. 菜单结构调整
+**原菜单结构：**
+```
+争议处理
+├─ 退款申请
+├─ 仲裁案件
+└─ 仲裁委员
+```
+
+**新菜单结构：**
+```
+争议处理 *
+└─ 退款申请 *
+```
+
+#### 2. 退款申请状态简化
+**原状态：**
+- 待商家处理、协商中、商家拒绝、仲裁中、已完成、已驳回、用户已撤诉
+
+**新状态（4种）：**
+- **待商家处理**: 用户提交申请后等待商家响应
+- **仲裁中**: 商家拒绝后，进入系统外微信群仲裁
+- **已退款**: 退款完成（商家同意/仲裁通过）
+- **已驳回**: 申请被驳回（仲裁小法庭驳回）
+
+#### 3. 退款申请列表页面
+**展示字段：**
+- 订单号、用户ID、酒店、申请退款金额、退款比例、状态、申请时间、更新时间、操作
+
+**新增功能：**
+- 搜索框：支持按订单号/用户ID/酒店名称搜索
+- 状态筛选：下拉选择筛选
+- 专业分页组件：首页/末页、页码、每页条数、跳转
+
+#### 4. 退款申请详情页面（新增）
+**基本信息区：**
+- 订单号、用户ID、酒店、状态、实付金额、申请退款金额、退款比例、申请时间
+
+**用户说辞区：**
+- 退款理由、证据图片
+
+**商家说辞区（如果有）：**
+- 商家回复、回复时间、商家图片、同意/拒绝状态
+
+**平台处理区（仲裁中状态）：**
+- 仲裁结果选择（仲裁通过/仲裁驳回）
+- 备注输入框
+- 操作按钮（三选一）：驳回申请、商家退款、平台退款
+- 完成后操作入口关闭
+
+**功能影响：**
+
+✅ **简化流程**：
+- 删除系统内仲裁功能，仲裁全流程在微信群外执行
+- 平台只需记录仲裁结果并执行退款/驳回操作
+
+✅ **退款申请流程**：
+1. 用户在小程序端提交退款申请（选择比例、填写理由、上传图片）
+2. 商家后台收到申请，可填写理由和上传图片
+3. 商家选择同意或拒绝
+4. 若同意：按用户申请比例执行退款
+5. 若拒绝：进入微信群仲裁小法庭（7人投票）
+6. 仲裁结果：
+   - 驳回：完成驳回
+   - 通过：平台选择商家退款或平台退款
+
+✅ **操作权限控制**：
+- 仅"仲裁中"状态且商家已拒绝时，平台才能操作
+- 完成后（已退款/已驳回）操作入口关闭
+
+---
+

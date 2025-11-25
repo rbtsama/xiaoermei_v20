@@ -26,9 +26,6 @@ export default function PointsStatisticsPage({ statistics }: PointsStatisticsPag
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">积分发放与使用统计</h1>
-            <p className="text-slate-900 mt-1">
-              查看积分发放、使用、流通数据，分析用户行为
-            </p>
           </div>
           <Button className="gap-2 h-9 rounded-md bg-blue-600 hover:bg-blue-700 shadow-sm">
             <Download className="w-4 h-4" />
@@ -58,7 +55,7 @@ export default function PointsStatisticsPage({ statistics }: PointsStatisticsPag
 
         {/* 核心数据卡片 */}
         <div className="grid grid-cols-3 gap-6 mb-6">
-          <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+          <Card className="rounded-xl border-slate-200 shadow-md hover:shadow-lg transition-all duration-200">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardDescription className="text-slate-900">累计发放积分</CardDescription>
@@ -75,7 +72,7 @@ export default function PointsStatisticsPage({ statistics }: PointsStatisticsPag
             </CardContent>
           </Card>
 
-          <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+          <Card className="rounded-xl border-slate-200 shadow-md hover:shadow-lg transition-all duration-200">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardDescription className="text-slate-900">累计使用积分</CardDescription>
@@ -92,7 +89,7 @@ export default function PointsStatisticsPage({ statistics }: PointsStatisticsPag
             </CardContent>
           </Card>
 
-          <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+          <Card className="rounded-xl border-slate-200 shadow-md hover:shadow-lg transition-all duration-200">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardDescription className="text-slate-900">当前流通积分</CardDescription>
@@ -111,7 +108,7 @@ export default function PointsStatisticsPage({ statistics }: PointsStatisticsPag
         </div>
 
         {/* 积分发放明细 */}
-        <Card className="mb-6 rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+        <Card className="mb-6 rounded-xl border-slate-200 shadow-md hover:shadow-lg transition-all duration-200">
           <CardHeader>
             <CardTitle className="text-slate-900">积分发放明细</CardTitle>
             <CardDescription className="text-slate-900">按发放类型统计积分发放情况</CardDescription>
@@ -152,7 +149,7 @@ export default function PointsStatisticsPage({ statistics }: PointsStatisticsPag
         </Card>
 
         {/* 积分使用明细 */}
-        <Card className="rounded-xl border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+        <Card className="rounded-xl border-slate-200 shadow-md hover:shadow-lg transition-all duration-200">
           <CardHeader>
             <CardTitle className="text-slate-900">积分使用明细</CardTitle>
             <CardDescription className="text-slate-900">按使用类型统计积分消耗情况</CardDescription>
