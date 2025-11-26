@@ -74,7 +74,7 @@ class AgentOrderService {
     const order = this.orders.find((o) => o.orderId === orderId)
     if (order) {
       order.status = status
-      if (status === AgentOrderStatus.PAID && !order.paidAt) {
+      if (status === AgentOrderStatus.PENDING_CHECKIN && !order.paidAt) {
         order.paidAt = new Date().toLocaleString('zh-CN')
       }
     }

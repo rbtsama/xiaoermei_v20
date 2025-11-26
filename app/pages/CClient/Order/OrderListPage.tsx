@@ -6,6 +6,7 @@ import { useState } from 'react'
 import MobileFrame from '../components/MobileFrame'
 import { Badge } from '~/components/ui/badge'
 import { Button } from '~/components/ui/button'
+import { OrderStatus, ORDER_STATUS_LABELS } from '~/pages/SharedTypes/order.types'
 
 export default function OrderListPage() {
   const [activeTab, setActiveTab] = useState('all')
@@ -16,8 +17,8 @@ export default function OrderListPage() {
       hotelName: 'XX豪华酒店',
       roomType: '豪华大床房',
       dates: '11月28日-11月29日',
-      status: 'pending',
-      statusText: '待入住',
+      status: OrderStatus.PENDING_CHECKIN,
+      statusText: ORDER_STATUS_LABELS[OrderStatus.PENDING_CHECKIN],
       amount: 336,
     },
     {
@@ -25,8 +26,8 @@ export default function OrderListPage() {
       hotelName: 'YY精品酒店',
       roomType: '豪华双床房',
       dates: '11月20日-11月21日',
-      status: 'completed',
-      statusText: '已离店',
+      status: OrderStatus.CHECKED_OUT,
+      statusText: ORDER_STATUS_LABELS[OrderStatus.CHECKED_OUT],
       amount: 280,
       points: 5,
     },
@@ -37,20 +38,20 @@ export default function OrderListPage() {
       <div>
         {/* 标签栏 */}
         <div className="bg-white border-b border-slate-200 flex">
-          {['all', 'pending', 'checkedIn', 'completed'].map((tab) => (
+          {['all', OrderStatus.PENDING_CHECKIN, OrderStatus.CHECKED_IN, OrderStatus.CHECKED_OUT].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`flex-1 py-3 text-sm ${
                 activeTab === tab
-                  ? 'text-[#458559] border-b-2 border-[#458559] font-medium'
+                  ? 'text-[#2C5F8D] border-b-2 border-[#2C5F8D] font-medium'
                   : 'text-slate-600'
               }`}
             >
               {tab === 'all' && '全部'}
-              {tab === 'pending' && '待入住'}
-              {tab === 'checkedIn' && '已入住'}
-              {tab === 'completed' && '已离店'}
+              {tab === OrderStatus.PENDING_CHECKIN && '待入住'}
+              {tab === OrderStatus.CHECKED_IN && '已入住'}
+              {tab === OrderStatus.CHECKED_OUT && '已离店'}
             </button>
           ))}
         </div>
@@ -70,8 +71,8 @@ export default function OrderListPage() {
                   </div>
                   <Badge
                     className={
-                      order.status === 'pending'
-                        ? 'bg-[#4A85B8]/15 text-[#4A85B8] border-0 rounded-sm'
+                      order.status === OrderStatus.PENDING_CHECKIN
+                        ? 'bg-[#4A8FBF]/15 text-[#4A8FBF] border-0 rounded-sm'
                         : 'bg-slate-100 text-slate-600 border-0 rounded-sm'
                     }
                   >
@@ -82,9 +83,9 @@ export default function OrderListPage() {
                 <div className="flex items-center justify-between pt-3 border-t border-slate-100">
                   <div>
                     <p className="text-xs text-slate-500">实付金额</p>
-                    <p className="text-lg font-bold text-[#A67B5B]">¥{order.amount}</p>
+                    <p className="text-lg font-bold text-[#C67A28]">¥{order.amount}</p>
                     {order.points && (
-                      <p className="text-xs text-[#3D7350] mt-1">
+                      <p className="text-xs text-[#5A8A65] mt-1">
                         获得积分：+{order.points}（环保奖励）
                       </p>
                     )}
@@ -93,8 +94,8 @@ export default function OrderListPage() {
                     <Button size="sm" variant="outline" className="h-8 rounded-full">
                       查看详情
                     </Button>
-                    {order.status === 'completed' && (
-                      <Button size="sm" className="h-8 rounded-full bg-[#458559] hover:bg-[#3D7350]">再次预订</Button>
+                    {order.status === OrderStatus.CHECKED_OUT && (
+                      <Button size="sm" className="h-8 rounded-full bg-[#2C5F8D] hover:bg-[#5A8A65]">再次预订</Button>
                     )}
                   </div>
                 </div>

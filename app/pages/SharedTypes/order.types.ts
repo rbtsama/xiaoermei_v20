@@ -32,7 +32,7 @@ export enum OrderStatus {
   /** 已离店 - 用户已退房，7天内可申请退款 */
   CHECKED_OUT = 'checked_out',
 
-  /** 已完成 - 离店7天后自然完成，或退款流程结束后完成 */
+  /** 已完成 - 离店+3天24:00自然完成，或退款流程结束后完成 */
   COMPLETED = 'completed',
 
   // ========== 异常状态 ==========
@@ -76,14 +76,30 @@ export const ORDER_STATUS_COLORS: Record<OrderStatus, string> = {
 }
 
 /**
+ * 自动状态转换规则
+ */
+export const AUTO_TRANSITION_RULES = {
+  /** C端支付超时（分钟） */
+  PAYMENT_TIMEOUT_MINUTES: 30,
+  /** 代客下单超时（小时） */
+  AGENT_ORDER_TIMEOUT_HOURS: 24,
+  /** 自动入住时间（入住日次日6:00） */
+  CHECKIN_AUTO_HOUR: 6,
+  /** 自动退房时间（离店日24:00） */
+  CHECKOUT_AUTO_HOUR: 24,
+  /** 自动完成延迟天数（离店+3天） */
+  COMPLETION_DELAY_DAYS: 3,
+}
+
+/**
  * 订单状态流转规则说明
  */
 export const ORDER_STATUS_FLOW_DESCRIPTION = {
-  normalFlow: '待支付 → 待入住 → 入住中 → 已离店 → 已完成（离店7天后）',
+  normalFlow: '待支付 → 待入住 → 入住中 → 已离店 → 已完成（离店+3天24:00）',
   paymentCancelled: '待支付 → 支付取消（支付前取消：超时未支付 或 用户主动取消）',
   cancelled: '待入住 → 已取消（支付后、入住前取消，履约中取消）',
   refundFlow: '已离店 → 退款申请（7天内） → 已完成（商家退款/仲裁结束后）',
-  autoComplete: '已离店 → 已完成（7天后未申请退款自动完成）',
+  autoComplete: '已离店 → 已完成（离店+3天24:00自动完成）',
 }
 
 // ==================== 支付方式 ====================

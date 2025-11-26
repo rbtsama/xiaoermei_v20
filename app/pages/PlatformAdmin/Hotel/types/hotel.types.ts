@@ -142,8 +142,15 @@ export interface CheckInSearchParams {
 
 /**
  * 预订状态类型
+ * 统一为6个核心状态，与 SharedTypes/order.types.ts 中的 OrderStatus 对应
  */
-export type ReservationStatus = 'pending' | 'confirmed' | 'checked_in' | 'completed' | 'cancelled'
+export type ReservationStatus =
+  | 'pending_payment'    // 待付款
+  | 'pending_checkin'    // 待入住（已支付）
+  | 'checked_in'         // 已入住
+  | 'checked_out'        // 已离店
+  | 'completed'          // 已完成
+  | 'cancelled'          // 已取消
 
 /**
  * 预订来源类型

@@ -4,13 +4,15 @@
 
 /**
  * 代客下单状态
+ * 统一为6个核心状态，与 SharedTypes/order.types.ts 中的 OrderStatus 对应
  */
 export enum AgentOrderStatus {
-  PENDING_PAYMENT = 'pending_payment', // 待支付
-  PAID = 'paid', // 已支付
-  CHECKED_IN = 'checked_in', // 已入住
-  CHECKED_OUT = 'checked_out', // 已离店
-  EXPIRED = 'expired', // 已过期
+  PENDING_PAYMENT = 'pending_payment',  // 待付款
+  PENDING_CHECKIN = 'pending_checkin',  // 待入住（已支付）
+  CHECKED_IN = 'checked_in',            // 已入住
+  CHECKED_OUT = 'checked_out',          // 已离店
+  COMPLETED = 'completed',              // 已完成
+  CANCELLED = 'cancelled',              // 已取消
 }
 
 /**

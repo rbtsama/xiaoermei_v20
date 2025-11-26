@@ -120,7 +120,7 @@ export const mockReservations: Reservation[] = [
     roomCount: 1,
     totalPrice: 1376,
     source: 'online',
-    status: 'confirmed',
+    status: 'pending_checkin',
     createdAt: '2025-11-25 09:30:00',
   },
   {
@@ -135,7 +135,7 @@ export const mockReservations: Reservation[] = [
     roomCount: 1,
     totalPrice: 1976,
     source: 'front_desk',
-    status: 'pending',
+    status: 'pending_payment',
     createdAt: '2025-11-26 10:15:00',
   },
   {
@@ -165,7 +165,7 @@ export const mockReservations: Reservation[] = [
     roomCount: 1,
     totalPrice: 3776,
     source: 'online',
-    status: 'confirmed',
+    status: 'pending_checkin',
     createdAt: '2025-11-23 16:45:00',
   },
   {
@@ -180,7 +180,7 @@ export const mockReservations: Reservation[] = [
     roomCount: 1,
     totalPrice: 388,
     source: 'front_desk',
-    status: 'confirmed',
+    status: 'pending_checkin',
     createdAt: '2025-11-25 11:30:00',
   },
   {
@@ -210,7 +210,7 @@ export const mockReservations: Reservation[] = [
     roomCount: 1,
     totalPrice: 1376,
     source: 'online',
-    status: 'confirmed',
+    status: 'pending_checkin',
     createdAt: '2025-11-24 13:20:00',
   },
   {
@@ -240,7 +240,7 @@ export const mockReservations: Reservation[] = [
     roomCount: 2,
     totalPrice: 776,
     source: 'online',
-    status: 'pending',
+    status: 'pending_payment',
     createdAt: '2025-11-26 08:50:00',
   },
   {
@@ -270,7 +270,7 @@ export const mockReservations: Reservation[] = [
     roomCount: 1,
     totalPrice: 3776,
     source: 'online',
-    status: 'confirmed',
+    status: 'pending_checkin',
     createdAt: '2025-11-21 14:00:00',
   },
   {
@@ -285,7 +285,7 @@ export const mockReservations: Reservation[] = [
     roomCount: 1,
     totalPrice: 688,
     source: 'front_desk',
-    status: 'confirmed',
+    status: 'pending_checkin',
     createdAt: '2025-11-26 09:15:00',
   },
   {
@@ -315,7 +315,7 @@ export const mockReservations: Reservation[] = [
     roomCount: 1,
     totalPrice: 776,
     source: 'online',
-    status: 'pending',
+    status: 'pending_payment',
     createdAt: '2025-11-26 11:45:00',
   },
   {
