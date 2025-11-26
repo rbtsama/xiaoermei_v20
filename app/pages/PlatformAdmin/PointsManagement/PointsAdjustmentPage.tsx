@@ -84,7 +84,7 @@ export default function PointsAdjustmentPage({ userInfo, details }: PointsAdjust
             <CardContent>
               <Form method="get">
                 <div className="flex gap-4">
-                  <div className="flex-1 space-y-2">
+                  <div className="flex-1">
                     <Input
                       id="userId"
                       name="userId"
@@ -93,12 +93,6 @@ export default function PointsAdjustmentPage({ userInfo, details }: PointsAdjust
                       placeholder="请输入用户ID"
                       className="h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
                     />
-                    <p className="text-xs text-slate-500">
-                      测试用户ID：<span className="font-mono">100000</span>、
-                      <span className="font-mono">100001</span>、
-                      <span className="font-mono">100002</span>、
-                      <span className="font-mono">154655</span>
-                    </p>
                   </div>
                   <div className="flex items-end">
                     <Button type="submit" className="h-9 bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-sm">
