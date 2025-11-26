@@ -16,15 +16,30 @@ export interface MemberLevelUpgradeRule {
 }
 
 /**
- * 会员等级折扣规则
+ * 会员等级折扣规则（平台端）
  */
 export interface MemberLevelDiscountRule {
   id: string
   level: number // VIP等级 0-9
   levelName: string // 等级名称
-  platformBaseDiscount: number // 平台基础折扣（0.5-1.0）
-  merchantDiscountMin: number // 商户折扣最低值
-  merchantDiscountMax: number // 商户折扣最高值（等于平台基础折扣）
+  platformDiscount: number // 平台会员折扣（0.5-1.0，如0.95=95%）
+  updatedAt: string
+}
+
+/**
+ * 商户会员折扣配置
+ */
+export interface MerchantMemberDiscountConfig {
+  hotelId: string
+  hotelName: string
+  discounts: {
+    level: number // VIP等级
+    levelName: string
+    platformDiscount: number // 平台折扣（只读）
+    weekdayDiscount: number // 平日折扣（可编辑，必须 <= platformDiscount）
+    weekendDiscount: number // 周末折扣（可编辑，必须 <= platformDiscount）
+    holidayDiscount: number // 节假日折扣（可编辑，必须 <= platformDiscount）
+  }[]
   updatedAt: string
 }
 

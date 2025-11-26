@@ -18,12 +18,10 @@ export interface VIPLevelDiscount {
   id: string
   level: number
   levelName: string
-  platformMinDiscount: number // 平台最低折扣
-  platformMaxDiscount: number // 平台最高折扣（即平台基础折扣）
-  storeDiscount: number // 本店设置的折扣
-  weekdayExtraDiscount?: number // 平日额外折扣
-  weekendExtraDiscount?: number // 周末额外折扣
-  holidayAllowed: boolean // 节假日是否可用VIP折扣
+  platformDiscount: number // 平台会员折扣（只读，商户不可修改）
+  weekdayDiscount: number // 平日折扣（可编辑，必须 <= platformDiscount）
+  weekendDiscount: number // 周末折扣（可编辑，必须 <= platformDiscount）
+  holidayDiscount: number // 节假日折扣（可编辑，必须 <= platformDiscount）
   updatedAt: string
 }
 
