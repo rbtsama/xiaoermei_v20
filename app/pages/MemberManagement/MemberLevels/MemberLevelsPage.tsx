@@ -113,7 +113,7 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
                   <TableHead className="min-w-[120px]">升级间夜</TableHead>
                   <TableHead className="min-w-[120px]">保级间夜</TableHead>
                   <TableHead className="min-w-[120px]">有效期（天）</TableHead>
-                  <TableHead className="min-w-[150px]">折扣范围</TableHead>
+                  <TableHead className="min-w-[150px]">平台折扣</TableHead>
                   <TableHead className="min-w-[120px]">积分倍数</TableHead>
                   <TableHead className="min-w-[140px]">赠送体验次数</TableHead>
                   <TableHead className="min-w-[140px]">赠送有效期（天）</TableHead>
@@ -152,9 +152,9 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
                       </div>
                     </TableCell>
 
-                    {/* 折扣范围 */}
+                    {/* 平台折扣 */}
                     <TableCell>
-                      <div className="text-sm text-slate-900">{level.discountMin}% - {level.discountMax}%</div>
+                      <div className="text-sm text-slate-900">{level.platformDiscount}%</div>
                     </TableCell>
 
                     {/* 积分倍数 */}
@@ -251,12 +251,12 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
             </div>
 
             <div className="space-y-2">
-              <p className="font-medium text-foreground">折扣范围规则：</p>
+              <p className="font-medium text-foreground">平台折扣规则：</p>
               <ul className="list-disc list-inside space-y-1 ml-2">
-                <li>设置最小值和最大值，门店可在此范围内设置具体折扣</li>
-                <li>折扣范围最小值必须 ≤ 最大值</li>
-                <li>折扣值为百分比整数（如85表示85%即8.5折）</li>
-                <li>VIP0设置0-0表示无折扣权益</li>
+                <li>设置平台统一的折扣比例，适用于所有订单计价</li>
+                <li>折扣值为百分比整数（如95表示95%即9.5折，100表示无折扣）</li>
+                <li>VIP0设置100表示无折扣权益</li>
+                <li>折扣比例越低，用户获得的优惠越大</li>
               </ul>
             </div>
 
@@ -345,28 +345,17 @@ export default function MemberLevelsPage({ levels, error }: MemberLevelsPageProp
                 </div>
               </div>
 
-              {/* 折扣范围 */}
+              {/* 平台折扣 */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">折扣范围</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">平台折扣</label>
                 <div className="flex items-center gap-2">
                   <Input
                     type="number"
                     min="0"
                     max="100"
-                    value={editFormData.discountMin}
-                    onChange={(e) => updateFormData('discountMin', Number(e.target.value))}
+                    value={editFormData.platformDiscount}
+                    onChange={(e) => updateFormData('platformDiscount', Number(e.target.value))}
                     className="h-9"
-                    placeholder="最小值"
-                  />
-                  <span className="text-sm text-slate-600">~</span>
-                  <Input
-                    type="number"
-                    min="0"
-                    max="100"
-                    value={editFormData.discountMax}
-                    onChange={(e) => updateFormData('discountMax', Number(e.target.value))}
-                    className="h-9"
-                    placeholder="最大值"
                   />
                   <span className="text-sm text-slate-600">%</span>
                 </div>

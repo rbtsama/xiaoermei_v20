@@ -11,8 +11,7 @@ export interface MemberLevel {
   validityDays: number // 有效期（天）：达到本等级后+X天有效
 
   // 折扣规则
-  discountMin: number // 折扣范围最小值（百分比，非负整数）
-  discountMax: number // 折扣范围最大值（百分比，非负整数，必须 ≥ discountMin）
+  platformDiscount: number // 平台折扣比例（百分比，非负整数，如95表示95%）
 
   // 积分汇率（消费 1 元 = X 积分）
   pointsRate: number // 积分汇率（支持2位小数的正数）
@@ -37,8 +36,7 @@ export interface MemberLevelFormData {
   upgradeNights: number
   maintainNights: number
   validityDays: number
-  discountMin: number
-  discountMax: number
+  platformDiscount: number
   pointsRate: number
   giftTrialCount: number
   giftValidityDays: number

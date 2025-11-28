@@ -125,6 +125,46 @@ export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
   [PaymentMethod.OFFLINE]: '线下支付'
 }
 
+// ==================== 支付状态（向后兼容） ====================
+
+/**
+ * 支付状态（简化版，用于向后兼容）
+ */
+export enum PaymentStatus {
+  /** 未支付 */
+  UNPAID = 'unpaid',
+  /** 已支付 */
+  PAID = 'paid',
+  /** 已退款 */
+  REFUNDED = 'refunded'
+}
+
+export const PAYMENT_STATUS_LABELS: Record<PaymentStatus, string> = {
+  [PaymentStatus.UNPAID]: '未支付',
+  [PaymentStatus.PAID]: '已支付',
+  [PaymentStatus.REFUNDED]: '已退款'
+}
+
+// ==================== 入住状态（向后兼容） ====================
+
+/**
+ * 入住状态（简化版，用于向后兼容）
+ */
+export enum CheckInStatus {
+  /** 未入住 */
+  NOT_CHECKED_IN = 'not-checked-in',
+  /** 已入住 */
+  CHECKED_IN = 'checked-in',
+  /** 已离店 */
+  CHECKED_OUT = 'checked-out'
+}
+
+export const CHECK_IN_STATUS_LABELS: Record<CheckInStatus, string> = {
+  [CheckInStatus.NOT_CHECKED_IN]: '未入住',
+  [CheckInStatus.CHECKED_IN]: '已入住',
+  [CheckInStatus.CHECKED_OUT]: '已离店'
+}
+
 // ==================== 订单主体 ====================
 
 /**
@@ -156,6 +196,8 @@ export interface Order {
   roomTypeId: string
   /** 房型名称 */
   roomTypeName: string
+  /** 房型（向后兼容，同 roomTypeName） */
+  roomType: string
   /** 房间号（分配后才有） */
   roomNumber?: string
   /** 入住日期 */
@@ -169,6 +211,12 @@ export interface Order {
   /** 入住人数 */
   guestCount: number
 
+  // ========== 客人信息（向后兼容） ==========
+  /** 入住人姓名 */
+  guestName: string
+  /** 入住人手机号 */
+  guestPhone: string
+
   // ========== 金额信息 ==========
   /** 房费小计 */
   roomPrice: number
@@ -180,6 +228,8 @@ export interface Order {
   memberDiscount: number
   /** 实付金额 */
   actualAmount: number
+  /** 总金额（向后兼容，同 actualAmount） */
+  totalAmount: number
   /** 平台佣金（5%） */
   commission: number
   /** 商家实收 */
@@ -202,6 +252,12 @@ export interface Order {
   completedAt?: string
   /** 取消时间 */
   cancelledAt?: string
+
+  // ========== 向后兼容字段 ==========
+  /** 支付状态（向后兼容，从status派生） */
+  paymentStatus: PaymentStatus
+  /** 入住状态（向后兼容，从status派生） */
+  checkInStatus: CheckInStatus
 
   // ========== 退款信息 ==========
   /**

@@ -71,9 +71,16 @@ export default function VIPDiscountConfigPage({ config: initialConfig }: VIPDisc
               <Table>
                 <TableHeader>
                   <TableRow className="border-slate-200">
-                    <TableHead className="text-slate-600 font-semibold w-[100px]">等级</TableHead>
-                    <TableHead className="text-slate-600 font-semibold w-[120px]">平台折扣</TableHead>
-                    <TableHead className="text-slate-600 font-semibold">本店折扣设置</TableHead>
+                    <TableHead className="text-slate-600 font-semibold w-[80px]">等级</TableHead>
+                    <TableHead className="text-slate-600 font-semibold w-[90px]">平台折扣</TableHead>
+                    <TableHead className="text-slate-600 font-semibold text-center">周一</TableHead>
+                    <TableHead className="text-slate-600 font-semibold text-center">周二</TableHead>
+                    <TableHead className="text-slate-600 font-semibold text-center">周三</TableHead>
+                    <TableHead className="text-slate-600 font-semibold text-center">周四</TableHead>
+                    <TableHead className="text-slate-600 font-semibold text-center">周五</TableHead>
+                    <TableHead className="text-slate-600 font-semibold text-center">周六</TableHead>
+                    <TableHead className="text-slate-600 font-semibold text-center">周日</TableHead>
+                    <TableHead className="text-slate-600 font-semibold text-center bg-blue-50">节日(优先)</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -91,185 +98,164 @@ export default function VIPDiscountConfigPage({ config: initialConfig }: VIPDisc
                         </span>
                       </TableCell>
 
-                      {/* 本店折扣设置 - 8个字段（周一~周日 + 节日优先）- 一行展示 */}
-                      <TableCell>
-                        <div className="flex items-center gap-3 flex-wrap">
-                          {/* 周一折扣 */}
-                          <div className="flex items-center gap-1">
-                            <Label className="text-xs text-slate-600">周一</Label>
-                            <Input
-                              type="number"
-                              min="0"
-                              max={Math.round(discount.platformDiscount * 100)}
-                              step="1"
-                              value={Math.round(discount.mondayDiscount * 100)}
-                              onChange={(e) => {
-                                const percent = parseInt(e.target.value) || 0
-                                const value = percent / 100
-                                updateDiscount(discount.id, 'mondayDiscount', value)
-                              }}
-                              className={`h-8 w-14 text-xs border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
-                                !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
-                              }`}
-                              disabled={!isEditMode}
-                            />
-                            <span className="text-xs text-slate-900">%</span>
-                          </div>
+                      {/* 周一 */}
+                      <TableCell className="text-center">
+                        <Input
+                          type="number"
+                          min="0"
+                          max={Math.round(discount.platformDiscount * 100)}
+                          step="1"
+                          value={Math.round(discount.mondayDiscount * 100)}
+                          onChange={(e) => {
+                            const percent = parseInt(e.target.value) || 0
+                            const value = percent / 100
+                            updateDiscount(discount.id, 'mondayDiscount', value)
+                          }}
+                          className={`h-9 w-16 text-center text-sm border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
+                            !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
+                          }`}
+                          disabled={!isEditMode}
+                        />
+                      </TableCell>
 
-                          {/* 周二折扣 */}
-                          <div className="flex items-center gap-1">
-                            <Label className="text-xs text-slate-600">周二</Label>
-                            <Input
-                              type="number"
-                              min="0"
-                              max={Math.round(discount.platformDiscount * 100)}
-                              step="1"
-                              value={Math.round(discount.tuesdayDiscount * 100)}
-                              onChange={(e) => {
-                                const percent = parseInt(e.target.value) || 0
-                                const value = percent / 100
-                                updateDiscount(discount.id, 'tuesdayDiscount', value)
-                              }}
-                              className={`h-8 w-14 text-xs border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
-                                !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
-                              }`}
-                              disabled={!isEditMode}
-                            />
-                            <span className="text-xs text-slate-900">%</span>
-                          </div>
+                      {/* 周二 */}
+                      <TableCell className="text-center">
+                        <Input
+                          type="number"
+                          min="0"
+                          max={Math.round(discount.platformDiscount * 100)}
+                          step="1"
+                          value={Math.round(discount.tuesdayDiscount * 100)}
+                          onChange={(e) => {
+                            const percent = parseInt(e.target.value) || 0
+                            const value = percent / 100
+                            updateDiscount(discount.id, 'tuesdayDiscount', value)
+                          }}
+                          className={`h-9 w-16 text-center text-sm border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
+                            !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
+                          }`}
+                          disabled={!isEditMode}
+                        />
+                      </TableCell>
 
-                          {/* 周三折扣 */}
-                          <div className="flex items-center gap-1">
-                            <Label className="text-xs text-slate-600">周三</Label>
-                            <Input
-                              type="number"
-                              min="0"
-                              max={Math.round(discount.platformDiscount * 100)}
-                              step="1"
-                              value={Math.round(discount.wednesdayDiscount * 100)}
-                              onChange={(e) => {
-                                const percent = parseInt(e.target.value) || 0
-                                const value = percent / 100
-                                updateDiscount(discount.id, 'wednesdayDiscount', value)
-                              }}
-                              className={`h-8 w-14 text-xs border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
-                                !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
-                              }`}
-                              disabled={!isEditMode}
-                            />
-                            <span className="text-xs text-slate-900">%</span>
-                          </div>
+                      {/* 周三 */}
+                      <TableCell className="text-center">
+                        <Input
+                          type="number"
+                          min="0"
+                          max={Math.round(discount.platformDiscount * 100)}
+                          step="1"
+                          value={Math.round(discount.wednesdayDiscount * 100)}
+                          onChange={(e) => {
+                            const percent = parseInt(e.target.value) || 0
+                            const value = percent / 100
+                            updateDiscount(discount.id, 'wednesdayDiscount', value)
+                          }}
+                          className={`h-9 w-16 text-center text-sm border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
+                            !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
+                          }`}
+                          disabled={!isEditMode}
+                        />
+                      </TableCell>
 
-                          {/* 周四折扣 */}
-                          <div className="flex items-center gap-1">
-                            <Label className="text-xs text-slate-600">周四</Label>
-                            <Input
-                              type="number"
-                              min="0"
-                              max={Math.round(discount.platformDiscount * 100)}
-                              step="1"
-                              value={Math.round(discount.thursdayDiscount * 100)}
-                              onChange={(e) => {
-                                const percent = parseInt(e.target.value) || 0
-                                const value = percent / 100
-                                updateDiscount(discount.id, 'thursdayDiscount', value)
-                              }}
-                              className={`h-8 w-14 text-xs border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
-                                !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
-                              }`}
-                              disabled={!isEditMode}
-                            />
-                            <span className="text-xs text-slate-900">%</span>
-                          </div>
+                      {/* 周四 */}
+                      <TableCell className="text-center">
+                        <Input
+                          type="number"
+                          min="0"
+                          max={Math.round(discount.platformDiscount * 100)}
+                          step="1"
+                          value={Math.round(discount.thursdayDiscount * 100)}
+                          onChange={(e) => {
+                            const percent = parseInt(e.target.value) || 0
+                            const value = percent / 100
+                            updateDiscount(discount.id, 'thursdayDiscount', value)
+                          }}
+                          className={`h-9 w-16 text-center text-sm border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
+                            !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
+                          }`}
+                          disabled={!isEditMode}
+                        />
+                      </TableCell>
 
-                          {/* 周五折扣 */}
-                          <div className="flex items-center gap-1">
-                            <Label className="text-xs text-slate-600">周五</Label>
-                            <Input
-                              type="number"
-                              min="0"
-                              max={Math.round(discount.platformDiscount * 100)}
-                              step="1"
-                              value={Math.round(discount.fridayDiscount * 100)}
-                              onChange={(e) => {
-                                const percent = parseInt(e.target.value) || 0
-                                const value = percent / 100
-                                updateDiscount(discount.id, 'fridayDiscount', value)
-                              }}
-                              className={`h-8 w-14 text-xs border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
-                                !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
-                              }`}
-                              disabled={!isEditMode}
-                            />
-                            <span className="text-xs text-slate-900">%</span>
-                          </div>
+                      {/* 周五 */}
+                      <TableCell className="text-center">
+                        <Input
+                          type="number"
+                          min="0"
+                          max={Math.round(discount.platformDiscount * 100)}
+                          step="1"
+                          value={Math.round(discount.fridayDiscount * 100)}
+                          onChange={(e) => {
+                            const percent = parseInt(e.target.value) || 0
+                            const value = percent / 100
+                            updateDiscount(discount.id, 'fridayDiscount', value)
+                          }}
+                          className={`h-9 w-16 text-center text-sm border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
+                            !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
+                          }`}
+                          disabled={!isEditMode}
+                        />
+                      </TableCell>
 
-                          {/* 周六折扣 */}
-                          <div className="flex items-center gap-1">
-                            <Label className="text-xs text-slate-600">周六</Label>
-                            <Input
-                              type="number"
-                              min="0"
-                              max={Math.round(discount.platformDiscount * 100)}
-                              step="1"
-                              value={Math.round(discount.saturdayDiscount * 100)}
-                              onChange={(e) => {
-                                const percent = parseInt(e.target.value) || 0
-                                const value = percent / 100
-                                updateDiscount(discount.id, 'saturdayDiscount', value)
-                              }}
-                              className={`h-8 w-14 text-xs border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
-                                !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
-                              }`}
-                              disabled={!isEditMode}
-                            />
-                            <span className="text-xs text-slate-900">%</span>
-                          </div>
+                      {/* 周六 */}
+                      <TableCell className="text-center">
+                        <Input
+                          type="number"
+                          min="0"
+                          max={Math.round(discount.platformDiscount * 100)}
+                          step="1"
+                          value={Math.round(discount.saturdayDiscount * 100)}
+                          onChange={(e) => {
+                            const percent = parseInt(e.target.value) || 0
+                            const value = percent / 100
+                            updateDiscount(discount.id, 'saturdayDiscount', value)
+                          }}
+                          className={`h-9 w-16 text-center text-sm border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
+                            !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
+                          }`}
+                          disabled={!isEditMode}
+                        />
+                      </TableCell>
 
-                          {/* 周日折扣 */}
-                          <div className="flex items-center gap-1">
-                            <Label className="text-xs text-slate-600">周日</Label>
-                            <Input
-                              type="number"
-                              min="0"
-                              max={Math.round(discount.platformDiscount * 100)}
-                              step="1"
-                              value={Math.round(discount.sundayDiscount * 100)}
-                              onChange={(e) => {
-                                const percent = parseInt(e.target.value) || 0
-                                const value = percent / 100
-                                updateDiscount(discount.id, 'sundayDiscount', value)
-                              }}
-                              className={`h-8 w-14 text-xs border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
-                                !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
-                              }`}
-                              disabled={!isEditMode}
-                            />
-                            <span className="text-xs text-slate-900">%</span>
-                          </div>
+                      {/* 周日 */}
+                      <TableCell className="text-center">
+                        <Input
+                          type="number"
+                          min="0"
+                          max={Math.round(discount.platformDiscount * 100)}
+                          step="1"
+                          value={Math.round(discount.sundayDiscount * 100)}
+                          onChange={(e) => {
+                            const percent = parseInt(e.target.value) || 0
+                            const value = percent / 100
+                            updateDiscount(discount.id, 'sundayDiscount', value)
+                          }}
+                          className={`h-9 w-16 text-center text-sm border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
+                            !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
+                          }`}
+                          disabled={!isEditMode}
+                        />
+                      </TableCell>
 
-                          {/* 节日折扣（优先） */}
-                          <div className="flex items-center gap-1">
-                            <Label className="text-xs text-slate-600 font-semibold">节日(优先)</Label>
-                            <Input
-                              type="number"
-                              min="0"
-                              max={Math.round(discount.platformDiscount * 100)}
-                              step="1"
-                              value={Math.round(discount.holidayDiscount * 100)}
-                              onChange={(e) => {
-                                const percent = parseInt(e.target.value) || 0
-                                const value = percent / 100
-                                updateDiscount(discount.id, 'holidayDiscount', value)
-                              }}
-                              className={`h-8 w-14 text-xs border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
-                                !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
-                              }`}
-                              disabled={!isEditMode}
-                            />
-                            <span className="text-xs text-slate-900">%</span>
-                          </div>
-                        </div>
+                      {/* 节日(优先) */}
+                      <TableCell className="text-center bg-blue-50/30">
+                        <Input
+                          type="number"
+                          min="0"
+                          max={Math.round(discount.platformDiscount * 100)}
+                          step="1"
+                          value={Math.round(discount.holidayDiscount * 100)}
+                          onChange={(e) => {
+                            const percent = parseInt(e.target.value) || 0
+                            const value = percent / 100
+                            updateDiscount(discount.id, 'holidayDiscount', value)
+                          }}
+                          className={`h-9 w-16 text-center text-sm border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 ${
+                            !isEditMode ? 'bg-slate-50 text-slate-700 cursor-not-allowed' : ''
+                          }`}
+                          disabled={!isEditMode}
+                        />
                       </TableCell>
                     </TableRow>
                   ))}

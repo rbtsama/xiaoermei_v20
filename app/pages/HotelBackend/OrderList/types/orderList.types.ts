@@ -9,12 +9,16 @@ export type {
   Order,
   OrderStatus,
   OrderFilterParams,
-  OrderListResponse
+  OrderListResponse,
+  PaymentStatus,
+  CheckInStatus
 } from '~/pages/SharedTypes/order.types'
 
 export {
   ORDER_STATUS_LABELS,
-  ORDER_STATUS_COLORS
+  ORDER_STATUS_COLORS,
+  PAYMENT_STATUS_LABELS,
+  CHECK_IN_STATUS_LABELS
 } from '~/pages/SharedTypes/order.types'
 
 // ========== 本地特有类型（如果需要扩展） ==========

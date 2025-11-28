@@ -9,8 +9,7 @@ export const mockMemberLevelsData: MemberLevel[] = [
     upgradeNights: 1, // 完成1次订单升级到VIP1
     maintainNights: 0, // VIP0无需保级
     validityDays: 0, // VIP0永久有效
-    discountMin: 0,
-    discountMax: 0,
+    platformDiscount: 100,
     pointsRate: 1.0, // 1元=1积分
     giftTrialCount: 0, // 无赠送
     giftValidityDays: 30, // 赠送有效期30天
@@ -25,8 +24,7 @@ export const mockMemberLevelsData: MemberLevel[] = [
     upgradeNights: 3, // 完成3次订单升级到VIP2
     maintainNights: 1, // 有效期内至少1次订单保级
     validityDays: 365, // 1年有效期
-    discountMin: 85,
-    discountMax: 95,
+    platformDiscount: 95,
     pointsRate: 1.2, // 1元=1.2积分
     giftTrialCount: 1, // 赠送1次体验
     giftValidityDays: 30, // 赠送有效期30天
@@ -41,8 +39,7 @@ export const mockMemberLevelsData: MemberLevel[] = [
     upgradeNights: 5, // 完成5次订单升级到VIP3
     maintainNights: 2, // 有效期内至少2次订单保级
     validityDays: 365,
-    discountMin: 80,
-    discountMax: 90,
+    platformDiscount: 93,
     pointsRate: 1.5, // 1元=1.5积分
     giftTrialCount: 1,
     giftValidityDays: 60,
@@ -57,8 +54,7 @@ export const mockMemberLevelsData: MemberLevel[] = [
     upgradeNights: 8, // 完成8次订单升级到VIP4
     maintainNights: 3, // 有效期内至少3次订单保级
     validityDays: 365,
-    discountMin: 75,
-    discountMax: 88,
+    platformDiscount: 90,
     pointsRate: 2.0, // 1元=2积分
     giftTrialCount: 2,
     giftValidityDays: 90,
@@ -73,13 +69,12 @@ export const mockMemberLevelsData: MemberLevel[] = [
     upgradeNights: 12, // 完成12次订单升级到VIP5
     maintainNights: 4,
     validityDays: 730, // 2年有效期
-    discountMin: 70,
-    discountMax: 85,
+    platformDiscount: 85,
     pointsRate: 2.5, // 1元=2.5积分
     giftTrialCount: 2,
     giftValidityDays: 180,
     cardImage: '/images/member-cards/vip4.svg', // 会员卡图片
-    status: 'active',
+    status: 'inactive',
     updatedAt: '2025/01/10 14:45:00'
   },
   {
@@ -89,12 +84,11 @@ export const mockMemberLevelsData: MemberLevel[] = [
     upgradeNights: 18, // 完成18次订单升级到VIP6
     maintainNights: 5,
     validityDays: 730,
-    discountMin: 65,
-    discountMax: 82,
+    platformDiscount: 82,
     pointsRate: 3.0, // 1元=3积分
     giftTrialCount: 3,
     giftValidityDays: 180,
-    status: 'active',
+    status: 'inactive',
     updatedAt: '2025/01/10 14:50:00'
   },
   {
@@ -104,12 +98,11 @@ export const mockMemberLevelsData: MemberLevel[] = [
     upgradeNights: 25, // 完成25次订单升级到VIP7
     maintainNights: 6,
     validityDays: 730,
-    discountMin: 60,
-    discountMax: 80,
+    platformDiscount: 80,
     pointsRate: 3.5, // 1元=3.5积分
     giftTrialCount: 3,
     giftValidityDays: 365,
-    status: 'active',
+    status: 'inactive',
     updatedAt: '2025/01/10 14:55:00'
   },
   {
@@ -119,12 +112,11 @@ export const mockMemberLevelsData: MemberLevel[] = [
     upgradeNights: 35, // 完成35次订单升级到VIP8
     maintainNights: 8,
     validityDays: 1095, // 3年有效期
-    discountMin: 55,
-    discountMax: 78,
+    platformDiscount: 78,
     pointsRate: 4.0, // 1元=4积分
     giftTrialCount: 4,
     giftValidityDays: 365,
-    status: 'active',
+    status: 'inactive',
     updatedAt: '2025/01/10 15:00:00'
   },
   {
@@ -134,12 +126,11 @@ export const mockMemberLevelsData: MemberLevel[] = [
     upgradeNights: 50, // 完成50次订单升级到VIP9
     maintainNights: 10,
     validityDays: 1095,
-    discountMin: 50,
-    discountMax: 75,
+    platformDiscount: 75,
     pointsRate: 4.5, // 1元=4.5积分
     giftTrialCount: 5,
     giftValidityDays: 730,
-    status: 'active',
+    status: 'inactive',
     updatedAt: '2025/01/10 15:05:00'
   },
   {
@@ -149,12 +140,11 @@ export const mockMemberLevelsData: MemberLevel[] = [
     upgradeNights: 999999, // 最高等级，无需升级
     maintainNights: 12,
     validityDays: 1825, // 5年有效期
-    discountMin: 45,
-    discountMax: 70,
+    platformDiscount: 70,
     pointsRate: 5.0, // 1元=5积分
     giftTrialCount: 6,
     giftValidityDays: 730,
-    status: 'active',
+    status: 'inactive',
     updatedAt: '2025/01/10 15:10:00'
   }
 ]

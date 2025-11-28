@@ -1,7 +1,7 @@
 /**
- * 产品架构总图页面 - 高保真设计版
- * 三端系统完整功能架构 + 订单主线流程
- * 配色系统：#2C5F8D(主色) #C67A28(强调) #4A8FBF(辅助) #5A8A65(成功)
+ * 产品架构总图页面
+ * 平台后台 + 商户端双端架构
+ * 配色系统：#3b82f6(主色-蓝) #10b981(成功-绿) #f97316(警告-橙) #ef4444(错误-红)
  */
 
 import Sidebar, { menuConfig } from '~/pages/PointsSystem/components/Sidebar'
@@ -19,13 +19,13 @@ export default function OverviewPage() {
       <Sidebar menuItems={menuConfig} />
       <div className="flex-1 overflow-y-auto transition-all duration-300">
         <div className="p-8 space-y-8 max-w-[1800px] mx-auto">
-          {/* 页面标题 - 高保真版 */}
+          {/* 页面标题 */}
           <div className="text-center space-y-4 py-6">
-            <h1 className="text-5xl font-bold text-[#2A2A2A] tracking-tight">
-              酒店SAAS平台 - 产品架构总图
+            <h1 className="text-5xl font-bold text-slate-900 tracking-tight">
+              小而美2.0 - 产品架构总图
             </h1>
-            <p className="text-xl text-[#6B6B6B] font-medium">
-              三端系统完整功能架构 & 订单主线流程
+            <p className="text-xl text-slate-600 font-medium">
+              双端系统架构 & 订单主线流程
             </p>
           </div>
 

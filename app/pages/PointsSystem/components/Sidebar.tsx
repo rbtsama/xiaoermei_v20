@@ -184,8 +184,7 @@ export default function Sidebar({ menuItems }: SidebarProps) {
           {/* Logo区域 */}
           <div className="p-4 border-b border-slate-200 flex items-center justify-between">
             <Link to="/" className="block flex-1">
-              <h1 className="text-xl font-bold text-slate-900">酒店SAAS学习平台</h1>
-              <p className="text-xs text-slate-500 mt-1">模块化设计参考</p>
+              <h1 className="text-xl font-bold text-slate-900">小而美2.0</h1>
             </Link>
             <button
               onClick={toggleSidebar}

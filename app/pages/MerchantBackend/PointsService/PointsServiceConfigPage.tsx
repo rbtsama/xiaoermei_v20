@@ -55,18 +55,11 @@ export default function PointsServiceConfigPage({ config }: PointsServiceConfigP
                         </span>
                       </TableCell>
                       <TableCell>
-                        <Form method="post">
-                          <input type="hidden" name="_action" value="toggle" />
-                          <input type="hidden" name="serviceId" value={service.id} />
-                          <Switch
-                            checked={service.enabled}
-                            onCheckedChange={(checked) => {
-                              // 提交表单
-                              const form = document.getElementById(`toggle-${service.id}`) as HTMLFormElement
-                              if (form) form.requestSubmit()
-                            }}
-                          />
-                        </Form>
+                        <Switch
+                          checked={service.enabled}
+                          disabled
+                          className="cursor-not-allowed"
+                        />
                       </TableCell>
                     </TableRow>
                   ))}
@@ -106,18 +99,11 @@ export default function PointsServiceConfigPage({ config }: PointsServiceConfigP
                         </span>
                       </TableCell>
                       <TableCell>
-                        <Form method="post" id={`toggle-${service.id}`}>
-                          <input type="hidden" name="_action" value="toggle" />
-                          <input type="hidden" name="serviceId" value={service.id} />
-                          <Switch
-                            checked={service.enabled}
-                            onCheckedChange={(checked) => {
-                              // 提交表单
-                              const form = document.getElementById(`toggle-${service.id}`) as HTMLFormElement
-                              if (form) form.requestSubmit()
-                            }}
-                          />
-                        </Form>
+                        <Switch
+                          checked={service.enabled}
+                          disabled
+                          className="cursor-not-allowed"
+                        />
                       </TableCell>
                     </TableRow>
                   ))}
