@@ -112,22 +112,10 @@ export default function PlatformAdminIndex() {
                 优惠券列表
               </Link>
               <Link
-                to="/platform-admin/coupon-management/scene-distribution"
+                to="/platform-admin/coupon-management/issue"
                 className="block px-4 py-2 rounded hover:bg-blue-100 text-blue-600 hover:text-blue-700"
               >
-                场景发放配置
-              </Link>
-              <Link
-                to="/platform-admin/coupon-management/manual-distribution"
-                className="block px-4 py-2 rounded hover:bg-blue-100 text-blue-600 hover:text-blue-700"
-              >
-                手动发放
-              </Link>
-              <Link
-                to="/platform-admin/coupon-management/records"
-                className="block px-4 py-2 rounded hover:bg-blue-100 text-blue-600 hover:text-blue-700"
-              >
-                优惠券记录
+                优惠券发放
               </Link>
             </CardContent>
           </Card>
