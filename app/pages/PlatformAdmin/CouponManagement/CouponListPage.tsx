@@ -13,6 +13,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { Plus, Edit, History } from 'lucide-react'
 import MainLayout from '~/pages/PointsSystem/components/MainLayout'
 import CouponDialog from './components/CouponDialog'
+import { ToggleButton } from '~/components/common/ToggleButton'
 
 interface CouponListPageProps {
   coupons: Coupon[]
@@ -182,18 +183,11 @@ export default function CouponListPage({ coupons, total, page, pageSize, totalPa
 
                           {/* 启用/停用按钮 */}
                           <Form method="post" action={`/platform-admin/coupon-management/toggle/${coupon.id}`}>
-                            <Button
-                              type="submit"
-                              variant="outline"
+                            <ToggleButton
+                              isEnabled={coupon.status === 'enabled'}
                               size="sm"
-                              className={`h-7 px-3 ${
-                                coupon.status === 'enabled'
-                                  ? 'border-orange-300 text-orange-700 hover:bg-orange-50'
-                                  : 'border-green-300 text-green-700 hover:bg-green-50'
-                              }`}
-                            >
-                              {coupon.status === 'enabled' ? '停用' : '启用'}
-                            </Button>
+                              className="h-7 px-3"
+                            />
                           </Form>
                         </div>
                       </TableCell>

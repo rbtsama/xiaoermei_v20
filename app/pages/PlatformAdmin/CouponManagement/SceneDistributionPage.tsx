@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~
 import { Label } from '~/components/ui/label'
 import { Edit } from 'lucide-react'
 import MainLayout from '~/pages/PointsSystem/components/MainLayout'
+import { ToggleButton } from '~/components/common/ToggleButton'
 
 interface SceneDistributionPageProps {
   scenes: SceneDistribution[]
@@ -112,20 +113,12 @@ export default function SceneDistributionPage({ scenes, enabledCoupons, error }:
                         <Form method="post">
                           <input type="hidden" name="sceneId" value={scene.id} />
                           <input type="hidden" name="_action" value="toggle" />
-                          <Button
-                            type="submit"
-                            variant="outline"
-                            size="sm"
+                          <ToggleButton
+                            isEnabled={scene.status === 'enabled'}
                             disabled={!scene.couponId || isSubmitting}
-                            className={`h-7 px-2 ${
-                              scene.status === 'enabled'
-                                ? 'border-orange-300 text-orange-700 hover:bg-orange-50'
-                                : 'border-green-300 text-green-700 hover:bg-green-50'
-                            }`}
-                            title={!scene.couponId ? '请先选择优惠券' : ''}
-                          >
-                            {scene.status === 'enabled' ? '停用' : '启用'}
-                          </Button>
+                            size="sm"
+                            className="h-7 px-2"
+                          />
                         </Form>
                       </div>
                     </TableCell>
