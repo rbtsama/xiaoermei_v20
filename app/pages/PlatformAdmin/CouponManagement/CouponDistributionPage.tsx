@@ -151,7 +151,7 @@ export default function CouponDistributionPage({
             <Link to="/platform-admin/coupon-management/records">
               <Button variant="outline" className="h-9">
                 <FileText className="w-4 h-4 mr-2" />
-                优惠券记录
+                发放记录
               </Button>
             </Link>
           </CardHeader>
@@ -215,7 +215,7 @@ export default function CouponDistributionPage({
                 <form onSubmit={handleVipSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label>VIP等级 *</Label>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-5 gap-3">
                       {vipLevels.map((level) => (
                         <div key={level.id} className="flex items-center space-x-2">
                           <Checkbox
