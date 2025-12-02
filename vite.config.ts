@@ -100,6 +100,7 @@ export default defineConfig({
           route("/platform-admin/coupon-management/scene-toggle/:id", "routes/platform-admin/coupon-management/scene-toggle.$id.tsx")
           route("/platform-admin/coupon-management/manual-distribution", "routes/platform-admin/coupon-management/manual-distribution.tsx")
           route("/platform-admin/coupon-management/records", "routes/platform-admin/coupon-management/records.tsx")
+          route("/platform-admin/coupon-management/operation-logs", "routes/platform-admin/coupon-management/operation-logs.tsx")
 
           // System Settings Routes
           route("/system/agreements", "routes/system/agreements.tsx")

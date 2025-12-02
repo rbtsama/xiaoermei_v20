@@ -8,12 +8,17 @@ import type {
   SceneDistribution,
   CouponRecord,
   VipLevel,
+  PaginationParams,
+  PaginatedResult,
+  CouponOperationLog,
+  CouponOperationType,
 } from '../types/coupon.types'
 import {
   mockCoupons,
   mockSceneDistributions,
   mockCouponRecords,
   mockVipLevels,
+  mockOperationLogs,
 } from './mocks'
 
 class CouponService {
@@ -21,17 +26,31 @@ class CouponService {
   private sceneDistributions = [...mockSceneDistributions]
   private couponRecords = [...mockCouponRecords]
   private vipLevels = [...mockVipLevels]
+  private operationLogs = [...mockOperationLogs]
 
   /**
-   * 获取优惠券列表（按创建时间倒序）
+   * 获取优惠券列表（按创建时间倒序，支持分页）
    */
-  async getCoupons(): Promise<Coupon[]> {
+  async getCoupons(params?: PaginationParams): Promise<PaginatedResult<Coupon>> {
     await new Promise((resolve) => setTimeout(resolve, 300))
 
     // 按创建时间倒序排列
-    return [...this.coupons].sort((a, b) => {
+    const sorted = [...this.coupons].sort((a, b) => {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     })
+
+    const page = params?.page || 1
+    const pageSize = params?.pageSize || 10
+    const start = (page - 1) * pageSize
+    const end = start + pageSize
+
+    return {
+      data: sorted.slice(start, end),
+      total: sorted.length,
+      page,
+      pageSize,
+      totalPages: Math.ceil(sorted.length / pageSize),
+    }
   }
 
   /**
@@ -81,6 +100,10 @@ class CouponService {
     }
 
     this.coupons.unshift(newCoupon)
+
+    // 记录操作日志
+    this.logOperation('create', newCoupon.name)
+
     return newCoupon
   }
 
@@ -95,6 +118,10 @@ class CouponService {
 
     // 允许所有状态的优惠券编辑
     this.coupons[index] = { ...this.coupons[index], ...data }
+
+    // 记录操作日志
+    this.logOperation('edit', this.coupons[index].name)
+
     return this.coupons[index]
   }
 
@@ -278,6 +305,38 @@ class CouponService {
     return [...this.couponRecords].sort((a, b) => {
       return new Date(b.operatedAt).getTime() - new Date(a.operatedAt).getTime()
     })
+  }
+
+  /**
+   * 获取操作记录（按操作时间倒序）
+   */
+  async getOperationLogs(): Promise<CouponOperationLog[]> {
+    await new Promise((resolve) => setTimeout(resolve, 300))
+    return [...this.operationLogs].sort((a, b) => {
+      return new Date(b.operatedAt).getTime() - new Date(a.operatedAt).getTime()
+    })
+  }
+
+  /**
+   * 记录操作
+   */
+  private logOperation(type: CouponOperationType, couponName: string) {
+    const newLog: CouponOperationLog = {
+      id: `LOG${String(this.operationLogs.length + 1).padStart(3, '0')}`,
+      operationType: type,
+      operationContent: `${type === 'create' ? '创建' : '编辑'}优惠券：${couponName}`,
+      operatedAt: new Date().toLocaleString('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      }).replace(/\//g, '/').replace(',', ''),
+      operatedBy: 'admin001', // 模拟当前登录用户
+    }
+    this.operationLogs.unshift(newLog)
   }
 }
 

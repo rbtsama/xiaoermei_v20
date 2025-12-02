@@ -111,3 +111,38 @@ export interface VipLevel {
   name: string
   level: number
 }
+
+/**
+ * 分页参数
+ */
+export interface PaginationParams {
+  page: number
+  pageSize: number
+}
+
+/**
+ * 分页结果
+ */
+export interface PaginatedResult<T> {
+  data: T[]
+  total: number
+  page: number
+  pageSize: number
+  totalPages: number
+}
+
+/**
+ * 操作类型
+ */
+export type CouponOperationType = 'create' | 'edit'
+
+/**
+ * 操作记录
+ */
+export interface CouponOperationLog {
+  id: string
+  operationType: CouponOperationType
+  operationContent: string  // 如："创建优惠券：新用户专享满300减50"
+  operatedAt: string
+  operatedBy: string
+}

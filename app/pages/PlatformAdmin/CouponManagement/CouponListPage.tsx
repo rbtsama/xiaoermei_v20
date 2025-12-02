@@ -3,18 +3,23 @@
  */
 
 import { useState } from 'react'
-import { Form } from '@remix-run/react'
+import { Form, Link } from '@remix-run/react'
 import type { Coupon } from './types/coupon.types'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
 import { Badge } from '~/components/ui/badge'
-import { Plus, Edit, Power, PowerOff } from 'lucide-react'
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '~/components/ui/pagination'
+import { Plus, Edit, Power, PowerOff, History } from 'lucide-react'
 import MainLayout from '~/pages/PointsSystem/components/MainLayout'
 import CouponDialog from './components/CouponDialog'
 
 interface CouponListPageProps {
   coupons: Coupon[]
+  total: number
+  page: number
+  pageSize: number
+  totalPages: number
   error: string | null
 }
 
@@ -50,7 +55,7 @@ function getValidDaysText(days: number): string {
   return `发放后${days}天`
 }
 
-export default function CouponListPage({ coupons, error }: CouponListPageProps) {
+export default function CouponListPage({ coupons, total, page, pageSize, totalPages, error }: CouponListPageProps) {
   // Dialog弹窗状态
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
@@ -96,13 +101,21 @@ export default function CouponListPage({ coupons, error }: CouponListPageProps) 
       <Card className="rounded-xl border-slate-200 bg-white shadow-sm">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg font-semibold text-slate-900">优惠券列表</CardTitle>
-          <Button
-            onClick={() => setIsCreateDialogOpen(true)}
-            className="h-9 bg-blue-600 hover:bg-blue-700"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            创建优惠券
-          </Button>
+          <div className="flex items-center gap-2">
+            <Link to="/platform-admin/coupon-management/operation-logs">
+              <Button variant="outline" className="h-9">
+                <History className="w-4 h-4 mr-2" />
+                操作记录
+              </Button>
+            </Link>
+            <Button
+              onClick={() => setIsCreateDialogOpen(true)}
+              className="h-9 bg-blue-600 hover:bg-blue-700"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              创建优惠券
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="border border-slate-200 rounded-lg overflow-hidden">
@@ -200,6 +213,57 @@ export default function CouponListPage({ coupons, error }: CouponListPageProps) 
               </TableBody>
             </Table>
           </div>
+
+          {/* 分页组件 */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between px-4 py-4 border-t border-slate-200">
+              <div className="text-sm text-slate-600">
+                共 {total} 条，第 {page}/{totalPages} 页
+              </div>
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      href={page > 1 ? `?page=${page - 1}` : '#'}
+                      className={page === 1 ? 'pointer-events-none opacity-50' : ''}
+                    />
+                  </PaginationItem>
+
+                  {/* 页码列表 */}
+                  {Array.from({ length: Math.min(7, totalPages) }, (_, i) => {
+                    let pageNum
+                    if (totalPages <= 7) {
+                      pageNum = i + 1
+                    } else if (page <= 4) {
+                      pageNum = i + 1
+                    } else if (page >= totalPages - 3) {
+                      pageNum = totalPages - 6 + i
+                    } else {
+                      pageNum = page - 3 + i
+                    }
+
+                    return (
+                      <PaginationItem key={pageNum}>
+                        <PaginationLink
+                          href={`?page=${pageNum}`}
+                          isActive={pageNum === page}
+                        >
+                          {pageNum}
+                        </PaginationLink>
+                      </PaginationItem>
+                    )
+                  })}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      href={page < totalPages ? `?page=${page + 1}` : '#'}
+                      className={page === totalPages ? 'pointer-events-none opacity-50' : ''}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </CardContent>
       </Card>
       </div>

@@ -7,6 +7,7 @@ import type {
   SceneDistribution,
   CouponRecord,
   VipLevel,
+  CouponOperationLog,
 } from '../../types/coupon.types'
 
 /**
@@ -197,4 +198,66 @@ export const mockVipLevels: VipLevel[] = [
   { id: 'VIP7', name: 'VIP7', level: 7 },
   { id: 'VIP8', name: 'VIP8', level: 8 },
   { id: 'VIP9', name: 'VIP9', level: 9 },
+]
+
+/**
+ * Mock 操作记录
+ */
+export const mockOperationLogs: CouponOperationLog[] = [
+  {
+    id: 'LOG001',
+    operationType: 'create',
+    operationContent: '创建优惠券：新用户专享满300减50',
+    operatedAt: '2025/01/15 10:30:00',
+    operatedBy: 'admin001',
+  },
+  {
+    id: 'LOG002',
+    operationType: 'create',
+    operationContent: '创建优惠券：周末特惠8折券',
+    operatedAt: '2025/01/20 14:20:00',
+    operatedBy: 'admin002',
+  },
+  {
+    id: 'LOG003',
+    operationType: 'edit',
+    operationContent: '编辑优惠券：周末特惠8折券',
+    operatedAt: '2025/01/21 09:15:00',
+    operatedBy: 'admin001',
+  },
+  {
+    id: 'LOG004',
+    operationType: 'create',
+    operationContent: '创建优惠券：立减30元优惠券',
+    operatedAt: '2025/01/25 09:15:00',
+    operatedBy: 'admin001',
+  },
+  {
+    id: 'LOG005',
+    operationType: 'create',
+    operationContent: '创建优惠券：情人节特惠满500减80',
+    operatedAt: '2025/01/28 16:45:00',
+    operatedBy: 'admin003',
+  },
+  {
+    id: 'LOG006',
+    operationType: 'edit',
+    operationContent: '编辑优惠券：情人节特惠满500减80',
+    operatedAt: '2025/01/29 10:20:00',
+    operatedBy: 'admin003',
+  },
+  {
+    id: 'LOG007',
+    operationType: 'create',
+    operationContent: '创建优惠券：会员专享9折券',
+    operatedAt: '2024/12/01 11:00:00',
+    operatedBy: 'admin002',
+  },
+  {
+    id: 'LOG008',
+    operationType: 'edit',
+    operationContent: '编辑优惠券：新用户专享满300减50',
+    operatedAt: '2025/01/16 14:30:00',
+    operatedBy: 'admin001',
+  },
 ]
