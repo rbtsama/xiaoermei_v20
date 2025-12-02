@@ -2,7 +2,7 @@
  * 平台后台 - 积分调整页面
  */
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Form, useNavigate } from '@remix-run/react'
 import type { UserPointsAccount, PointsChangeLog } from './types/valueAddedService.types'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
@@ -44,6 +44,13 @@ export default function PointsAdjustPage({
   const navigate = useNavigate()
   const [phoneNumber, setPhoneNumber] = useState(searchedPhone || '')
   const [isAdjustDialogOpen, setIsAdjustDialogOpen] = useState(false)
+
+  // 未找到用户时显示toast
+  useEffect(() => {
+    if (searchedPhone && !userAccount) {
+      alert(`未找到手机号为 ${searchedPhone} 的用户`)
+    }
+  }, [searchedPhone, userAccount])
   const [adjustForm, setAdjustForm] = useState({
     pointsAmount: '',
     remark: '',
@@ -122,17 +129,6 @@ export default function PointsAdjustPage({
             </Form>
           </CardContent>
         </Card>
-
-        {/* 未找到用户提示 */}
-        {!userAccount && phoneNumber && (
-          <Card className="rounded-xl border-orange-200 bg-orange-50 shadow-sm">
-            <CardContent className="pt-6">
-              <div className="text-center text-orange-700 py-4">
-                未找到手机号为 {phoneNumber} 的用户，请检查手机号是否正确
-              </div>
-            </CardContent>
-          </Card>
-        )}
 
         {/* 用户信息卡片 */}
         {userAccount && (
