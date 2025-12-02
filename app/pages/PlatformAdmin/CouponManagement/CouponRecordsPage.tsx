@@ -86,8 +86,8 @@ export default function CouponRecordsPage({ records, error }: CouponRecordsPageP
       <div className="p-6">
         <Card className="rounded-xl border-slate-200 bg-white shadow-sm">
           <CardHeader className="flex flex-row items-center gap-3">
-            <Link to="/platform-admin/coupon-management/distribution">
-              <Button variant="outline" size="sm" className="h-8">
+            <Link to="/platform-admin/coupon-management/list">
+              <Button variant="outline" size="sm" className="h-8 border-slate-300">
                 <ArrowLeft className="w-4 h-4 mr-1" />
                 返回
               </Button>
