@@ -135,17 +135,17 @@ export default function ManualDistributionPage({ enabledCoupons, vipLevels, erro
                   <div className="space-y-2.5">
                     <Label className="text-sm font-medium text-slate-900">发放策略 *</Label>
                     <RadioGroup value={distributionType} onValueChange={(value) => setDistributionType(value as DistributionType)}>
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2 p-2.5 rounded-lg border border-slate-200 hover:border-blue-400 hover:bg-blue-50/30 transition-colors cursor-pointer">
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-2">
                           <RadioGroupItem value="phone" id="strategy-phone" />
-                          <Label htmlFor="strategy-phone" className="text-sm cursor-pointer flex items-center gap-1.5 flex-1">
+                          <Label htmlFor="strategy-phone" className="text-sm cursor-pointer flex items-center gap-1.5">
                             <Phone className="w-4 h-4 text-blue-600" />
                             按手机号发放
                           </Label>
                         </div>
-                        <div className="flex items-center space-x-2 p-2.5 rounded-lg border border-slate-200 hover:border-purple-400 hover:bg-purple-50/30 transition-colors cursor-pointer">
+                        <div className="flex items-center space-x-2">
                           <RadioGroupItem value="vip" id="strategy-vip" />
-                          <Label htmlFor="strategy-vip" className="text-sm cursor-pointer flex items-center gap-1.5 flex-1">
+                          <Label htmlFor="strategy-vip" className="text-sm cursor-pointer flex items-center gap-1.5">
                             <Users className="w-4 h-4 text-purple-600" />
                             按VIP等级发放
                           </Label>
