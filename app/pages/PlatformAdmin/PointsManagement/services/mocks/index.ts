@@ -5,3 +5,8 @@ export {
   mockUserPointsAccounts,
   mockPointsRecords,
 } from './points.mock'
+
+export {
+  mockPointsRewards,
+  mockPointsExchanges,
+} from './valueAddedService.mock'

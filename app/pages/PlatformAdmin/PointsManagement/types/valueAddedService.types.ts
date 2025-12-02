@@ -20,6 +20,7 @@ export interface PointsRewardItem {
  */
 export interface PointsExchangeItem {
   id: string
+  序号: number // 排序序号
   serviceName: string // 服务名称
   serviceDescription: string // 服务说明
   pointsCost: number // 积分消耗（正整数）
