@@ -72,6 +72,9 @@ export default defineConfig({
           route("/platform-admin/user-management/list", "routes/platform-admin/user-management/list.tsx")
           route("/platform-admin/user-management/detail/:userId", "routes/platform-admin/user-management/detail.$userId.tsx")
 
+          // Platform Admin - Member Management
+          route("/platform-admin/member-management/members", "routes/platform-admin/member-management/members.tsx")
+
           // Platform Admin - Coupon Management
           route("/platform-admin/coupon-management/list", "routes/platform-admin/coupon-management/list.tsx")
           route("/platform-admin/coupon-management/create", "routes/platform-admin/coupon-management/create.tsx")

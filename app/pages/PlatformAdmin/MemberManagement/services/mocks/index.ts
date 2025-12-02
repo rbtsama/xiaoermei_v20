@@ -8,3 +8,5 @@ export {
 } from './member.mock'
 
 export { mockMemberInvitations } from './memberInvitation.mock'
+
+export { mockMembersData } from './memberQuery.mock'
