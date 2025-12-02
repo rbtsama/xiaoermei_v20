@@ -1,12 +1,13 @@
 export {
-  mockPointsBaseRuleConfig,
-  mockMemberLevelPointsRates,
-  mockPointsStatistics,
+  mockPointsBaseRule,
   mockUserPointsAccounts,
-  mockPointsRecords,
+  mockPointsChangeLogs,
+  mockOperationLogs,
 } from './points.mock'
 
 export {
   mockPointsRewards,
   mockPointsExchanges,
 } from './valueAddedService.mock'
+
+export { pointsRuleChangeLogs } from './points.changeLog'

@@ -282,7 +282,8 @@ export const menuConfig: MenuItem[] = [
       {
         title: '积分管理',
         children: [
-          { title: '积分设置', path: '/platform-admin/points-management/services' }
+          { title: '积分配置', path: '/platform-admin/points-management/config' },
+          { title: '积分调整', path: '/platform-admin/points-management/adjust' }
         ]
       },
     ]
