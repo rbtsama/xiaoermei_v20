@@ -37,8 +37,7 @@ export default function UserMemberManagementPage({
 
   return (
     <MainLayout>
-      <div className="h-screen overflow-y-auto bg-slate-50">
-        <div className="max-w-7xl mx-auto p-6">
+      <div className="p-6 space-y-6">
         {/* 搜索筛选 */}
         <Card className="mb-6 rounded-xl border-slate-200 bg-white shadow-sm">
           <CardContent className="pt-6">
