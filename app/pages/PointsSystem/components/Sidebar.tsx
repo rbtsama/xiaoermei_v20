@@ -32,6 +32,7 @@ export default function Sidebar({ menuItems }: SidebarProps) {
     '订单管理': true,
     '会员管理': true,
     '优惠券管理': true,
+    '积分管理': true,
     '系统管理': true,
     '商户端': true,
     '入驻平台': true,
@@ -277,6 +278,12 @@ export const menuConfig: MenuItem[] = [
         children: [
           { title: '优惠券列表', path: '/platform-admin/coupon-management/list' },
           { title: '优惠券发放', path: '/platform-admin/coupon-management/distribution' }
+        ]
+      },
+      {
+        title: '积分管理',
+        children: [
+          { title: '积分设置', path: '/platform-admin/points-management/services' }
         ]
       },
     ]
