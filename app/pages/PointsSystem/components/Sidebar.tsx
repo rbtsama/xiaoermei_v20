@@ -30,8 +30,8 @@ export default function Sidebar({ menuItems }: SidebarProps) {
     '设计规范': true,
     '平台后台': true,
     '订单管理': true,
-    '积分管理 *': true,
     '会员管理': true,
+    '优惠券管理': true,
     '系统管理': true,
     '商户端': true,
     '入驻平台': true,
@@ -41,6 +41,7 @@ export default function Sidebar({ menuItems }: SidebarProps) {
     '系统设置': true,
     // 草稿菜单（默认展开）
     '草稿': true,
+    '积分管理（旧）': true,
     '系统管理': true,
     '技术架构': true,
     '场景设计': true,
@@ -264,14 +265,6 @@ export const menuConfig: MenuItem[] = [
       },
       // 用户运营：锦上添花
       {
-        title: '积分管理 *',
-        children: [
-          { title: '积分规则配置 *', path: '/platform-admin/points-management/base-rule' },
-          { title: '积分调整 *', path: '/platform-admin/points-management/adjustment' },
-          { title: '积分增值服务 *', path: '/platform-admin/points-management/value-added' }
-        ]
-      },
-      {
         title: '会员管理',
         children: [
           { title: '会员等级设置 *', path: '/member-management/levels' },
@@ -343,6 +336,14 @@ export const menuConfig: MenuItem[] = [
   {
     title: '草稿',
     children: [
+      {
+        title: '积分管理（旧）',
+        children: [
+          { title: '积分规则配置', path: '/platform-admin/points-management/base-rule' },
+          { title: '积分调整', path: '/platform-admin/points-management/adjustment' },
+          { title: '积分增值服务', path: '/platform-admin/points-management/value-added' }
+        ]
+      },
       {
         title: '系统管理',
         children: [
