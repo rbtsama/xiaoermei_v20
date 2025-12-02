@@ -218,7 +218,7 @@ export default function CouponListPage({ coupons, total, page, pageSize, totalPa
           {totalPages > 1 && (
             <div className="flex items-center justify-between px-4 py-4 border-t border-slate-200">
               <div className="text-sm text-slate-600">
-                共 {total} 条，第 {page}/{totalPages} 页
+                共 {total} 条
               </div>
               <Pagination>
                 <PaginationContent>
