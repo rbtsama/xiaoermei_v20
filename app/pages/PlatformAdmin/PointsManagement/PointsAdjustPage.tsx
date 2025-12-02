@@ -19,6 +19,7 @@ interface PointsAdjustPageProps {
   changeLogs: PointsChangeLog[]
   total: number
   pageNum: number
+  phoneNumber: string
   error: string | null
 }
 
@@ -37,10 +38,11 @@ export default function PointsAdjustPage({
   changeLogs,
   total,
   pageNum,
+  phoneNumber: searchedPhone,
   error,
 }: PointsAdjustPageProps) {
   const navigate = useNavigate()
-  const [phoneNumber, setPhoneNumber] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState(searchedPhone || '')
   const [isAdjustDialogOpen, setIsAdjustDialogOpen] = useState(false)
   const [adjustForm, setAdjustForm] = useState({
     pointsAmount: '',
@@ -120,6 +122,17 @@ export default function PointsAdjustPage({
             </Form>
           </CardContent>
         </Card>
+
+        {/* 未找到用户提示 */}
+        {!userAccount && phoneNumber && (
+          <Card className="rounded-xl border-orange-200 bg-orange-50 shadow-sm">
+            <CardContent className="pt-6">
+              <div className="text-center text-orange-700 py-4">
+                未找到手机号为 {phoneNumber} 的用户，请检查手机号是否正确
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* 用户信息卡片 */}
         {userAccount && (
