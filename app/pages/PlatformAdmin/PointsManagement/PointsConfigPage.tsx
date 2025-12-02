@@ -232,12 +232,12 @@ export default function PointsConfigPage({
             <Form method="post" action="/platform-admin/points-management/config" className="space-y-6" id="base-rule-form">
               <input type="hidden" name="action" value="update-base-rule" />
 
-              {/* 第一行：注册奖励、邀请人奖励 */}
-              <div className="grid grid-cols-2 gap-6">
+              {/* 第一行：5个基础配置 */}
+              <div className="grid grid-cols-5 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-600">注册奖励</label>
                   {isEditingBaseRule ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
                       <Input
                         type="number"
                         name="registerReward"
@@ -246,11 +246,11 @@ export default function PointsConfigPage({
                         className="h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                         min="0"
                       />
-                      <span className="text-sm text-slate-600 whitespace-nowrap">积分</span>
+                      <span className="text-xs text-slate-600 whitespace-nowrap">积分</span>
                     </div>
                   ) : (
                     <div className="h-9 flex items-center">
-                      <span className="font-semibold text-slate-900">{baseRule.registerReward} 积分</span>
+                      <span className="font-semibold text-slate-900 text-sm">{baseRule.registerReward}积分</span>
                     </div>
                   )}
                 </div>
@@ -258,7 +258,7 @@ export default function PointsConfigPage({
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-600">邀请人奖励</label>
                   {isEditingBaseRule ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
                       <Input
                         type="number"
                         name="inviterReward"
@@ -267,22 +267,19 @@ export default function PointsConfigPage({
                         className="h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                         min="0"
                       />
-                      <span className="text-sm text-slate-600 whitespace-nowrap">积分</span>
+                      <span className="text-xs text-slate-600 whitespace-nowrap">积分</span>
                     </div>
                   ) : (
                     <div className="h-9 flex items-center">
-                      <span className="font-semibold text-slate-900">{baseRule.inviterReward} 积分</span>
+                      <span className="font-semibold text-slate-900 text-sm">{baseRule.inviterReward}积分</span>
                     </div>
                   )}
                 </div>
-              </div>
 
-              {/* 第二行：积分兑换汇率、最大抵扣比例、积分有效期 */}
-              <div className="grid grid-cols-3 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-600">积分兑换汇率</label>
                   {isEditingBaseRule ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
                       <Input
                         type="number"
                         name="exchangeRate"
@@ -291,11 +288,11 @@ export default function PointsConfigPage({
                         className="h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                         min="1"
                       />
-                      <span className="text-sm text-slate-600 whitespace-nowrap">积分=1元</span>
+                      <span className="text-xs text-slate-600 whitespace-nowrap">积分=1元</span>
                     </div>
                   ) : (
                     <div className="h-9 flex items-center">
-                      <span className="font-semibold text-slate-900">{baseRule.exchangeRate} 积分 = 1元</span>
+                      <span className="font-semibold text-slate-900 text-sm">{baseRule.exchangeRate}积分=1元</span>
                     </div>
                   )}
                 </div>
@@ -303,7 +300,7 @@ export default function PointsConfigPage({
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-600">最大抵扣比例</label>
                   {isEditingBaseRule ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
                       <Input
                         type="number"
                         name="maxDeductionRatio"
@@ -313,11 +310,11 @@ export default function PointsConfigPage({
                         min="0"
                         max="100"
                       />
-                      <span className="text-sm text-slate-600">%</span>
+                      <span className="text-xs text-slate-600">%</span>
                     </div>
                   ) : (
                     <div className="h-9 flex items-center">
-                      <span className="font-semibold text-slate-900">{baseRule.maxDeductionRatio}%</span>
+                      <span className="font-semibold text-slate-900 text-sm">{baseRule.maxDeductionRatio}%</span>
                     </div>
                   )}
                 </div>
@@ -325,7 +322,7 @@ export default function PointsConfigPage({
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-600">积分有效期</label>
                   {isEditingBaseRule ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
                       <Input
                         type="number"
                         name="validityMonths"
@@ -334,17 +331,17 @@ export default function PointsConfigPage({
                         className="h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                         min="1"
                       />
-                      <span className="text-sm text-slate-600">月</span>
+                      <span className="text-xs text-slate-600">月</span>
                     </div>
                   ) : (
                     <div className="h-9 flex items-center">
-                      <span className="font-semibold text-slate-900">{baseRule.validityMonths} 个月</span>
+                      <span className="font-semibold text-slate-900 text-sm">{baseRule.validityMonths}个月</span>
                     </div>
                   )}
                 </div>
               </div>
 
-              {/* 第三行：入住返还倍数 */}
+              {/* 第二行：入住返还倍数 */}
               <div className="space-y-3 pt-3 border-t border-slate-200">
                 <label className="text-sm font-medium text-slate-600">入住返还倍数</label>
                 <div className="grid grid-cols-10 gap-3">
@@ -363,7 +360,7 @@ export default function PointsConfigPage({
                         />
                       ) : (
                         <div className="h-8 flex items-center justify-center">
-                          <span className="font-semibold text-slate-900">{baseRule.vipMultipliers[`VIP${idx}`]?.toFixed(1)}</span>
+                          <span className="font-semibold text-slate-900 text-sm">{baseRule.vipMultipliers[`VIP${idx}`]?.toFixed(1)}</span>
                         </div>
                       )}
                     </div>
