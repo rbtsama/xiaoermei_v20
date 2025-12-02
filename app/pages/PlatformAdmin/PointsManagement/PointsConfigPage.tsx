@@ -182,18 +182,55 @@ export default function PointsConfigPage({
         <Card className="rounded-xl border-slate-200 bg-white shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-lg font-semibold text-slate-900">积分基础规则</CardTitle>
-            {!isEditingBaseRule && (
+            {!isEditingBaseRule ? (
               <Button
                 onClick={() => setIsEditingBaseRule(true)}
                 className="h-9 bg-blue-600 hover:bg-blue-700"
               >
                 编辑
               </Button>
+            ) : (
+              <div className="flex gap-2">
+                <Button
+                  type="submit"
+                  form="base-rule-form"
+                  className="h-9 bg-blue-600 hover:bg-blue-700"
+                >
+                  保存
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-9 border-slate-300"
+                  onClick={() => {
+                    setIsEditingBaseRule(false)
+                    setBaseRuleForm({
+                      registerReward: baseRule.registerReward,
+                      inviterReward: baseRule.inviterReward,
+                      exchangeRate: baseRule.exchangeRate,
+                      maxDeductionRatio: baseRule.maxDeductionRatio,
+                      validityMonths: baseRule.validityMonths,
+                      vip0: baseRule.vipMultipliers['VIP0'] || 1.0,
+                      vip1: baseRule.vipMultipliers['VIP1'] || 1.2,
+                      vip2: baseRule.vipMultipliers['VIP2'] || 1.4,
+                      vip3: baseRule.vipMultipliers['VIP3'] || 1.6,
+                      vip4: baseRule.vipMultipliers['VIP4'] || 1.8,
+                      vip5: baseRule.vipMultipliers['VIP5'] || 2.0,
+                      vip6: baseRule.vipMultipliers['VIP6'] || 2.3,
+                      vip7: baseRule.vipMultipliers['VIP7'] || 2.6,
+                      vip8: baseRule.vipMultipliers['VIP8'] || 2.9,
+                      vip9: baseRule.vipMultipliers['VIP9'] || 3.2,
+                    })
+                  }}
+                >
+                  取消
+                </Button>
+              </div>
             )}
           </CardHeader>
           <CardContent>
             {isEditingBaseRule ? (
-              <Form method="post" action="/platform-admin/points-management/config" className="space-y-6">
+              <Form method="post" action="/platform-admin/points-management/config" className="space-y-6" id="base-rule-form">
                 <input type="hidden" name="action" value="update-base-rule" />
 
                 {/* 注册奖励、邀请人奖励 */}
@@ -288,40 +325,6 @@ export default function PointsConfigPage({
                       <span className="text-sm text-slate-600">月</span>
                     </div>
                   </div>
-                </div>
-
-                {/* 操作按钮 */}
-                <div className="flex gap-3 pt-4 border-t border-slate-200">
-                  <Button type="submit" className="h-9 bg-blue-600 hover:bg-blue-700">
-                    保存
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="h-9 border-slate-300"
-                    onClick={() => {
-                      setIsEditingBaseRule(false)
-                      setBaseRuleForm({
-                        registerReward: baseRule.registerReward,
-                        inviterReward: baseRule.inviterReward,
-                        exchangeRate: baseRule.exchangeRate,
-                        maxDeductionRatio: baseRule.maxDeductionRatio,
-                        validityMonths: baseRule.validityMonths,
-                        vip0: baseRule.vipMultipliers['VIP0'] || 1.0,
-                        vip1: baseRule.vipMultipliers['VIP1'] || 1.2,
-                        vip2: baseRule.vipMultipliers['VIP2'] || 1.4,
-                        vip3: baseRule.vipMultipliers['VIP3'] || 1.6,
-                        vip4: baseRule.vipMultipliers['VIP4'] || 1.8,
-                        vip5: baseRule.vipMultipliers['VIP5'] || 2.0,
-                        vip6: baseRule.vipMultipliers['VIP6'] || 2.3,
-                        vip7: baseRule.vipMultipliers['VIP7'] || 2.6,
-                        vip8: baseRule.vipMultipliers['VIP8'] || 2.9,
-                        vip9: baseRule.vipMultipliers['VIP9'] || 3.2,
-                      })
-                    }}
-                  >
-                    取消
-                  </Button>
                 </div>
               </Form>
             ) : (
