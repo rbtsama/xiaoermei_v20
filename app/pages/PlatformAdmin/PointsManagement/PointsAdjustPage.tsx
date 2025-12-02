@@ -11,7 +11,7 @@ import { Input } from '~/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
 import { Badge } from '~/components/ui/badge'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '~/components/ui/dialog'
-import { History } from 'lucide-react'
+import { History, FileText } from 'lucide-react'
 import MainLayout from '~/pages/PointsSystem/components/MainLayout'
 
 interface PointsAdjustPageProps {
@@ -114,19 +114,30 @@ export default function PointsAdjustPage({
         {/* 搜索框 */}
         <Card className="rounded-xl border-slate-200 bg-white shadow-sm">
           <CardContent className="pt-6">
-            <Form method="get" className="flex gap-2">
-              <Input
-                name="phoneNumber"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                placeholder="请输入用户手机号"
-                className="h-9 flex-1"
-                required
-              />
-              <Button type="submit" className="h-9 bg-blue-600 hover:bg-blue-700">
-                搜索
+            <div className="flex items-center justify-between">
+              <Form method="get" className="flex gap-2">
+                <Input
+                  name="phoneNumber"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  placeholder="请输入用户手机号"
+                  className="h-9 w-[200px] border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                  required
+                />
+                <Button type="submit" className="h-9 bg-blue-600 hover:bg-blue-700">
+                  搜索
+                </Button>
+              </Form>
+
+              <Button
+                variant="outline"
+                className="h-9 border-slate-300"
+                onClick={() => navigate('/platform-admin/points-management/operation-logs')}
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                操作记录
               </Button>
-            </Form>
+            </div>
           </CardContent>
         </Card>
 
