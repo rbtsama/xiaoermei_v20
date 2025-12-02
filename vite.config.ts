@@ -37,17 +37,6 @@ export default defineConfig({
           route("/hotel/signing-record", "routes/hotel/signing-record.tsx")
           route("/hotel/onboarding", "routes/hotel/onboarding.tsx")
 
-          // Member System Routes
-          route("/member/level-config", "routes/member/level-config.tsx")
-          route("/member/invitation-config", "routes/member/invitation-config.tsx")
-          route("/member/invitation-records", "routes/member/invitation-records.tsx")
-          route("/member/friend-card-config", "routes/member/friend-card-config.tsx")
-          route("/member/friend-card-records", "routes/member/friend-card-records.tsx")
-          route("/member-management/levels", "routes/member-management/levels/_index.tsx")
-          route("/member-management/levels/create", "routes/member-management/levels/create.tsx")
-          route("/member-management/levels/:id/edit", "routes/member-management/levels/$id.edit.tsx")
-          route("/member-management/members", "routes/member-management/members/_index.tsx")
-          route("/member-management/members/:id", "routes/member-management/members.$id.tsx")
 
           // Order Management Routes
           route("/order/list", "routes/order/list.tsx")
@@ -78,11 +67,6 @@ export default defineConfig({
           route("/platform-admin/points-management/adjust", "routes/platform-admin/points-management/adjust.tsx")
           route("/platform-admin/points-management/operation-logs", "routes/platform-admin/points-management/operation-logs.tsx")
 
-          // Platform Admin - Member Management
-          route("/platform-admin/member-management/upgrade-rules", "routes/platform-admin/member-management/upgrade-rules.tsx")
-          route("/platform-admin/member-management/discount-rules", "routes/platform-admin/member-management/discount-rules.tsx")
-          route("/platform-admin/member-management/users", "routes/platform-admin/member-management/users.tsx")
-          route("/platform-admin/member-management/invitations", "routes/platform-admin/member-management/invitations.tsx")
 
           // Platform Admin - User Management
           route("/platform-admin/user-management/list", "routes/platform-admin/user-management/list.tsx")

@@ -30,7 +30,6 @@ export default function Sidebar({ menuItems }: SidebarProps) {
     '设计规范': true,
     '平台后台': true,
     '订单管理': true,
-    '会员管理': true,
     '优惠券管理': true,
     '积分管理': true,
     '系统管理': true,
@@ -254,14 +253,6 @@ export const menuConfig: MenuItem[] = [
         ]
       },
       // 用户运营：锦上添花
-      {
-        title: '会员管理',
-        children: [
-          { title: '会员等级设置 *', path: '/member-management/levels' },
-          { title: '会员邀请记录 *', path: '/platform-admin/member-management/invitations' },
-          { title: '会员查询', path: '/platform-admin/user-management/list' }
-        ]
-      },
       {
         title: '优惠券管理',
         children: [
