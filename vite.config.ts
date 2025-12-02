@@ -82,7 +82,6 @@ export default defineConfig({
           route("/platform-admin/member-management/upgrade-rules", "routes/platform-admin/member-management/upgrade-rules.tsx")
           route("/platform-admin/member-management/discount-rules", "routes/platform-admin/member-management/discount-rules.tsx")
           route("/platform-admin/member-management/users", "routes/platform-admin/member-management/users.tsx")
-          route("/platform-admin/member-management/user/:userId", "routes/platform-admin/member-management/user/$userId.tsx")
           route("/platform-admin/member-management/invitations", "routes/platform-admin/member-management/invitations.tsx")
 
           // Platform Admin - User Management
