@@ -85,7 +85,27 @@ export default function PointsConfigPage({
     }
   }
 
-  // 上移/下移
+  // 上移/下移 - 奖励
+  const handleMoveReward = (index: number, direction: 'up' | 'down') => {
+    if (direction === 'up' && index === 0) return
+    if (direction === 'down' && index === rewardServices.length - 1) return
+
+    const newList = [...rewardServices]
+    const targetIndex = direction === 'up' ? index - 1 : index + 1
+    ;[newList[index], newList[targetIndex]] = [newList[targetIndex], newList[index]]
+
+    const ids = newList.map((item) => item.id)
+    const form = document.getElementById('reorder-reward-form') as HTMLFormElement
+    if (form) {
+      const input = form.querySelector('input[name="ids"]') as HTMLInputElement
+      if (input) {
+        input.value = JSON.stringify(ids)
+        form.requestSubmit()
+      }
+    }
+  }
+
+  // 上移/下移 - 换购
   const handleMoveExchange = (index: number, direction: 'up' | 'down') => {
     if (direction === 'up' && index === 0) return
     if (direction === 'down' && index === exchangeServices.length - 1) return
@@ -149,6 +169,10 @@ export default function PointsConfigPage({
         />
 
         {/* 隐藏的重排序表单 */}
+        <Form method="post" action="/platform-admin/points-management/config" id="reorder-reward-form" style={{ display: 'none' }}>
+          <input type="hidden" name="action" value="reorder-reward" />
+          <input type="hidden" name="ids" value="[]" />
+        </Form>
         <Form method="post" action="/platform-admin/points-management/config" id="reorder-exchange-form" style={{ display: 'none' }}>
           <input type="hidden" name="action" value="reorder-exchange" />
           <input type="hidden" name="ids" value="[]" />
@@ -357,10 +381,10 @@ export default function PointsConfigPage({
               <Table>
                 <TableHeader>
                   <TableRow className="border-slate-200 bg-slate-50">
-                    <TableHead className="text-slate-600 font-semibold w-[80px]">序号</TableHead>
-                    <TableHead className="text-slate-600 font-semibold">服务内容</TableHead>
-                    <TableHead className="text-slate-600 font-semibold w-[120px]">奖励积分</TableHead>
-                    <TableHead className="text-slate-600 font-semibold text-center w-[280px]">操作</TableHead>
+                    <TableHead className="text-slate-900 font-semibold w-[80px]">序号</TableHead>
+                    <TableHead className="text-slate-900 font-semibold">服务内容</TableHead>
+                    <TableHead className="text-slate-900 font-semibold w-[120px]">奖励积分</TableHead>
+                    <TableHead className="text-slate-900 font-semibold text-center w-[280px]">操作</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -373,18 +397,31 @@ export default function PointsConfigPage({
                   ) : (
                     rewardServices.map((item, index) => (
                       <TableRow key={item.id} className="hover:bg-slate-50 transition-colors">
-                        <TableCell className="text-slate-900">{index + 1}</TableCell>
-                        <TableCell>
-                          <div className="space-y-1">
-                            <div className="text-slate-900 font-medium">{item.serviceName}</div>
-                            {item.serviceDescription && (
-                              <div className="text-slate-600 text-sm">{item.serviceDescription}</div>
-                            )}
-                          </div>
-                        </TableCell>
+                        <TableCell className="text-slate-900">{item.序号}</TableCell>
+                        <TableCell className="text-slate-900 font-medium">{item.serviceName}</TableCell>
                         <TableCell className="text-slate-900 font-semibold">{item.pointsReward}</TableCell>
                         <TableCell>
                           <div className="flex items-center justify-center gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="h-7 px-2 border-slate-300"
+                              disabled={index === 0}
+                              onClick={() => handleMoveReward(index, 'up')}
+                            >
+                              <ChevronUp className="w-4 h-4" />
+                            </Button>
+
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="h-7 px-2 border-slate-300"
+                              disabled={index === rewardServices.length - 1}
+                              onClick={() => handleMoveReward(index, 'down')}
+                            >
+                              <ChevronDown className="w-4 h-4" />
+                            </Button>
+
                             <Button
                               variant="outline"
                               size="sm"
@@ -394,23 +431,6 @@ export default function PointsConfigPage({
                               <Edit className="w-3 h-3 mr-1" />
                               编辑
                             </Button>
-
-                            <Form method="post" action="/platform-admin/points-management/config">
-                              <input type="hidden" name="action" value="toggle-reward" />
-                              <input type="hidden" name="id" value={item.id} />
-                              <Button
-                                type="submit"
-                                variant="outline"
-                                size="sm"
-                                className={`h-7 px-3 ${
-                                  item.status === 'active'
-                                    ? 'border-orange-300 text-orange-700 hover:bg-orange-50'
-                                    : 'border-green-300 text-green-700 hover:bg-green-50'
-                                }`}
-                              >
-                                {item.status === 'active' ? '停用' : '启用'}
-                              </Button>
-                            </Form>
 
                             <Form
                               method="post"
@@ -458,10 +478,10 @@ export default function PointsConfigPage({
               <Table>
                 <TableHeader>
                   <TableRow className="border-slate-200 bg-slate-50">
-                    <TableHead className="text-slate-600 font-semibold w-[80px]">序号</TableHead>
-                    <TableHead className="text-slate-600 font-semibold">服务内容</TableHead>
-                    <TableHead className="text-slate-600 font-semibold w-[120px]">消耗积分</TableHead>
-                    <TableHead className="text-slate-600 font-semibold text-center w-[340px]">操作</TableHead>
+                    <TableHead className="text-slate-900 font-semibold w-[80px]">序号</TableHead>
+                    <TableHead className="text-slate-900 font-semibold">服务内容</TableHead>
+                    <TableHead className="text-slate-900 font-semibold w-[120px]">消耗积分</TableHead>
+                    <TableHead className="text-slate-900 font-semibold text-center w-[340px]">操作</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -475,14 +495,7 @@ export default function PointsConfigPage({
                     exchangeServices.map((item, index) => (
                       <TableRow key={item.id} className="hover:bg-slate-50 transition-colors">
                         <TableCell className="text-slate-900">{item.序号}</TableCell>
-                        <TableCell>
-                          <div className="space-y-1">
-                            <div className="text-slate-900 font-medium">{item.serviceName}</div>
-                            {item.serviceDescription && (
-                              <div className="text-slate-600 text-sm">{item.serviceDescription}</div>
-                            )}
-                          </div>
-                        </TableCell>
+                        <TableCell className="text-slate-900 font-medium">{item.serviceName}</TableCell>
                         <TableCell className="text-slate-900 font-semibold">{item.pointsCost}</TableCell>
                         <TableCell>
                           <div className="flex items-center justify-center gap-2">
@@ -515,23 +528,6 @@ export default function PointsConfigPage({
                               <Edit className="w-3 h-3 mr-1" />
                               编辑
                             </Button>
-
-                            <Form method="post" action="/platform-admin/points-management/config">
-                              <input type="hidden" name="action" value="toggle-exchange" />
-                              <input type="hidden" name="id" value={item.id} />
-                              <Button
-                                type="submit"
-                                variant="outline"
-                                size="sm"
-                                className={`h-7 px-3 ${
-                                  item.status === 'active'
-                                    ? 'border-orange-300 text-orange-700 hover:bg-orange-50'
-                                    : 'border-green-300 text-green-700 hover:bg-green-50'
-                                }`}
-                              >
-                                {item.status === 'active' ? '停用' : '启用'}
-                              </Button>
-                            </Form>
 
                             <Form
                               method="post"

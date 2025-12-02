@@ -7,8 +7,8 @@
  */
 export interface PointsRewardItem {
   id: string
+  序号: number // 排序序号
   serviceName: string // 服务名称
-  serviceDescription: string // 服务说明
   pointsReward: number // 积分奖励（正整数）
   status: 'active' | 'inactive' // 状态
   createdAt: string
@@ -22,7 +22,6 @@ export interface PointsExchangeItem {
   id: string
   序号: number // 排序序号
   serviceName: string // 服务名称
-  serviceDescription: string // 服务说明
   pointsCost: number // 积分消耗（正整数）
   status: 'active' | 'inactive' // 状态
   createdAt: string
@@ -34,7 +33,6 @@ export interface PointsExchangeItem {
  */
 export interface ServiceFormData {
   serviceName: string
-  serviceDescription: string
   pointsAmount: number // 积分数量（奖励或消耗）
   status: 'active' | 'inactive'
 }

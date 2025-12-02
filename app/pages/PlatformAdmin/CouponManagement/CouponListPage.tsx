@@ -122,16 +122,16 @@ export default function CouponListPage({ coupons, total, page, pageSize, totalPa
             <Table>
               <TableHeader>
                 <TableRow className="border-slate-200 bg-slate-50">
-                  <TableHead className="text-slate-600 font-semibold">优惠券ID</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">优惠券类型</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">优惠券名称</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">备注说明</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">有效期</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">费用承担</TableHead>
-                  <TableHead className="text-slate-600 font-semibold text-center">短信通知</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">创建时间</TableHead>
-                  <TableHead className="text-slate-600 font-semibold">创建人</TableHead>
-                  <TableHead className="text-slate-600 font-semibold text-center">操作</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">优惠券ID</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">优惠券类型</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">优惠券名称</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">备注说明</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">有效期</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">费用承担</TableHead>
+                  <TableHead className="text-slate-900 font-semibold text-center">短信通知</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">创建时间</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">创建人</TableHead>
+                  <TableHead className="text-slate-900 font-semibold text-center">操作</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -151,13 +151,13 @@ export default function CouponListPage({ coupons, total, page, pageSize, totalPa
                         </Badge>
                       </TableCell>
                       <TableCell className="text-slate-900">{coupon.name}</TableCell>
-                      <TableCell className="text-slate-600 text-sm max-w-[150px] truncate" title={coupon.remark || '-'}>
+                      <TableCell className="text-slate-900 text-sm max-w-[150px] truncate" title={coupon.remark || '-'}>
                         {coupon.remark || '-'}
                       </TableCell>
-                      <TableCell className="text-slate-600 text-sm">
+                      <TableCell className="text-slate-900 text-sm">
                         {getValidDaysText(coupon.validDays)}
                       </TableCell>
-                      <TableCell className="text-slate-600 text-sm">
+                      <TableCell className="text-slate-900 text-sm">
                         平台{coupon.platformRatio}% / 商户{coupon.merchantRatio}%
                       </TableCell>
                       <TableCell className="text-center">
@@ -165,8 +165,8 @@ export default function CouponListPage({ coupons, total, page, pageSize, totalPa
                           {coupon.smsNotify ? '是' : '否'}
                         </span>
                       </TableCell>
-                      <TableCell className="text-slate-600 text-sm">{coupon.createdAt}</TableCell>
-                      <TableCell className="text-slate-600 text-sm">{coupon.createdBy}</TableCell>
+                      <TableCell className="text-slate-900 text-sm">{coupon.createdAt}</TableCell>
+                      <TableCell className="text-slate-900 text-sm">{coupon.createdBy}</TableCell>
                       <TableCell>
                         <div className="flex items-center justify-center gap-2">
                           {/* 编辑按钮 */}

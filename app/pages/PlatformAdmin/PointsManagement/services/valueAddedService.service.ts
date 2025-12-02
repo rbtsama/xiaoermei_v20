@@ -27,7 +27,7 @@ class ValueAddedServiceService {
    */
   async getRewardServices(): Promise<PointsRewardItem[]> {
     await new Promise((resolve) => setTimeout(resolve, 300))
-    return [...this.rewardItems]
+    return [...this.rewardItems].sort((a, b) => a.序号 - b.序号)
   }
 
   /**
@@ -43,6 +43,9 @@ class ValueAddedServiceService {
     )
     const newId = `PR${String(maxId + 1).padStart(3, '0')}`
 
+    // 生成新序号
+    const maxOrder = Math.max(...this.rewardItems.map((item) => item.序号), 0)
+
     const now = new Date().toLocaleString('zh-CN', {
       year: 'numeric',
       month: '2-digit',
@@ -55,8 +58,8 @@ class ValueAddedServiceService {
 
     const newItem: PointsRewardItem = {
       id: newId,
+      序号: data.序号 || maxOrder + 1,
       serviceName: data.serviceName || '',
-      serviceDescription: data.serviceDescription || '',
       pointsReward: data.pointsReward || 0,
       status: data.status || 'active',
       createdAt: now,
@@ -139,6 +142,29 @@ class ValueAddedServiceService {
     return { ...this.rewardItems[index] }
   }
 
+  /**
+   * 重新排序积分奖励服务
+   */
+  async reorderRewardServices(ids: string[]): Promise<PointsRewardItem[]> {
+    await new Promise((resolve) => setTimeout(resolve, 400))
+
+    // 验证所有ID都存在
+    const allIdsExist = ids.every((id) => this.rewardItems.some((item) => item.id === id))
+    if (!allIdsExist) {
+      throw new Error('部分服务ID不存在')
+    }
+
+    // 更新序号
+    ids.forEach((id, index) => {
+      const item = this.rewardItems.find((item) => item.id === id)
+      if (item) {
+        item.序号 = index + 1
+      }
+    })
+
+    return this.getRewardServices()
+  }
+
   // ==================== 积分换购服务 ====================
 
   /**
@@ -179,7 +205,6 @@ class ValueAddedServiceService {
       id: newId,
       序号: data.序号 || maxOrder + 1,
       serviceName: data.serviceName || '',
-      serviceDescription: data.serviceDescription || '',
       pointsCost: data.pointsCost || 0,
       status: data.status || 'active',
       createdAt: now,

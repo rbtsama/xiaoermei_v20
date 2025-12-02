@@ -62,22 +62,6 @@ export default function ServiceItemDialog({
             />
           </div>
 
-          {/* 服务说明 */}
-          <div className="space-y-2">
-            <Label htmlFor="serviceDescription" className="text-sm font-medium text-slate-700">
-              服务说明
-            </Label>
-            <textarea
-              id="serviceDescription"
-              name="serviceDescription"
-              defaultValue={item?.serviceDescription || ''}
-              placeholder="请输入服务说明（选填，最多200字符）"
-              maxLength={200}
-              rows={3}
-              className="w-full px-3 py-2 border border-slate-300 rounded-md focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 resize-none text-sm"
-            />
-          </div>
-
           {/* 积分数量 */}
           <div className="space-y-2">
             <Label htmlFor="pointsAmount" className="text-sm font-medium text-slate-700">

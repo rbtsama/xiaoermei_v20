@@ -101,13 +101,13 @@ export default function CouponRecordsPage({ records, error }: CouponRecordsPageP
               <Table>
                 <TableHeader>
                   <TableRow className="border-slate-200 bg-slate-50">
-                    <TableHead className="text-slate-600 font-semibold">优惠券ID</TableHead>
-                    <TableHead className="text-slate-600 font-semibold">优惠券类型</TableHead>
-                    <TableHead className="text-slate-600 font-semibold">优惠券名称</TableHead>
-                    <TableHead className="text-slate-600 font-semibold">发放类型</TableHead>
-                    <TableHead className="text-slate-600 font-semibold">发放对象</TableHead>
-                    <TableHead className="text-slate-600 font-semibold">操作时间</TableHead>
-                    <TableHead className="text-slate-600 font-semibold">操作人</TableHead>
+                    <TableHead className="text-slate-900 font-semibold">优惠券ID</TableHead>
+                    <TableHead className="text-slate-900 font-semibold">优惠券类型</TableHead>
+                    <TableHead className="text-slate-900 font-semibold">优惠券名称</TableHead>
+                    <TableHead className="text-slate-900 font-semibold">发放类型</TableHead>
+                    <TableHead className="text-slate-900 font-semibold">发放对象</TableHead>
+                    <TableHead className="text-slate-900 font-semibold">操作时间</TableHead>
+                    <TableHead className="text-slate-900 font-semibold">操作人</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -152,11 +152,11 @@ export default function CouponRecordsPage({ records, error }: CouponRecordsPageP
                               详情
                             </Button>
                           ) : (
-                            <span className="text-slate-700 font-mono text-sm">{record.userPhone}</span>
+                            <span className="text-slate-900 font-mono text-sm">{record.userPhone}</span>
                           )}
                         </TableCell>
-                        <TableCell className="text-slate-600 text-sm">{record.operatedAt}</TableCell>
-                        <TableCell className="text-slate-600 text-sm">{record.operatedBy}</TableCell>
+                        <TableCell className="text-slate-900 text-sm">{record.operatedAt}</TableCell>
+                        <TableCell className="text-slate-900 text-sm">{record.operatedBy}</TableCell>
                       </TableRow>
                     ))
                   )}
