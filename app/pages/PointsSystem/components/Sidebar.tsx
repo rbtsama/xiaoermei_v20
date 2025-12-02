@@ -279,6 +279,15 @@ export const menuConfig: MenuItem[] = [
           { title: '会员查询', path: '/platform-admin/user-management/list' }
         ]
       },
+      {
+        title: '优惠券管理',
+        children: [
+          { title: '优惠券列表', path: '/platform-admin/coupon-management/list' },
+          { title: '场景发放配置', path: '/platform-admin/coupon-management/scene-distribution' },
+          { title: '手动发放', path: '/platform-admin/coupon-management/manual-distribution' },
+          { title: '优惠券记录', path: '/platform-admin/coupon-management/records' }
+        ]
+      },
     ]
   },
   {

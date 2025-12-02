@@ -61,6 +61,9 @@ export default defineConfig({
           route("/dispute/refund-requests", "routes/dispute/refund-requests.tsx")
           route("/dispute/refund-requests/:id", "routes/dispute/refund-request-detail.tsx")
 
+          // Platform Admin - Index
+          route("/platform-admin", "routes/platform-admin/_index.tsx", { index: true })
+
           // Platform Admin - Hotel Monitoring
           route("/platform-admin/hotel-monitor", "routes/platform-admin/hotel-monitor.tsx")
           route("/platform-admin/hotel/room-status", "routes/platform-admin/hotel/room-status.tsx")
@@ -85,6 +88,17 @@ export default defineConfig({
           // Platform Admin - User Management
           route("/platform-admin/user-management/list", "routes/platform-admin/user-management/list.tsx")
           route("/platform-admin/user-management/detail/:userId", "routes/platform-admin/user-management/detail.$userId.tsx")
+
+          // Platform Admin - Coupon Management
+          route("/platform-admin/coupon-management/list", "routes/platform-admin/coupon-management/list.tsx")
+          route("/platform-admin/coupon-management/create", "routes/platform-admin/coupon-management/create.tsx")
+          route("/platform-admin/coupon-management/edit/:id", "routes/platform-admin/coupon-management/edit.$id.tsx")
+          route("/platform-admin/coupon-management/toggle/:id", "routes/platform-admin/coupon-management/toggle.$id.tsx")
+          route("/platform-admin/coupon-management/delete/:id", "routes/platform-admin/coupon-management/delete.$id.tsx")
+          route("/platform-admin/coupon-management/scene-distribution", "routes/platform-admin/coupon-management/scene-distribution.tsx")
+          route("/platform-admin/coupon-management/scene-toggle/:id", "routes/platform-admin/coupon-management/scene-toggle.$id.tsx")
+          route("/platform-admin/coupon-management/manual-distribution", "routes/platform-admin/coupon-management/manual-distribution.tsx")
+          route("/platform-admin/coupon-management/records", "routes/platform-admin/coupon-management/records.tsx")
 
           // System Settings Routes
           route("/system/agreements", "routes/system/agreements.tsx")
