@@ -162,7 +162,7 @@ export default function CouponListPage({ coupons, total, page, pageSize, totalPa
                         平台{coupon.platformRatio}% / 商户{coupon.merchantRatio}%
                       </TableCell>
                       <TableCell className="text-center">
-                        <span className={coupon.smsNotify ? "text-green-700" : "text-slate-600"}>
+                        <span className={coupon.smsNotify ? "text-green-600" : "text-slate-600"}>
                           {coupon.smsNotify ? '是' : '否'}
                         </span>
                       </TableCell>

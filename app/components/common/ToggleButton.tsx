@@ -37,15 +37,15 @@ export function ToggleButton({
       disabled={disabled}
       className={cn(
         'transition-all font-medium',
-        // 启用状态 - 绿色
+        // 已启用 - 显示"停用" - 橙色(警告色)
         isEnabled && [
-          'border-green-600 text-green-600',
-          'hover:bg-green-50 hover:border-green-600 hover:text-green-600',
-        ],
-        // 停用状态 - 橙色
-        !isEnabled && [
           'border-orange-600 text-orange-600',
           'hover:bg-orange-50 hover:border-orange-600 hover:text-orange-600',
+        ],
+        // 已停用 - 显示"启用" - 绿色(成功色)
+        !isEnabled && [
+          'border-green-600 text-green-600',
+          'hover:bg-green-50 hover:border-green-600 hover:text-green-600',
         ],
         className
       )}
