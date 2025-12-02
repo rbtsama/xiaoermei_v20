@@ -187,8 +187,14 @@ export const mockCouponRecords: CouponRecord[] = [
  * Mock VIP等级
  */
 export const mockVipLevels: VipLevel[] = [
-  { id: 'VIP1', name: '普通会员', level: 1 },
-  { id: 'VIP2', name: '黄金会员', level: 2 },
-  { id: 'VIP3', name: '白金会员', level: 3 },
-  { id: 'VIP4', name: '钻石会员', level: 4 },
+  { id: 'VIP0', name: 'VIP0', level: 0 },
+  { id: 'VIP1', name: 'VIP1', level: 1 },
+  { id: 'VIP2', name: 'VIP2', level: 2 },
+  { id: 'VIP3', name: 'VIP3', level: 3 },
+  { id: 'VIP4', name: 'VIP4', level: 4 },
+  { id: 'VIP5', name: 'VIP5', level: 5 },
+  { id: 'VIP6', name: 'VIP6', level: 6 },
+  { id: 'VIP7', name: 'VIP7', level: 7 },
+  { id: 'VIP8', name: 'VIP8', level: 8 },
+  { id: 'VIP9', name: 'VIP9', level: 9 },
 ]
