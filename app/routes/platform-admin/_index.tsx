@@ -37,28 +37,10 @@ export default function PlatformAdminIndex() {
             </CardHeader>
             <CardContent className="space-y-2">
               <Link
-                to="/platform-admin/member-management/upgrade-rules"
+                to="/platform-admin/member-management/members"
                 className="block px-4 py-2 rounded hover:bg-slate-50 text-blue-600 hover:text-blue-700"
               >
-                升级规则
-              </Link>
-              <Link
-                to="/platform-admin/member-management/discount-rules"
-                className="block px-4 py-2 rounded hover:bg-slate-50 text-blue-600 hover:text-blue-700"
-              >
-                折扣规则
-              </Link>
-              <Link
-                to="/platform-admin/member-management/users"
-                className="block px-4 py-2 rounded hover:bg-slate-50 text-blue-600 hover:text-blue-700"
-              >
-                会员用户
-              </Link>
-              <Link
-                to="/platform-admin/member-management/invitations"
-                className="block px-4 py-2 rounded hover:bg-slate-50 text-blue-600 hover:text-blue-700"
-              >
-                邀请记录
+                会员查询
               </Link>
             </CardContent>
           </Card>
@@ -70,28 +52,16 @@ export default function PlatformAdminIndex() {
             </CardHeader>
             <CardContent className="space-y-2">
               <Link
-                to="/platform-admin/points-management/base-rule"
+                to="/platform-admin/points-management/config"
                 className="block px-4 py-2 rounded hover:bg-slate-50 text-blue-600 hover:text-blue-700"
               >
-                基础规则
+                积分配置
               </Link>
               <Link
-                to="/platform-admin/points-management/adjustment"
+                to="/platform-admin/points-management/adjust"
                 className="block px-4 py-2 rounded hover:bg-slate-50 text-blue-600 hover:text-blue-700"
               >
                 积分调整
-              </Link>
-              <Link
-                to="/platform-admin/points-management/value-added"
-                className="block px-4 py-2 rounded hover:bg-slate-50 text-blue-600 hover:text-blue-700"
-              >
-                增值服务
-              </Link>
-              <Link
-                to="/platform-admin/points-management/level-rates"
-                className="block px-4 py-2 rounded hover:bg-slate-50 text-blue-600 hover:text-blue-700"
-              >
-                等级倍率
               </Link>
             </CardContent>
           </Card>
