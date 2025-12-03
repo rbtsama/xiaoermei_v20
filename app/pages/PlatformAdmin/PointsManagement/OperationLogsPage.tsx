@@ -1,14 +1,15 @@
 /**
- * 平台后台 - 操作日志页面
+ * 平台后台 - 积分调整操作记录页面
  */
 
 import type { OperationLog } from './types/valueAddedService.types'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '~/components/ui/pagination'
 import { ArrowLeft } from 'lucide-react'
 import MainLayout from '~/pages/PointsSystem/components/MainLayout'
-import { useNavigate } from '@remix-run/react'
+import { Link } from '@remix-run/react'
 
 interface OperationLogsPageProps {
   operationLogs: OperationLog[]
@@ -23,7 +24,6 @@ export default function OperationLogsPage({
   pageNum,
   error,
 }: OperationLogsPageProps) {
-  const navigate = useNavigate()
   const pageSize = 20
   const totalPages = Math.ceil(total / pageSize)
 
@@ -31,7 +31,7 @@ export default function OperationLogsPage({
     return (
       <MainLayout>
         <div className="p-6">
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+          <div className="rounded-xl border border-red-300 bg-red-50 p-4 text-red-700">
             错误: {error}
           </div>
         </div>
@@ -41,97 +41,82 @@ export default function OperationLogsPage({
 
   return (
     <MainLayout>
-      <div className="p-6 space-y-6 overflow-y-auto h-full">
-        {/* 返回按钮 */}
-        <div>
-          <Button
-            variant="outline"
-            className="h-9 border-slate-300"
-            onClick={() => navigate('/platform-admin/points-management/adjust')}
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            返回
-          </Button>
-        </div>
-
-        {/* 操作日志表格 */}
+      <div className="p-6 space-y-6">
         <Card className="rounded-xl border-slate-200 bg-white shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-lg font-semibold text-slate-900">操作日志</CardTitle>
+          <CardHeader className="border-b border-slate-100">
+            <div className="flex items-center gap-3">
+              <Link to="/platform-admin/points-management/adjust">
+                <Button variant="outline" size="sm" className="h-8 border-slate-300">
+                  <ArrowLeft className="w-4 h-4 mr-1" />
+                  返回
+                </Button>
+              </Link>
+              <CardTitle className="text-lg font-semibold text-slate-900">积分调整操作记录</CardTitle>
+            </div>
           </CardHeader>
-          <CardContent>
-            {operationLogs.length === 0 ? (
-              <div className="text-center text-slate-500 py-8">
-                暂无操作日志
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div className="border border-slate-200 rounded-lg overflow-hidden">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="border-slate-200 bg-slate-50">
-                        <TableHead className="text-slate-600 font-semibold w-[150px]">操作类型</TableHead>
-                        <TableHead className="text-slate-600 font-semibold">操作详情</TableHead>
-                        <TableHead className="text-slate-600 font-semibold w-[100px]">操作人</TableHead>
-                        <TableHead className="text-slate-600 font-semibold w-[160px]">操作时间</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {operationLogs.map((log) => (
-                        <TableRow key={log.id} className="hover:bg-slate-50 transition-colors">
-                          <TableCell className="text-slate-900 font-medium">{log.operationType}</TableCell>
-                          <TableCell className="text-slate-700">{log.operationDetails}</TableCell>
-                          <TableCell className="text-slate-600">{log.operator}</TableCell>
-                          <TableCell className="text-slate-600 text-sm">{log.operatedAt}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
+          <CardContent className="pt-6">
+            <Table>
+              <TableHeader>
+                <TableRow className="border-slate-200 bg-slate-50">
+                  <TableHead className="text-slate-900 font-semibold">手机号</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">调整积分</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">调整原因</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">操作人</TableHead>
+                  <TableHead className="text-slate-900 font-semibold">操作时间</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {operationLogs.map((log) => {
+                  // 解析操作详情获取手机号和积分变化
+                  const phoneMatch = log.operationDetails.match(/手机号[:：]?\s*(\d+)/)
+                  const pointsMatch = log.operationDetails.match(/([+-]?\d+)\s*积分/)
+                  const phone = phoneMatch ? phoneMatch[1] : '-'
+                  const points = pointsMatch ? parseInt(pointsMatch[1]) : 0
 
-                {/* 分页 */}
-                {totalPages > 1 && (
-                  <div className="flex justify-center items-center gap-2 pt-4">
-                    {pageNum > 1 && (
-                      <Button
-                        variant="outline"
-                        className="h-8 px-2 text-xs border-slate-300"
-                        onClick={() => navigate(`/platform-admin/points-management/operation-logs?pageNum=${pageNum - 1}`)}
-                      >
-                        上一页
-                      </Button>
-                    )}
+                  return (
+                    <TableRow key={log.id} className="hover:bg-slate-50 transition-colors border-slate-200">
+                      <TableCell className="text-slate-900 font-medium">{phone}</TableCell>
+                      <TableCell className={points > 0 ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'}>
+                        {points > 0 ? `+${points}` : points}
+                      </TableCell>
+                      <TableCell className="text-slate-900 text-sm">{log.operationDetails}</TableCell>
+                      <TableCell className="text-slate-600 text-sm">{log.operator}</TableCell>
+                      <TableCell className="text-slate-600 text-sm">{log.operatedAt}</TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
 
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                      <Button
-                        key={page}
-                        variant={page === pageNum ? 'default' : 'outline'}
-                        className={`h-8 px-2 text-xs ${
-                          page === pageNum
-                            ? 'bg-blue-600 hover:bg-blue-700'
-                            : 'border-slate-300'
-                        }`}
-                        onClick={() => {
-                          if (page !== pageNum) {
-                            navigate(`/platform-admin/points-management/operation-logs?pageNum=${page}`)
-                          }
-                        }}
-                      >
-                        {page}
-                      </Button>
+            {/* 统计和分页 */}
+            {totalPages > 1 && (
+              <div className="mt-6 flex items-center justify-between">
+                <div className="text-sm text-slate-600 whitespace-nowrap">共 {total} 条</div>
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        href={pageNum > 1 ? `?pageNum=${pageNum - 1}` : '#'}
+                        className={pageNum === 1 ? 'pointer-events-none opacity-50' : ''}
+                      />
+                    </PaginationItem>
+
+                    {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => i + 1).map((page) => (
+                      <PaginationItem key={page}>
+                        <PaginationLink href={`?pageNum=${page}`} isActive={page === pageNum}>
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
                     ))}
 
-                    {pageNum < totalPages && (
-                      <Button
-                        variant="outline"
-                        className="h-8 px-2 text-xs border-slate-300"
-                        onClick={() => navigate(`/platform-admin/points-management/operation-logs?pageNum=${pageNum + 1}`)}
-                      >
-                        下一页
-                      </Button>
-                    )}
-                  </div>
-                )}
+                    <PaginationItem>
+                      <PaginationNext
+                        href={pageNum < totalPages ? `?pageNum=${pageNum + 1}` : '#'}
+                        className={pageNum === totalPages ? 'pointer-events-none opacity-50' : ''}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
               </div>
             )}
           </CardContent>
