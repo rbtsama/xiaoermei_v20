@@ -3,7 +3,7 @@
  */
 
 import { useState } from 'react'
-import { Form, useNavigation } from '@remix-run/react'
+import { Form, Link, useNavigation } from '@remix-run/react'
 import type { Coupon, VipLevel, SceneDistribution, CouponRecord } from './types/coupon.types'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Textarea } from '~/components/ui/textarea'
@@ -138,14 +138,14 @@ export default function CouponIssuePage({
     }
   }
 
-  const getSceneTypeName = (type: string) => {
+  const getSceneName = (scene: string) => {
     const map: Record<string, string> = {
-      register: '注册发放',
+      registration: '注册发放',
       first_order: '首单发放',
       checkout: '离店发放',
       birthday: '生日发放',
     }
-    return map[type] || type
+    return map[scene] || scene
   }
 
   return (
@@ -278,12 +278,12 @@ export default function CouponIssuePage({
               <TableBody>
                 {scenes.map((scene) => (
                   <TableRow key={scene.id} className="hover:bg-slate-50 transition-colors border-slate-200">
-                    <TableCell className="font-medium text-slate-900">{getSceneTypeName(scene.sceneType)}</TableCell>
+                    <TableCell className="font-medium text-slate-900">{getSceneName(scene.scene)}</TableCell>
                     <TableCell className="text-sm text-slate-600">
-                      {scene.sceneType === 'register' && '用户注册成功时'}
-                      {scene.sceneType === 'first_order' && '用户首单完成时'}
-                      {scene.sceneType === 'checkout' && '订单离店时'}
-                      {scene.sceneType === 'birthday' && '用户生日当天'}
+                      {scene.scene === 'registration' && '用户注册成功时'}
+                      {scene.scene === 'first_order' && '用户首单完成时'}
+                      {scene.scene === 'checkout' && '订单离店时'}
+                      {scene.scene === 'birthday' && '用户生日当天'}
                     </TableCell>
                     <TableCell className="text-slate-900">
                       {scene.couponId ? getCouponDisplayText(scene.couponId) : (
