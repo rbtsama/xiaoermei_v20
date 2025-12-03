@@ -67,11 +67,14 @@ export default function OperationLogsPage({
               </TableHeader>
               <TableBody>
                 {operationLogs.map((log) => {
-                  // 解析操作详情获取手机号和积分变化
+                  // 解析操作详情: 格式为 "手机号: XXX, +/-XXX 积分, 原因: XXX"
                   const phoneMatch = log.operationDetails.match(/手机号[:：]?\s*(\d+)/)
-                  const pointsMatch = log.operationDetails.match(/([+-]?\d+)\s*积分/)
+                  const pointsMatch = log.operationDetails.match(/([+-]\d+)\s*积分/)
+                  const reasonMatch = log.operationDetails.match(/原因[:：]?\s*(.+)$/)
+
                   const phone = phoneMatch ? phoneMatch[1] : '-'
                   const points = pointsMatch ? parseInt(pointsMatch[1]) : 0
+                  const reason = reasonMatch ? reasonMatch[1] : '-'
 
                   return (
                     <TableRow key={log.id} className="hover:bg-slate-50 transition-colors border-slate-200">
@@ -79,7 +82,7 @@ export default function OperationLogsPage({
                       <TableCell className={points > 0 ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'}>
                         {points > 0 ? `+${points}` : points}
                       </TableCell>
-                      <TableCell className="text-slate-900 text-sm">{log.operationDetails}</TableCell>
+                      <TableCell className="text-slate-900 text-sm">{reason}</TableCell>
                       <TableCell className="text-slate-600 text-sm">{log.operator}</TableCell>
                       <TableCell className="text-slate-600 text-sm">{log.operatedAt}</TableCell>
                     </TableRow>
