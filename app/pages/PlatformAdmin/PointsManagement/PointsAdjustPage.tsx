@@ -11,8 +11,9 @@ import { Input } from '~/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
 import { Badge } from '~/components/ui/badge'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '~/components/ui/dialog'
-import { History, FileText } from 'lucide-react'
+import { History, FileText, Plus, Minus } from 'lucide-react'
 import MainLayout from '~/pages/PointsSystem/components/MainLayout'
+import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group'
 
 interface PointsAdjustPageProps {
   userAccount: UserPointsAccount | null
@@ -52,6 +53,7 @@ export default function PointsAdjustPage({
     }
   }, [searchedPhone, userAccount])
   const [adjustForm, setAdjustForm] = useState({
+    type: 'add' as 'add' | 'deduct',
     pointsAmount: '',
     remark: '',
   })
@@ -61,15 +63,18 @@ export default function PointsAdjustPage({
 
   const handleAdjustSubmit = () => {
     if (!adjustForm.pointsAmount || !adjustForm.remark) {
-      alert('请填写调整积分和备注')
+      alert('请填写调整积分和原因')
       return
     }
 
-    const formData = new FormData()
-    formData.append('action', 'adjust-points')
-    formData.append('userId', userAccount?.id || '')
-    formData.append('pointsAmount', adjustForm.pointsAmount)
-    formData.append('remark', adjustForm.remark)
+    // 转换为带符号的数字
+    const amount = parseInt(adjustForm.pointsAmount)
+    if (isNaN(amount) || amount <= 0) {
+      alert('请输入有效的正整数')
+      return
+    }
+
+    const signedAmount = adjustForm.type === 'add' ? amount : -amount
 
     // 提交表单
     const form = document.createElement('form')
@@ -79,7 +84,7 @@ export default function PointsAdjustPage({
     const fields = {
       action: 'adjust-points',
       userId: userAccount?.id || '',
-      pointsAmount: adjustForm.pointsAmount,
+      pointsAmount: String(signedAmount),
       remark: adjustForm.remark,
     }
 
@@ -167,50 +172,91 @@ export default function PointsAdjustPage({
                       手动调整积分
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[500px]">
+                  <DialogContent className="sm:max-w-[550px]">
                     <DialogHeader>
                       <DialogTitle>手动调整用户积分</DialogTitle>
                     </DialogHeader>
-                    <div className="space-y-4 py-4">
-                      <div className="space-y-2">
-                        <label className="block text-sm font-medium text-slate-900">用户</label>
-                        <div className="text-sm text-slate-600">{userAccount.userName} ({userAccount.phoneNumber})</div>
+                    <div className="space-y-5 py-4">
+                      {/* 用户信息卡片 */}
+                      <div className="grid grid-cols-3 gap-4 p-4 bg-slate-50 rounded-lg">
+                        <div>
+                          <div className="text-xs text-slate-600">手机号</div>
+                          <div className="text-sm font-semibold text-slate-900 mt-1">{userAccount.phoneNumber}</div>
+                        </div>
+                        <div>
+                          <div className="text-xs text-slate-600">VIP等级</div>
+                          <div className="text-sm font-semibold text-orange-600 mt-1">VIP{userAccount.vipLevel}</div>
+                        </div>
+                        <div>
+                          <div className="text-xs text-slate-600">当前积分</div>
+                          <div className="text-sm font-semibold text-green-600 mt-1">{userAccount.availablePoints}</div>
+                        </div>
                       </div>
+
+                      {/* 调整类型 */}
                       <div className="space-y-2">
-                        <label className="block text-sm font-medium text-slate-900">调整积分（支持正负数）</label>
+                        <label className="block text-sm font-medium text-slate-700">调整类型 *</label>
+                        <RadioGroup value={adjustForm.type} onValueChange={(value) => setAdjustForm({ ...adjustForm, type: value as 'add' | 'deduct' })}>
+                          <div className="flex items-center gap-6">
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="add" id="type-add" />
+                              <Label htmlFor="type-add" className="cursor-pointer text-sm flex items-center gap-1">
+                                <Plus className="w-4 h-4 text-green-600" />
+                                增加积分
+                              </Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="deduct" id="type-deduct" />
+                              <Label htmlFor="type-deduct" className="cursor-pointer text-sm flex items-center gap-1">
+                                <Minus className="w-4 h-4 text-red-600" />
+                                减少积分
+                              </Label>
+                            </div>
+                          </div>
+                        </RadioGroup>
+                      </div>
+
+                      {/* 调整积分 */}
+                      <div className="space-y-2">
+                        <label className="block text-sm font-medium text-slate-700">调整积分 *</label>
                         <Input
                           type="number"
                           value={adjustForm.pointsAmount}
                           onChange={(e) => setAdjustForm({ ...adjustForm, pointsAmount: e.target.value })}
-                          placeholder="输入积分数，正数增加，负数扣减"
-                          className="h-9"
+                          placeholder="请输入正整数"
+                          className="h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                          min="1"
                         />
                       </div>
+
+                      {/* 调整原因 */}
                       <div className="space-y-2">
-                        <label className="block text-sm font-medium text-slate-900">调整原因</label>
+                        <label className="block text-sm font-medium text-slate-700">调整原因 *</label>
                         <textarea
                           value={adjustForm.remark}
                           onChange={(e) => setAdjustForm({ ...adjustForm, remark: e.target.value })}
                           placeholder="请填写调整原因"
-                          className="w-full px-3 py-2 border border-slate-300 rounded-md text-sm min-h-24"
+                          className="w-full px-3 py-2 border border-slate-300 rounded-md text-sm min-h-24 resize-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                         />
                       </div>
-                      <div className="flex gap-3 pt-4">
-                        <Button
-                          onClick={handleAdjustSubmit}
-                          className="h-9 bg-blue-600 hover:bg-blue-700"
-                        >
-                          确认调整
-                        </Button>
+
+                      {/* 按钮 */}
+                      <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
                         <Button
                           variant="outline"
                           className="h-9 border-slate-300"
                           onClick={() => {
                             setIsAdjustDialogOpen(false)
-                            setAdjustForm({ pointsAmount: '', remark: '' })
+                            setAdjustForm({ type: 'add', pointsAmount: '', remark: '' })
                           }}
                         >
                           取消
+                        </Button>
+                        <Button
+                          onClick={handleAdjustSubmit}
+                          className="h-9 bg-blue-600 hover:bg-blue-700"
+                        >
+                          确认调整
                         </Button>
                       </div>
                     </div>
