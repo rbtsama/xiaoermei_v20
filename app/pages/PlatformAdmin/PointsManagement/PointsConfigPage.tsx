@@ -233,7 +233,7 @@ export default function PointsConfigPage({
               <input type="hidden" name="action" value="update-base-rule" />
 
               {/* 第一行：5个基础配置 */}
-              <div className="grid grid-cols-5 gap-4">
+              <div className="grid grid-cols-5 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-slate-600">注册奖励</label>
                   {isEditingBaseRule ? (
