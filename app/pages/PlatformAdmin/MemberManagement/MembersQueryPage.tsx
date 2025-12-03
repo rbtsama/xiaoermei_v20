@@ -236,8 +236,7 @@ export default function MembersQueryPage({
                   <input type="hidden" name="merchantName" value={merchantNameSearch} />
                   <Button
                     type="submit"
-                    variant="outline"
-                    className="h-9 border-slate-300 hover:border-slate-400 text-slate-700"
+                    className="h-9 bg-green-600 hover:bg-green-700 text-white"
                     disabled={isExporting}
                   >
                     <FileDown className="h-4 w-4 mr-2" />
@@ -302,9 +301,7 @@ export default function MembersQueryPage({
               {/* 统计和分页 */}
               {paginatedResult.totalPages > 1 && (
                 <div className="mt-6 flex items-center justify-between">
-                  <div className="text-sm text-slate-600">
-                    共 {paginatedResult.total} 条
-                  </div>
+                  <div className="text-sm text-slate-600">共 {paginatedResult.total} 条</div>
                   <Pagination>
                     <PaginationContent>
                       <PaginationItem>
