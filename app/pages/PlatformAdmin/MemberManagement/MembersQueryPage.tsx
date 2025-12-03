@@ -339,7 +339,6 @@ export default function MembersQueryPage({
               )}
             </CardContent>
           </Card>
-        </div>
       </div>
     </MainLayout>
   )
