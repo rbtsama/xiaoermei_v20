@@ -149,7 +149,7 @@ export default function MembersQueryPage({
             <CardContent className="pt-6">
               <Form method="get">
                 <div className="flex items-center gap-3">
-                  <div className="w-[200px]">
+                  <div className="w-[280px]">
                     <Input
                       id="merchantName"
                       name="merchantName"
@@ -227,9 +227,7 @@ export default function MembersQueryPage({
           <Card className="rounded-xl border-slate-200 bg-white shadow-sm">
             <CardHeader className="border-b border-slate-100">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg font-semibold text-slate-900">
-                  会员列表 (共{paginatedResult.total}位)
-                </CardTitle>
+                <CardTitle className="text-lg font-semibold text-slate-900">会员列表</CardTitle>
                 {/* 导出按钮 */}
                 <Form method="post" action="">
                   <input type="hidden" name="action" value="export" />
@@ -301,9 +299,12 @@ export default function MembersQueryPage({
                 <div className="text-center py-12 text-slate-500">暂无会员数据</div>
               )}
 
-              {/* 分页 */}
+              {/* 统计和分页 */}
               {paginatedResult.totalPages > 1 && (
-                <div className="mt-6 flex items-center justify-center">
+                <div className="mt-6 flex items-center justify-between">
+                  <div className="text-sm text-slate-600">
+                    共 {paginatedResult.total} 条
+                  </div>
                   <Pagination>
                     <PaginationContent>
                       <PaginationItem>
