@@ -261,11 +261,4 @@ export const mockOperationLogs: OperationLog[] = [
     operator: '李四',
     operatedAt: '2025/01/08 15:10:45',
   },
-  {
-    id: 'op_log_007',
-    operationType: '编辑基础规则',
-    operationDetails: '修改VIP等级入住返还倍数，调整VIP1-9各等级倍数',
-    operator: '兔子',
-    operatedAt: '2025/01/05 08:00:00',
-  },
 ]
