@@ -164,10 +164,10 @@ export default function CouponIssuePage({
             </div>
           </CardHeader>
           <CardContent className="pt-6">
-            <form onSubmit={handleManualSubmit} className="space-y-6">
-              {/* 发放策略选择 */}
-              <div className="flex items-center gap-6 p-4 bg-slate-50 rounded-lg">
-                <Label className="text-sm font-medium text-slate-700">发放方式:</Label>
+            <form onSubmit={handleManualSubmit} className="space-y-5">
+              {/* 1. 发放方式 */}
+              <div className="space-y-2">
+                <Label className="text-sm font-medium text-slate-700">发放方式 *</Label>
                 <RadioGroup value={distributionType} onValueChange={(value) => setDistributionType(value as DistributionType)} className="flex items-center gap-6">
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="phone" id="method-phone" />
@@ -180,80 +180,74 @@ export default function CouponIssuePage({
                 </RadioGroup>
               </div>
 
-              {/* 发放配置 */}
-              <div className="grid grid-cols-[300px_1fr] gap-6">
-                {/* 左侧：目标用户 */}
-                <div className="space-y-3">
-                  <Label className="text-sm font-medium text-slate-700">
-                    {distributionType === 'phone' ? '手机号列表 *' : 'VIP等级 *'}
-                  </Label>
-
-                  {distributionType === 'phone' ? (
-                    <Textarea
-                      value={phoneText}
-                      onChange={(e) => setPhoneText(e.target.value)}
-                      placeholder="一行一个手机号&#10;13800138000&#10;13900139000"
-                      rows={12}
-                      className="border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 font-mono text-sm resize-none"
-                    />
-                  ) : (
-                    <div className="grid grid-cols-2 gap-2">
-                      {vipLevels.map((level) => (
-                        <div
-                          key={level.id}
-                          className="flex items-center space-x-2 p-2.5 bg-white rounded border border-slate-200 hover:border-blue-400 hover:bg-blue-50 transition-all cursor-pointer"
-                        >
-                          <Checkbox
-                            id={`vip-${level.id}`}
-                            checked={selectedVipLevels.includes(level.id)}
-                            onCheckedChange={() => handleVipLevelToggle(level.id)}
-                          />
-                          <Label htmlFor={`vip-${level.id}`} className="text-sm cursor-pointer font-medium">
-                            {level.name}
-                          </Label>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* 右侧：优惠券和发送设置 */}
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="couponId" className="text-sm font-medium text-slate-700">派发优惠券 *</Label>
-                    <Select value={couponId} onValueChange={setCouponId}>
-                      <SelectTrigger className="h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
-                        <SelectValue placeholder="选择优惠券" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {enabledCoupons.map((coupon) => (
-                          <SelectItem key={coupon.id} value={coupon.id}>
-                            {coupon.id}（{coupon.remark || coupon.name}）
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+              {/* 2. 目标用户输入 */}
+              <div className="space-y-2">
+                {distributionType === 'phone' ? (
+                  <Textarea
+                    value={phoneText}
+                    onChange={(e) => setPhoneText(e.target.value)}
+                    placeholder="请输入要派发优惠券的手机号，一行一个手机号&#10;例如：&#10;13800138000&#10;13900139000&#10;13700137000"
+                    rows={10}
+                    className="border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 font-mono text-sm resize-none"
+                  />
+                ) : (
+                  <div className="grid grid-cols-5 gap-2">
+                    {vipLevels.map((level) => (
+                      <div
+                        key={level.id}
+                        className="flex items-center space-x-2 p-2.5 bg-white rounded border border-slate-200 hover:border-blue-400 hover:bg-blue-50 transition-all cursor-pointer"
+                      >
+                        <Checkbox
+                          id={`vip-${level.id}`}
+                          checked={selectedVipLevels.includes(level.id)}
+                          onCheckedChange={() => handleVipLevelToggle(level.id)}
+                        />
+                        <Label htmlFor={`vip-${level.id}`} className="text-sm cursor-pointer font-medium">
+                          {level.name}
+                        </Label>
+                      </div>
+                    ))}
                   </div>
+                )}
+              </div>
 
-                  <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg">
-                    <Label className="text-sm font-medium text-slate-700">短信通知</Label>
-                    <div className="flex items-center gap-2">
-                      <Switch checked={smsNotify} onCheckedChange={setSmsNotify} />
-                      <span className="text-sm text-slate-600">{smsNotify ? '是' : '否'}</span>
-                    </div>
-                  </div>
+              {/* 3. 选择优惠券 */}
+              <div className="space-y-2">
+                <Label htmlFor="couponId" className="text-sm font-medium text-slate-700">选择优惠券 *</Label>
+                <Select value={couponId} onValueChange={setCouponId}>
+                  <SelectTrigger className="h-9 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
+                    <SelectValue placeholder="请选择要派发的优惠券" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {enabledCoupons.map((coupon) => (
+                      <SelectItem key={coupon.id} value={coupon.id}>
+                        {coupon.id}（{coupon.remark || coupon.name}）
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-                  <div className="flex justify-end pt-2">
-                    <Button
-                      type="submit"
-                      className="h-9 px-6 bg-blue-600 hover:bg-blue-700"
-                      disabled={!isManualFormValid()}
-                    >
-                      <Send className="w-4 h-4 mr-2" />
-                      开始派发
-                    </Button>
-                  </div>
-                </div>
+              {/* 4. 短信通知 */}
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="smsNotify"
+                  checked={smsNotify}
+                  onCheckedChange={setSmsNotify}
+                />
+                <Label htmlFor="smsNotify" className="text-sm cursor-pointer">短信通知</Label>
+              </div>
+
+              {/* 5. 提交按钮 */}
+              <div className="flex justify-end pt-4 border-t border-slate-200">
+                <Button
+                  type="submit"
+                  className="h-9 px-6 bg-blue-600 hover:bg-blue-700"
+                  disabled={!isManualFormValid()}
+                >
+                  <Send className="w-4 h-4 mr-2" />
+                  开始派发
+                </Button>
               </div>
             </form>
           </CardContent>
