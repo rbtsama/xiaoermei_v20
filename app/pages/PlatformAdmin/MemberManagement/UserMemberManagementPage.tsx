@@ -147,7 +147,6 @@ export default function UserMemberManagementPage({
             </Table>
           </CardContent>
         </Card>
-        </div>
       </div>
     </MainLayout>
   )
