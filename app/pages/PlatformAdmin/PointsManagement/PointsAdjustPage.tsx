@@ -160,7 +160,7 @@ export default function PointsAdjustPage({
                 <Dialog open={isAdjustDialogOpen} onOpenChange={setIsAdjustDialogOpen}>
                   <DialogTrigger asChild>
                     <Button className="h-9 bg-blue-600 hover:bg-blue-700">
-                      手动调整
+                      手动调整积分
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[500px]">
