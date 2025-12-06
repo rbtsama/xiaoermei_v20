@@ -28,7 +28,7 @@
           <div class="bg-brand-primary text-white py-3 -m-6 mb-6 px-6 rounded-t-lg">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <shop-outlined class="text-xl" />
+                <span class="text-xl">🏪</span>
                 <div class="text-lg">{{ platformArchitecture.name }}</div>
               </div>
               <a-tag class="bg-brand-primary/80 text-white border-0">{{ stats.platform.functions }}个功能</a-tag>
@@ -59,7 +59,7 @@
           <div class="bg-brand-success text-white py-3 -m-6 mb-6 px-6 rounded-t-lg">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <shop-outlined class="text-xl" />
+                <span class="text-xl">🏪</span>
                 <div class="text-lg">{{ hotelArchitecture.name }}</div>
               </div>
               <a-tag class="bg-brand-success/80 text-white border-0">{{ stats.hotel.functions }}个功能</a-tag>
@@ -98,11 +98,11 @@
             <h4 class="font-bold text-sm text-brand-primary">订单管理流程</h4>
             <div class="flex items-center gap-2 text-xs">
               <a-tag class="bg-brand-success text-white border-0">商户端</a-tag>
-              <arrow-right-outlined class="text-base" />
+              <span class="text-base">→</span>
               <span class="text-text-secondary">接收订单</span>
-              <arrow-right-outlined class="text-base" />
+              <span class="text-base">→</span>
               <a-tag class="bg-brand-secondary text-white border-0">处理订单</a-tag>
-              <arrow-right-outlined class="text-base" />
+              <span class="text-base">→</span>
               <a-tag class="bg-brand-primary text-white border-0">平台监控</a-tag>
             </div>
           </div>
@@ -110,11 +110,11 @@
             <h4 class="font-bold text-sm text-brand-success">房务管理流程</h4>
             <div class="flex items-center gap-2 text-xs">
               <a-tag class="bg-brand-success text-white border-0">商户端</a-tag>
-              <arrow-right-outlined class="text-base" />
+              <span class="text-base">→</span>
               <span class="text-text-secondary">更新价格库存</span>
-              <arrow-right-outlined class="text-base" />
+              <span class="text-base">→</span>
               <a-tag class="bg-brand-secondary text-white border-0">实时同步</a-tag>
-              <arrow-right-outlined class="text-base" />
+              <span class="text-base">→</span>
               <a-tag class="bg-brand-primary text-white border-0">平台可见</a-tag>
             </div>
           </div>
