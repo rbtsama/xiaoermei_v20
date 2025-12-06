@@ -43,32 +43,14 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { computed } from 'vue'
+<script>
+import { defineComponent } from '@vue/composition-api'
 
-interface Props {
-  name: string
-  season?: string
-  color: string
-  hex: string
-  contrast: string
-  usage: string
-  textColor?: string
-  compact?: boolean
-  isBrand?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  textColor: 'text-white',
-  compact: false,
-  isBrand: false,
-})
-
-const wcag = computed(() => {
-  if (props.contrast === '-') return null
-  const value = parseFloat(props.contrast)
-  if (value >= 7.0) return { grade: 'AAA', color: 'text-[#5A8A65]' }
-  if (value >= 4.5) return { grade: 'AA+', color: 'text-[#4A8FBF]' }
-  return null
+export default defineComponent({
+  name: 'ColorCard',
+  props: {},
+  setup() {
+    return {}
+  },
 })
 </script>

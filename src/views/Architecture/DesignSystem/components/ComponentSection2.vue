@@ -14,10 +14,14 @@
   </div>
 </template>
 
-<script setup lang="ts">
-interface Props {
-  title: string
-}
+<script>
+import { defineComponent } from '@vue/composition-api'
 
-defineProps<Props>()
+export default defineComponent({
+  name: 'ComponentSection2',
+  props: {},
+  setup() {
+    return {}
+  },
+})
 </script>

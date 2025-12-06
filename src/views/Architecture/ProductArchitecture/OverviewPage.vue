@@ -22,16 +22,18 @@
         <SystemArchitecture />
 
         <!-- 订单主线流程 - 高保真版 -->
-        <Card class="border-2 border-[#C67A28] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-          <CardHeader class="bg-gradient-to-r from-[#C67A28] to-[#E89A3E] text-white py-5 rounded-t-xl">
-            <CardTitle class="text-2xl flex items-center gap-3">
-              <div class="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-                <ShoppingCart class="w-7 h-7" />
+        <a-card class="border-2 border-[#C67A28] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+          <template #title>
+            <div class="bg-gradient-to-r from-[#C67A28] to-[#E89A3E] text-white py-5 rounded-t-xl -m-6 mb-6 px-6">
+              <div class="text-2xl flex items-center gap-3">
+                <div class="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                  <shopping-cart-outlined class="text-2xl" />
+                </div>
+                订单主线流程
               </div>
-              订单主线流程
-            </CardTitle>
-          </CardHeader>
-          <CardContent class="p-6 bg-white">
+            </div>
+          </template>
+          <div class="p-6 bg-white">
             <!-- 三阶段流程 - 高保真卡片 -->
             <div class="grid grid-cols-3 gap-6 mb-6">
               <!-- 订单前 - 使用辅助色 #4A8FBF -->
@@ -104,47 +106,61 @@
             <!-- 核心链路 - 高保真流程 -->
             <div class="bg-gradient-to-r from-[#2C5F8D]/10 via-[#4A8FBF]/10 to-[#5A8A65]/10 p-6 rounded-xl border-2 border-[#E5E5E5] shadow-inner">
               <div class="flex items-center gap-3 flex-wrap justify-center">
-                <Badge class="bg-[#4A8FBF] hover:bg-[#4A8FBF]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300">
+                <a-tag class="bg-[#4A8FBF] hover:bg-[#4A8FBF]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300 border-0">
                   C端浏览
-                </Badge>
-                <ArrowRight class="w-5 h-5 text-[#6B6B6B]" />
-                <Badge class="bg-[#C67A28] hover:bg-[#C67A28]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300">
+                </a-tag>
+                <arrow-right-outlined class="text-xl text-[#6B6B6B]" />
+                <a-tag class="bg-[#C67A28] hover:bg-[#C67A28]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300 border-0">
                   选房下单
-                </Badge>
-                <ArrowRight class="w-5 h-5 text-[#6B6B6B]" />
-                <Badge class="bg-[#2C5F8D] hover:bg-[#2C5F8D]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300">
+                </a-tag>
+                <arrow-right-outlined class="text-xl text-[#6B6B6B]" />
+                <a-tag class="bg-[#2C5F8D] hover:bg-[#2C5F8D]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300 border-0">
                   支付锁库存
-                </Badge>
-                <ArrowRight class="w-5 h-5 text-[#6B6B6B]" />
-                <Badge class="bg-[#4A8FBF] hover:bg-[#4A8FBF]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300">
+                </a-tag>
+                <arrow-right-outlined class="text-xl text-[#6B6B6B]" />
+                <a-tag class="bg-[#4A8FBF] hover:bg-[#4A8FBF]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300 border-0">
                   酒店确认
-                </Badge>
-                <ArrowRight class="w-5 h-5 text-[#6B6B6B]" />
-                <Badge class="bg-[#5A8A65] hover:bg-[#5A8A65]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300">
+                </a-tag>
+                <arrow-right-outlined class="text-xl text-[#6B6B6B]" />
+                <a-tag class="bg-[#5A8A65] hover:bg-[#5A8A65]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300 border-0">
                   入住服务
-                </Badge>
-                <ArrowRight class="w-5 h-5 text-[#6B6B6B]" />
-                <Badge class="bg-[#2C5F8D] hover:bg-[#2C5F8D]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300">
+                </a-tag>
+                <arrow-right-outlined class="text-xl text-[#6B6B6B]" />
+                <a-tag class="bg-[#2C5F8D] hover:bg-[#2C5F8D]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300 border-0">
                   评价积分
-                </Badge>
-                <ArrowRight class="w-5 h-5 text-[#6B6B6B]" />
-                <Badge class="bg-[#C67A28] hover:bg-[#C67A28]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300">
+                </a-tag>
+                <arrow-right-outlined class="text-xl text-[#6B6B6B]" />
+                <a-tag class="bg-[#C67A28] hover:bg-[#C67A28]/90 text-white px-4 py-2 rounded-xl shadow-md hover:scale-105 transition-all duration-300 border-0">
                   会员复购
-                </Badge>
+                </a-tag>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </a-card>
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import Sidebar from '@/components/Sidebar.vue'
-import { menuConfig } from '@/config/menuConfig'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { ShoppingCart, ArrowRight } from 'lucide-vue-next'
+<script>
+import { defineComponent } from '@vue/composition-api'
+import Sidebar from '@/components/Layout/Sidebar.vue'
+import { menuConfig } from '@/components/Layout/menuConfig'
+import { ShoppingCartOutlined, ArrowRightOutlined } from '@ant-design/icons-vue'
 import SystemArchitecture from './components/SystemArchitecture.vue'
+
+export default defineComponent({
+  name: 'OverviewPage',
+  components: {
+    Sidebar,
+    ShoppingCartOutlined,
+    ArrowRightOutlined,
+    SystemArchitecture,
+  },
+  setup() {
+    return {
+      menuConfig,
+    }
+  },
+})
 </script>

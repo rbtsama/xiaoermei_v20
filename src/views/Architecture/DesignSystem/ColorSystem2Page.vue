@@ -11,7 +11,7 @@
         <!-- 页面标题 -->
         <header class="text-center space-y-3 pt-4">
           <h1 class="text-4xl font-bold text-gray-900 flex items-center justify-center gap-3">
-            <Palette class="w-10 h-10 text-[#458559]" :stroke-width="1.5" />
+            <!-- Icon removed -->
             小而美 Home Stay 配色系统
           </h1>
           <p class="text-sm text-gray-500">Design System · 自然大地配色</p>
@@ -78,7 +78,7 @@
             <!-- 1. 按钮模块 -->
             <ComponentSection2 title="按钮">
               <template #icon>
-                <ShoppingCart class="w-5 h-5" :stroke-width="1.5" />
+                <!-- Icon removed -->
               </template>
               <div class="space-y-4">
                 <!-- 主按钮 -->
@@ -88,7 +88,7 @@
                     <button class="px-4 py-1.5 bg-[#458559] text-white rounded font-medium text-sm">立即预订</button>
                     <button class="px-4 py-1.5 bg-[#458559] text-white rounded font-medium text-sm">确认支付</button>
                     <button class="px-4 py-1.5 bg-[#458559] text-white rounded font-medium text-sm flex items-center gap-1">
-                      <CreditCard class="w-3.5 h-3.5" :stroke-width="1.5" />
+                      <!-- Icon removed -->
                       去支付
                     </button>
                   </div>
@@ -101,7 +101,7 @@
                     <button class="px-4 py-1.5 bg-[#4A85B8] text-white rounded font-medium text-sm">查看详情</button>
                     <button class="px-4 py-1.5 bg-[#A67B5B] text-white rounded font-medium text-sm">联系房东</button>
                     <button class="px-4 py-1.5 bg-[#3D7350] text-white rounded font-medium text-sm flex items-center gap-1">
-                      <CheckCircle class="w-3.5 h-3.5" :stroke-width="1.5" />
+                      <!-- Icon removed -->
                       确认入住
                     </button>
                   </div>
@@ -115,7 +115,7 @@
                     <button class="px-4 py-1.5 border border-[#4A85B8] text-[#4A85B8] rounded font-medium text-sm">查看全部</button>
                     <button class="px-4 py-1.5 border border-gray-300 text-gray-700 rounded font-medium text-sm">稍后再说</button>
                     <button class="px-4 py-1.5 border border-[#B94D3D] text-[#B94D3D] rounded font-medium text-sm flex items-center gap-1">
-                      <XCircle class="w-3.5 h-3.5" :stroke-width="1.5" />
+                      <!-- Icon removed -->
                       申请退款
                     </button>
                   </div>
@@ -151,10 +151,10 @@
                     <button class="px-3 py-1 bg-[#458559] text-white rounded text-sm font-medium">立即预订</button>
                     <button class="px-3 py-1 bg-gradient-to-r from-[#A67B5B] to-[#B8865F] text-white rounded text-sm font-medium">限时抢购</button>
                     <button class="w-8 h-8 bg-white border border-gray-200 rounded-full flex items-center justify-center">
-                      <Heart class="w-4 h-4 text-gray-600" :stroke-width="1.5" />
+                      <!-- Icon removed -->
                     </button>
                     <button class="w-8 h-8 bg-white border border-gray-200 rounded-full flex items-center justify-center">
-                      <Share2 class="w-4 h-4 text-gray-600" :stroke-width="1.5" />
+                      <!-- Icon removed -->
                     </button>
                   </div>
                 </div>
@@ -164,7 +164,7 @@
             <!-- 2. 标签模块 -->
             <ComponentSection2 title="标签">
               <template #icon>
-                <Tag class="w-5 h-5" :stroke-width="1.5" />
+                <!-- Icon removed -->
               </template>
               <div class="space-y-4">
                 <!-- 促销标签 -->
@@ -176,7 +176,7 @@
                     <span class="px-1.5 py-0.5 bg-[#A67B5B] text-white rounded-sm text-xs font-bold leading-tight">新客立减</span>
                     <span class="px-1.5 py-0.5 bg-gradient-to-r from-[#A67B5B] to-[#B8865F] text-white rounded-sm text-xs font-bold leading-tight">双11特惠</span>
                     <span class="px-1.5 py-0.5 bg-[#B94D3D] text-white rounded-sm text-xs font-bold leading-tight inline-flex items-center gap-0.5">
-                      <Sparkles class="w-2.5 h-2.5" :stroke-width="1.5" />
+                      <!-- Icon removed -->
                       限量抢购
                     </span>
                   </div>
@@ -222,23 +222,23 @@
                   <h4 class="text-sm font-semibold text-gray-700 mb-2">特性标签 (迷你空心，高22px，圆角2px)</h4>
                   <div class="flex flex-wrap gap-1.5">
                     <span class="px-1.5 py-0 border border-[#4A85B8] text-[#4A85B8] rounded-sm text-xs inline-flex items-center gap-0.5 leading-[20px]">
-                      <Wifi class="w-3 h-3" :stroke-width="1.5" />
+                      <!-- Icon removed -->
                       免费WiFi
                     </span>
                     <span class="px-1.5 py-0 border border-[#A67B5B] text-[#A67B5B] rounded-sm text-xs inline-flex items-center gap-0.5 leading-[20px]">
-                      <Coffee class="w-3 h-3" :stroke-width="1.5" />
+                      <!-- Icon removed -->
                       含早餐
                     </span>
                     <span class="px-1.5 py-0 border border-gray-400 text-gray-600 rounded-sm text-xs inline-flex items-center gap-0.5 leading-[20px]">
-                      <BedDouble class="w-3 h-3" :stroke-width="1.5" />
+                      <!-- Icon removed -->
                       双床
                     </span>
                     <span class="px-1.5 py-0 border border-gray-400 text-gray-600 rounded-sm text-xs inline-flex items-center gap-0.5 leading-[20px]">
-                      <ParkingCircle class="w-3 h-3" :stroke-width="1.5" />
+                      <!-- Icon removed -->
                       免费停车
                     </span>
                     <span class="px-1.5 py-0 border border-[#3D7350] text-[#3D7350] rounded-sm text-xs inline-flex items-center gap-0.5 leading-[20px]">
-                      <Trees class="w-3 h-3" :stroke-width="1.5" />
+                      <!-- Icon removed -->
                       景观房
                     </span>
                   </div>
@@ -249,7 +249,7 @@
             <!-- 3. 输入表单模块 -->
             <ComponentSection2 title="输入表单">
               <template #icon>
-                <Search class="w-5 h-5" :stroke-width="1.5" />
+                <!-- Icon removed -->
               </template>
               <div class="space-y-4">
                 <!-- 方形输入框 -->
@@ -280,7 +280,7 @@
                   <h4 class="text-sm font-semibold text-gray-700 mb-2">搜索框 (全圆角)</h4>
                   <div class="max-w-md">
                     <div class="relative">
-                      <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" :stroke-width="1.5" />
+                      <!-- Icon removed -->
                       <input
                         type="search"
                         placeholder="搜索城市、民宿名称"
@@ -302,7 +302,7 @@
                       readonly
                     />
                     <p class="text-xs text-[#B94D3D] flex items-center gap-0.5">
-                      <AlertCircle class="w-3 h-3" :stroke-width="1.5" />
+                      <!-- Icon removed -->
                       请输入正确的手机号码
                     </p>
                   </div>
@@ -319,13 +319,22 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import Sidebar from '@/components/Sidebar.vue'
-import { menuConfig } from '@/config/menuConfig'
+<script>
+import { defineComponent } from '@vue/composition-api'
+import Sidebar from '@/components/Layout/Sidebar.vue'
+import { menuConfig } from '@/components/Layout/menuConfig'
 import ColorCard from './components/ColorCard.vue'
 import ComponentSection2 from './components/ComponentSection2.vue'
-import {
-  Palette, ShoppingCart, Tag, Search, CreditCard, CheckCircle, XCircle, Sparkles,
-  Wifi, Coffee, BedDouble, ParkingCircle, AlertCircle, Heart, Share2, Trees
-} from 'lucide-vue-next'
+
+export default defineComponent({
+  name: 'ColorSystem2Page',
+  components: {
+    Sidebar,
+  },
+  setup() {
+    return {
+      menuConfig,
+    }
+  },
+})
 </script>
