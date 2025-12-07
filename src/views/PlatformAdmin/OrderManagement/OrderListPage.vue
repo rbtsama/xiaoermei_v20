@@ -10,7 +10,7 @@
 
       <!-- 筛选表单 - 按PRD优化 -->
       <a-card class="rounded-xl border-slate-200 bg-white shadow-sm">
-        <!-- 第一行：5个主要筛选 -->
+        <!-- 第一行：订单状态、下单时间、入住时间 -->
         <div class="grid grid-cols-12 gap-4">
           <!-- 订单状态 -->
           <div class="space-y-2 col-span-2">
@@ -30,7 +30,7 @@
           </div>
 
           <!-- 下单时间 -->
-          <div class="space-y-2 col-span-4">
+          <div class="space-y-2 col-span-5">
             <label class="text-sm text-slate-600">下单时间</label>
             <a-range-picker
               v-model="filters.orderCreatedRange"
@@ -41,7 +41,7 @@
           </div>
 
           <!-- 入住时间 -->
-          <div class="space-y-2 col-span-4">
+          <div class="space-y-2 col-span-5">
             <label class="text-sm text-slate-600">入住时间</label>
             <a-range-picker
               v-model="filters.checkInRange"
@@ -50,9 +50,12 @@
               style="height: 36px"
             />
           </div>
+        </div>
 
+        <!-- 第二行：酒店名称、订单号、手机号、按钮 -->
+        <div class="grid grid-cols-12 gap-4 mt-4">
           <!-- 酒店名称 -->
-          <div class="space-y-2 col-span-2">
+          <div class="space-y-2 col-span-3">
             <label class="text-sm text-slate-600">酒店名称</label>
             <a-input
               v-model="filters.hotelName"
@@ -60,27 +63,39 @@
               class="h-9"
             />
           </div>
-        </div>
 
-        <!-- 第二行：搜索关键词 + 按钮 -->
-        <div class="grid grid-cols-12 gap-4 mt-4">
+          <!-- 订单号 -->
           <div class="space-y-2 col-span-3">
-            <label class="text-sm text-slate-600">订单号/手机号</label>
+            <label class="text-sm text-slate-600">订单号</label>
             <a-input
-              v-model="filters.searchKeyword"
-              placeholder="订单号或手机号"
+              v-model="filters.orderNumber"
+              placeholder="输入订单号"
               class="h-9"
             />
           </div>
 
-          <div class="col-span-9 flex items-end gap-2">
-            <a-button type="primary" class="h-9 bg-blue-600" @click="handleSearch">
-              <a-icon type="search" />
-              搜索
-            </a-button>
-            <a-button class="h-9 border-slate-300" @click="handleReset">
-              重置
-            </a-button>
+          <!-- 手机号 -->
+          <div class="space-y-2 col-span-3">
+            <label class="text-sm text-slate-600">手机号</label>
+            <a-input
+              v-model="filters.guestPhone"
+              placeholder="输入手机号"
+              class="h-9"
+            />
+          </div>
+
+          <!-- 按钮区域 -->
+          <div class="space-y-2 col-span-3">
+            <label class="text-sm text-slate-600" style="visibility: hidden;">占位</label>
+            <div class="flex gap-2">
+              <a-button type="primary" class="h-9 bg-blue-600" @click="handleSearch">
+                <a-icon type="search" />
+                搜索
+              </a-button>
+              <a-button class="h-9 border-slate-300" @click="handleReset">
+                重置
+              </a-button>
+            </div>
           </div>
         </div>
       </a-card>
@@ -188,13 +203,14 @@ export default defineComponent({
     const currentPage = ref(1)
     const pageSize = ref(10)
 
-    // 筛选条件（按PRD优化）
+    // 筛选条件（按PRD优化 - 3个独立搜索）
     const filters = reactive({
       orderStatus: 'all',
       orderCreatedRange: undefined as [Dayjs, Dayjs] | undefined,
       checkInRange: undefined as [Dayjs, Dayjs] | undefined,
       hotelName: '',
-      searchKeyword: ''
+      orderNumber: '',
+      guestPhone: ''
     })
 
     // 详情弹窗
@@ -235,7 +251,8 @@ export default defineComponent({
           checkInStart: filters.checkInRange?.[0] ? dayjs(filters.checkInRange[0]).format('YYYY-MM-DD') : undefined,
           checkInEnd: filters.checkInRange?.[1] ? dayjs(filters.checkInRange[1]).format('YYYY-MM-DD') : undefined,
           hotelName: filters.hotelName || undefined,
-          searchKeyword: filters.searchKeyword || undefined,
+          // 订单号和手机号合并为searchKeyword传给service
+          searchKeyword: filters.orderNumber || filters.guestPhone || undefined,
           page: currentPage.value,
           pageSize: pageSize.value
         }
@@ -261,7 +278,8 @@ export default defineComponent({
       filters.orderCreatedRange = undefined
       filters.checkInRange = undefined
       filters.hotelName = ''
-      filters.searchKeyword = ''
+      filters.orderNumber = ''
+      filters.guestPhone = ''
       currentPage.value = 1
       fetchOrders()
     }
