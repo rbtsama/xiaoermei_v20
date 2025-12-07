@@ -148,17 +148,14 @@
               </a-tag>
             </template>
 
-            <!-- 退款记录（状态标签+红色金额） -->
+            <!-- 退款记录（状态标签+金额） -->
             <template slot="refundRecord" slot-scope="text, record">
               <div v-if="record.refundRecords && record.refundRecords.length > 0">
                 <div class="flex flex-col gap-1">
                   <a-tag :class="getRefundStatusClass(getLatestRefundStatus(record.refundRecords))">
                     {{ getLatestRefundStatus(record.refundRecords) }}
                   </a-tag>
-                  <span
-                    v-if="shouldShowRefundAmount(record.refundRecords)"
-                    class="refund-amount-list"
-                  >
+                  <span :class="getRefundAmountClass(getLatestRefundStatus(record.refundRecords))">
                     ¥{{ getLatestRefundAmount(record.refundRecords) }}
                   </span>
                 </div>
@@ -346,11 +343,12 @@ export default defineComponent({
       return latestRecord.amount || 0
     }
 
-    // 判断是否显示退款金额（平台支持退款和门店退款才显示）
-    const shouldShowRefundAmount = (refundRecords: any[]) => {
-      if (!refundRecords || refundRecords.length === 0) return false
-      const latestStatus = refundRecords[refundRecords.length - 1].status
-      return latestStatus === '平台支持退款' || latestStatus === '门店退款'
+    // 获取退款金额显示样式（平台支持/门店退款红色，其他灰色）
+    const getRefundAmountClass = (status: string) => {
+      if (status === '平台支持退款' || status === '门店退款') {
+        return 'refund-amount-red'
+      }
+      return 'refund-amount-gray'
     }
 
     // ========== 生命周期 ==========
@@ -383,7 +381,7 @@ export default defineComponent({
       getRefundStatusClass,
       getLatestRefundStatus,
       getLatestRefundAmount,
-      shouldShowRefundAmount
+      getRefundAmountClass
     }
   }
 })
@@ -614,11 +612,17 @@ export default defineComponent({
   color: #94a3b8;
 }
 
-// 列表页退款金额（红色显示）
-.refund-amount-list {
+// 列表页退款金额样式
+.refund-amount-red {
   font-size: 13px;
   color: #dc2626;
   font-weight: 600;
+}
+
+.refund-amount-gray {
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 500;
 }
 
 .flex-col {
