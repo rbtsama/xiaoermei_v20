@@ -144,12 +144,20 @@
               </a-tag>
             </template>
 
-            <!-- 退款记录（客人撤诉灰/退款申请橙/支持退款绿/拒绝退款红） -->
+            <!-- 退款记录（状态标签+红色金额） -->
             <template slot="refundRecord" slot-scope="text, record">
               <div v-if="record.refundRecords && record.refundRecords.length > 0">
-                <a-tag :class="getRefundStatusClass(record.refundRecords[0].status)">
-                  {{ record.refundRecords[0].status }}
-                </a-tag>
+                <div class="flex flex-col gap-1">
+                  <a-tag :class="getRefundStatusClass(getLatestRefundStatus(record.refundRecords))">
+                    {{ getLatestRefundStatus(record.refundRecords) }}
+                  </a-tag>
+                  <span
+                    v-if="shouldShowRefundAmount(record.refundRecords)"
+                    class="refund-amount-list"
+                  >
+                    ¥{{ getLatestRefundAmount(record.refundRecords) }}
+                  </span>
+                </div>
               </div>
               <span v-else class="text-slate-400 text-sm">-</span>
             </template>
@@ -311,13 +319,34 @@ export default defineComponent({
     // 退款记录状态颜色
     const getRefundStatusClass = (status: string) => {
       const statusMap: Record<string, string> = {
-        '客人撤诉': 'bg-slate-100 text-slate-600 border-slate-300',        // 灰色
-        '退款申请': 'bg-orange-100 text-orange-700 border-orange-300',     // 橙色
-        '平台支持退款': 'bg-green-100 text-green-700 border-green-300',   // 绿色
-        '门店退款': 'bg-green-100 text-green-700 border-green-300',       // 绿色
-        '平台拒绝退款': 'bg-red-100 text-red-700 border-red-300'          // 红色
+        '客人发起申诉': 'bg-orange-100 text-orange-700 border-orange-300',  // 橙色
+        '客人撤诉': 'bg-slate-100 text-slate-600 border-slate-300',          // 灰色
+        '退款申请': 'bg-orange-100 text-orange-700 border-orange-300',       // 橙色
+        '平台支持退款': 'bg-green-100 text-green-700 border-green-300',     // 绿色
+        '门店退款': 'bg-green-100 text-green-700 border-green-300',         // 绿色
+        '平台拒绝退款': 'bg-red-100 text-red-700 border-red-300'            // 红色
       }
       return statusMap[status] || 'bg-gray-100 text-gray-700 border-gray-300'
+    }
+
+    // 获取最新退款状态（取最后一条）
+    const getLatestRefundStatus = (refundRecords: any[]) => {
+      if (!refundRecords || refundRecords.length === 0) return ''
+      return refundRecords[refundRecords.length - 1].status
+    }
+
+    // 获取最新退款金额
+    const getLatestRefundAmount = (refundRecords: any[]) => {
+      if (!refundRecords || refundRecords.length === 0) return 0
+      const latestRecord = refundRecords[refundRecords.length - 1]
+      return latestRecord.amount || 0
+    }
+
+    // 判断是否显示退款金额（平台支持退款和门店退款才显示）
+    const shouldShowRefundAmount = (refundRecords: any[]) => {
+      if (!refundRecords || refundRecords.length === 0) return false
+      const latestStatus = refundRecords[refundRecords.length - 1].status
+      return latestStatus === '平台支持退款' || latestStatus === '门店退款'
     }
 
     // ========== 生命周期 ==========
@@ -347,7 +376,10 @@ export default defineComponent({
       handleTableChange,
       handleViewDetail,
       getStatusTagClass,
-      getRefundStatusClass
+      getRefundStatusClass,
+      getLatestRefundStatus,
+      getLatestRefundAmount,
+      shouldShowRefundAmount
     }
   }
 })
@@ -576,6 +608,21 @@ export default defineComponent({
 
 .text-slate-400 {
   color: #94a3b8;
+}
+
+// 列表页退款金额（红色显示）
+.refund-amount-list {
+  font-size: 13px;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.gap-1 {
+  gap: 4px;
 }
 
 .mt-4 {
