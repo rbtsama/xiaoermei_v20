@@ -37,12 +37,6 @@ const routes = [
     component: () => import('@/views/PlatformAdmin/OrderManagement/OrderListPage.vue'),
     meta: { title: '订单列表' }
   },
-  {
-    path: '/dispute/refund-requests',
-    name: 'RefundRequests',
-    component: () => import('@/views/PlatformAdmin/OrderManagement/RefundRequestsPage.vue'),
-    meta: { title: '退款管理' }
-  },
 
   // 平台后台 - 会员管理
   {

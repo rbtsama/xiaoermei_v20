@@ -28,8 +28,7 @@ export const menuConfig = [
         title: '订单管理',
         key: 'order-management',
         children: [
-          { title: '订单列表', path: '/order/list', key: 'order-list' },
-          { title: '退款管理', path: '/dispute/refund-requests', key: 'refund-requests' }
+          { title: '订单列表', path: '/order/list', key: 'order-list' }
         ]
       },
       {

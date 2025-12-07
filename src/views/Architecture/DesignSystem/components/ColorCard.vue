@@ -48,7 +48,48 @@ import { defineComponent } from '@vue/composition-api'
 
 export default defineComponent({
   name: 'ColorCard',
-  props: {},
+  props: {
+    name: {
+      type: String,
+      required: true
+    },
+    color: {
+      type: String,
+      required: true
+    },
+    hex: {
+      type: String,
+      required: true
+    },
+    textColor: {
+      type: String,
+      default: 'text-white'
+    },
+    usage: {
+      type: String,
+      required: true
+    },
+    season: {
+      type: String,
+      default: ''
+    },
+    isBrand: {
+      type: Boolean,
+      default: false
+    },
+    compact: {
+      type: Boolean,
+      default: false
+    },
+    wcag: {
+      type: Object,
+      default: null
+    },
+    contrast: {
+      type: String,
+      default: ''
+    }
+  },
   setup() {
     return {}
   },

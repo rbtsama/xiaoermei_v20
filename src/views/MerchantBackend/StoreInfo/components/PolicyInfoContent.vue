@@ -13,7 +13,7 @@
         <FormField label="开始办理入住时间" required hint="格式：HH:mm">
           <a-time-picker
             v-if="isEditing"
-            v-model:value="formData.checkinStartTime"
+            v-model="formData.checkinStartTime"
             format="HH:mm"
             :allowClear="false"
             class="w-full h-9"
@@ -26,7 +26,7 @@
         <FormField label="最晚退房时间" required hint="格式：HH:mm">
           <a-time-picker
             v-if="isEditing"
-            v-model:value="formData.checkoutEndTime"
+            v-model="formData.checkoutEndTime"
             format="HH:mm"
             :allowClear="false"
             class="w-full h-9"
@@ -39,7 +39,7 @@
         <FormField label="入住备注" class="md:col-span-2">
           <a-textarea
             v-if="isEditing"
-            v-model:value="formData.checkinNote"
+            v-model="formData.checkinNote"
             placeholder="请输入入住备注"
             :rows="3"
           />
@@ -54,7 +54,7 @@
     <EditableSection title="取消规则" :is-editing="isEditing" hide-actions>
       <div class="space-y-6">
         <FormField label="取消规则" required>
-          <a-radio-group v-if="isEditing" v-model:value="formData.cancellationRule">
+          <a-radio-group v-if="isEditing" v-model="formData.cancellationRule">
             <a-radio value="no_cancel">一经确认不可取消修改</a-radio>
             <a-radio value="free_cancel">限时免费取消</a-radio>
           </a-radio-group>
@@ -68,13 +68,13 @@
             <div v-if="isEditing" class="flex flex-wrap items-center gap-2">
               <span class="text-sm text-slate-600">入住日前</span>
               <a-input-number
-                v-model:value="formData.freeCancelDays"
+                v-model="formData.freeCancelDays"
                 :min="0"
                 class="w-20"
               />
               <span class="text-sm text-slate-600">天</span>
               <a-time-picker
-                v-model:value="formData.freeCancelTime"
+                v-model="formData.freeCancelTime"
                 format="HH:mm"
                 :allowClear="false"
               />
@@ -86,7 +86,7 @@
           </FormField>
 
           <FormField label="此后取消处理" required>
-            <a-radio-group v-if="isEditing" v-model:value="formData.afterCancelRule">
+            <a-radio-group v-if="isEditing" v-model="formData.afterCancelRule">
               <a-radio value="not_allowed">此后不允许取消</a-radio>
               <a-radio value="penalty">收取取消违约金</a-radio>
             </a-radio-group>
@@ -102,7 +102,7 @@
     <EditableSection title="办理入住年龄" :is-editing="isEditing" hide-actions>
       <div class="space-y-4">
         <FormField label="年龄限制" required>
-          <a-radio-group v-if="isEditing" v-model:value="formData.ageRestriction">
+          <a-radio-group v-if="isEditing" v-model="formData.ageRestriction">
             <a-radio value="no_limit">不限制</a-radio>
             <a-radio value="limited">限制</a-radio>
           </a-radio-group>
@@ -116,7 +116,7 @@
             <FormField label="最小年龄" required>
               <a-select
                 v-if="isEditing"
-                v-model:value="formData.minAge"
+                v-model="formData.minAge"
                 placeholder="请选择最小年龄"
                 class="w-full"
               >
@@ -132,7 +132,7 @@
             <FormField label="最大年龄">
               <a-select
                 v-if="isEditing"
-                v-model:value="formData.maxAge"
+                v-model="formData.maxAge"
                 placeholder="请选择最大年龄"
                 class="w-full"
               >
@@ -154,7 +154,7 @@
     <EditableSection title="儿童政策" :is-editing="isEditing" hide-actions>
       <div class="space-y-4">
         <FormField label="儿童政策" required>
-          <a-radio-group v-if="isEditing" v-model:value="formData.childPolicy">
+          <a-radio-group v-if="isEditing" v-model="formData.childPolicy">
             <a-radio value="allowed">允许携带儿童</a-radio>
             <a-radio value="on_request">需提前确认</a-radio>
             <a-radio value="not_allowed">不接待儿童</a-radio>
@@ -167,7 +167,7 @@
         <FormField label="儿童政策说明">
           <a-textarea
             v-if="isEditing"
-            v-model:value="formData.childNote"
+            v-model="formData.childNote"
             placeholder="请输入儿童政策补充说明"
             :rows="3"
           />
@@ -182,7 +182,7 @@
     <EditableSection title="宠物政策" :is-editing="isEditing" hide-actions>
       <div class="space-y-4">
         <FormField label="宠物政策" required>
-          <a-radio-group v-if="isEditing" v-model:value="formData.petPolicy">
+          <a-radio-group v-if="isEditing" v-model="formData.petPolicy">
             <a-radio value="allowed">允许携带宠物</a-radio>
             <a-radio value="on_request">需提前确认</a-radio>
             <a-radio value="not_allowed">不允许携带宠物</a-radio>
@@ -195,7 +195,7 @@
         <FormField label="宠物政策说明">
           <a-textarea
             v-if="isEditing"
-            v-model:value="formData.petNote"
+            v-model="formData.petNote"
             placeholder="请输入宠物政策补充说明"
             :rows="3"
           />
@@ -210,7 +210,7 @@
     <EditableSection title="押金政策" :is-editing="isEditing" hide-actions>
       <div class="space-y-4">
         <FormField label="是否需要押金" required>
-          <a-radio-group v-if="isEditing" v-model:value="formData.depositType">
+          <a-radio-group v-if="isEditing" v-model="formData.depositType">
             <a-radio value="none">否</a-radio>
             <a-radio value="fixed">固定金额</a-radio>
             <a-radio value="per_room">按预订房间数量</a-radio>
@@ -225,7 +225,7 @@
           <FormField label="押金金额" required>
             <div v-if="isEditing" class="flex items-center gap-2">
               <a-input-number
-                v-model:value="formData.depositAmount"
+                v-model="formData.depositAmount"
                 :min="0"
                 :step="0.01"
                 class="w-32"
@@ -310,7 +310,7 @@
       <FormField label="补充说明">
         <a-textarea
           v-if="isEditing"
-          v-model:value="formData.policyNote"
+          v-model="formData.policyNote"
           placeholder="请输入其他未涵盖的政策说明"
           :rows="6"
         />

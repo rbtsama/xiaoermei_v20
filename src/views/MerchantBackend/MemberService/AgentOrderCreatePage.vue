@@ -15,7 +15,7 @@
               <a-col :span="12">
                 <a-form-item label="入住日期" required>
                   <a-date-picker
-                    v-model:value="formData.checkInDate"
+                    v-model="formData.checkInDate"
                     :disabled-date="disabledCheckInDate"
                     format="YYYY-MM-DD"
                     value-format="YYYY-MM-DD"
@@ -28,7 +28,7 @@
               <a-col :span="12">
                 <a-form-item label="离店日期" required>
                   <a-date-picker
-                    v-model:value="formData.checkOutDate"
+                    v-model="formData.checkOutDate"
                     :disabled-date="disabledCheckOutDate"
                     format="YYYY-MM-DD"
                     value-format="YYYY-MM-DD"
@@ -44,7 +44,7 @@
             <!-- 房型选择 -->
             <a-form-item label="房型" required>
               <a-select
-                v-model:value="formData.roomType"
+                v-model="formData.roomType"
                 placeholder="请先选择日期"
                 :disabled="!formData.checkInDate || !formData.checkOutDate"
                 @change="handleRoomTypeChange"
@@ -74,7 +74,7 @@
 
               <a-form-item label="专属优惠总价" required>
                 <a-input-number
-                  v-model:value="formData.specialPrice"
+                  v-model="formData.specialPrice"
                   :min="0"
                   :precision="2"
                   placeholder="0.00"
@@ -87,7 +87,7 @@
             <!-- 限制购买人手机号 -->
             <a-form-item label="限制购买人手机号">
               <a-input
-                v-model:value="formData.limitPhone"
+                v-model="formData.limitPhone"
                 placeholder="仅限该手机号购买"
                 :maxlength="11"
                 @input="handlePhoneInput"
@@ -97,7 +97,7 @@
             <!-- 备注 -->
             <a-form-item label="备注">
               <a-textarea
-                v-model:value="formData.notes"
+                v-model="formData.notes"
                 placeholder="填写备注信息"
                 :rows="3"
                 :maxlength="500"
@@ -133,7 +133,7 @@
             <!-- 二维码 -->
             <div class="flex items-center justify-center">
               <div class="w-64 h-64 bg-slate-100 rounded-lg flex items-center justify-center">
-                <qrcode-outlined class="text-slate-400" style="font-size: 192px" />
+                <a-icon type="qrcode" class="text-slate-400" style="font-size: 192px" />
               </div>
             </div>
 
@@ -144,7 +144,7 @@
               class="h-9 border-slate-300 hover:border-slate-400 hover:bg-slate-50 transition-all"
             >
               <template #icon>
-                <download-outlined />
+                <a-icon type="download" />
               </template>
               保存二维码
             </a-button>
@@ -158,14 +158,13 @@
 <script>
 import { defineComponent, ref, reactive, computed, watch } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
-import { QrcodeOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { generateAgentOrderQRCode } from '@/api/memberService'
 import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'AgentOrderCreatePage',
-  components: { Sidebar, QrcodeOutlined, DownloadOutlined },
+  components: { Sidebar },
   setup() {
     const formData = reactive({
       checkInDate: null,

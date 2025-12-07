@@ -42,7 +42,7 @@
             >
               <div :key="day" class="flex items-center justify-center gap-1">
                 <a-input-number
-                  v-model:value="record[`${day}Discount`]"
+                  v-model="record[`${day}Discount`]"
                   :min="0"
                   :max="record.platformDiscount"
                   :step="0.01"

@@ -1,160 +1,179 @@
 <template>
   <a-modal
-    :open="open"
+    :visible="value"
     :title="title"
     width="500px"
+    :confirm-loading="loading"
+    @ok="handleSubmit"
     @cancel="handleCancel"
   >
-    <a-form
-      ref="formRef"
-      :model="formState"
-      :rules="rules"
-      layout="vertical"
-      class="mt-4"
-    >
+    <a-form-model ref="formRef" :model="form" :rules="rules">
       <!-- 服务内容 -->
-      <a-form-item label="服务内容" name="serviceName" required>
+      <a-form-model-item label="服务内容" prop="serviceName">
         <a-input
-          v-model:value="formState.serviceName"
+          v-model="form.serviceName"
           placeholder="请输入服务内容（最多50字符）"
-          :maxlength="50"
-          class="h-9"
+          :maxLength="50"
         />
-      </a-form-item>
+      </a-form-model-item>
 
       <!-- 积分数量 -->
-      <a-form-item :label="isReward ? '奖励积分' : '消耗积分'" name="pointsAmount" required>
+      <a-form-model-item :label="pointsLabel" prop="pointsAmount">
         <a-input-number
-          v-model:value="formState.pointsAmount"
-          placeholder="请输入积分数量（正整数）"
+          v-model="form.pointsAmount"
           :min="1"
           :precision="0"
-          class="w-full h-9"
+          placeholder="请输入积分数量（正整数）"
+          style="width: 100%"
         />
-      </a-form-item>
-    </a-form>
-
-    <template #footer>
-      <div class="flex justify-end gap-3">
-        <a-button
-          class="h-9 px-4 border-slate-300"
-          @click="handleCancel"
-        >
-          取消
-        </a-button>
-        <a-button
-          type="primary"
-          class="h-9 px-4 bg-blue-600 hover:bg-blue-700"
-          @click="handleSubmit"
-        >
-          {{ mode === 'create' ? '创建' : '保存' }}
-        </a-button>
-      </div>
-    </template>
+      </a-form-model-item>
+    </a-form-model>
   </a-modal>
 </template>
 
-<script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import type { FormInstance } from 'ant-design-vue'
+<script lang="ts">
+import { defineComponent, reactive, ref, computed, watch } from '@vue/composition-api'
+import ValueAddedServiceService from '../services/valueAddedService.service'
 import type { PointsRewardItem, PointsExchangeItem } from '../types/valueAddedService.types'
 
-interface Props {
-  open: boolean
-  mode: 'create' | 'edit'
-  type: 'reward' | 'exchange' // 奖励或换购
-  item?: PointsRewardItem | PointsExchangeItem | null
-}
+export default defineComponent({
+  name: 'ServiceItemDialog',
 
-interface Emits {
-  (e: 'update:open', value: boolean): void
-  (e: 'submit', data: { serviceName: string; pointsAmount: number }): void
-}
-
-const props = defineProps<Props>()
-const emit = defineEmits<Emits>()
-
-const formRef = ref<FormInstance>()
-const isReward = computed(() => props.type === 'reward')
-
-const title = computed(() => {
-  const typeText = isReward.value ? '积分奖励' : '积分换购'
-  return props.mode === 'create' ? `新增${typeText}服务` : `编辑${typeText}服务`
-})
-
-const formState = ref({
-  serviceName: '',
-  pointsAmount: undefined as number | undefined,
-})
-
-const rules = {
-  serviceName: [
-    { required: true, message: '请输入服务内容', trigger: 'blur' },
-    { max: 50, message: '服务内容最多50字符', trigger: 'blur' },
-  ],
-  pointsAmount: [
-    { required: true, message: '请输入积分数量', trigger: 'blur' },
-    { type: 'number', min: 1, message: '积分数量必须为正整数', trigger: 'blur' },
-  ],
-}
-
-// 监听item变化，更新表单
-watch(
-  () => props.item,
-  (newItem) => {
-    if (newItem) {
-      formState.value = {
-        serviceName: newItem.serviceName || '',
-        pointsAmount: isReward.value
-          ? (newItem as PointsRewardItem).pointsReward
-          : (newItem as PointsExchangeItem).pointsCost,
-      }
+  props: {
+    value: {
+      type: Boolean,
+      default: false
+    },
+    mode: {
+      type: String as () => 'create' | 'edit',
+      required: true
+    },
+    type: {
+      type: String as () => 'reward' | 'exchange',
+      required: true
+    },
+    item: {
+      type: Object as () => PointsRewardItem | PointsExchangeItem | null,
+      default: null
     }
   },
-  { immediate: true }
-)
 
-// 监听弹窗打开/关闭，重置表单
-watch(
-  () => props.open,
-  (newVal) => {
-    if (!newVal) {
-      formRef.value?.resetFields()
-      formState.value = {
-        serviceName: '',
-        pointsAmount: undefined,
+  setup(props, { emit }) {
+    const loading = ref(false)
+    const formRef = ref<any>(null)
+
+    const form = reactive({
+      serviceName: '',
+      pointsAmount: undefined as number | undefined
+    })
+
+    const rules = {
+      serviceName: [
+        { required: true, message: '请输入服务内容', trigger: 'blur' },
+        { max: 50, message: '服务内容不能超过50字符', trigger: 'blur' }
+      ],
+      pointsAmount: [
+        { required: true, message: '请输入积分数量', trigger: 'blur' },
+        { type: 'number', min: 1, message: '积分数量必须大于0', trigger: 'blur' }
+      ]
+    }
+
+    const isReward = computed(() => props.type === 'reward')
+    const title = computed(() => {
+      const typeText = isReward.value ? '积分奖励' : '积分换购'
+      return props.mode === 'create' ? `新增${typeText}服务` : `编辑${typeText}服务`
+    })
+    const pointsLabel = computed(() => isReward.value ? '奖励积分' : '消耗积分')
+
+    // 监听item变化，更新表单
+    watch(() => props.item, (newItem) => {
+      if (newItem && props.mode === 'edit') {
+        form.serviceName = newItem.serviceName
+        if (isReward.value) {
+          form.pointsAmount = (newItem as PointsRewardItem).pointsReward
+        } else {
+          form.pointsAmount = (newItem as PointsExchangeItem).pointsCost
+        }
       }
-    } else if (props.item) {
-      formState.value = {
-        serviceName: props.item.serviceName || '',
-        pointsAmount: isReward.value
-          ? (props.item as PointsRewardItem).pointsReward
-          : (props.item as PointsExchangeItem).pointsCost,
+    }, { immediate: true })
+
+    // 监听visible变化，重置表单
+    watch(() => props.value, (visible) => {
+      if (!visible) {
+        form.serviceName = ''
+        form.pointsAmount = undefined
+        formRef.value?.resetFields()
+      } else if (visible && props.mode === 'create') {
+        form.serviceName = ''
+        form.pointsAmount = undefined
+      }
+    })
+
+    const handleSubmit = async () => {
+      try {
+        await formRef.value?.validate()
+
+        loading.value = true
+
+        if (props.mode === 'create') {
+          // 创建
+          if (isReward.value) {
+            await ValueAddedServiceService.createRewardService({
+              serviceName: form.serviceName,
+              pointsReward: form.pointsAmount!,
+              status: 'active'
+            })
+          } else {
+            await ValueAddedServiceService.createExchangeService({
+              serviceName: form.serviceName,
+              pointsCost: form.pointsAmount!,
+              status: 'active'
+            })
+          }
+        } else {
+          // 编辑
+          if (!props.item) return
+
+          if (isReward.value) {
+            await ValueAddedServiceService.updateRewardService(props.item.id, {
+              serviceName: form.serviceName,
+              pointsReward: form.pointsAmount!
+            })
+          } else {
+            await ValueAddedServiceService.updateExchangeService(props.item.id, {
+              serviceName: form.serviceName,
+              pointsCost: form.pointsAmount!
+            })
+          }
+        }
+
+        emit('input', false)
+        emit('success')
+      } catch (error) {
+        console.error('提交失败:', error)
+      } finally {
+        loading.value = false
       }
     }
-  }
-)
 
-const handleCancel = () => {
-  emit('update:open', false)
-}
+    const handleCancel = () => {
+      emit('input', false)
+    }
 
-const handleSubmit = async () => {
-  try {
-    await formRef.value?.validate()
-    emit('submit', {
-      serviceName: formState.value.serviceName,
-      pointsAmount: formState.value.pointsAmount!,
-    })
-    emit('update:open', false)
-  } catch (error) {
-    console.error('表单验证失败:', error)
+    return {
+      loading,
+      formRef,
+      form,
+      rules,
+      title,
+      pointsLabel,
+      handleSubmit,
+      handleCancel
+    }
   }
-}
+})
 </script>
 
-<style scoped>
-:deep(.ant-input-number) {
-  width: 100%;
-}
+<style scoped lang="less">
+// 自定义样式
 </style>

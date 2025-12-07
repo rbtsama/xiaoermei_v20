@@ -19,7 +19,12 @@ import { defineComponent } from '@vue/composition-api'
 
 export default defineComponent({
   name: 'ComponentSection',
-  props: {},
+  props: {
+    title: {
+      type: String,
+      required: true
+    }
+  },
   setup() {
     return {}
   },

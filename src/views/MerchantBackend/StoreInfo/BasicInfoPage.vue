@@ -34,15 +34,15 @@
         <editable-section title="联系方式" :is-editing="isEditing" :hide-actions="true">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <form-field label="联系电话" :required="true">
-              <a-input v-if="isEditing" v-model:value="formData.contactPhone" placeholder="请输入联系电话" />
+              <a-input v-if="isEditing" v-model="formData.contactPhone" placeholder="请输入联系电话" />
               <display-value v-else :value="formData.contactPhone" />
             </form-field>
             <form-field label="联系人名称" :required="true">
-              <a-input v-if="isEditing" v-model:value="formData.contactName" placeholder="请输入联系人名称" />
+              <a-input v-if="isEditing" v-model="formData.contactName" placeholder="请输入联系人名称" />
               <display-value v-else :value="formData.contactName" />
             </form-field>
             <form-field label="邮箱地址" class="md:col-span-2">
-              <a-input v-if="isEditing" v-model:value="formData.email" placeholder="请输入邮箱地址" type="email" />
+              <a-input v-if="isEditing" v-model="formData.email" placeholder="请输入邮箱地址" type="email" />
               <display-value v-else :value="formData.email" />
             </form-field>
           </div>
@@ -57,7 +57,7 @@
                   <img :src="formData.logo" alt="Logo" />
                 </div>
                 <div class="flex-1 upload-zone">
-                  <upload-outlined class="upload-icon" />
+                  <a-icon type="upload" class="upload-icon" />
                   <p>点击上传Logo</p>
                   <p class="upload-hint">建议尺寸：200x200</p>
                 </div>
@@ -71,7 +71,7 @@
             </form-field>
 
             <form-field label="Slogan/门店推荐语">
-              <a-input v-if="isEditing" v-model:value="formData.slogan" placeholder="请输入门店推荐语" />
+              <a-input v-if="isEditing" v-model="formData.slogan" placeholder="请输入门店推荐语" />
               <display-value v-else :value="formData.slogan" />
             </form-field>
 
@@ -96,7 +96,7 @@
             </form-field>
 
             <form-field label="门店介绍" :required="true">
-              <a-textarea v-if="isEditing" v-model:value="formData.description" placeholder="请输入门店介绍，支持换行" :rows="8" />
+              <a-textarea v-if="isEditing" v-model="formData.description" placeholder="请输入门店介绍，支持换行" :rows="8" />
               <div v-else class="text-content">{{ formData.description || '—' }}</div>
             </form-field>
           </div>
@@ -110,7 +110,7 @@
                 <img :src="formData.listCover" alt="列表封面" />
               </div>
               <div class="flex-1 upload-zone">
-                <picture-outlined class="upload-icon" />
+                <a-icon type="picture" class="upload-icon" />
                 <p>点击上传列表封面</p>
                 <p class="upload-hint">建议尺寸：800x600</p>
               </div>
@@ -134,7 +134,7 @@
                   <p class="video-url">{{ formData.video }}</p>
                 </div>
                 <div class="upload-zone">
-                  <video-camera-outlined class="upload-icon" />
+                  <a-icon type="video-camera" class="upload-icon" />
                   <p>点击上传门店视频</p>
                   <p class="upload-hint">支持MP4格式，大小不超过100MB</p>
                 </div>
@@ -153,7 +153,7 @@
                   <img :src="formData.videoCover" alt="视频封面" />
                 </div>
                 <div class="flex-1 upload-zone">
-                  <picture-outlined class="upload-icon" />
+                  <a-icon type="picture" class="upload-icon" />
                   <p>点击上传视频封面</p>
                   <p class="upload-hint">建议尺寸：800x600</p>
                 </div>
@@ -176,12 +176,12 @@
                 <div v-for="(img, idx) in formData.latestNews" :key="idx" class="news-item">
                   <img :src="img" :alt="`最新情报 ${idx + 1}`" />
                   <a-button type="text" danger size="small" class="delete-btn" @click="removeNewsImage(idx)">
-                    <close-outlined />
+                    <a-icon type="close" />
                   </a-button>
                 </div>
               </div>
               <div class="upload-zone" @click="addNewsImage">
-                <picture-outlined class="upload-icon" />
+                <a-icon type="picture" class="upload-icon" />
                 <p>点击添加最新情报图片</p>
                 <p class="upload-hint">建议尺寸：400x300</p>
               </div>
@@ -204,7 +204,6 @@
 <script>
 import { defineComponent, ref, reactive } from '@vue/composition-api'
 import { Modal, message } from 'ant-design-vue'
-import { UploadOutlined, PictureOutlined, VideoCameraOutlined, CloseOutlined } from '@ant-design/icons-vue'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import EditableSection from './components/EditableSection.vue'
 import FormField from './components/FormField.vue'
@@ -214,7 +213,7 @@ import StoreInfoService from './services/storeInfo.service'
 
 export default defineComponent({
   name: 'BasicInfoPage',
-  components: { Sidebar, EditableSection, FormField, DisplayValue, UploadOutlined, PictureOutlined, VideoCameraOutlined, CloseOutlined },
+  components: { Sidebar, EditableSection, FormField, DisplayValue },
   setup() {
     const isEditing = ref(false)
     const isSaving = ref(false)

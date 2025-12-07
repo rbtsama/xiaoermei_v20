@@ -330,6 +330,8 @@ export default defineComponent({
   name: 'ColorSystem2Page',
   components: {
     Sidebar,
+    ColorCard,
+    ComponentSection2,
   },
   setup() {
     return {

@@ -5,14 +5,14 @@
       <a-card :bordered="false" class="filter-card">
         <div class="filter-container">
           <a-input
-            v-model:value="filters.merchantName"
+            v-model="filters.merchantName"
             placeholder="输入关联商户"
             style="width: 280px"
             @change="handleSearch"
           />
 
           <a-select
-            v-model:value="filters.accountStatus"
+            v-model="filters.accountStatus"
             style="width: 160px"
             placeholder="全部状态"
             @change="handleSearch"
@@ -24,7 +24,7 @@
           </a-select>
 
           <a-select
-            v-model:value="filters.memberLevel"
+            v-model="filters.memberLevel"
             style="width: 160px"
             placeholder="全部等级"
             @change="handleSearch"
@@ -101,7 +101,6 @@
 import { defineComponent } from 'vue'
 import { message } from 'ant-design-vue'
 import Sidebar from '@/components/Layout/Sidebar.vue'
-import { SearchOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import type {
   MemberQueryRecord,
   MemberQueryFilterParams,
@@ -119,8 +118,6 @@ export default defineComponent({
   name: 'MembersPage',
   components: {
     Sidebar,
-    SearchOutlined,
-    DownloadOutlined,
   },
   data() {
     return {

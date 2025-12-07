@@ -52,7 +52,7 @@
             <!-- 二维码 -->
             <div class="flex items-center justify-center">
               <div class="w-64 h-64 bg-slate-100 rounded-lg flex items-center justify-center">
-                <qrcode-outlined class="text-slate-400" style="font-size: 192px" />
+                <a-icon type="qrcode" class="text-slate-400" style="font-size: 192px" />
               </div>
             </div>
 
@@ -63,7 +63,7 @@
               class="h-9 border-slate-300 hover:border-slate-400 hover:bg-slate-50 transition-all"
             >
               <template #icon>
-                <download-outlined />
+                <a-icon type="download" />
               </template>
               保存图片
             </a-button>
@@ -77,13 +77,12 @@
 <script>
 import { defineComponent, ref, computed, onMounted } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
-import { QrcodeOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { getInviteRecords, generateInviteQRCode } from '@/api/memberService'
 
 export default defineComponent({
   name: 'InviteMemberPage',
-  components: { Sidebar, QrcodeOutlined, DownloadOutlined },
+  components: { Sidebar },
   setup() {
     const loading = ref(false)
     const qrDialogOpen = ref(false)
