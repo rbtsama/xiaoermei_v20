@@ -37,7 +37,6 @@
               format="YYYY-MM-DD"
               class="w-full"
               style="height: 36px"
-              :placeholder="['开始日期', '结束日期']"
             />
           </div>
 
@@ -49,7 +48,6 @@
               format="YYYY-MM-DD"
               class="w-full"
               style="height: 36px"
-              :placeholder="['开始日期', '结束日期']"
             />
           </div>
         </div>
