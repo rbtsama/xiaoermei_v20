@@ -85,7 +85,7 @@
               @click="handleManualSubmit"
               class="issue-button"
             >
-              <a-icon type="send" />
+              <a-icon type="rocket" theme="filled" />
               开始派发
             </a-button>
           </a-form-model-item>
