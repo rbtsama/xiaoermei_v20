@@ -153,6 +153,7 @@
           :data-source="order.refundRecords"
           :pagination="false"
           size="small"
+          :row-key="(record, index) => `refund-${index}`"
           :row-class-name="() => 'refund-row'"
         >
           <!-- 退款状态 -->
