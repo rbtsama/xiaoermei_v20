@@ -35,6 +35,7 @@
             <a-range-picker
               v-model="orderCreatedRange"
               format="YYYY-MM-DD"
+              value-format="YYYY-MM-DD"
               class="w-full"
               style="height: 36px"
             />
@@ -46,6 +47,7 @@
             <a-range-picker
               v-model="checkInRange"
               format="YYYY-MM-DD"
+              value-format="YYYY-MM-DD"
               class="w-full"
               style="height: 36px"
             />
@@ -152,7 +154,7 @@
                     {{ getLatestRefundStatus(record.refundRecords) }}
                   </a-tag>
                   <span :class="getRefundAmountClass(getLatestRefundStatus(record.refundRecords))">
-                    ¥{{ getLatestRefundAmount(record.refundRecords) }}
+                    {{ getRefundAmountText(record.refundRecords) }}
                   </span>
                 </div>
               </div>
@@ -167,14 +169,14 @@
               </div>
             </template>
 
-            <!-- 操作（按PRD简化） -->
+            <!-- 操作 -->
             <template slot="action" slot-scope="text, record">
               <a-button
                 size="small"
                 class="h-7 px-3"
                 @click="handleViewDetail(record)"
               >
-                查询
+                详情
               </a-button>
             </template>
           </a-table>
@@ -234,7 +236,7 @@ export default defineComponent({
       { title: '房型', dataIndex: 'roomType', width: 160 },
       { title: '支付金额', dataIndex: 'actualAmount', width: 100, scopedSlots: { customRender: 'actualAmount' } },
       { title: '退款记录', width: 120, scopedSlots: { customRender: 'refundRecord' } },
-      { title: '操作', align: 'right', width: 90, scopedSlots: { customRender: 'action' } }
+      { title: '操作', width: 80, scopedSlots: { customRender: 'action' } }
     ]
 
     // 分页配置
@@ -253,10 +255,10 @@ export default defineComponent({
       try {
         const params: OrderFilterParams = {
           orderStatus: filters.orderStatus === 'all' ? undefined : filters.orderStatus,
-          orderCreatedStart: orderCreatedRange.value?.[0] ? moment(orderCreatedRange.value[0]).format('YYYY-MM-DD') : undefined,
-          orderCreatedEnd: orderCreatedRange.value?.[1] ? moment(orderCreatedRange.value[1]).format('YYYY-MM-DD') : undefined,
-          checkInStart: checkInRange.value?.[0] ? moment(checkInRange.value[0]).format('YYYY-MM-DD') : undefined,
-          checkInEnd: checkInRange.value?.[1] ? moment(checkInRange.value[1]).format('YYYY-MM-DD') : undefined,
+          orderCreatedStart: orderCreatedRange.value?.[0] || undefined,
+          orderCreatedEnd: orderCreatedRange.value?.[1] || undefined,
+          checkInStart: checkInRange.value?.[0] || undefined,
+          checkInEnd: checkInRange.value?.[1] || undefined,
           hotelName: filters.hotelName || undefined,
           // 订单号和手机号合并为searchKeyword传给service
           searchKeyword: filters.orderNumber || filters.guestPhone || undefined,
@@ -341,6 +343,23 @@ export default defineComponent({
       return latestRecord.amount || 0
     }
 
+    // 获取退款金额文本（带"申请"/"已退"前缀）
+    const getRefundAmountText = (refundRecords: any[]) => {
+      if (!refundRecords || refundRecords.length === 0) return '-'
+      const latestRecord = refundRecords[refundRecords.length - 1]
+      const status = latestRecord.status
+
+      // 平台支持退款、门店退款：显示"已退XXX元"
+      if (status === '平台支持退款' || status === '门店退款') {
+        const amount = latestRecord.amount || 0
+        return `已退¥${amount}`
+      }
+
+      // 其他所有情况（客人发起申诉、客人撤诉、平台拒绝退款）：显示"申请XXX元"
+      const amount = latestRecord.requestAmount || 0
+      return `申请¥${amount}`
+    }
+
     // 获取退款金额显示样式（平台支持/门店退款红色，其他灰色）
     const getRefundAmountClass = (status: string) => {
       if (status === '平台支持退款' || status === '门店退款') {
@@ -381,6 +400,7 @@ export default defineComponent({
       getRefundStatusClass,
       getLatestRefundStatus,
       getLatestRefundAmount,
+      getRefundAmountText,
       getRefundAmountClass
     }
   }

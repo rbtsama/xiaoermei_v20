@@ -12,8 +12,12 @@
         <h3 class="card-title">基础信息</h3>
         <div class="info-grid">
           <div class="info-item">
+            <span class="info-label">下单时间</span>
+            <span class="info-value">{{ order.createdAt }}</span>
+          </div>
+          <div class="info-item">
             <span class="info-label">订单号</span>
-            <span class="info-value font-mono">{{ order.orderNumber }}</span>
+            <span class="info-value">{{ order.orderNumber }}</span>
           </div>
           <div class="info-item">
             <span class="info-label">订单状态</span>
@@ -21,9 +25,9 @@
               {{ ORDER_STATUS_LABELS[order.status] }}
             </a-tag>
           </div>
-          <div class="info-item">
-            <span class="info-label">下单时间</span>
-            <span class="info-value">{{ order.createdAt }}</span>
+          <div v-if="order.paymentId" class="info-item">
+            <span class="info-label">支付单号</span>
+            <span class="info-value">{{ order.paymentId }}</span>
           </div>
           <div v-if="order.paidAt" class="info-item">
             <span class="info-label">支付时间</span>
@@ -37,27 +41,27 @@
         <h3 class="card-title">入住信息</h3>
         <div class="info-grid">
           <div class="info-item">
-            <span class="info-label">酒店</span>
+            <span class="info-label">酒店名称</span>
             <span class="info-value">{{ order.hotelName }}</span>
           </div>
           <div class="info-item">
-            <span class="info-label">房型</span>
+            <span class="info-label">房型名称</span>
             <span class="info-value">{{ order.roomType }}</span>
           </div>
           <div class="info-item">
             <span class="info-label">入住日期</span>
-            <span class="info-value">{{ order.checkInDate }}</span>
+            <span class="info-value">{{ order.checkInDate }} - {{ order.checkOutDate }}（共 {{ order.nights }} 晚）</span>
           </div>
           <div class="info-item">
-            <span class="info-label">离店日期</span>
-            <span class="info-value">{{ order.checkOutDate }}</span>
+            <span class="info-label">预订间数</span>
+            <span class="info-value">{{ order.roomCount }} 间</span>
           </div>
           <div class="info-item">
-            <span class="info-label">间夜数</span>
-            <span class="info-value">{{ order.nights }} 晚</span>
+            <span class="info-label">入住人数</span>
+            <span class="info-value">{{ order.guestCount }} 人</span>
           </div>
           <div class="info-item">
-            <span class="info-label">入住人</span>
+            <span class="info-label">联系人</span>
             <span class="info-value">{{ order.guestName }}</span>
           </div>
           <div class="info-item">
@@ -94,18 +98,6 @@
           <div class="payment-row total-row">
             <span class="payment-label-total">实付金额</span>
             <span class="payment-value-total">¥{{ order.actualAmount }}</span>
-          </div>
-        </div>
-
-        <!-- 佣金信息 -->
-        <div class="commission-info">
-          <div class="commission-item">
-            <span class="info-label">平台佣金（5%）</span>
-            <span class="info-value">¥{{ order.commission }}</span>
-          </div>
-          <div class="commission-item">
-            <span class="info-label">商家实收</span>
-            <span class="info-value">¥{{ order.merchantAmount }}</span>
           </div>
         </div>
       </a-card>

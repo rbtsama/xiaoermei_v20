@@ -115,7 +115,8 @@ export type RefundStatus = '客人发起申诉' | '客人撤诉' | '门店退款
  */
 export interface RefundRecord {
   status: RefundStatus
-  amount?: number  // 客人撤诉时不显示金额
+  requestAmount?: number  // 申请退款金额（客人发起申诉、平台拒绝时显示）
+  amount?: number         // 实际退款金额（平台支持退款、门店退款时显示，客人撤诉时为undefined）
   time: string
 }
 

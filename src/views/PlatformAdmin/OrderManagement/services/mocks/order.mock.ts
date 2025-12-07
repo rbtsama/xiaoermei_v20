@@ -56,11 +56,13 @@ export const mockOrderListData: Order[] = [
     refundRecords: [
       {
         status: '客人发起申诉',
+        requestAmount: 300,  // 申请退款300元
         time: '2025-12-12 14:00:00'
       },
       {
         status: '平台支持退款',
-        amount: 300,
+        requestAmount: 300,  // 申请金额
+        amount: 300,         // 实际退款300元
         time: '2025-12-13 15:30:00'
       }
     ],
@@ -149,7 +151,7 @@ export const mockOrderListData: Order[] = [
     refundRecords: [
       {
         status: '客人撤诉',
-        // amount为空，客人撤诉不显示金额
+        requestAmount: 200,  // 原申请200元，但已撤诉，不显示实际退款
         time: '2025-12-07 16:20:00'
       }
     ],
@@ -232,7 +234,8 @@ export const mockOrderListData: Order[] = [
     refundRecords: [
       {
         status: '门店退款',
-        amount: 800,
+        requestAmount: 800,  // 申请金额
+        amount: 800,         // 实际退款800元
         time: '2025-12-06 10:00:00'
       }
     ],
@@ -360,11 +363,12 @@ export const mockOrderListData: Order[] = [
     refundRecords: [
       {
         status: '客人发起申诉',
+        requestAmount: 500,  // 申请退款500元
         time: '2025-12-03 16:00:00'
       },
       {
         status: '平台拒绝退款',
-        amount: 0,
+        requestAmount: 500,  // 申请金额（平台拒绝，不显示实际退款）
         time: '2025-12-04 10:30:00'
       }
     ]
@@ -389,7 +393,6 @@ export const mockOrderListData: Order[] = [
     roomCount: 1,
     guestCount: 4,
     guestName: '钱十一',
-    userPhone: '131000090009',
     guestPhone: '131000090009',
     roomPrice: 1400,
     couponDiscount: 0,
@@ -411,11 +414,13 @@ export const mockOrderListData: Order[] = [
     refundRecords: [
       {
         status: '客人发起申诉',
+        requestAmount: 700,  // 申请退款700元
         time: '2025-12-02 18:00:00'
       },
       {
         status: '门店退款',
-        amount: 700,
+        requestAmount: 700,  // 申请金额
+        amount: 700,         // 实际退款700元
         time: '2025-12-03 09:15:00'
       }
     ],

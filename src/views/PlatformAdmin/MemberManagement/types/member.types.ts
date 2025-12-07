@@ -174,21 +174,21 @@ export const ObtainMethodLabels: Record<ObtainMethod, string> = {
 }
 
 /**
- * 会员信息（查询结果）
+ * 会员信息（查询结果）- 按PRD优化
  */
 export interface MemberQueryRecord {
   id: string // 唯一ID
   phone: string // 手机号
-  accountStatus: AccountStatus // 账号状态
-  currentLevel: number // 会员等级（正式/赠送取最大）
-  formalLevel: number // 正式会员等级
-  formalExpiryDate: string // 正式会员有效期至（如：2025/05/19）
-  obtainMethod: ObtainMethod // 获得方式
-  relatedMerchant: string // 关联商户（最新成功更新VIP的商户名）
-  giftLevel: number // 赠送会员等级
-  giftExpiryDate: string // 赠送会员有效期至
-  giftFrom: string // 赠送人（手机号）
-  updatedAt: string // 更新时间（时间戳或格式化字符串）
+  accountStatus: AccountStatus // 账号状态：预注册/注册/禁用
+  currentLevel: number // 会员等级（正式/赠送取最大，在有效期内）
+  formalLevel: number // 正式会员等级 0-9
+  formalExpiryDate: string // 正式会员有效期至（2025/05/19）
+  formalObtainMethod: ObtainMethod // 正式会员获得方式：间夜消费/商户导入
+  relatedMerchant: string // 关联商户（最新成功更新VIP级别或有效期的商户名）
+  giftLevel: number // 赠送会员等级 0-9
+  giftExpiryDate: string // 赠送会员有效期至（2025/05/19）
+  giftFrom: string // 赠送人（最近一次赠送人手机号）
+  updatedAt: string // 更新时间（最新数据变化的日期时间）
 }
 
 /**

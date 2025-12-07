@@ -36,7 +36,7 @@
           </a-select>
 
           <a-button type="primary" @click="handleSearch" :loading="isLoading">
-            <SearchOutlined />
+            <a-icon type="search" />
             搜索
           </a-button>
 
@@ -48,7 +48,7 @@
             @click="handleExport"
             :loading="isExporting"
           >
-            <DownloadOutlined />
+            <a-icon type="download" />
             导出
           </a-button>
         </div>
@@ -68,26 +68,33 @@
           @change="handleTableChange"
           rowKey="id"
           size="small"
-          :scroll="{ x: 1200 }"
+          :scroll="{ x: 1400 }"
         >
-          <!-- 账号状态列 -->
-          <template #bodyCell="_, record, index" v-if="index === 1">
-            <a-tag :color="getStatusColor(record.accountStatus)">
-              {{ getStatusLabel(record.accountStatus) }}
+          <!-- 账号状态 -->
+          <template slot="accountStatus" slot-scope="text">
+            <a-tag :color="getStatusColor(text)">
+              {{ getStatusLabel(text) }}
             </a-tag>
           </template>
 
-          <!-- 会员等级列 -->
-          <template #bodyCell="cell">
-            <span v-if="cell.column.dataIndex === 'currentLevel'" style="color: #ff7a1f; font-weight: bold">
-              VIP{{ cell.text }}
-            </span>
-            <span v-else-if="cell.column.dataIndex === 'accountStatus'">
-              <a-tag :color="getStatusColor(cell.text)">
-                {{ getStatusLabel(cell.text) }}
-              </a-tag>
-            </span>
-            <span v-else>{{ cell.text }}</span>
+          <!-- 会员等级（橙色加粗） -->
+          <template slot="currentLevel" slot-scope="text">
+            <span class="vip-level-highlight">VIP{{ text }}</span>
+          </template>
+
+          <!-- 正式会员等级 -->
+          <template slot="formalLevel" slot-scope="text">
+            <span>VIP{{ text }}</span>
+          </template>
+
+          <!-- 获得方式 -->
+          <template slot="formalObtainMethod" slot-scope="text">
+            <span>{{ getObtainMethodLabel(text) }}</span>
+          </template>
+
+          <!-- 赠送会员等级 -->
+          <template slot="giftLevel" slot-scope="text">
+            <span>{{ text === 0 ? '-' : `VIP${text}` }}</span>
           </template>
         </a-table>
 
@@ -98,14 +105,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from '@vue/composition-api'
 import { message } from 'ant-design-vue'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import type {
   MemberQueryRecord,
   MemberQueryFilterParams,
 } from './types/member.types'
-import { AccountStatusLabels } from './types/member.types'
+import { AccountStatusLabels, ObtainMethodLabels } from './types/member.types'
 import memberService from './services/member.service'
 
 interface FilterState {
@@ -150,43 +157,53 @@ export default defineComponent({
           dataIndex: 'accountStatus',
           key: 'accountStatus',
           width: 100,
+          scopedSlots: { customRender: 'accountStatus' }
         },
         {
           title: '会员等级',
           dataIndex: 'currentLevel',
           key: 'currentLevel',
           width: 100,
+          scopedSlots: { customRender: 'currentLevel' }
         },
         {
           title: '正式会员等级',
           dataIndex: 'formalLevel',
           key: 'formalLevel',
           width: 120,
+          scopedSlots: { customRender: 'formalLevel' }
         },
         {
           title: '有效期至',
           dataIndex: 'formalExpiryDate',
           key: 'formalExpiryDate',
-          width: 120,
+          width: 110,
         },
         {
-          title: '导入商户',
+          title: '获得方式',
+          dataIndex: 'formalObtainMethod',
+          key: 'formalObtainMethod',
+          width: 110,
+          scopedSlots: { customRender: 'formalObtainMethod' }
+        },
+        {
+          title: '关联商户',
           dataIndex: 'relatedMerchant',
           key: 'relatedMerchant',
-          width: 120,
+          width: 130,
         },
         {
           title: '赠送会员等级',
           dataIndex: 'giftLevel',
           key: 'giftLevel',
           width: 120,
-          customRender: (record: any) => record.text === 0 ? '-' : `VIP${record.text}`,
+          scopedSlots: { customRender: 'giftLevel' }
         },
         {
-          title: '赠送有效期',
+          title: '有效期至',
           dataIndex: 'giftExpiryDate',
           key: 'giftExpiryDate',
-          width: 120,
+          width: 110,
         },
         {
           title: '赠送人',
@@ -318,6 +335,9 @@ export default defineComponent({
           return 'default'
       }
     },
+    getObtainMethodLabel(method: string): string {
+      return ObtainMethodLabels[method as keyof typeof ObtainMethodLabels] || method
+    },
   },
 })
 </script>
@@ -351,5 +371,11 @@ export default defineComponent({
     padding: 48px 0;
     color: #999;
   }
+}
+
+/* VIP等级橙色高亮 */
+.vip-level-highlight {
+  color: #ff7a1f;
+  font-weight: bold;
 }
 </style>

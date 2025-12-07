@@ -13,8 +13,8 @@
         <a-form-model
           ref="manualFormRef"
           :model="manualForm"
-          :label-col="{ span: 3 }"
-          :wrapper-col="{ span: 20 }"
+          :label-col="{ span: 4 }"
+          :wrapper-col="{ span: 18 }"
         >
           <!-- 发放方式 -->
           <a-form-model-item label="发放方式">
@@ -28,10 +28,15 @@
           <a-form-model-item v-if="manualForm.distributionType === 'phone'" label="手机号">
             <a-textarea
               v-model="manualForm.phoneText"
-              placeholder="请输入要派发优惠券的手机号，一行一个手机号&#10;例如：&#10;13800138000&#10;13900139000&#10;13700137000"
+              placeholder="请输入要派发优惠券的手机号，一行一个
+例如：
+13800138000
+13900139000
+13700137000"
               :rows="10"
-              class="font-mono"
+              class="phone-textarea"
             />
+            <div class="text-xs text-slate-500 mt-1">提示：每行输入一个手机号</div>
           </a-form-model-item>
 
           <!-- 按VIP等级选择 -->
@@ -69,16 +74,16 @@
 
           <!-- 短信通知 -->
           <a-form-model-item label="短信通知">
-            <a-checkbox v-model="manualForm.smsNotify">短信通知</a-checkbox>
+            <a-checkbox v-model="manualForm.smsNotify">发送短信通知</a-checkbox>
           </a-form-model-item>
 
           <!-- 提交按钮 -->
-          <a-form-model-item :wrapper-col="{ span: 20, offset: 3 }">
+          <a-form-model-item :wrapper-col="{ span: 18, offset: 4 }">
             <a-button
               type="primary"
               :disabled="!isManualFormValid"
               @click="handleManualSubmit"
-              class="h-9 bg-blue-600"
+              class="issue-button"
             >
               <a-icon type="send" />
               开始派发
@@ -557,27 +562,69 @@ export default defineComponent({
   width: 100%;
 }
 
-.font-mono {
-  font-family: 'Courier New', Courier, monospace;
+/* 手机号输入框样式 */
+.phone-textarea {
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  color: #1e293b !important;
+
+  &::placeholder {
+    font-size: 14px !important;
+    color: #64748b !important;
+    line-height: 1.6 !important;
+  }
+}
+
+/* 开始派发按钮 */
+.issue-button {
+  height: 40px !important;
+  padding: 0 32px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  background-color: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+
+  &:hover:not(:disabled) {
+    background-color: #2563eb !important;
+    border-color: #2563eb !important;
+  }
+
+  &:disabled {
+    background-color: #cbd5e1 !important;
+    border-color: #cbd5e1 !important;
+    color: #94a3b8 !important;
+  }
 }
 
 .vip-checkbox-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
+  gap: 12px;
 }
 
 .vip-checkbox-item {
-  padding: 10px;
-  background: #ffffff;
-  border-radius: 4px;
-  border: 1px solid #e2e8f0;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 6px;
+  border: 2px solid #e2e8f0;
   transition: all 0.2s;
 
   &:hover {
-    border-color: #93c5fd;
+    border-color: #3b82f6;
     background-color: #eff6ff;
   }
+}
+
+.text-xs {
+  font-size: 12px;
+}
+
+.text-slate-500 {
+  color: #64748b;
+}
+
+.mt-1 {
+  margin-top: 4px;
 }
 
 .font-medium {
