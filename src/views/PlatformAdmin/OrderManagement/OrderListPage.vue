@@ -352,7 +352,7 @@ export default defineComponent({
   margin-top: 4px;
 }
 
-// 入离日期icon标签样式
+// 入离日期icon标签样式（圆形浅灰底深灰字）
 .date-icon-in,
 .date-icon-out {
   display: inline-block;
@@ -362,9 +362,9 @@ export default defineComponent({
   text-align: center;
   font-size: 12px;
   font-weight: 600;
-  color: white;
-  background-color: #3b82f6;
-  border-radius: 3px;
+  color: #475569;           // 深灰色文字
+  background-color: #f1f5f9; // 浅灰色底
+  border-radius: 50%;        // 圆形
 }
 
 .rounded-xl {

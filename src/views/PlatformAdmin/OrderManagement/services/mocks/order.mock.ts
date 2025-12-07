@@ -6,7 +6,7 @@ import { OrderStatus, PaymentStatus, CheckInStatus } from '../../types/order.typ
  * 6个订单覆盖不同场景，测试所有功能
  */
 export const mockOrderListData: Order[] = [
-  // 订单1：全部模块（积分服务 + 退款记录 + 商家备注）
+  // 订单1：全部模块（积分服务 + 多条退款记录 + 商家备注）
   {
     id: '1',
     orderNumber: '20251206100001',
@@ -54,6 +54,10 @@ export const mockOrderListData: Order[] = [
       ]
     },
     refundRecords: [
+      {
+        status: '客人发起申诉',
+        time: '2025-12-12 14:00:00'
+      },
       {
         status: '平台支持退款',
         amount: 300,
@@ -316,7 +320,7 @@ export const mockOrderListData: Order[] = [
     merchantNote: '客人是回头客，服务标准按VIP处理'
   },
 
-  // 订单8：已取消订单 + 退款申请
+  // 订单8：平台拒绝退款场景
   {
     id: '8',
     orderNumber: '20251130142055',
@@ -344,19 +348,77 @@ export const mockOrderListData: Order[] = [
     totalAmount: 350,
     commission: 17.5,
     merchantAmount: 332.5,
-    status: OrderStatus.CANCELLED,
-    paymentStatus: PaymentStatus.REFUNDED,
-    checkInStatus: CheckInStatus.NOT_CHECKED_IN,
+    status: OrderStatus.COMPLETED,
+    paymentStatus: PaymentStatus.PAID,
+    checkInStatus: CheckInStatus.CHECKED_OUT,
     paidAt: '2025-11-30 14:22:10',
-    cancelledAt: '2025-12-01 10:00:00',
+    checkedInAt: '2025-12-02 14:00:00',
+    checkedOutAt: '2025-12-03 12:00:00',
+    completedAt: '2025-12-06 00:00:00',
     hasRefundRequest: true,
     // PRD新增字段
     refundRecords: [
       {
-        status: '退款申请',
-        amount: 350,
-        time: '2025-12-01 09:30:00'
+        status: '客人发起申诉',
+        time: '2025-12-03 16:00:00'
+      },
+      {
+        status: '平台拒绝退款',
+        amount: 0,
+        time: '2025-12-04 10:30:00'
       }
     ]
+  },
+
+  // 订单9：门店退款（展示最终退款金额）
+  {
+    id: '9',
+    orderNumber: '20251129083015',
+    createdAt: '2025-11-29 08:30:15',
+    userId: 'user009',
+    userName: '钱十一',
+    userPhone: '131000090009',
+    hotelId: 'hotel003',
+    hotelName: '山水间客栈',
+    roomTypeId: 'room007',
+    roomTypeName: '家庭套房',
+    roomType: '家庭套房',
+    checkInDate: '2025-11-30',
+    checkOutDate: '2025-12-02',
+    nights: 2,
+    roomCount: 1,
+    guestCount: 4,
+    guestName: '钱十一',
+    userPhone: '131000090009',
+    guestPhone: '131000090009',
+    roomPrice: 1400,
+    couponDiscount: 0,
+    pointsDiscount: 0,
+    memberDiscount: 0,
+    actualAmount: 1400,
+    totalAmount: 1400,
+    commission: 70,
+    merchantAmount: 1330,
+    status: OrderStatus.COMPLETED,
+    paymentStatus: PaymentStatus.PAID,
+    checkInStatus: CheckInStatus.CHECKED_OUT,
+    paidAt: '2025-11-29 08:32:00',
+    checkedInAt: '2025-11-30 15:00:00',
+    checkedOutAt: '2025-12-02 11:00:00',
+    completedAt: '2025-12-05 00:00:00',
+    hasRefundRequest: true,
+    // PRD新增字段
+    refundRecords: [
+      {
+        status: '客人发起申诉',
+        time: '2025-12-02 18:00:00'
+      },
+      {
+        status: '门店退款',
+        amount: 700,
+        time: '2025-12-03 09:15:00'
+      }
+    ],
+    merchantNote: '客人反映房间设施有问题，商家主动退款一半金额以示诚意'
   }
 ]

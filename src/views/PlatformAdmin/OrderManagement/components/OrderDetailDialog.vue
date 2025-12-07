@@ -6,172 +6,186 @@
     :footer="null"
     @cancel="handleClose"
   >
-    <div v-if="order" class="space-y-6">
-      <!-- 模块1: 基础信息（订单号、状态、下单时间、支付单号、支付时间） -->
-      <div>
-        <h3 class="text-base font-semibold text-slate-900 mb-4">基础信息</h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <span class="text-sm text-slate-600">订单号：</span>
-            <span class="text-sm text-slate-900 font-mono">{{ order.orderNumber }}</span>
+    <div v-if="order" class="detail-container">
+      <!-- 模块1: 基础信息 -->
+      <a-card class="detail-card" :bordered="false">
+        <h3 class="card-title">基础信息</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">订单号</span>
+            <span class="info-value font-mono">{{ order.orderNumber }}</span>
           </div>
-          <div>
-            <span class="text-sm text-slate-600">订单状态：</span>
+          <div class="info-item">
+            <span class="info-label">订单状态</span>
             <a-tag :class="getStatusTagClass(order.status)">
               {{ ORDER_STATUS_LABELS[order.status] }}
             </a-tag>
           </div>
-          <div>
-            <span class="text-sm text-slate-600">下单时间：</span>
-            <span class="text-sm text-slate-900">{{ order.createdAt }}</span>
+          <div class="info-item">
+            <span class="info-label">下单时间</span>
+            <span class="info-value">{{ order.createdAt }}</span>
           </div>
-          <div v-if="order.paidAt">
-            <span class="text-sm text-slate-600">支付时间：</span>
-            <span class="text-sm text-slate-900">{{ order.paidAt }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 模块2: 入住信息（酒店、房型、入住日期、入住人） -->
-      <div>
-        <h3 class="text-base font-semibold text-slate-900 mb-4">入住信息</h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <span class="text-sm text-slate-600">酒店：</span>
-            <span class="text-sm text-slate-900 font-medium">{{ order.hotelName }}</span>
-          </div>
-          <div>
-            <span class="text-sm text-slate-600">房型：</span>
-            <span class="text-sm text-slate-900 font-medium">{{ order.roomType }}</span>
-          </div>
-          <div>
-            <span class="text-sm text-slate-600">入住日期：</span>
-            <span class="text-sm text-slate-900">{{ order.checkInDate }} - {{ order.checkOutDate }}</span>
-          </div>
-          <div>
-            <span class="text-sm text-slate-600">间夜数：</span>
-            <span class="text-sm text-slate-900">{{ order.nights }} 晚</span>
-          </div>
-          <div>
-            <span class="text-sm text-slate-600">入住人：</span>
-            <span class="text-sm text-slate-900">{{ order.guestName }}</span>
-          </div>
-          <div>
-            <span class="text-sm text-slate-600">联系电话：</span>
-            <span class="text-sm text-slate-900">{{ order.guestPhone }}</span>
-          </div>
-          <div v-if="order.roomNumber">
-            <span class="text-sm text-slate-600">房间号：</span>
-            <span class="text-sm text-slate-900">{{ order.roomNumber }}</span>
+          <div v-if="order.paidAt" class="info-item">
+            <span class="info-label">支付时间</span>
+            <span class="info-value">{{ order.paidAt }}</span>
           </div>
         </div>
-      </div>
+      </a-card>
 
-      <!-- 模块3: 支付明细（价格计算逻辑） -->
-      <div>
-        <h3 class="text-base font-semibold text-slate-900 mb-4">费用明细</h3>
-        <div class="border border-slate-200 rounded-lg p-4 space-y-3">
-          <div class="flex justify-between items-center pb-2 border-b border-slate-200">
-            <span class="text-sm text-slate-600">房费小计（{{ order.nights }} 晚 × ¥{{ roomPricePerNight }}）</span>
-            <span class="text-sm text-slate-900">¥{{ order.roomPrice }}</span>
+      <!-- 模块2: 入住信息 -->
+      <a-card class="detail-card" :bordered="false">
+        <h3 class="card-title">入住信息</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">酒店</span>
+            <span class="info-value">{{ order.hotelName }}</span>
           </div>
-          <div v-if="order.couponDiscount > 0" class="flex justify-between items-center pb-2 border-b border-slate-200">
-            <span class="text-sm text-slate-600">优惠券优惠</span>
-            <span class="text-sm text-green-600">-¥{{ order.couponDiscount }}</span>
+          <div class="info-item">
+            <span class="info-label">房型</span>
+            <span class="info-value">{{ order.roomType }}</span>
           </div>
-          <div v-if="order.pointsDiscount > 0" class="flex justify-between items-center pb-2 border-b border-slate-200">
-            <span class="text-sm text-slate-600">积分抵扣</span>
-            <span class="text-sm text-green-600">-¥{{ order.pointsDiscount }}</span>
+          <div class="info-item">
+            <span class="info-label">入住日期</span>
+            <span class="info-value">{{ order.checkInDate }}</span>
           </div>
-          <div v-if="order.memberDiscount > 0" class="flex justify-between items-center pb-2 border-b border-slate-200">
-            <span class="text-sm text-slate-600">会员折扣</span>
-            <span class="text-sm text-green-600">-¥{{ order.memberDiscount }}</span>
+          <div class="info-item">
+            <span class="info-label">离店日期</span>
+            <span class="info-value">{{ order.checkOutDate }}</span>
           </div>
-          <div class="flex justify-between items-center pt-2">
-            <span class="text-base font-semibold text-slate-900">实付金额</span>
-            <span class="text-xl font-bold text-blue-600">¥{{ order.actualAmount }}</span>
+          <div class="info-item">
+            <span class="info-label">间夜数</span>
+            <span class="info-value">{{ order.nights }} 晚</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">入住人</span>
+            <span class="info-value">{{ order.guestName }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">联系电话</span>
+            <span class="info-value">{{ order.guestPhone }}</span>
+          </div>
+          <div v-if="order.roomNumber" class="info-item">
+            <span class="info-label">房间号</span>
+            <span class="info-value">{{ order.roomNumber }}</span>
+          </div>
+        </div>
+      </a-card>
+
+      <!-- 模块3: 支付明细 -->
+      <a-card class="detail-card" :bordered="false">
+        <h3 class="card-title">支付明细</h3>
+        <div class="payment-detail">
+          <div class="payment-row">
+            <span class="payment-label">房费小计（{{ order.nights }} 晚 × ¥{{ roomPricePerNight }}）</span>
+            <span class="payment-value">¥{{ order.roomPrice }}</span>
+          </div>
+          <div v-if="order.couponDiscount > 0" class="payment-row">
+            <span class="payment-label">优惠券优惠</span>
+            <span class="payment-value discount">-¥{{ order.couponDiscount }}</span>
+          </div>
+          <div v-if="order.pointsDiscount > 0" class="payment-row">
+            <span class="payment-label">积分抵扣</span>
+            <span class="payment-value discount">-¥{{ order.pointsDiscount }}</span>
+          </div>
+          <div v-if="order.memberDiscount > 0" class="payment-row">
+            <span class="payment-label">会员折扣</span>
+            <span class="payment-value discount">-¥{{ order.memberDiscount }}</span>
+          </div>
+          <div class="payment-row total-row">
+            <span class="payment-label-total">实付金额</span>
+            <span class="payment-value-total">¥{{ order.actualAmount }}</span>
           </div>
         </div>
 
         <!-- 佣金信息 -->
-        <div class="grid grid-cols-2 gap-4 mt-3">
-          <div>
-            <span class="text-sm text-slate-600">平台佣金（5%）：</span>
-            <span class="text-sm text-slate-900">¥{{ order.commission }}</span>
+        <div class="commission-info">
+          <div class="commission-item">
+            <span class="info-label">平台佣金（5%）</span>
+            <span class="info-value">¥{{ order.commission }}</span>
           </div>
-          <div>
-            <span class="text-sm text-slate-600">商家实收：</span>
-            <span class="text-sm text-slate-900 font-medium">¥{{ order.merchantAmount }}</span>
+          <div class="commission-item">
+            <span class="info-label">商家实收</span>
+            <span class="info-value">¥{{ order.merchantAmount }}</span>
           </div>
         </div>
-      </div>
+      </a-card>
 
-      <!-- 模块4: 积分服务（条件显示，不含积分抵扣） -->
-      <div v-if="order.pointsServices && (order.pointsServices.rewards.length > 0 || order.pointsServices.exchanges.length > 0)">
-        <h3 class="text-base font-semibold text-slate-900 mb-4">积分服务</h3>
+      <!-- 模块4: 积分服务（条件显示） -->
+      <a-card
+        v-if="order.pointsServices && (order.pointsServices.rewards.length > 0 || order.pointsServices.exchanges.length > 0)"
+        class="detail-card"
+        :bordered="false"
+      >
+        <h3 class="card-title">积分服务</h3>
 
         <!-- 积分奖励 -->
-        <div v-if="order.pointsServices.rewards.length > 0" class="mb-4">
-          <h4 class="text-sm font-semibold text-slate-700 mb-2">积分奖励</h4>
-          <ul class="space-y-1.5">
-            <li v-for="(item, idx) in order.pointsServices.rewards" :key="`reward-${idx}`" class="flex items-center">
-              <span class="text-sm text-slate-900">{{ item.name }}</span>
-              <span class="text-sm text-green-600 font-medium ml-2">(+{{ item.points }}积分)</span>
+        <div v-if="order.pointsServices.rewards.length > 0" class="points-section">
+          <h4 class="section-subtitle">积分奖励</h4>
+          <ul class="points-list">
+            <li v-for="(item, idx) in order.pointsServices.rewards" :key="`reward-${idx}`">
+              <span class="points-name">{{ item.name }}</span>
+              <span class="points-value-green">(+{{ item.points }}积分)</span>
             </li>
           </ul>
         </div>
 
         <!-- 积分换购 -->
-        <div v-if="order.pointsServices.exchanges.length > 0">
-          <h4 class="text-sm font-semibold text-slate-700 mb-2">积分换购</h4>
-          <ul class="space-y-1.5">
-            <li v-for="(item, idx) in order.pointsServices.exchanges" :key="`exchange-${idx}`" class="flex items-center">
-              <span class="text-sm text-slate-900">{{ item.name }}</span>
-              <span class="text-sm text-red-600 font-medium ml-2">(-{{ item.points }}积分)</span>
+        <div v-if="order.pointsServices.exchanges.length > 0" class="points-section">
+          <h4 class="section-subtitle">积分换购</h4>
+          <ul class="points-list">
+            <li v-for="(item, idx) in order.pointsServices.exchanges" :key="`exchange-${idx}`">
+              <span class="points-name">{{ item.name }}</span>
+              <span class="points-value-red">(-{{ item.points }}积分)</span>
             </li>
           </ul>
         </div>
-      </div>
+      </a-card>
 
       <!-- 模块5: 退款记录（条件显示） -->
-      <div v-if="order.refundRecords && order.refundRecords.length > 0">
-        <h3 class="text-base font-semibold text-slate-900 mb-4">退款记录</h3>
-        <div class="border border-slate-200 rounded-lg overflow-hidden">
-          <table class="w-full">
-            <thead class="bg-slate-50">
-              <tr>
-                <th class="text-left text-sm font-semibold text-slate-700 px-4 py-2">退款状态</th>
-                <th class="text-left text-sm font-semibold text-slate-700 px-4 py-2">退款金额</th>
-                <th class="text-left text-sm font-semibold text-slate-700 px-4 py-2">处理时间</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(record, idx) in order.refundRecords" :key="`refund-${idx}`" class="border-t border-slate-200">
-                <td class="px-4 py-3">
-                  <a-tag class="bg-red-50 text-red-700 border-red-300">
-                    {{ record.status }}
-                  </a-tag>
-                </td>
-                <td class="px-4 py-3">
-                  <span v-if="record.status === '客人撤诉'" class="text-sm text-slate-400">-</span>
-                  <span v-else class="text-sm text-red-600 font-medium">¥{{ record.amount }}</span>
-                </td>
-                <td class="px-4 py-3">
-                  <span class="text-sm text-slate-900">{{ record.time }}</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <a-card
+        v-if="order.refundRecords && order.refundRecords.length > 0"
+        class="detail-card"
+        :bordered="false"
+      >
+        <h3 class="card-title">退款记录</h3>
+        <a-table
+          :columns="refundColumns"
+          :data-source="order.refundRecords"
+          :pagination="false"
+          size="small"
+          :row-class-name="() => 'refund-row'"
+        >
+          <!-- 退款状态 -->
+          <template slot="status" slot-scope="status">
+            <a-tag :class="getRefundStatusClass(status)">
+              {{ status }}
+            </a-tag>
+          </template>
+
+          <!-- 退款金额 -->
+          <template slot="amount" slot-scope="amount, record">
+            <span v-if="record.status === '客人撤诉' || record.status === '客人发起申诉'" class="text-slate-400">-</span>
+            <span v-else class="refund-amount">¥{{ amount }}</span>
+          </template>
+
+          <!-- 处理时间 -->
+          <template slot="time" slot-scope="time">
+            <span class="time-value">{{ time }}</span>
+          </template>
+        </a-table>
+      </a-card>
 
       <!-- 模块6: 商家备注（条件显示） -->
-      <div v-if="order.merchantNote">
-        <h3 class="text-base font-semibold text-slate-900 mb-4">商家备注</h3>
-        <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
-          <p class="text-sm text-slate-900 leading-relaxed">{{ order.merchantNote }}</p>
+      <a-card
+        v-if="order.merchantNote"
+        class="detail-card"
+        :bordered="false"
+      >
+        <h3 class="card-title">商家备注</h3>
+        <div class="merchant-note">
+          {{ order.merchantNote }}
         </div>
-      </div>
+      </a-card>
     </div>
 
     <template #footer>
@@ -183,7 +197,8 @@
 <script lang="ts">
 import { defineComponent, computed } from '@vue/composition-api'
 import type { Order } from '../types/order.types'
-import { ORDER_STATUS_LABELS, ORDER_STATUS_COLORS, PAYMENT_STATUS_LABELS, PaymentStatus } from '../types/order.types'
+import type { RefundStatus } from '../types/order.types'
+import { ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } from '../types/order.types'
 
 export default defineComponent({
   name: 'OrderDetailDialog',
@@ -206,6 +221,13 @@ export default defineComponent({
       return (props.order.roomPrice / props.order.nights).toFixed(2)
     })
 
+    // 退款记录表格列
+    const refundColumns = [
+      { title: '退款状态', width: 150, scopedSlots: { customRender: 'status' } },
+      { title: '退款金额', width: 120, scopedSlots: { customRender: 'amount' } },
+      { title: '处理时间', scopedSlots: { customRender: 'time' } }
+    ]
+
     // 样式辅助函数
     const getStatusTagClass = (status: string) => {
       const color = ORDER_STATUS_COLORS[status as keyof typeof ORDER_STATUS_COLORS]
@@ -219,11 +241,15 @@ export default defineComponent({
       return colorMap[color] || 'bg-gray-100 text-gray-700 border-gray-300'
     }
 
-    const getPaymentStatusTagClass = (status: PaymentStatus) => {
-      const statusMap: Record<PaymentStatus, string> = {
-        [PaymentStatus.UNPAID]: 'bg-yellow-100 text-yellow-700 border-yellow-300',
-        [PaymentStatus.PAID]: 'bg-green-100 text-green-700 border-green-300',
-        [PaymentStatus.REFUNDED]: 'bg-red-100 text-red-700 border-red-300'
+    // 退款记录状态颜色
+    const getRefundStatusClass = (status: RefundStatus) => {
+      const statusMap: Record<string, string> = {
+        '客人发起申诉': 'bg-orange-100 text-orange-700 border-orange-300',   // 橙色
+        '客人撤诉': 'bg-slate-100 text-slate-600 border-slate-300',           // 灰色
+        '门店退款': 'bg-green-100 text-green-700 border-green-300',           // 绿色
+        '平台支持退款': 'bg-green-100 text-green-700 border-green-300',       // 绿色
+        '平台拒绝退款': 'bg-red-100 text-red-700 border-red-300',             // 红色
+        '退款申请': 'bg-orange-100 text-orange-700 border-orange-300'         // 橙色（兼容）
       }
       return statusMap[status] || 'bg-gray-100 text-gray-700 border-gray-300'
     }
@@ -234,10 +260,10 @@ export default defineComponent({
 
     return {
       roomPricePerNight,
+      refundColumns,
       ORDER_STATUS_LABELS,
-      PAYMENT_STATUS_LABELS,
       getStatusTagClass,
-      getPaymentStatusTagClass,
+      getRefundStatusClass,
       handleClose
     }
   }
@@ -245,135 +271,209 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-.space-y-6 > * + * {
-  margin-top: 24px;
-}
-
-.space-y-3 > * + * {
-  margin-top: 12px;
-}
-
-.space-y-2 > * + * {
-  margin-top: 8px;
-}
-
-.grid {
-  display: grid;
-}
-
-.grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.gap-4 {
+// 弹窗容器
+.detail-container {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
 }
 
-.text-sm {
-  font-size: 14px;
+// 卡片样式
+.detail-card {
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.text-base {
+// 卡片标题 - 统一16px
+.card-title {
   font-size: 16px;
-}
-
-.text-xl {
-  font-size: 20px;
-}
-
-.font-semibold {
   font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-.font-medium {
+// 信息网格布局
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 24px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+// 标签和值 - 统一14px
+.info-label {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.info-value {
+  font-size: 14px;
+  color: #0f172a;
   font-weight: 500;
 }
 
-.font-bold {
-  font-weight: 700;
+// 支付明细样式
+.payment-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.font-mono {
-  font-family: monospace;
+.payment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
-.text-slate-600 {
-  color: #475569;
+.payment-label,
+.payment-value {
+  font-size: 14px;
 }
 
-.text-slate-900 {
+.payment-label {
+  color: #64748b;
+}
+
+.payment-value {
+  color: #0f172a;
+  font-weight: 500;
+
+  &.discount {
+    color: #16a34a;
+  }
+}
+
+// 总计行
+.total-row {
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 2px solid #e2e8f0 !important;
+  border-bottom: none !important;
+}
+
+.payment-label-total {
+  font-size: 16px;
+  font-weight: 600;
   color: #0f172a;
 }
 
-.text-blue-600 {
-  color: #2563eb;
+.payment-value-total {
+  font-size: 20px;
+  font-weight: 700;
+  color: #3b82f6;
 }
 
-.text-green-600 {
-  color: #16a34a;
-}
-
-.text-red-600 {
-  color: #dc2626;
-}
-
-.mb-4 {
-  margin-bottom: 16px;
-}
-
-.mt-3 {
-  margin-top: 12px;
-}
-
-.pb-2 {
-  padding-bottom: 8px;
-}
-
-.pt-2 {
-  padding-top: 8px;
-}
-
-.p-4 {
-  padding: 16px;
-}
-
-.border {
-  border-width: 1px;
-}
-
-.border-b {
-  border-bottom-width: 1px;
-}
-
-.border-slate-200 {
-  border-color: #e2e8f0;
-}
-
-.border-red-200 {
-  border-color: #fecaca;
-}
-
-.rounded-lg {
-  border-radius: 8px;
-}
-
-.bg-red-50 {
-  background-color: #fef2f2;
-}
-
-.flex {
+// 佣金信息
+.commission-info {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
   display: flex;
+  gap: 32px;
 }
 
-.justify-between {
-  justify-content: space-between;
+.commission-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.items-center {
+// 积分服务样式
+.points-section {
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+
+.section-subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 10px;
+}
+
+.points-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.points-list li {
+  display: flex;
   align-items: center;
+  font-size: 14px;
 }
 
-/* 状态标签样式 */
+.points-name {
+  color: #0f172a;
+}
+
+.points-value-green {
+  color: #16a34a;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.points-value-red {
+  color: #dc2626;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+// 退款记录表格样式
+.refund-row {
+  font-size: 14px;
+}
+
+.refund-amount {
+  color: #dc2626;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.time-value {
+  font-size: 14px;
+  color: #0f172a;
+}
+
+// 商家备注样式
+.merchant-note {
+  font-size: 14px;
+  color: #0f172a;
+  line-height: 1.6;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 6px;
+}
+
+// 通用样式
+.font-mono {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+.text-slate-400 {
+  color: #94a3b8;
+}
+
+// 状态标签颜色
 .bg-orange-100 {
   background-color: #ffedd5;
 }
@@ -397,8 +497,8 @@ export default defineComponent({
 .bg-slate-100 {
   background-color: #f1f5f9;
 }
-.text-slate-700 {
-  color: #334155;
+.text-slate-600 {
+  color: #475569;
 }
 .text-slate-500 {
   color: #64748b;
@@ -417,16 +517,6 @@ export default defineComponent({
   border-color: #fca5a5;
 }
 
-.bg-yellow-100 {
-  background-color: #fef3c7;
-}
-.text-yellow-700 {
-  color: #a16207;
-}
-.border-yellow-300 {
-  border-color: #fde047;
-}
-
 .bg-green-100 {
   background-color: #dcfce7;
 }
@@ -435,87 +525,5 @@ export default defineComponent({
 }
 .border-green-300 {
   border-color: #86efac;
-}
-
-// 新增样式 - 支持PRD新模块
-.space-y-1\.5 > * + * {
-  margin-top: 6px;
-}
-
-.mb-2 {
-  margin-bottom: 8px;
-}
-
-.ml-2 {
-  margin-left: 8px;
-}
-
-.leading-relaxed {
-  line-height: 1.625;
-}
-
-.w-full {
-  width: 100%;
-}
-
-.px-4 {
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-.py-2 {
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-
-.py-3 {
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
-.border-t {
-  border-top-width: 1px;
-}
-
-.text-xs {
-  font-size: 12px;
-}
-
-.bg-slate-50 {
-  background-color: #f8fafc;
-}
-
-.text-slate-700 {
-  color: #334155;
-}
-
-.text-slate-400 {
-  color: #94a3b8;
-}
-
-.text-green-600 {
-  color: #16a34a;
-}
-
-.bg-red-50 {
-  background-color: #fef2f2;
-}
-
-.text-red-700 {
-  color: #b91c1c;
-}
-
-.border-red-300 {
-  border-color: #fca5a5;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th,
-td {
-  text-align: left;
 }
 </style>

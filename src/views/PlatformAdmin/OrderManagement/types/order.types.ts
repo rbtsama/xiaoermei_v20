@@ -106,9 +106,9 @@ export interface OrderPointsServices {
 // ========== 退款记录相关 ==========
 
 /**
- * 退款状态
+ * 退款状态（完整5种）
  */
-export type RefundStatus = '退款申请' | '门店退款' | '客人撤诉' | '平台支持退款'
+export type RefundStatus = '客人发起申诉' | '客人撤诉' | '门店退款' | '平台支持退款' | '平台拒绝退款'
 
 /**
  * 退款记录
