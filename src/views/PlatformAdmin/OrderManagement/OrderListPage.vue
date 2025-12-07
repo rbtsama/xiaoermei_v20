@@ -8,67 +8,80 @@
         @close="isDetailDialogOpen = false"
       />
 
-      <!-- 筛选表单 -->
+      <!-- 筛选表单 - 按PRD优化 -->
       <a-card class="rounded-xl border-slate-200 bg-white shadow-sm">
-        <div class="grid grid-cols-6 gap-4">
-          <!-- 房型 -->
-          <div class="space-y-2">
-            <label class="text-sm text-slate-600">房型</label>
+        <!-- 第一行：5个主要筛选 -->
+        <div class="grid grid-cols-12 gap-4">
+          <!-- 订单状态 -->
+          <div class="space-y-2 col-span-2">
+            <label class="text-sm text-slate-600">订单状态</label>
+            <a-select
+              v-model="filters.orderStatus"
+              placeholder="全部"
+              class="w-full h-9"
+            >
+              <a-select-option value="all">全部</a-select-option>
+              <a-select-option :value="OrderStatus.PENDING_PAYMENT">待付款</a-select-option>
+              <a-select-option :value="OrderStatus.PENDING_CHECKIN">待入住</a-select-option>
+              <a-select-option :value="OrderStatus.CHECKED_IN">已入住</a-select-option>
+              <a-select-option :value="OrderStatus.COMPLETED">已完成</a-select-option>
+              <a-select-option :value="OrderStatus.CANCELLED">已取消</a-select-option>
+            </a-select>
+          </div>
+
+          <!-- 下单时间 -->
+          <div class="space-y-2 col-span-4">
+            <label class="text-sm text-slate-600">下单时间</label>
+            <a-range-picker
+              v-model="filters.orderCreatedRange"
+              format="YYYY-MM-DD"
+              class="w-full"
+              style="height: 36px"
+            />
+          </div>
+
+          <!-- 入住时间 -->
+          <div class="space-y-2 col-span-4">
+            <label class="text-sm text-slate-600">入住时间</label>
+            <a-range-picker
+              v-model="filters.checkInRange"
+              format="YYYY-MM-DD"
+              class="w-full"
+              style="height: 36px"
+            />
+          </div>
+
+          <!-- 酒店名称 -->
+          <div class="space-y-2 col-span-2">
+            <label class="text-sm text-slate-600">酒店名称</label>
             <a-input
-              v-model="filters.roomType"
-              placeholder="请输入房型"
+              v-model="filters.hotelName"
+              placeholder="搜索酒店"
+              class="h-9"
+            />
+          </div>
+        </div>
+
+        <!-- 第二行：搜索关键词 + 按钮 -->
+        <div class="grid grid-cols-12 gap-4 mt-4">
+          <div class="space-y-2 col-span-3">
+            <label class="text-sm text-slate-600">订单号/手机号</label>
+            <a-input
+              v-model="filters.searchKeyword"
+              placeholder="订单号或手机号"
               class="h-9"
             />
           </div>
 
-          <!-- 订房日期 -->
-          <div class="space-y-2 col-span-2">
-            <label class="text-sm text-slate-600">订房日期</label>
-            <div class="flex gap-2 items-center">
-              <a-date-picker
-                v-model="filters.startDate"
-                placeholder="开始日期"
-                class="flex-1 h-9"
-                format="YYYY-MM-DD"
-              />
-              <span>-</span>
-              <a-date-picker
-                v-model="filters.endDate"
-                placeholder="结束日期"
-                class="flex-1 h-9"
-                format="YYYY-MM-DD"
-              />
-            </div>
+          <div class="col-span-9 flex items-end gap-2">
+            <a-button type="primary" class="h-9 bg-blue-600" @click="handleSearch">
+              <a-icon type="search" />
+              搜索
+            </a-button>
+            <a-button class="h-9 border-slate-300" @click="handleReset">
+              重置
+            </a-button>
           </div>
-
-          <!-- 订单状态 -->
-          <div class="space-y-2 col-span-3">
-            <label class="text-sm text-slate-600">订单状态</label>
-            <a-select
-              v-model="filters.orderStatus"
-              placeholder="全部状态"
-              class="w-full"
-            >
-              <a-select-option value="all">全部</a-select-option>
-              <a-select-option :value="OrderStatus.PENDING_PAYMENT">待支付</a-select-option>
-              <a-select-option :value="OrderStatus.PENDING_CHECKIN">待入住</a-select-option>
-              <a-select-option :value="OrderStatus.CHECKED_IN">入住中</a-select-option>
-              <a-select-option :value="OrderStatus.CHECKED_OUT">已离店</a-select-option>
-              <a-select-option :value="OrderStatus.COMPLETED">已完成</a-select-option>
-              <a-select-option :value="OrderStatus.CANCELLED">已取消</a-select-option>
-              <a-select-option :value="OrderStatus.REFUND_REQUESTED">退款申请</a-select-option>
-            </a-select>
-          </div>
-        </div>
-
-        <div class="flex gap-2 mt-4">
-          <a-button type="primary" class="h-9 bg-blue-600" @click="handleSearch">
-            <a-icon type="search" />
-            搜索
-          </a-button>
-          <a-button class="h-9 border-slate-300" @click="handleReset">
-            重置
-          </a-button>
         </div>
       </a-card>
 
@@ -90,19 +103,12 @@
               <span class="font-mono text-sm text-slate-900">{{ orderNumber }}</span>
             </template>
 
-            <!-- 订房人 -->
-            <template slot="guestInfo" slot-scope="text, record">
-              <div class="space-y-1">
-                <div class="font-medium text-slate-900">{{ record.guestName }}</div>
-                <div class="text-sm text-slate-600">{{ record.guestPhone }}</div>
-              </div>
-            </template>
-
-            <!-- 入住日期 -->
+            <!-- 入住日期(X晚) -->
             <template slot="checkInDates" slot-scope="text, record">
-              <span class="whitespace-nowrap text-slate-900">
-                {{ record.checkInDate }} - {{ record.checkOutDate }}
-              </span>
+              <div class="text-slate-900">
+                <div class="text-sm">{{ record.checkInDate }}</div>
+                <div class="text-xs text-slate-500">({{ record.nights }}晚)</div>
+              </div>
             </template>
 
             <!-- 支付金额 -->
@@ -111,17 +117,20 @@
             </template>
 
             <!-- 订单状态 -->
-            <template slot="status" slot-scope="status, record">
-              <div class="flex items-center gap-2">
-                <a-tag :class="getStatusTagClass(status)">
-                  {{ ORDER_STATUS_LABELS[status] }}
+            <template slot="status" slot-scope="status">
+              <a-tag :class="getStatusTagClass(status)">
+                {{ ORDER_STATUS_LABELS[status] }}
+              </a-tag>
+            </template>
+
+            <!-- 退款记录 -->
+            <template slot="refundRecord" slot-scope="text, record">
+              <div v-if="record.refundRecords && record.refundRecords.length > 0">
+                <a-tag class="bg-red-50 text-red-700 border-red-300">
+                  {{ record.refundRecords[0].status }}
                 </a-tag>
-                <a-badge
-                  v-if="record.hasRefundRequest"
-                  count="退"
-                  :number-style="{ backgroundColor: '#ef4444', fontSize: '10px' }"
-                />
               </div>
+              <span v-else class="text-slate-400 text-sm">-</span>
             </template>
 
             <!-- 下单时间 -->
@@ -129,26 +138,15 @@
               <span class="text-sm text-slate-900">{{ createdAt }}</span>
             </template>
 
-            <!-- 操作 -->
+            <!-- 操作（按PRD简化） -->
             <template slot="action" slot-scope="text, record">
-              <div class="flex justify-end gap-2">
-                <a-button
-                  size="small"
-                  class="h-7 px-3 text-blue-600 border-blue-300"
-                  @click="handleViewDetail(record)"
-                >
-                  <a-icon type="file-text" />
-                  查询
-                </a-button>
-                <a-button
-                  size="small"
-                  class="h-7 px-3 text-blue-600 border-blue-300"
-                  @click="handleViewDetail(record)"
-                >
-                  <a-icon type="edit" />
-                  详情
-                </a-button>
-              </div>
+              <a-button
+                size="small"
+                class="h-7 px-3"
+                @click="handleViewDetail(record)"
+              >
+                查询
+              </a-button>
             </template>
           </a-table>
         </div>
@@ -181,28 +179,30 @@ export default defineComponent({
     const currentPage = ref(1)
     const pageSize = ref(10)
 
-    // 筛选条件
+    // 筛选条件（按PRD优化）
     const filters = reactive({
-      roomType: '',
-      startDate: undefined as Dayjs | undefined,
-      endDate: undefined as Dayjs | undefined,
-      orderStatus: 'all'
+      orderStatus: 'all',
+      orderCreatedRange: undefined as [Dayjs, Dayjs] | undefined,
+      checkInRange: undefined as [Dayjs, Dayjs] | undefined,
+      hotelName: '',
+      searchKeyword: ''
     })
 
     // 详情弹窗
     const isDetailDialogOpen = ref(false)
     const selectedOrder = ref<Order | null>(null)
 
-    // ========== 表格配置 ==========
+    // ========== 表格配置（按用户建议优化） ==========
     const columns = [
-      { title: '订单号', dataIndex: 'orderNumber', scopedSlots: { customRender: 'orderNumber' } },
-      { title: '订房人', scopedSlots: { customRender: 'guestInfo' } },
-      { title: '房型', dataIndex: 'roomType' },
-      { title: '入住日期', scopedSlots: { customRender: 'checkInDates' } },
-      { title: '支付金额', dataIndex: 'actualAmount', scopedSlots: { customRender: 'actualAmount' } },
-      { title: '订单状态', dataIndex: 'status', scopedSlots: { customRender: 'status' } },
-      { title: '下单时间', dataIndex: 'createdAt', scopedSlots: { customRender: 'createdAt' } },
-      { title: '操作', align: 'right', scopedSlots: { customRender: 'action' }, width: 180 }
+      { title: '订单号', dataIndex: 'orderNumber', width: 140, scopedSlots: { customRender: 'orderNumber' } },
+      { title: '状态', dataIndex: 'status', width: 100, scopedSlots: { customRender: 'status' } },
+      { title: '下单时间', dataIndex: 'createdAt', width: 160, scopedSlots: { customRender: 'createdAt' } },
+      { title: '入住日期', width: 160, scopedSlots: { customRender: 'checkInDates' } },
+      { title: '酒店', dataIndex: 'hotelName', width: 140 },
+      { title: '房型', dataIndex: 'roomType', width: 160 },
+      { title: '支付金额', dataIndex: 'actualAmount', width: 100, scopedSlots: { customRender: 'actualAmount' } },
+      { title: '退款记录', width: 120, scopedSlots: { customRender: 'refundRecord' } },
+      { title: '操作', align: 'right', width: 90, scopedSlots: { customRender: 'action' } }
     ]
 
     // 分页配置
@@ -220,10 +220,13 @@ export default defineComponent({
       loading.value = true
       try {
         const params: OrderFilterParams = {
-          roomType: filters.roomType || undefined,
-          startDate: filters.startDate ? dayjs(filters.startDate).format('YYYY-MM-DD') : undefined,
-          endDate: filters.endDate ? dayjs(filters.endDate).format('YYYY-MM-DD') : undefined,
           orderStatus: filters.orderStatus === 'all' ? undefined : filters.orderStatus,
+          orderCreatedStart: filters.orderCreatedRange?.[0] ? dayjs(filters.orderCreatedRange[0]).format('YYYY-MM-DD') : undefined,
+          orderCreatedEnd: filters.orderCreatedRange?.[1] ? dayjs(filters.orderCreatedRange[1]).format('YYYY-MM-DD') : undefined,
+          checkInStart: filters.checkInRange?.[0] ? dayjs(filters.checkInRange[0]).format('YYYY-MM-DD') : undefined,
+          checkInEnd: filters.checkInRange?.[1] ? dayjs(filters.checkInRange[1]).format('YYYY-MM-DD') : undefined,
+          hotelName: filters.hotelName || undefined,
+          searchKeyword: filters.searchKeyword || undefined,
           page: currentPage.value,
           pageSize: pageSize.value
         }
@@ -245,10 +248,11 @@ export default defineComponent({
     }
 
     const handleReset = () => {
-      filters.roomType = ''
-      filters.startDate = undefined
-      filters.endDate = undefined
       filters.orderStatus = 'all'
+      filters.orderCreatedRange = undefined
+      filters.checkInRange = undefined
+      filters.hotelName = ''
+      filters.searchKeyword = ''
       currentPage.value = 1
       fetchOrders()
     }
@@ -354,12 +358,24 @@ export default defineComponent({
   grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
+.grid-cols-12 {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
 .col-span-2 {
   grid-column: span 2 / span 2;
 }
 
 .col-span-3 {
   grid-column: span 3 / span 3;
+}
+
+.col-span-4 {
+  grid-column: span 4 / span 4;
+}
+
+.col-span-9 {
+  grid-column: span 9 / span 9;
 }
 
 .gap-2 {

@@ -33,9 +33,9 @@ export enum OrderStatus {
  * 订单状态显示标签
  */
 export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
-  [OrderStatus.PENDING_PAYMENT]: '待支付',
+  [OrderStatus.PENDING_PAYMENT]: '待付款',
   [OrderStatus.PENDING_CHECKIN]: '待入住',
-  [OrderStatus.CHECKED_IN]: '入住中',
+  [OrderStatus.CHECKED_IN]: '已入住',
   [OrderStatus.CHECKED_OUT]: '已离店',
   [OrderStatus.COMPLETED]: '已完成',
   [OrderStatus.PAYMENT_CANCELLED]: '支付取消',
@@ -83,6 +83,40 @@ export const CHECK_IN_STATUS_LABELS: Record<CheckInStatus, string> = {
   [CheckInStatus.NOT_CHECKED_IN]: '未入住',
   [CheckInStatus.CHECKED_IN]: '已入住',
   [CheckInStatus.CHECKED_OUT]: '已离店'
+}
+
+// ========== 积分服务相关 ==========
+
+/**
+ * 积分服务项
+ */
+export interface PointsServiceItem {
+  name: string
+  points: number
+}
+
+/**
+ * 订单积分服务
+ */
+export interface OrderPointsServices {
+  rewards: PointsServiceItem[]    // 积分奖励
+  exchanges: PointsServiceItem[]  // 积分换购
+}
+
+// ========== 退款记录相关 ==========
+
+/**
+ * 退款状态
+ */
+export type RefundStatus = '退款申请' | '门店退款' | '客人撤诉' | '平台支持退款'
+
+/**
+ * 退款记录
+ */
+export interface RefundRecord {
+  status: RefundStatus
+  amount?: number  // 客人撤诉时不显示金额
+  time: string
 }
 
 // ========== 订单数据模型 ==========
@@ -145,18 +179,26 @@ export interface Order {
   refundRequestedAt?: string
   refundAmount?: number
   refundedAt?: string
+
+  // 扩展信息（PRD新增）
+  pointsServices?: OrderPointsServices  // 积分服务（可选，不含积分抵扣）
+  refundRecords?: RefundRecord[]        // 退款记录（可选）
+  merchantNote?: string                 // 商家备注（可选）
 }
 
 // ========== 筛选参数 ==========
 
 /**
- * 订单列表筛选参数
+ * 订单列表筛选参数（按PRD优化）
  */
 export interface OrderFilterParams {
-  roomType?: string
-  startDate?: string
-  endDate?: string
-  orderStatus?: string
+  orderStatus?: string           // 订单状态
+  orderCreatedStart?: string     // 下单开始时间
+  orderCreatedEnd?: string       // 下单结束时间
+  checkInStart?: string          // 入住开始时间
+  checkInEnd?: string            // 入住结束时间
+  hotelName?: string             // 酒店名称（模糊搜索）
+  searchKeyword?: string         // 订单号/手机号搜索
   page?: number
   pageSize?: number
 }

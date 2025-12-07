@@ -7,17 +7,13 @@
     @cancel="handleClose"
   >
     <div v-if="order" class="space-y-6">
-      <!-- 订单基本信息 -->
+      <!-- 模块1: 基础信息（订单号、状态、下单时间、支付单号、支付时间） -->
       <div>
-        <h3 class="text-base font-semibold text-slate-900 mb-4">订单基本信息</h3>
+        <h3 class="text-base font-semibold text-slate-900 mb-4">基础信息</h3>
         <div class="grid grid-cols-2 gap-4">
           <div>
             <span class="text-sm text-slate-600">订单号：</span>
             <span class="text-sm text-slate-900 font-mono">{{ order.orderNumber }}</span>
-          </div>
-          <div>
-            <span class="text-sm text-slate-600">下单时间：</span>
-            <span class="text-sm text-slate-900">{{ order.createdAt }}</span>
           </div>
           <div>
             <span class="text-sm text-slate-600">订单状态：</span>
@@ -26,56 +22,43 @@
             </a-tag>
           </div>
           <div>
-            <span class="text-sm text-slate-600">支付状态：</span>
-            <a-tag :class="getPaymentStatusTagClass(order.paymentStatus)">
-              {{ PAYMENT_STATUS_LABELS[order.paymentStatus] }}
-            </a-tag>
+            <span class="text-sm text-slate-600">下单时间：</span>
+            <span class="text-sm text-slate-900">{{ order.createdAt }}</span>
+          </div>
+          <div v-if="order.paidAt">
+            <span class="text-sm text-slate-600">支付时间：</span>
+            <span class="text-sm text-slate-900">{{ order.paidAt }}</span>
           </div>
         </div>
       </div>
 
-      <!-- 客人信息 -->
+      <!-- 模块2: 入住信息（酒店、房型、入住日期、入住人） -->
       <div>
-        <h3 class="text-base font-semibold text-slate-900 mb-4">客人信息</h3>
+        <h3 class="text-base font-semibold text-slate-900 mb-4">入住信息</h3>
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <span class="text-sm text-slate-600">订房人姓名：</span>
-            <span class="text-sm text-slate-900 font-medium">{{ order.guestName }}</span>
+            <span class="text-sm text-slate-600">酒店：</span>
+            <span class="text-sm text-slate-900 font-medium">{{ order.hotelName }}</span>
           </div>
-          <div>
-            <span class="text-sm text-slate-600">联系电话：</span>
-            <span class="text-sm text-slate-900">{{ order.guestPhone }}</span>
-          </div>
-          <div>
-            <span class="text-sm text-slate-600">用户名：</span>
-            <span class="text-sm text-slate-900">{{ order.userName }}</span>
-          </div>
-          <div>
-            <span class="text-sm text-slate-600">用户手机：</span>
-            <span class="text-sm text-slate-900">{{ order.userPhone }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 房间信息 -->
-      <div>
-        <h3 class="text-base font-semibold text-slate-900 mb-4">房间信息</h3>
-        <div class="grid grid-cols-2 gap-4">
           <div>
             <span class="text-sm text-slate-600">房型：</span>
             <span class="text-sm text-slate-900 font-medium">{{ order.roomType }}</span>
+          </div>
+          <div>
+            <span class="text-sm text-slate-600">入住日期：</span>
+            <span class="text-sm text-slate-900">{{ order.checkInDate }} - {{ order.checkOutDate }}</span>
           </div>
           <div>
             <span class="text-sm text-slate-600">间夜数：</span>
             <span class="text-sm text-slate-900">{{ order.nights }} 晚</span>
           </div>
           <div>
-            <span class="text-sm text-slate-600">入住日期：</span>
-            <span class="text-sm text-slate-900">{{ order.checkInDate }}</span>
+            <span class="text-sm text-slate-600">入住人：</span>
+            <span class="text-sm text-slate-900">{{ order.guestName }}</span>
           </div>
           <div>
-            <span class="text-sm text-slate-600">离店日期：</span>
-            <span class="text-sm text-slate-900">{{ order.checkOutDate }}</span>
+            <span class="text-sm text-slate-600">联系电话：</span>
+            <span class="text-sm text-slate-900">{{ order.guestPhone }}</span>
           </div>
           <div v-if="order.roomNumber">
             <span class="text-sm text-slate-600">房间号：</span>
@@ -84,7 +67,7 @@
         </div>
       </div>
 
-      <!-- 费用明细 -->
+      <!-- 模块3: 支付明细（价格计算逻辑） -->
       <div>
         <h3 class="text-base font-semibold text-slate-900 mb-4">费用明细</h3>
         <div class="border border-slate-200 rounded-lg p-4 space-y-3">
@@ -123,18 +106,70 @@
         </div>
       </div>
 
-      <!-- 退款信息（如果有） -->
-      <div v-if="order.hasRefundRequest">
-        <h3 class="text-base font-semibold text-slate-900 mb-4">退款信息</h3>
-        <div class="border border-red-200 rounded-lg p-4 bg-red-50 space-y-2">
-          <div>
-            <span class="text-sm text-slate-600">退款金额：</span>
-            <span class="text-sm text-red-600 font-medium">¥{{ order.refundAmount }}</span>
-          </div>
-          <div v-if="order.refundRequestedAt">
-            <span class="text-sm text-slate-600">申请时间：</span>
-            <span class="text-sm text-slate-900">{{ order.refundRequestedAt }}</span>
-          </div>
+      <!-- 模块4: 积分服务（条件显示，不含积分抵扣） -->
+      <div v-if="order.pointsServices && (order.pointsServices.rewards.length > 0 || order.pointsServices.exchanges.length > 0)">
+        <h3 class="text-base font-semibold text-slate-900 mb-4">积分服务</h3>
+
+        <!-- 积分奖励 -->
+        <div v-if="order.pointsServices.rewards.length > 0" class="mb-4">
+          <h4 class="text-sm font-semibold text-slate-700 mb-2">积分奖励</h4>
+          <ul class="space-y-1.5">
+            <li v-for="(item, idx) in order.pointsServices.rewards" :key="`reward-${idx}`" class="flex items-center">
+              <span class="text-sm text-slate-900">{{ item.name }}</span>
+              <span class="text-sm text-green-600 font-medium ml-2">(+{{ item.points }}积分)</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 积分换购 -->
+        <div v-if="order.pointsServices.exchanges.length > 0">
+          <h4 class="text-sm font-semibold text-slate-700 mb-2">积分换购</h4>
+          <ul class="space-y-1.5">
+            <li v-for="(item, idx) in order.pointsServices.exchanges" :key="`exchange-${idx}`" class="flex items-center">
+              <span class="text-sm text-slate-900">{{ item.name }}</span>
+              <span class="text-sm text-red-600 font-medium ml-2">(-{{ item.points }}积分)</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 模块5: 退款记录（条件显示） -->
+      <div v-if="order.refundRecords && order.refundRecords.length > 0">
+        <h3 class="text-base font-semibold text-slate-900 mb-4">退款记录</h3>
+        <div class="border border-slate-200 rounded-lg overflow-hidden">
+          <table class="w-full">
+            <thead class="bg-slate-50">
+              <tr>
+                <th class="text-left text-sm font-semibold text-slate-700 px-4 py-2">退款状态</th>
+                <th class="text-left text-sm font-semibold text-slate-700 px-4 py-2">退款金额</th>
+                <th class="text-left text-sm font-semibold text-slate-700 px-4 py-2">处理时间</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(record, idx) in order.refundRecords" :key="`refund-${idx}`" class="border-t border-slate-200">
+                <td class="px-4 py-3">
+                  <a-tag class="bg-red-50 text-red-700 border-red-300">
+                    {{ record.status }}
+                  </a-tag>
+                </td>
+                <td class="px-4 py-3">
+                  <span v-if="record.status === '客人撤诉'" class="text-sm text-slate-400">-</span>
+                  <span v-else class="text-sm text-red-600 font-medium">¥{{ record.amount }}</span>
+                </td>
+                <td class="px-4 py-3">
+                  <span class="text-sm text-slate-900">{{ record.time }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 模块6: 商家备注（条件显示） -->
+      <div v-if="order.merchantNote">
+        <h3 class="text-base font-semibold text-slate-900 mb-4">商家备注</h3>
+        <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+          <p class="text-sm text-slate-900 leading-relaxed">{{ order.merchantNote }}</p>
         </div>
       </div>
     </div>
@@ -400,5 +435,87 @@ export default defineComponent({
 }
 .border-green-300 {
   border-color: #86efac;
+}
+
+// 新增样式 - 支持PRD新模块
+.space-y-1\.5 > * + * {
+  margin-top: 6px;
+}
+
+.mb-2 {
+  margin-bottom: 8px;
+}
+
+.ml-2 {
+  margin-left: 8px;
+}
+
+.leading-relaxed {
+  line-height: 1.625;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.px-4 {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.py-2 {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.py-3 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.border-t {
+  border-top-width: 1px;
+}
+
+.text-xs {
+  font-size: 12px;
+}
+
+.bg-slate-50 {
+  background-color: #f8fafc;
+}
+
+.text-slate-700 {
+  color: #334155;
+}
+
+.text-slate-400 {
+  color: #94a3b8;
+}
+
+.text-green-600 {
+  color: #16a34a;
+}
+
+.bg-red-50 {
+  background-color: #fef2f2;
+}
+
+.text-red-700 {
+  color: #b91c1c;
+}
+
+.border-red-300 {
+  border-color: #fca5a5;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  text-align: left;
 }
 </style>
