@@ -7,58 +7,59 @@
       collapsible
       :width="256"
       theme="dark"
-      style="overflow: auto; height: 100vh; position: fixed; left: 0; z-index: 100"
       class="custom-sider"
     >
-      <!-- Logo 区域 -->
-      <div class="logo-container">
-        <router-link to="/" class="logo-link">
-          <h1 v-if="!collapsed" class="logo-title">小而美 2.0</h1>
-          <h1 v-else class="logo-title-collapsed">小</h1>
-        </router-link>
-      </div>
+      <div class="sider-content">
+        <!-- Logo 区域 -->
+        <div class="logo-container">
+          <router-link to="/" class="logo-link">
+            <h1 v-if="!collapsed" class="logo-title">小而美 2.0</h1>
+            <h1 v-else class="logo-title-collapsed">小</h1>
+          </router-link>
+        </div>
 
-      <!-- 菜单 -->
-      <a-menu
-        v-model:selectedKeys="selectedKeys"
-        v-model:openKeys="openKeys"
-        mode="inline"
-        theme="dark"
-        class="custom-menu"
-        @openChange="onOpenChange"
-      >
-        <template v-for="item in menuItems">
-          <a-sub-menu v-if="item.children" :key="item.key">
-            <span slot="title">
-              <a-icon v-if="item.icon" :type="item.icon" />
-              <span>{{ item.title }}</span>
-            </span>
-            <template v-for="child in item.children">
-              <a-sub-menu v-if="child.children" :key="child.key">
-                <span slot="title">{{ child.title }}</span>
+        <!-- 菜单 -->
+        <a-menu
+          :selected-keys="selectedKeys"
+          :open-keys="openKeys"
+          mode="inline"
+          theme="dark"
+          class="custom-menu"
+          @openChange="onOpenChange"
+        >
+          <template v-for="item in menuItems">
+            <a-sub-menu v-if="item.children" :key="item.key">
+              <span slot="title">
+                <a-icon v-if="item.icon" :type="item.icon" />
+                <span>{{ item.title }}</span>
+              </span>
+              <template v-for="child in item.children">
+                <a-sub-menu v-if="child.children" :key="child.key">
+                  <span slot="title">{{ child.title }}</span>
+                  <a-menu-item
+                    v-for="leaf in child.children"
+                    :key="leaf.key"
+                    @click="handleMenuClick(leaf.path, leaf.key)"
+                  >
+                    {{ leaf.title }}
+                  </a-menu-item>
+                </a-sub-menu>
                 <a-menu-item
-                  v-for="leaf in child.children"
-                  :key="leaf.key"
-                  @click="handleMenuClick(leaf.path, leaf.key)"
+                  v-else
+                  :key="child.key"
+                  @click="handleMenuClick(child.path, child.key)"
                 >
-                  {{ leaf.title }}
+                  {{ child.title }}
                 </a-menu-item>
-              </a-sub-menu>
-              <a-menu-item
-                v-else
-                :key="child.key"
-                @click="handleMenuClick(child.path, child.key)"
-              >
-                {{ child.title }}
-              </a-menu-item>
-            </template>
-          </a-sub-menu>
-        </template>
-      </a-menu>
+              </template>
+            </a-sub-menu>
+          </template>
+        </a-menu>
 
-      <!-- 折叠按钮 -->
-      <div class="collapse-trigger" @click="toggleCollapsed">
-        <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
+        <!-- 折叠按钮 -->
+        <div class="collapse-trigger" @click="toggleCollapsed">
+          <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
+        </div>
       </div>
     </a-layout-sider>
 
@@ -87,6 +88,22 @@ export default defineComponent({
     const selectedKeys = ref([])
     const openKeys = ref([])
 
+    // 获取所有一级和二级菜单的keys（默认全部展开）
+    const getAllMenuKeys = () => {
+      const keys = []
+      menuConfig.forEach(item => {
+        if (item.children) {
+          keys.push(item.key)
+          item.children.forEach(child => {
+            if (child.children) {
+              keys.push(child.key)
+            }
+          })
+        }
+      })
+      return keys
+    }
+
     // 从路径查找菜单key和父级keys
     const findMenuKeyByPath = (path, items = menuConfig, parents = []) => {
       for (const item of items) {
@@ -112,8 +129,8 @@ export default defineComponent({
         collapsed.value = savedCollapsed === 'true'
       }
 
-      // 2. 默认展开所有一级菜单
-      const allFirstLevelKeys = menuConfig.map(item => item.key)
+      // 2. 默认展开所有菜单
+      const allKeys = getAllMenuKeys()
 
       // 3. 恢复保存的展开状态（如果有）
       const savedOpenKeys = localStorage.getItem(STORAGE_KEYS.OPEN_KEYS)
@@ -121,12 +138,13 @@ export default defineComponent({
         try {
           const parsed = JSON.parse(savedOpenKeys)
           // 合并默认展开和保存的展开状态
-          openKeys.value = [...new Set([...allFirstLevelKeys, ...parsed])]
+          openKeys.value = [...new Set([...allKeys, ...parsed])]
         } catch (e) {
-          openKeys.value = allFirstLevelKeys
+          openKeys.value = allKeys
         }
       } else {
-        openKeys.value = allFirstLevelKeys
+        openKeys.value = allKeys
+        localStorage.setItem(STORAGE_KEYS.OPEN_KEYS, JSON.stringify(allKeys))
       }
 
       // 4. 根据当前路由设置选中状态
@@ -148,7 +166,7 @@ export default defineComponent({
       }
     }
 
-    // 监听路由变化，立即更新选中状态
+    // 监听路由变化
     watch(() => root.$route.path, (newPath) => {
       updateSelectedKeys(newPath)
     }, { immediate: false })
@@ -203,11 +221,24 @@ export default defineComponent({
 <style scoped lang="less">
 // 自定义侧边栏样式
 .custom-sider {
+  overflow: auto;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  z-index: 100;
+
   :deep(.ant-layout-sider-children) {
     display: flex;
     flex-direction: column;
     background: #001529;
+    height: 100%;
   }
+}
+
+.sider-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .logo-container {
@@ -217,6 +248,7 @@ export default defineComponent({
   justify-content: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background: #002140;
+  flex-shrink: 0;
 
   .logo-link {
     text-decoration: none;
@@ -243,6 +275,8 @@ export default defineComponent({
   flex: 1;
   border-right: none;
   padding: 8px 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   :deep(.ant-menu-item),
   :deep(.ant-menu-submenu-title) {
@@ -308,10 +342,6 @@ export default defineComponent({
 }
 
 .collapse-trigger {
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  width: 100%;
   height: 48px;
   display: flex;
   align-items: center;
@@ -321,6 +351,7 @@ export default defineComponent({
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.65);
   transition: all 0.2s;
+  flex-shrink: 0;
 
   &:hover {
     color: #ffffff;
@@ -333,23 +364,21 @@ export default defineComponent({
 }
 
 // 滚动条样式
-.custom-sider {
-  :deep(.ant-layout-sider-children) {
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
+.custom-menu {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
 
-    &::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.1);
-    }
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+  }
 
-    &::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 3px;
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
 
-      &:hover {
-        background: rgba(255, 255, 255, 0.3);
-      }
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
     }
   }
 }

@@ -102,7 +102,9 @@
 
           <!-- 获得方式 -->
           <template slot="formalObtainMethod" slot-scope="text">
-            <span class="method-text">{{ getObtainMethodLabel(text) }}</span>
+            <a-tag :class="getObtainMethodClass(text)">
+              {{ getObtainMethodLabel(text) }}
+            </a-tag>
           </template>
 
           <!-- 关联商户 -->
@@ -383,6 +385,15 @@ export default defineComponent({
     getObtainMethodLabel(method: string): string {
       return ObtainMethodLabels[method as keyof typeof ObtainMethodLabels] || method
     },
+    getObtainMethodClass(method: string): string {
+      const classMap: Record<string, string> = {
+        'purchase': 'tag-blue',
+        'gift': 'tag-purple',
+        'upgrade': 'tag-green',
+        'import': 'tag-orange'
+      }
+      return classMap[method] || ''
+    },
     formatDate(datetime: string): string {
       if (!datetime) return '-'
       return dayjs(datetime).format('YYYY-MM-DD')
@@ -549,5 +560,30 @@ export default defineComponent({
     line-height: 1.5;
     margin-top: 2px;
   }
+}
+
+// 获得方式标签
+.tag-blue {
+  color: #1d4ed8;
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.tag-purple {
+  color: #7c3aed;
+  background: #f5f3ff;
+  border-color: #ddd6fe;
+}
+
+.tag-green {
+  color: #15803d;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.tag-orange {
+  color: #c2410c;
+  background: #fff7ed;
+  border-color: #fed7aa;
 }
 </style>
