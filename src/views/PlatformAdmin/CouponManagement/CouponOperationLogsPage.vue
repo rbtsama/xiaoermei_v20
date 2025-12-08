@@ -27,21 +27,20 @@
             <span class="coupon-id">{{ couponId }}</span>
           </template>
 
-          <!-- 优惠券名称 -->
-          <template slot="couponName" slot-scope="name">
-            <span class="coupon-name">{{ name }}</span>
-          </template>
-
-          <!-- 操作类型 -->
-          <template slot="operationType" slot-scope="text">
-            <a-tag :class="getOperationTypeClass(text)">
-              {{ getOperationTypeName(text) }}
+          <!-- 操作 -->
+          <template slot="operation" slot-scope="operation">
+            <a-tag :class="getOperationClass(operation)">
+              {{ getOperationText(operation) }}
             </a-tag>
           </template>
 
-          <!-- 操作描述 -->
-          <template slot="description" slot-scope="desc">
-            <span class="desc-text">{{ desc }}</span>
+          <!-- 操作内容 -->
+          <template slot="content" slot-scope="content">
+            <div class="content-text">
+              <div v-for="(change, index) in parseContent(content)" :key="index" class="change-item">
+                {{ change }}
+              </div>
+            </div>
           </template>
 
           <!-- 操作时间 -->
@@ -53,7 +52,7 @@
           </template>
 
           <!-- 操作人 -->
-          <template slot="operatedBy" slot-scope="operator">
+          <template slot="operator" slot-scope="operator">
             <span class="operator-text">{{ operator }}</span>
           </template>
         </a-table>
@@ -65,8 +64,51 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
-import CouponService from './services/coupon.service'
 import dayjs from 'dayjs'
+
+// Mock数据
+const mockOperationLogs = [
+  {
+    id: '1',
+    couponId: 'CPN001',
+    operation: 'create',
+    content: '创建优惠券：新用户专享券',
+    operatedAt: '2025-12-08 14:30:25',
+    operator: '张三'
+  },
+  {
+    id: '2',
+    couponId: 'CPN001',
+    operation: 'edit',
+    content: '平台承担比例：20% → 25%\n最高优惠金额：50元 → 60元',
+    operatedAt: '2025-12-08 11:20:10',
+    operator: '李四'
+  },
+  {
+    id: '3',
+    couponId: 'CPN002',
+    operation: 'create',
+    content: '创建优惠券：周末特惠券',
+    operatedAt: '2025-12-07 16:15:40',
+    operator: '王五'
+  },
+  {
+    id: '4',
+    couponId: 'CPN001',
+    operation: 'edit',
+    content: '有效天数：30天 → 60天',
+    operatedAt: '2025-12-07 10:05:18',
+    operator: '张三'
+  },
+  {
+    id: '5',
+    couponId: 'CPN003',
+    operation: 'create',
+    content: '创建优惠券：首单立减券',
+    operatedAt: '2025-12-06 15:22:33',
+    operator: '李四'
+  }
+]
 
 export default defineComponent({
   name: 'CouponOperationLogsPage',
@@ -94,24 +136,17 @@ export default defineComponent({
           scopedSlots: { customRender: 'couponId' }
         },
         {
-          title: '优惠券名称',
-          dataIndex: 'couponName',
-          key: 'couponName',
-          width: 180,
-          scopedSlots: { customRender: 'couponName' }
+          title: '操作',
+          dataIndex: 'operation',
+          key: 'operation',
+          width: 80,
+          scopedSlots: { customRender: 'operation' }
         },
         {
-          title: '操作类型',
-          dataIndex: 'operationType',
-          key: 'operationType',
-          width: 90,
-          scopedSlots: { customRender: 'operationType' }
-        },
-        {
-          title: '操作描述',
-          dataIndex: 'description',
-          key: 'description',
-          scopedSlots: { customRender: 'description' }
+          title: '操作内容',
+          dataIndex: 'content',
+          key: 'content',
+          scopedSlots: { customRender: 'content' }
         },
         {
           title: '操作时间',
@@ -122,10 +157,10 @@ export default defineComponent({
         },
         {
           title: '操作人',
-          dataIndex: 'operatedBy',
-          key: 'operatedBy',
-          width: 120,
-          scopedSlots: { customRender: 'operatedBy' }
+          dataIndex: 'operator',
+          key: 'operator',
+          width: 100,
+          scopedSlots: { customRender: 'operator' }
         }
       ]
     }
@@ -139,12 +174,16 @@ export default defineComponent({
     async loadData() {
       this.isLoading = true
       try {
-        const result = await CouponService.getOperationLogs({
-          page: this.pagination.current,
-          pageSize: this.pagination.pageSize
-        })
-        this.tableData = result.data
-        this.pagination.total = result.total
+        // 模拟API延迟
+        await new Promise(resolve => setTimeout(resolve, 300))
+
+        // 使用Mock数据（操作时间倒序）
+        const sortedData = [...mockOperationLogs].sort((a, b) =>
+          new Date(b.operatedAt).getTime() - new Date(a.operatedAt).getTime()
+        )
+
+        this.tableData = sortedData
+        this.pagination.total = sortedData.length
       } catch (error) {
         console.error('Failed to load operation logs:', error)
         this.$message.error('加载操作记录失败')
@@ -163,26 +202,25 @@ export default defineComponent({
       this.$router.push('/platform-admin/coupon-management/list')
     },
 
-    getOperationTypeName(type: string): string {
+    getOperationText(operation: string): string {
       const map: Record<string, string> = {
         create: '创建',
-        edit: '编辑',
-        enable: '启用',
-        disable: '停用',
-        delete: '删除'
+        edit: '编辑'
       }
-      return map[type] || type
+      return map[operation] || operation
     },
 
-    getOperationTypeClass(type: string): string {
+    getOperationClass(operation: string): string {
       const map: Record<string, string> = {
         create: 'tag-green',
-        edit: 'tag-blue',
-        enable: 'tag-green',
-        disable: 'tag-orange',
-        delete: 'tag-red'
+        edit: 'tag-blue'
       }
-      return map[type] || ''
+      return map[operation] || ''
+    },
+
+    parseContent(content: string): string[] {
+      if (!content) return []
+      return content.split('\n').filter(Boolean)
     },
 
     formatDate(datetime: string): string {
@@ -275,16 +313,17 @@ export default defineComponent({
   font-size: @font-size-sm;
 }
 
-// 优惠券名称
-.coupon-name {
-  color: @text-primary;
-  font-size: @font-size-base;
-}
-
-// 操作描述
-.desc-text {
-  color: @text-primary;
+// 操作内容
+.content-text {
   font-size: @font-size-sm;
+  color: @text-primary;
+  line-height: 1.6;
+
+  .change-item {
+    &:not(:last-child) {
+      margin-bottom: 4px;
+    }
+  }
 }
 
 // 操作人
@@ -322,18 +361,6 @@ export default defineComponent({
   color: #1d4ed8;
   background: #eff6ff;
   border-color: #bfdbfe;
-}
-
-.tag-orange {
-  color: #c2410c;
-  background: #fff7ed;
-  border-color: #fed7aa;
-}
-
-.tag-red {
-  color: #b91c1c;
-  background: #fee2e2;
-  border-color: #fca5a5;
 }
 
 :deep(.ant-tag) {

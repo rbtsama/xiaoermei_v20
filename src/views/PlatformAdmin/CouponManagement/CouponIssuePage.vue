@@ -40,16 +40,18 @@
           <!-- 按VIP等级选择 -->
           <a-form-model-item v-if="manualForm.distributionType === 'vip'" label="VIP等级">
             <div class="vip-checkbox-grid">
-              <a-checkbox
+              <label
                 v-for="level in vipLevels"
                 :key="level.id"
-                :value="level.id"
-                :checked="manualForm.selectedVipLevels.includes(level.id)"
-                @change="handleVipLevelToggle(level.id)"
                 class="vip-checkbox-item"
               >
-                {{ level.name }}
-              </a-checkbox>
+                <a-checkbox
+                  :value="level.id"
+                  :checked="manualForm.selectedVipLevels.includes(level.id)"
+                  @change="handleVipLevelToggle(level.id)"
+                />
+                <span>{{ level.name }}</span>
+              </label>
             </div>
           </a-form-model-item>
 
@@ -124,9 +126,9 @@
 
           <!-- 短信通知 -->
           <template slot="smsNotify" slot-scope="smsNotify">
-            <a-tag :class="smsNotify ? 'tag-green' : 'tag-gray'">
+            <span :class="smsNotify ? 'text-yes' : 'text-no'">
               {{ smsNotify ? '是' : '否' }}
-            </a-tag>
+            </span>
           </template>
 
           <!-- 状态 -->
@@ -615,20 +617,25 @@ export default defineComponent({
 }
 
 .vip-checkbox-item {
-  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
   background: @bg-secondary;
   border-radius: @border-radius-base;
   border: 1px solid @border-primary;
   transition: @transition-base;
+  cursor: pointer;
 
   &:hover {
     border-color: @brand-primary;
     background: @brand-primary-light;
   }
 
-  :deep(.ant-checkbox-wrapper) {
+  span {
     font-size: @font-size-sm;
     color: @text-primary;
+    user-select: none;
   }
 }
 
@@ -705,6 +712,18 @@ export default defineComponent({
 // 空文本
 .empty-text {
   color: @text-tertiary;
+  font-size: @font-size-sm;
+}
+
+// 短信通知文本
+.text-yes {
+  color: @success-color;
+  font-size: @font-size-sm;
+  font-weight: @font-weight-medium;
+}
+
+.text-no {
+  color: @text-primary;
   font-size: @font-size-sm;
 }
 
