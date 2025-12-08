@@ -1,19 +1,21 @@
 <template>
   <Sidebar>
-    <div class="page-container">
+    <div class="members-page">
       <!-- 搜索和筛选卡片 -->
       <a-card :bordered="false" class="filter-card">
         <div class="filter-container">
           <a-input
             v-model="filters.merchantName"
             placeholder="输入关联商户"
-            style="width: 280px"
-            @change="handleSearch"
-          />
+            style="width: 200px"
+            @pressEnter="handleSearch"
+          >
+            <a-icon slot="prefix" type="shop" />
+          </a-input>
 
           <a-select
             v-model="filters.accountStatus"
-            style="width: 160px"
+            style="width: 140px"
             placeholder="全部状态"
             @change="handleSearch"
           >
@@ -25,7 +27,7 @@
 
           <a-select
             v-model="filters.memberLevel"
-            style="width: 160px"
+            style="width: 140px"
             placeholder="全部等级"
             @change="handleSearch"
           >
@@ -47,9 +49,10 @@
             style="margin-left: auto"
             @click="handleExport"
             :loading="isExporting"
+            class="export-btn"
           >
             <a-icon type="download" />
-            导出
+            导出数据
           </a-button>
         </div>
       </a-card>
@@ -57,7 +60,7 @@
       <!-- 会员列表卡片 -->
       <a-card :bordered="false" class="list-card">
         <template #title>
-          <span>会员列表</span>
+          <span class="card-title">会员列表</span>
         </template>
 
         <a-table
@@ -67,9 +70,14 @@
           :pagination="pagination"
           @change="handleTableChange"
           rowKey="id"
-          size="small"
           :scroll="{ x: 1400 }"
+          class="custom-table"
         >
+          <!-- 手机号 -->
+          <template slot="phone" slot-scope="phone">
+            <span class="phone-text">{{ phone }}</span>
+          </template>
+
           <!-- 账号状态 -->
           <template slot="accountStatus" slot-scope="text">
             <a-tag :color="getStatusColor(text)">
@@ -77,28 +85,58 @@
             </a-tag>
           </template>
 
-          <!-- 会员等级（橙色加粗） -->
+          <!-- 会员等级 -->
           <template slot="currentLevel" slot-scope="text">
-            <span class="vip-level-highlight">VIP{{ text }}</span>
+            <span class="vip-level">VIP{{ text }}</span>
           </template>
 
           <!-- 正式会员等级 -->
           <template slot="formalLevel" slot-scope="text">
-            <span>VIP{{ text }}</span>
+            <span class="level-text">VIP{{ text }}</span>
+          </template>
+
+          <!-- 有效期至 -->
+          <template slot="formalExpiryDate" slot-scope="date">
+            <span class="date-text">{{ date || '—' }}</span>
           </template>
 
           <!-- 获得方式 -->
           <template slot="formalObtainMethod" slot-scope="text">
-            <span>{{ getObtainMethodLabel(text) }}</span>
+            <span class="method-text">{{ getObtainMethodLabel(text) }}</span>
+          </template>
+
+          <!-- 关联商户 -->
+          <template slot="relatedMerchant" slot-scope="text">
+            <span class="merchant-text">{{ text || '—' }}</span>
           </template>
 
           <!-- 赠送会员等级 -->
           <template slot="giftLevel" slot-scope="text">
-            <span>{{ text === 0 ? '-' : `VIP${text}` }}</span>
+            <span class="level-text">{{ text === 0 ? '—' : `VIP${text}` }}</span>
+          </template>
+
+          <!-- 赠送有效期 -->
+          <template slot="giftExpiryDate" slot-scope="date">
+            <span class="date-text">{{ date || '—' }}</span>
+          </template>
+
+          <!-- 赠送人 -->
+          <template slot="giftFrom" slot-scope="text">
+            <span class="gift-from-text">{{ text || '—' }}</span>
+          </template>
+
+          <!-- 更新时间 -->
+          <template slot="updatedAt" slot-scope="datetime">
+            <div class="datetime-cell">
+              <div class="date">{{ formatDate(datetime) }}</div>
+              <div class="time">{{ formatTime(datetime) }}</div>
+            </div>
           </template>
         </a-table>
 
-        <div v-if="tableData.length === 0" class="empty-state">暂无会员数据</div>
+        <div v-if="tableData.length === 0 && !isLoading" class="empty-state">
+          暂无会员数据
+        </div>
       </a-card>
     </div>
   </Sidebar>
@@ -114,6 +152,7 @@ import type {
 } from './types/member.types'
 import { AccountStatusLabels, ObtainMethodLabels } from './types/member.types'
 import memberService from './services/member.service'
+import dayjs from 'dayjs'
 
 interface FilterState {
   accountStatus: string | undefined
@@ -151,26 +190,27 @@ export default defineComponent({
           dataIndex: 'phone',
           key: 'phone',
           width: 120,
+          scopedSlots: { customRender: 'phone' }
         },
         {
           title: '账号状态',
           dataIndex: 'accountStatus',
           key: 'accountStatus',
-          width: 100,
+          width: 90,
           scopedSlots: { customRender: 'accountStatus' }
         },
         {
           title: '会员等级',
           dataIndex: 'currentLevel',
           key: 'currentLevel',
-          width: 100,
+          width: 90,
           scopedSlots: { customRender: 'currentLevel' }
         },
         {
-          title: '正式会员等级',
+          title: '正式等级',
           dataIndex: 'formalLevel',
           key: 'formalLevel',
-          width: 120,
+          width: 90,
           scopedSlots: { customRender: 'formalLevel' }
         },
         {
@@ -178,44 +218,49 @@ export default defineComponent({
           dataIndex: 'formalExpiryDate',
           key: 'formalExpiryDate',
           width: 110,
+          scopedSlots: { customRender: 'formalExpiryDate' }
         },
         {
           title: '获得方式',
           dataIndex: 'formalObtainMethod',
           key: 'formalObtainMethod',
-          width: 110,
+          width: 100,
           scopedSlots: { customRender: 'formalObtainMethod' }
         },
         {
           title: '关联商户',
           dataIndex: 'relatedMerchant',
           key: 'relatedMerchant',
-          width: 130,
+          width: 150,
+          scopedSlots: { customRender: 'relatedMerchant' }
         },
         {
-          title: '赠送会员等级',
+          title: '赠送等级',
           dataIndex: 'giftLevel',
           key: 'giftLevel',
-          width: 120,
+          width: 90,
           scopedSlots: { customRender: 'giftLevel' }
         },
         {
-          title: '有效期至',
+          title: '赠送有效期',
           dataIndex: 'giftExpiryDate',
           key: 'giftExpiryDate',
           width: 110,
+          scopedSlots: { customRender: 'giftExpiryDate' }
         },
         {
           title: '赠送人',
           dataIndex: 'giftFrom',
           key: 'giftFrom',
           width: 120,
+          scopedSlots: { customRender: 'giftFrom' }
         },
         {
           title: '更新时间',
           dataIndex: 'updatedAt',
           key: 'updatedAt',
-          width: 160,
+          width: 120,
+          scopedSlots: { customRender: 'updatedAt' }
         },
       ],
     }
@@ -314,7 +359,7 @@ export default defineComponent({
       const link = document.createElement('a')
       const url = URL.createObjectURL(blob)
       link.setAttribute('href', url)
-      link.setAttribute('download', `members-${Date.now()}.csv`)
+      link.setAttribute('download', `会员数据-${dayjs().format('YYYYMMDD-HHmmss')}.csv`)
       link.style.visibility = 'hidden'
       document.body.appendChild(link)
       link.click()
@@ -326,11 +371,11 @@ export default defineComponent({
     getStatusColor(status: string): string {
       switch (status) {
         case 'pre_register':
-          return 'blue'
+          return 'processing'
         case 'registered':
-          return 'green'
+          return 'success'
         case 'disabled':
-          return 'red'
+          return 'error'
         default:
           return 'default'
       }
@@ -338,20 +383,35 @@ export default defineComponent({
     getObtainMethodLabel(method: string): string {
       return ObtainMethodLabels[method as keyof typeof ObtainMethodLabels] || method
     },
+    formatDate(datetime: string): string {
+      if (!datetime) return '-'
+      return dayjs(datetime).format('YYYY-MM-DD')
+    },
+    formatTime(datetime: string): string {
+      if (!datetime) return '-'
+      return dayjs(datetime).format('HH:mm:ss')
+    },
   },
 })
 </script>
 
 <style scoped lang="less">
-.page-container {
+@import '@/styles/variables.less';
+
+.members-page {
   padding: 24px;
-  background: #f0f2f5;
-  min-height: calc(100vh - 0px);
+  max-width: 1800px;
+  margin: 0 auto;
 
   .filter-card {
-    margin-bottom: 24px;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+    margin-bottom: 20px;
+    border-radius: @border-radius-lg;
+    border: 1px solid @border-primary;
+    box-shadow: @shadow-sm;
+
+    :deep(.ant-card-body) {
+      padding: 20px 24px;
+    }
   }
 
   .filter-container {
@@ -361,21 +421,133 @@ export default defineComponent({
     flex-wrap: wrap;
   }
 
+  .export-btn {
+    background: #10b981;
+    border-color: #10b981;
+
+    &:hover {
+      background: #059669;
+      border-color: #059669;
+    }
+  }
+
   .list-card {
-    border-radius: 4px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+    border-radius: @border-radius-lg;
+    border: 1px solid @border-primary;
+    box-shadow: @shadow-sm;
+
+    :deep(.ant-card-head) {
+      border-bottom: 1px solid @bg-tertiary;
+      padding: 16px 24px;
+    }
+
+    :deep(.ant-card-body) {
+      padding: 0;
+    }
+  }
+
+  .card-title {
+    font-size: @font-size-lg;
+    font-weight: @font-weight-semibold;
+    color: @text-primary;
   }
 
   .empty-state {
     text-align: center;
     padding: 48px 0;
-    color: #999;
+    color: @text-tertiary;
+    font-size: @font-size-base;
   }
 }
 
-/* VIP等级橙色高亮 */
-.vip-level-highlight {
-  color: #ff7a1f;
-  font-weight: bold;
+// 自定义表格样式
+.custom-table {
+  :deep(.ant-table-thead > tr > th) {
+    background: @bg-secondary;
+    border-bottom: 1px solid @border-primary;
+    color: @text-primary;
+    font-weight: @font-weight-semibold;
+    font-size: @font-size-base;
+    padding: 12px 16px;
+  }
+
+  :deep(.ant-table-tbody > tr) {
+    &:hover > td {
+      background: @bg-hover;
+    }
+
+    > td {
+      border-bottom: 1px solid @border-primary;
+      padding: 12px 16px;
+      color: @text-primary;
+    }
+  }
+
+  :deep(.ant-table-pagination) {
+    padding: 16px 24px;
+  }
+}
+
+// 手机号文本（不使用特殊字体）
+.phone-text {
+  font-family: @font-family;
+  font-weight: @font-weight-medium;
+  color: @text-primary;
+  font-size: @font-size-base;
+}
+
+// VIP 等级高亮
+.vip-level {
+  color: #f97316;
+  font-weight: @font-weight-semibold;
+  font-size: @font-size-base;
+}
+
+// 等级文本
+.level-text {
+  color: @text-primary;
+  font-size: @font-size-sm;
+}
+
+// 日期文本
+.date-text {
+  color: @text-primary;
+  font-size: @font-size-sm;
+}
+
+// 方式文本
+.method-text {
+  color: @text-secondary;
+  font-size: @font-size-sm;
+}
+
+// 商户文本
+.merchant-text {
+  color: @text-primary;
+  font-size: @font-size-sm;
+}
+
+// 赠送人文本
+.gift-from-text {
+  color: @text-secondary;
+  font-size: @font-size-sm;
+}
+
+// 日期时间单元格
+.datetime-cell {
+  .date {
+    display: block;
+    color: @text-primary;
+    font-size: @font-size-base;
+    line-height: 1.5;
+  }
+
+  .time {
+    display: block;
+    color: @text-secondary;
+    font-size: @font-size-sm;
+    line-height: 1.5;
+    margin-top: 2px;
+  }
 }
 </style>
