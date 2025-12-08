@@ -1,5 +1,5 @@
 <template>
-  <div :class="`min-h-[36px] flex items-center text-slate-900 ${className}`">
+  <div :class="`display-value ${className}`">
     {{ displayValue }}
   </div>
 </template>
@@ -36,3 +36,14 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped lang="less">
+@import '@/styles/variables.less';
+
+.display-value {
+  min-height: @input-height;
+  display: flex;
+  align-items: center;
+  color: @text-primary;
+}
+</style>

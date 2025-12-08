@@ -1,23 +1,23 @@
 <template>
   <a-card
     :bordered="false"
-    class="rounded-xl border-slate-200 bg-white shadow-md hover:shadow-lg transition-all duration-200"
+    class="editable-card"
   >
     <template #title>
-      <div class="flex items-center justify-between">
-        <span class="text-base font-semibold text-slate-900">{{ title }}</span>
-        <div v-if="!hideActions" class="flex gap-2">
+      <div class="card-header">
+        <span class="card-title">{{ title }}</span>
+        <div v-if="!hideActions" class="action-buttons">
           <a-button
             v-if="!isEditing"
             type="primary"
-            class="h-9 px-4 bg-blue-600 hover:bg-blue-700"
+            class="edit-button"
             @click="$emit('edit')"
           >
             编辑
           </a-button>
           <template v-else>
             <a-button
-              class="h-9 px-4"
+              class="cancel-button"
               :disabled="isSaving"
               @click="$emit('cancel')"
             >
@@ -25,7 +25,7 @@
             </a-button>
             <a-button
               type="primary"
-              class="h-9 px-4 bg-blue-600 hover:bg-blue-700"
+              class="save-button"
               :loading="isSaving"
               @click="$emit('save')"
             >
@@ -64,3 +64,66 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped lang="less">
+@import '@/styles/variables.less';
+
+.editable-card {
+  border-radius: @border-radius-xl;
+  border: 1px solid @border-primary;
+  background: @bg-primary;
+  box-shadow: @shadow-sm;
+  transition: @transition-base;
+
+  &:hover {
+    box-shadow: @shadow-md;
+  }
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+}
+
+.action-buttons {
+  display: flex;
+  gap: @spacing-sm;
+}
+
+.edit-button,
+.save-button {
+  height: @button-height;
+  padding: 0 @spacing-md;
+  background: @brand-primary;
+  border-color: @brand-primary;
+  border-radius: @border-radius-base;
+  font-weight: @font-weight-medium;
+  transition: @transition-base;
+
+  &:hover {
+    background: @brand-primary-hover;
+    border-color: @brand-primary-hover;
+  }
+}
+
+.cancel-button {
+  height: @button-height;
+  padding: 0 @spacing-md;
+  border-radius: @border-radius-base;
+  border-color: @border-secondary;
+  color: @text-secondary;
+  transition: @transition-base;
+
+  &:hover {
+    border-color: @border-focus;
+    color: @brand-primary;
+  }
+}
+</style>

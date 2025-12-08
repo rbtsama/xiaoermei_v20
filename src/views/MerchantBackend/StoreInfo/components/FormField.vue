@@ -1,16 +1,16 @@
 <template>
-  <div :class="`space-y-2 ${className}`">
-    <div class="flex items-center gap-2">
-      <label class="text-sm font-medium text-slate-700">
-        <span v-if="required" class="text-red-600 mr-1">*</span>
+  <div :class="`form-field ${className}`">
+    <div class="field-label">
+      <label class="label-text">
+        <span v-if="required" class="required-mark">*</span>
         {{ label }}
       </label>
-      <span v-if="locked" class="text-xs text-slate-400 flex items-center gap-1">
-        <a-icon type="info-circle" class="text-xs" />
+      <span v-if="locked" class="lock-info">
+        <a-icon type="info-circle" class="info-icon" />
         {{ lockMessage }}
       </span>
-      <span v-if="hint" class="text-xs text-slate-500 flex items-center gap-1">
-        <a-icon type="info-circle" class="text-xs" />
+      <span v-if="hint" class="hint-text">
+        <a-icon type="info-circle" class="info-icon" />
         {{ hint }}
       </span>
     </div>
@@ -51,3 +51,50 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped lang="less">
+@import '@/styles/variables.less';
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: @spacing-sm;
+}
+
+.field-label {
+  display: flex;
+  align-items: center;
+  gap: @spacing-sm;
+}
+
+.label-text {
+  font-size: @font-size-sm;
+  font-weight: @font-weight-medium;
+  color: @text-primary;
+}
+
+.required-mark {
+  color: @error-color;
+  margin-right: @spacing-xs;
+}
+
+.lock-info {
+  font-size: @font-size-xs;
+  color: @text-tertiary;
+  display: flex;
+  align-items: center;
+  gap: @spacing-xs;
+}
+
+.hint-text {
+  font-size: @font-size-xs;
+  color: @text-tertiary;
+  display: flex;
+  align-items: center;
+  gap: @spacing-xs;
+}
+
+.info-icon {
+  font-size: @font-size-xs;
+}
+</style>

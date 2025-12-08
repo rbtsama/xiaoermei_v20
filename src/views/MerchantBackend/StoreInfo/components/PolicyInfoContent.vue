@@ -508,3 +508,103 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped lang="less">
+@import '@/styles/variables.less';
+
+.space-y-6 > * + * {
+  margin-top: @spacing-xl;
+}
+
+.space-y-4 > * + * {
+  margin-top: @spacing-md;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .md\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.gap-2 {
+  gap: @spacing-sm;
+}
+
+.gap-3 {
+  gap: @spacing-base;
+}
+
+.gap-4 {
+  gap: @spacing-md;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.pl-6 {
+  padding-left: 1.5rem;
+}
+
+.border-l-2 {
+  border-left-width: 2px;
+}
+
+.border-blue-200 {
+  border-color: @brand-primary-light;
+}
+
+.h-9 {
+  height: @input-height;
+}
+
+.w-32 {
+  width: 8rem;
+}
+
+.text-slate-900 {
+  color: @text-primary;
+}
+
+.text-slate-600 {
+  color: @text-secondary;
+}
+
+.text-sm {
+  font-size: @font-size-sm;
+}
+
+.whitespace-pre-wrap {
+  white-space: pre-wrap;
+}
+</style>
