@@ -2,7 +2,7 @@
   <a-modal
     :visible="visible"
     title="订单详情"
-    width="900px"
+    width="880px"
     :footer="null"
     @cancel="handleClose"
   >
@@ -13,7 +13,10 @@
         <div class="info-grid">
           <div class="info-item">
             <span class="info-label">下单时间</span>
-            <span class="info-value">{{ order.createdAt }}</span>
+            <div class="datetime-value">
+              <div class="date">{{ formatDate(order.createdAt) }}</div>
+              <div class="time">{{ formatTime(order.createdAt) }}</div>
+            </div>
           </div>
           <div class="info-item">
             <span class="info-label">订单号</span>
@@ -21,7 +24,7 @@
           </div>
           <div class="info-item">
             <span class="info-label">订单状态</span>
-            <a-tag :class="getStatusTagClass(order.status)">
+            <a-tag :color="getStatusColor(order.status)">
               {{ ORDER_STATUS_LABELS[order.status] }}
             </a-tag>
           </div>
@@ -31,7 +34,10 @@
           </div>
           <div v-if="order.paidAt" class="info-item">
             <span class="info-label">支付时间</span>
-            <span class="info-value">{{ order.paidAt }}</span>
+            <div class="datetime-value">
+              <div class="date">{{ formatDate(order.paidAt) }}</div>
+              <div class="time">{{ formatTime(order.paidAt) }}</div>
+            </div>
           </div>
         </div>
       </a-card>
@@ -48,7 +54,7 @@
             <span class="info-label">房型名称</span>
             <span class="info-value">{{ order.roomType }}</span>
           </div>
-          <div class="info-item">
+          <div class="info-item full-width">
             <span class="info-label">入住日期</span>
             <span class="info-value">{{ order.checkInDate }} - {{ order.checkOutDate }}（共 {{ order.nights }} 晚）</span>
           </div>
@@ -146,24 +152,27 @@
           :pagination="false"
           size="small"
           :row-key="(record, index) => `refund-${index}`"
-          :row-class-name="() => 'refund-row'"
+          class="refund-table"
         >
           <!-- 退款状态 -->
           <template slot="status" slot-scope="status">
-            <a-tag :class="getRefundStatusClass(status)">
+            <a-tag :color="getRefundStatusColor(status)">
               {{ status }}
             </a-tag>
           </template>
 
           <!-- 退款金额 -->
           <template slot="amount" slot-scope="amount, record">
-            <span v-if="record.status === '客人撤诉' || record.status === '客人发起申诉'" class="text-slate-400">-</span>
+            <span v-if="record.status === '客人撤诉' || record.status === '客人发起申诉'" class="empty-amount">-</span>
             <span v-else class="refund-amount">¥{{ amount }}</span>
           </template>
 
           <!-- 处理时间 -->
           <template slot="time" slot-scope="time">
-            <span class="time-value">{{ time }}</span>
+            <div class="datetime-value">
+              <div class="date">{{ formatDate(time) }}</div>
+              <div class="time">{{ formatTime(time) }}</div>
+            </div>
           </template>
         </a-table>
       </a-card>
@@ -182,7 +191,7 @@
     </div>
 
     <template #footer>
-      <a-button @click="handleClose">关闭</a-button>
+      <a-button @click="handleClose" size="large">关闭</a-button>
     </template>
   </a-modal>
 </template>
@@ -191,7 +200,8 @@
 import { defineComponent, computed } from '@vue/composition-api'
 import type { Order } from '../types/order.types'
 import type { RefundStatus } from '../types/order.types'
-import { ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } from '../types/order.types'
+import { ORDER_STATUS_LABELS } from '../types/order.types'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'OrderDetailDialog',
@@ -216,35 +226,46 @@ export default defineComponent({
 
     // 退款记录表格列
     const refundColumns = [
-      { title: '退款状态', width: 150, scopedSlots: { customRender: 'status' } },
+      { title: '退款状态', width: 140, scopedSlots: { customRender: 'status' } },
       { title: '退款金额', width: 120, scopedSlots: { customRender: 'amount' } },
       { title: '处理时间', scopedSlots: { customRender: 'time' } }
     ]
 
-    // 样式辅助函数
-    const getStatusTagClass = (status: string) => {
-      const color = ORDER_STATUS_COLORS[status as keyof typeof ORDER_STATUS_COLORS]
+    // 状态颜色映射
+    const getStatusColor = (status: string) => {
       const colorMap: Record<string, string> = {
-        'orange': 'bg-orange-100 text-orange-700 border-orange-300',
-        'blue': 'bg-blue-100 text-blue-700 border-blue-300',
-        'black': 'bg-slate-100 text-slate-700 border-slate-300',
-        'slate': 'bg-slate-100 text-slate-500 border-slate-300',
-        'red': 'bg-red-100 text-red-700 border-red-300'
+        'pending_payment': 'orange',
+        'paid': 'blue',
+        'confirmed': 'cyan',
+        'checked_in': 'green',
+        'checked_out': 'default',
+        'cancelled': 'red',
+        'refunded': 'purple'
       }
-      return colorMap[color] || 'bg-gray-100 text-gray-700 border-gray-300'
+      return colorMap[status] || 'default'
     }
 
-    // 退款记录状态颜色
-    const getRefundStatusClass = (status: RefundStatus) => {
+    // 退款状态颜色
+    const getRefundStatusColor = (status: RefundStatus) => {
       const statusMap: Record<string, string> = {
-        '客人发起申诉': 'bg-orange-100 text-orange-700 border-orange-300',   // 橙色
-        '客人撤诉': 'bg-slate-100 text-slate-600 border-slate-300',           // 灰色
-        '门店退款': 'bg-green-100 text-green-700 border-green-300',           // 绿色
-        '平台支持退款': 'bg-green-100 text-green-700 border-green-300',       // 绿色
-        '平台拒绝退款': 'bg-red-100 text-red-700 border-red-300',             // 红色
-        '退款申请': 'bg-orange-100 text-orange-700 border-orange-300'         // 橙色（兼容）
+        '客人发起申诉': 'orange',
+        '客人撤诉': 'default',
+        '门店退款': 'success',
+        '平台支持退款': 'success',
+        '平台拒绝退款': 'error',
+        '退款申请': 'orange'
       }
-      return statusMap[status] || 'bg-gray-100 text-gray-700 border-gray-300'
+      return statusMap[status] || 'default'
+    }
+
+    const formatDate = (datetime: string) => {
+      if (!datetime) return '-'
+      return dayjs(datetime).format('YYYY-MM-DD')
+    }
+
+    const formatTime = (datetime: string) => {
+      if (!datetime) return '-'
+      return dayjs(datetime).format('HH:mm:ss')
     }
 
     const handleClose = () => {
@@ -255,8 +276,10 @@ export default defineComponent({
       roomPricePerNight,
       refundColumns,
       ORDER_STATUS_LABELS,
-      getStatusTagClass,
-      getRefundStatusClass,
+      getStatusColor,
+      getRefundStatusColor,
+      formatDate,
+      formatTime,
       handleClose
     }
   }
@@ -264,6 +287,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
 // 弹窗容器
 .detail-container {
   display: flex;
@@ -273,20 +298,24 @@ export default defineComponent({
 
 // 卡片样式
 .detail-card {
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  border-radius: @border-radius-lg;
+  border: 1px solid @border-primary;
   background: #ffffff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: @shadow-sm;
+
+  :deep(.ant-card-body) {
+    padding: 20px;
+  }
 }
 
-// 卡片标题 - 统一16px
+// 卡片标题
 .card-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #0f172a;
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid @border-primary;
 }
 
 // 信息网格布局
@@ -300,33 +329,57 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 6px;
+
+  &.full-width {
+    grid-column: span 2;
+  }
 }
 
-// 标签和值 - 统一14px
+// 标签和值
 .info-label {
-  font-size: 14px;
-  color: #64748b;
+  font-size: @font-size-sm;
+  color: @text-secondary;
 }
 
 .info-value {
-  font-size: 14px;
-  color: #0f172a;
-  font-weight: 500;
+  font-family: @font-family;
+  font-size: @font-size-base;
+  color: @text-primary;
+  font-weight: @font-weight-medium;
+}
+
+// 日期时间值
+.datetime-value {
+  .date {
+    display: block;
+    color: @text-primary;
+    font-size: @font-size-base;
+    font-weight: @font-weight-medium;
+    line-height: 1.5;
+  }
+
+  .time {
+    display: block;
+    color: @text-secondary;
+    font-size: @font-size-sm;
+    line-height: 1.5;
+    margin-top: 2px;
+  }
 }
 
 // 支付明细样式
 .payment-detail {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0;
 }
 
 .payment-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #f1f5f9;
+  padding: 10px 0;
+  border-bottom: 1px solid @bg-tertiary;
 
   &:last-child {
     border-bottom: none;
@@ -335,19 +388,19 @@ export default defineComponent({
 
 .payment-label,
 .payment-value {
-  font-size: 14px;
+  font-size: @font-size-base;
 }
 
 .payment-label {
-  color: #64748b;
+  color: @text-secondary;
 }
 
 .payment-value {
-  color: #0f172a;
-  font-weight: 500;
+  color: @text-primary;
+  font-weight: @font-weight-medium;
 
   &.discount {
-    color: #16a34a;
+    color: @success-color;
   }
 }
 
@@ -355,35 +408,20 @@ export default defineComponent({
 .total-row {
   margin-top: 8px;
   padding-top: 16px;
-  border-top: 2px solid #e2e8f0 !important;
+  border-top: 2px solid @border-primary !important;
   border-bottom: none !important;
 }
 
 .payment-label-total {
-  font-size: 16px;
-  font-weight: 600;
-  color: #0f172a;
+  font-size: @font-size-xl;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
 }
 
 .payment-value-total {
   font-size: 20px;
-  font-weight: 700;
-  color: #3b82f6;
-}
-
-// 佣金信息
-.commission-info {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid #e2e8f0;
-  display: flex;
-  gap: 32px;
-}
-
-.commission-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  font-weight: @font-weight-bold;
+  color: @brand-primary;
 }
 
 // 积分服务样式
@@ -394,9 +432,9 @@ export default defineComponent({
 }
 
 .section-subtitle {
-  font-size: 14px;
-  font-weight: 600;
-  color: #475569;
+  font-size: @font-size-base;
+  font-weight: @font-weight-semibold;
+  color: @text-secondary;
   margin-bottom: 10px;
 }
 
@@ -412,111 +450,56 @@ export default defineComponent({
 .points-list li {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: @font-size-base;
 }
 
 .points-name {
-  color: #0f172a;
+  color: @text-primary;
 }
 
 .points-value-green {
-  color: #16a34a;
-  font-weight: 500;
+  color: @success-color;
+  font-weight: @font-weight-medium;
   margin-left: 8px;
 }
 
 .points-value-red {
-  color: #dc2626;
-  font-weight: 500;
+  color: @error-color;
+  font-weight: @font-weight-medium;
   margin-left: 8px;
 }
 
-// 退款记录表格样式
-.refund-row {
-  font-size: 14px;
+// 退款记录表格
+.refund-table {
+  :deep(.ant-table-thead > tr > th) {
+    background: @bg-secondary;
+    color: @text-primary;
+    font-weight: @font-weight-semibold;
+    font-size: @font-size-base;
+  }
+
+  :deep(.ant-table-tbody > tr > td) {
+    color: @text-primary;
+  }
 }
 
 .refund-amount {
-  color: #dc2626;
-  font-weight: 600;
-  font-size: 14px;
+  color: @error-color;
+  font-weight: @font-weight-semibold;
+  font-size: @font-size-base;
 }
 
-.time-value {
-  font-size: 14px;
-  color: #0f172a;
+.empty-amount {
+  color: @text-tertiary;
 }
 
 // 商家备注样式
 .merchant-note {
-  font-size: 14px;
-  color: #0f172a;
+  font-size: @font-size-base;
+  color: @text-primary;
   line-height: 1.6;
   padding: 12px;
-  background: #f8fafc;
-  border-radius: 6px;
-}
-
-// 通用样式
-.font-mono {
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-}
-
-.text-slate-400 {
-  color: #94a3b8;
-}
-
-// 状态标签颜色
-.bg-orange-100 {
-  background-color: #ffedd5;
-}
-.text-orange-700 {
-  color: #c2410c;
-}
-.border-orange-300 {
-  border-color: #fdba74;
-}
-
-.bg-blue-100 {
-  background-color: #dbeafe;
-}
-.text-blue-700 {
-  color: #1d4ed8;
-}
-.border-blue-300 {
-  border-color: #93c5fd;
-}
-
-.bg-slate-100 {
-  background-color: #f1f5f9;
-}
-.text-slate-600 {
-  color: #475569;
-}
-.text-slate-500 {
-  color: #64748b;
-}
-.border-slate-300 {
-  border-color: #cbd5e1;
-}
-
-.bg-red-100 {
-  background-color: #fee2e2;
-}
-.text-red-700 {
-  color: #b91c1c;
-}
-.border-red-300 {
-  border-color: #fca5a5;
-}
-
-.bg-green-100 {
-  background-color: #dcfce7;
-}
-.text-green-700 {
-  color: #15803d;
-}
-.border-green-300 {
-  border-color: #86efac;
+  background: @bg-secondary;
+  border-radius: @border-radius-base;
 }
 </style>

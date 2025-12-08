@@ -34,15 +34,15 @@
         <editable-section title="联系方式" :is-editing="isEditing" :hide-actions="true">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <form-field label="联系电话" :required="true">
-              <a-input v-if="isEditing" v-model="formData.contactPhone" placeholder="请输入联系电话" />
+              <a-input v-if="isEditing" v-model="formData.contactPhone" placeholder="请输入联系电话" class="input-field" />
               <display-value v-else :value="formData.contactPhone" />
             </form-field>
             <form-field label="联系人名称" :required="true">
-              <a-input v-if="isEditing" v-model="formData.contactName" placeholder="请输入联系人名称" />
+              <a-input v-if="isEditing" v-model="formData.contactName" placeholder="请输入联系人名称" class="input-field" />
               <display-value v-else :value="formData.contactName" />
             </form-field>
             <form-field label="邮箱地址" class="md:col-span-2">
-              <a-input v-if="isEditing" v-model="formData.email" placeholder="请输入邮箱地址" type="email" />
+              <a-input v-if="isEditing" v-model="formData.email" placeholder="请输入邮箱地址" type="email" class="input-field" />
               <display-value v-else :value="formData.email" />
             </form-field>
           </div>
@@ -71,7 +71,7 @@
             </form-field>
 
             <form-field label="Slogan/门店推荐语">
-              <a-input v-if="isEditing" v-model="formData.slogan" placeholder="请输入门店推荐语" />
+              <a-input v-if="isEditing" v-model="formData.slogan" placeholder="请输入门店推荐语" class="input-field" />
               <display-value v-else :value="formData.slogan" />
             </form-field>
 
@@ -96,7 +96,7 @@
             </form-field>
 
             <form-field label="门店介绍" :required="true">
-              <a-textarea v-if="isEditing" v-model="formData.description" placeholder="请输入门店介绍，支持换行" :rows="8" />
+              <a-textarea v-if="isEditing" v-model="formData.description" placeholder="请输入门店介绍，支持换行" :rows="8" class="textarea-field" />
               <div v-else class="text-content">{{ formData.description || '—' }}</div>
             </form-field>
           </div>
@@ -339,101 +339,171 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
 .page-container {
-  padding: 24px;
-  background: #f8fafc;
+  padding: @spacing-xl;
+  background: @bg-secondary;
   min-height: calc(100vh - 64px);
 }
-.space-y-6 > * + * { margin-top: 24px; }
-.space-y-4 > * + * { margin-top: 16px; }
+
+.space-y-6 > * + * { margin-top: @spacing-xl; }
+.space-y-4 > * + * { margin-top: @spacing-md; }
+
 .grid { display: grid; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-.gap-2 { gap: 8px; }
-.gap-4 { gap: 16px; }
-.gap-6 { gap: 24px; }
+.gap-2 { gap: @spacing-sm; }
+.gap-4 { gap: @spacing-md; }
+.gap-6 { gap: @spacing-xl; }
+
 .flex { display: flex; }
 .flex-wrap { flex-wrap: wrap; }
 .flex-1 { flex: 1; }
 .items-center { align-items: center; }
+
 @media (min-width: 768px) {
   .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .md\:col-span-2 { grid-column: span 2 / span 2; }
 }
+
+// 锁定字段样式 - 只读状态
 .locked-field {
-  min-height: 36px;
+  min-height: @input-height;
   display: flex;
   align-items: center;
-  padding: 8px 12px;
-  background: #f1f5f9;
-  color: #475569;
-  border-radius: 6px;
-  border: 1px solid #e2e8f0;
+  padding: @spacing-sm @spacing-base;
+  background: @bg-secondary;
+  color: @text-primary;
+  border-radius: @border-radius-base;
+  border: 1px solid @border-primary;
 }
-.empty-value { color: #94a3b8; }
+
+// 输入框样式
+.input-field {
+  height: @input-height;
+  border-radius: @border-radius-base;
+}
+
+.textarea-field {
+  border-radius: @border-radius-base;
+}
+
+.empty-value {
+  color: @text-tertiary;
+}
+
 .text-content {
-  color: #0f172a;
+  color: @text-primary;
   white-space: pre-wrap;
   line-height: 1.75;
 }
+
 .tag-selectable {
   cursor: pointer;
   user-select: none;
+  transition: @transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
 }
+
 .logo-preview, .cover-preview {
   width: 160px;
   height: 120px;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
+  border: 2px solid @border-primary;
+  border-radius: @border-radius-lg;
   overflow: hidden;
+
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 }
+
 .upload-zone {
-  border: 2px dashed #cbd5e1;
-  border-radius: 8px;
-  padding: 24px;
+  border: 2px dashed @border-secondary;
+  border-radius: @border-radius-lg;
+  padding: @spacing-xl;
   text-align: center;
   cursor: pointer;
-  transition: border-color 0.3s;
-  &:hover { border-color: #3b82f6; }
-  p { font-size: 14px; color: #64748b; margin: 4px 0; }
-  .upload-hint { font-size: 12px; color: #94a3b8; }
+  transition: @transition-base;
+
+  &:hover {
+    border-color: @brand-primary;
+    background: @bg-hover;
+  }
+
+  p {
+    font-size: @font-size-base;
+    color: @text-secondary;
+    margin: @spacing-xs 0;
+  }
+
+  .upload-hint {
+    font-size: @font-size-sm;
+    color: @text-tertiary;
+  }
 }
-.upload-icon { font-size: 32px; color: #cbd5e1; margin-bottom: 8px; }
+
+.upload-icon {
+  font-size: 32px;
+  color: @border-secondary;
+  margin-bottom: @spacing-sm;
+}
+
 .video-info {
-  background: #f1f5f9;
-  padding: 12px;
-  border-radius: 6px;
-  .video-label { font-weight: 500; margin-bottom: 4px; color: #475569; }
-  .video-url { font-size: 12px; word-break: break-all; color: #64748b; }
+  background: @bg-secondary;
+  padding: @spacing-base;
+  border-radius: @border-radius-base;
+
+  .video-label {
+    font-weight: @font-weight-medium;
+    margin-bottom: @spacing-xs;
+    color: @text-secondary;
+  }
+
+  .video-url {
+    font-size: @font-size-sm;
+    word-break: break-all;
+    color: @text-secondary;
+  }
 }
+
 .news-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  @media (min-width: 768px) { grid-template-columns: repeat(4, 1fr); }
+  gap: @spacing-md;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
+
 .news-item {
   position: relative;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
+  border: 2px solid @border-primary;
+  border-radius: @border-radius-lg;
   overflow: hidden;
   aspect-ratio: 4/3;
-  &:hover .delete-btn { opacity: 1; }
+
+  &:hover .delete-btn {
+    opacity: 1;
+  }
+
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+
   .delete-btn {
     position: absolute;
-    top: 4px;
-    right: 4px;
+    top: @spacing-xs;
+    right: @spacing-xs;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: @transition-base;
   }
 }
 </style>

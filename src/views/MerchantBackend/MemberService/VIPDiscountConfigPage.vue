@@ -1,23 +1,23 @@
 <template>
   <sidebar>
-    <div class="h-screen overflow-y-auto bg-slate-50">
+    <div class="h-screen overflow-y-auto bg-secondary">
       <div class="max-w-7xl mx-auto p-8 space-y-8">
         <!-- 页面标题 -->
         <div class="flex items-center justify-between">
-          <h1 class="text-2xl font-bold text-slate-900">会员折扣设置</h1>
+          <h1 class="page-title">会员折扣设置</h1>
           <div class="flex gap-2">
-            <a-button v-if="!isEditMode" type="primary" @click="handleEditToggle">
+            <a-button v-if="!isEditMode" type="primary" class="action-btn" @click="handleEditToggle">
               编辑
             </a-button>
             <template v-else>
-              <a-button @click="handleCancel">取消</a-button>
-              <a-button type="primary" @click="handleSave">保存</a-button>
+              <a-button class="cancel-btn" @click="handleCancel">取消</a-button>
+              <a-button type="primary" class="action-btn" @click="handleSave">保存</a-button>
             </template>
           </div>
         </div>
 
         <!-- 折扣配置表格 -->
-        <a-card :bordered="false" class="rounded-xl border-slate-200 shadow-md hover:shadow-lg transition-all duration-200">
+        <a-card :bordered="false" class="discount-card">
           <a-table
             :columns="columns"
             :data-source="config.discounts"
@@ -27,12 +27,12 @@
           >
             <!-- 等级 -->
             <template #levelName="{ text }">
-              <span class="font-medium text-slate-900">{{ text }}</span>
+              <span class="level-name">{{ text }}</span>
             </template>
 
             <!-- 平台折扣 -->
             <template #platformDiscount="{ text }">
-              <span class="text-sm text-slate-900 font-medium">{{ formatPercent(text) }}</span>
+              <span class="platform-discount">{{ formatPercent(text) }}</span>
             </template>
 
             <!-- 周一到周日和节假日 - 动态生成 -->
@@ -58,10 +58,10 @@
         </a-card>
 
         <!-- 说明 -->
-        <a-card :bordered="false" class="rounded-xl border-slate-200 shadow-sm">
-          <div class="text-sm text-slate-600 space-y-2">
-            <p class="font-medium text-slate-900">配置说明：</p>
-            <ul class="list-disc list-inside space-y-1 ml-2">
+        <a-card :bordered="false" class="instruction-card">
+          <div class="instruction-content">
+            <p class="instruction-title">配置说明：</p>
+            <ul class="instruction-list">
               <li>平台折扣：平台设定的会员折扣，商户必须接受，不可拒绝</li>
               <li>本店折扣：商户可针对<strong>每周7天 + 节假日</strong>分别设置更优惠的折扣（必须 ≤ 平台折扣）</li>
               <li>节假日折扣优先级最高：当日期为节假日时，优先使用节假日折扣，否则使用对应星期的折扣</li>
@@ -109,8 +109,8 @@ export default defineComponent({
         dataIndex: 'holidayDiscount',
         key: 'holidayDiscount',
         align: 'center',
-        customHeaderCell: () => ({ style: { backgroundColor: '#eff6ff' } }),
-        customCell: () => ({ style: { backgroundColor: '#eff6ff20' } }),
+        customHeaderCell: () => ({ style: { backgroundColor: '#dbeafe' } }),
+        customCell: () => ({ style: { backgroundColor: '#eff6ff' } }),
         slots: { customRender: 'holidayDiscount' }
       }
     ]
@@ -179,9 +179,98 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
+.bg-secondary {
+  background-color: @bg-secondary;
+}
+
+.page-title {
+  font-size: @font-size-2xl;
+  font-weight: @font-weight-bold;
+  color: @text-primary;
+}
+
+.action-btn {
+  height: 36px;
+  background-color: @brand-primary;
+  border-color: @brand-primary;
+  color: #ffffff;
+  font-weight: @font-weight-medium;
+  box-shadow: @shadow-sm;
+  transition: @transition-base;
+
+  &:hover {
+    background-color: @brand-primary-hover;
+    border-color: @brand-primary-hover;
+  }
+}
+
+.cancel-btn {
+  height: 36px;
+  border-color: @border-secondary;
+  color: @text-primary;
+  font-weight: @font-weight-medium;
+  transition: @transition-base;
+
+  &:hover {
+    border-color: @border-focus;
+    color: @brand-primary;
+  }
+}
+
+.discount-card {
+  border-radius: @border-radius-lg;
+  border: 1px solid @border-primary;
+  box-shadow: @shadow-sm;
+  transition: @transition-base;
+
+  &:hover {
+    box-shadow: @shadow-md;
+  }
+}
+
+.instruction-card {
+  border-radius: @border-radius-lg;
+  border: 1px solid @border-primary;
+  box-shadow: @shadow-sm;
+}
+
+.instruction-content {
+  font-size: @font-size-sm;
+  color: @text-secondary;
+}
+
+.instruction-title {
+  font-weight: @font-weight-medium;
+  color: @text-primary;
+  margin-bottom: 8px;
+}
+
+.instruction-list {
+  list-style: disc;
+  list-style-position: inside;
+  margin-left: 8px;
+
+  li {
+    margin-bottom: 4px;
+  }
+}
+
+.level-name {
+  font-weight: @font-weight-medium;
+  color: @text-primary;
+}
+
+.platform-discount {
+  font-size: @font-size-sm;
+  font-weight: @font-weight-medium;
+  color: @text-primary;
+}
+
 :deep(.input-readonly .ant-input-number-input) {
-  background-color: rgb(248, 250, 252);
-  color: rgb(51, 65, 85);
+  background-color: @bg-secondary;
+  color: @text-secondary;
   cursor: not-allowed;
 }
 
@@ -191,21 +280,23 @@ export default defineComponent({
 
 :deep(.ant-table) {
   .ant-table-thead > tr > th {
-    background-color: #fafafa;
-    color: rgb(71, 85, 105);
-    font-weight: 600;
-    border-bottom: 1px solid rgb(226, 232, 240);
+    background-color: @bg-secondary;
+    color: @text-secondary;
+    font-weight: @font-weight-semibold;
+    border-bottom: 1px solid @border-primary;
+    padding: @spacing-base @spacing-md;
   }
 
   .ant-table-tbody > tr {
-    transition: all 0.2s;
+    transition: @transition-base;
 
     &:hover {
-      background-color: rgb(248, 250, 252);
+      background-color: @bg-hover;
     }
 
     > td {
-      border-bottom: 1px solid rgb(226, 232, 240);
+      border-bottom: 1px solid @border-primary;
+      padding: @spacing-base @spacing-md;
     }
   }
 }

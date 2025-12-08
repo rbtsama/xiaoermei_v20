@@ -61,9 +61,11 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
 .page-container {
-  padding: 24px;
-  background: #f0f2f5;
+  padding: @spacing-xl;
+  background: @bg-secondary;
   min-height: calc(100vh - 0px);
 }
 </style>

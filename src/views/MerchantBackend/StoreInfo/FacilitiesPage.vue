@@ -17,7 +17,7 @@
             :checked="formData.highlights.includes(tag.value)"
             @change="() => toggleFacility('highlights', tag.value)"
           >
-            <span class="text-sm text-slate-700">{{ tag.label }}</span>
+            <span class="checkbox-label">{{ tag.label }}</span>
           </a-checkbox>
         </div>
         <div v-else class="flex flex-wrap gap-2">
@@ -25,12 +25,12 @@
             <a-tag
               v-for="value in formData.highlights"
               :key="value"
-              class="border-slate-300 text-slate-700 bg-slate-50"
+              class="tag-display"
             >
               {{ getHighlightLabel(value) }}
             </a-tag>
           </template>
-          <span v-else class="text-slate-500">—</span>
+          <span v-else class="empty-value">—</span>
         </div>
       </EditableSection>
 
@@ -212,9 +212,54 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
 .page-container {
-  padding: 24px;
-  background: #f0f2f5;
+  padding: @spacing-xl;
+  background: @bg-secondary;
   min-height: calc(100vh - 0px);
+}
+
+.space-y-6 > * + * {
+  margin-top: @spacing-xl;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.gap-2 {
+  gap: @spacing-sm;
+}
+
+.gap-4 {
+  gap: @spacing-md;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.checkbox-label {
+  font-size: @font-size-sm;
+  color: @text-primary;
+}
+
+.tag-display {
+  border-color: @border-secondary;
+  color: @text-primary;
+  background: @bg-tertiary;
+}
+
+.empty-value {
+  color: @text-tertiary;
 }
 </style>

@@ -251,9 +251,43 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
 .page-container {
-  padding: 24px;
-  background: #f0f2f5;
+  padding: @spacing-xl;
+  background: @bg-secondary;
   min-height: calc(100vh - 0px);
+}
+
+.space-y-6 > * + * {
+  margin-top: @spacing-xl;
+}
+
+.rounded-xl {
+  border-radius: @border-radius-xl;
+}
+
+.border-slate-200 {
+  border-color: @border-primary;
+}
+
+.bg-white {
+  background: @bg-primary;
+}
+
+.shadow-sm {
+  box-shadow: @shadow-sm;
+}
+
+.font-medium {
+  font-weight: @font-weight-medium;
+}
+
+.text-slate-900 {
+  color: @text-primary;
+}
+
+.text-slate-400 {
+  color: @text-tertiary;
 }
 </style>

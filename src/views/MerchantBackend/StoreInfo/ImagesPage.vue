@@ -321,9 +321,99 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
 .page-container {
-  padding: 24px;
-  background: #f0f2f5;
+  padding: @spacing-xl;
+  background: @bg-secondary;
   min-height: calc(100vh - 0px);
+}
+
+.space-y-6 > * + * {
+  margin-top: @spacing-xl;
+}
+
+.space-y-4 > * + * {
+  margin-top: @spacing-md;
+}
+
+.space-y-3 > * + * {
+  margin-top: @spacing-base;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.gap-2 {
+  gap: @spacing-sm;
+}
+
+.gap-4 {
+  gap: @spacing-md;
+}
+
+.text-slate-500 {
+  color: @text-tertiary;
+}
+
+.text-slate-600 {
+  color: @text-secondary;
+}
+
+.text-slate-400 {
+  color: @text-tertiary;
+}
+
+.text-sm {
+  font-size: @font-size-sm;
+}
+
+.text-xs {
+  font-size: @font-size-xs;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+}
+
+.border-2 {
+  border-width: 2px;
+}
+
+.border-dashed {
+  border-style: dashed;
+}
+
+.border-slate-200 {
+  border-color: @border-primary;
+}
+
+.rounded {
+  border-radius: @border-radius-base;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
 </style>

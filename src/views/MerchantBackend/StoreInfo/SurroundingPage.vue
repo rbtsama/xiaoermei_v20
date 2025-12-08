@@ -17,11 +17,11 @@
             class="space-y-3"
           >
             <!-- 分类标题 -->
-            <div class="flex items-center justify-between pb-2 border-b border-slate-200">
-              <h4 class="text-sm font-semibold text-slate-900">{{ category.label }}</h4>
+            <div class="category-header">
+              <h4 class="category-title">{{ category.label }}</h4>
               <a-button
                 size="small"
-                class="border-blue-300 text-blue-600 hover:bg-blue-50"
+                class="add-button"
                 @click="addLocation(category.value)"
               >
                 <a-icon type="plus" />
@@ -35,13 +35,13 @@
                 <div
                   v-for="location in getCategoryLocations(category.value)"
                   :key="location.id"
-                  class="grid grid-cols-12 gap-3 items-center p-3 bg-slate-50 rounded border border-slate-200"
+                  class="location-item"
                 >
                   <div class="col-span-4">
                     <a-input
                       v-model="location.name"
                       placeholder="位置名称"
-                      class="h-9"
+                      class="input-field"
                     />
                   </div>
                   <div class="col-span-2">
@@ -49,13 +49,13 @@
                       v-model="location.distance"
                       :min="0"
                       placeholder="距离(米)"
-                      class="w-full h-9"
+                      class="w-full input-field"
                     />
                   </div>
                   <div class="col-span-3">
                     <a-select
                       v-model="location.distanceType"
-                      class="w-full h-9"
+                      class="w-full select-field"
                     >
                       <a-select-option value="straight">直线距离</a-select-option>
                       <a-select-option value="driving">驾车距离</a-select-option>
@@ -86,7 +86,7 @@
                   </div>
                 </div>
               </template>
-              <div v-else class="text-center text-slate-400 py-4 text-sm">
+              <div v-else class="empty-tip">
                 暂无{{ category.label }}信息，点击上方"新增"按钮添加
               </div>
             </div>
@@ -100,15 +100,15 @@
             :key="category.value"
           >
             <template v-if="getGroupedLocations(category.value).length > 0">
-              <h4 class="text-sm font-semibold text-slate-700 mb-3">{{ category.label }}</h4>
+              <h4 class="view-category-title">{{ category.label }}</h4>
               <div class="space-y-2">
                 <div
                   v-for="location in getGroupedLocations(category.value)"
                   :key="location.id"
-                  class="flex items-center justify-between py-2 px-3 bg-slate-50 rounded"
+                  class="location-view-item"
                 >
-                  <span class="text-slate-900">{{ location.name }}</span>
-                  <span class="text-sm text-slate-600">
+                  <span class="location-name">{{ location.name }}</span>
+                  <span class="location-distance">
                     {{ formatDistance(location.distance) }}
                     ({{ location.distanceType === 'straight' ? '直线' : '驾车' }})
                   </span>
@@ -117,7 +117,7 @@
             </template>
           </div>
 
-          <div v-if="formData.locations.length === 0" class="text-center text-slate-500 py-8">
+          <div v-if="formData.locations.length === 0" class="empty-state">
             暂无周边信息
           </div>
         </div>
@@ -260,9 +260,136 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
 .page-container {
-  padding: 24px;
-  background: #f0f2f5;
+  padding: @spacing-xl;
+  background: @bg-secondary;
   min-height: calc(100vh - 0px);
+}
+
+.space-y-6 > * + * {
+  margin-top: @spacing-xl;
+}
+
+.space-y-8 > * + * {
+  margin-top: @spacing-2xl;
+}
+
+.space-y-3 > * + * {
+  margin-top: @spacing-base;
+}
+
+.space-y-2 > * + * {
+  margin-top: @spacing-sm;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: @spacing-sm;
+  border-bottom: 1px solid @border-primary;
+}
+
+.category-title {
+  font-size: @font-size-sm;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+}
+
+.add-button {
+  border-color: @brand-primary;
+  color: @brand-primary;
+
+  &:hover {
+    background: @brand-primary-light;
+  }
+}
+
+.location-item {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: @spacing-base;
+  align-items: center;
+  padding: @spacing-base;
+  background: @bg-tertiary;
+  border-radius: @border-radius-base;
+  border: 1px solid @border-primary;
+}
+
+.col-span-2 {
+  grid-column: span 2 / span 2;
+}
+
+.col-span-3 {
+  grid-column: span 3 / span 3;
+}
+
+.col-span-4 {
+  grid-column: span 4 / span 4;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.gap-1 {
+  gap: @spacing-xs;
+}
+
+.input-field {
+  height: @input-height;
+  border-radius: @border-radius-base;
+}
+
+.select-field {
+  height: @input-height;
+}
+
+.empty-tip {
+  text-align: center;
+  color: @text-tertiary;
+  padding: @spacing-md 0;
+  font-size: @font-size-sm;
+}
+
+.view-category-title {
+  font-size: @font-size-sm;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+  margin-bottom: @spacing-base;
+}
+
+.location-view-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: @spacing-sm @spacing-base;
+  background: @bg-tertiary;
+  border-radius: @border-radius-base;
+}
+
+.location-name {
+  color: @text-primary;
+}
+
+.location-distance {
+  font-size: @font-size-sm;
+  color: @text-secondary;
+}
+
+.empty-state {
+  text-align: center;
+  color: @text-tertiary;
+  padding: @spacing-2xl 0;
 }
 </style>

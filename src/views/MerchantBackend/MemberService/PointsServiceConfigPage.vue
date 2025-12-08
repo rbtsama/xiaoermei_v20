@@ -1,20 +1,17 @@
 <template>
   <sidebar>
-    <div class="h-screen overflow-y-auto bg-slate-50">
+    <div class="h-screen overflow-y-auto bg-secondary">
       <div class="max-w-7xl mx-auto p-6">
         <!-- 页面头部 -->
         <div class="mb-6">
-          <h1 class="text-2xl font-bold text-slate-900">积分服务配置</h1>
+          <h1 class="page-title">积分服务配置</h1>
         </div>
 
         <!-- 积分奖励服务 -->
-        <a-card
-          :bordered="false"
-          class="mb-6 rounded-xl border-slate-200 shadow-md hover:shadow-lg transition-all duration-200"
-        >
+        <a-card :bordered="false" class="mb-6 service-card">
           <template #title>
-            <div class="flex items-center gap-2 text-base font-semibold">
-              <a-icon type="gift" class="text-blue-600" />
+            <div class="card-title">
+              <a-icon type="gift" class="title-icon" />
               积分奖励
             </div>
           </template>
@@ -27,13 +24,13 @@
             :loading="loading"
           >
             <template #serviceName="text">
-              <span class="font-medium">{{ text }}</span>
+              <span class="service-name">{{ text }}</span>
             </template>
             <template #description="text">
-              <span class="text-sm text-slate-900">{{ text || '-' }}</span>
+              <span class="description-text">{{ text || '-' }}</span>
             </template>
             <template #pointsAmount="text">
-              <span class="font-semibold text-slate-900">{{ Math.abs(text) }} 积分</span>
+              <span class="points-amount">{{ Math.abs(text) }} 积分</span>
             </template>
             <template #enabled="enabled">
               <a-switch :checked="enabled" disabled />
@@ -42,13 +39,10 @@
         </a-card>
 
         <!-- 积分换购服务 -->
-        <a-card
-          :bordered="false"
-          class="rounded-xl border-slate-200 shadow-md hover:shadow-lg transition-all duration-200"
-        >
+        <a-card :bordered="false" class="service-card">
           <template #title>
-            <div class="flex items-center gap-2 text-base font-semibold">
-              <a-icon type="shopping" class="text-blue-600" />
+            <div class="card-title">
+              <a-icon type="shopping" class="title-icon" />
               积分换购
             </div>
           </template>
@@ -61,13 +55,13 @@
             :loading="loading"
           >
             <template #serviceName="text">
-              <span class="font-medium">{{ text }}</span>
+              <span class="service-name">{{ text }}</span>
             </template>
             <template #description="text">
-              <span class="text-sm text-slate-900">{{ text || '-' }}</span>
+              <span class="description-text">{{ text || '-' }}</span>
             </template>
             <template #pointsAmount="text">
-              <span class="font-semibold text-slate-900">{{ text }} 积分</span>
+              <span class="points-amount">{{ text }} 积分</span>
             </template>
             <template #enabled="enabled">
               <a-switch :checked="enabled" disabled />
@@ -180,31 +174,88 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
+.bg-secondary {
+  background-color: @bg-secondary;
+}
+
+.page-title {
+  font-size: @font-size-2xl;
+  font-weight: @font-weight-bold;
+  color: @text-primary;
+}
+
+.service-card {
+  border-radius: @border-radius-lg;
+  border: 1px solid @border-primary;
+  box-shadow: @shadow-sm;
+  transition: @transition-base;
+
+  &:hover {
+    box-shadow: @shadow-md;
+  }
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: @font-size-base;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+}
+
+.title-icon {
+  color: @brand-primary;
+}
+
+.service-name {
+  font-weight: @font-weight-medium;
+  color: @text-primary;
+}
+
+.description-text {
+  font-size: @font-size-sm;
+  color: @text-secondary;
+}
+
+.points-amount {
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+}
+
 ::v-deep .ant-card {
-  border: 1px solid #e2e8f0;
+  border: 1px solid @border-primary;
 }
 
 ::v-deep .ant-card-head {
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid @border-primary;
 }
 
 ::v-deep .ant-table {
-  font-size: 14px;
+  font-size: @font-size-base;
 }
 
 ::v-deep .ant-table-thead > tr > th {
-  background-color: #fafafa;
-  color: #475569;
-  font-weight: 600;
-  border-bottom: 1px solid #e2e8f0;
+  background-color: @bg-secondary;
+  color: @text-secondary;
+  font-weight: @font-weight-semibold;
+  border-bottom: 1px solid @border-primary;
+  padding: @spacing-base @spacing-md;
 }
 
-::v-deep .ant-table-tbody > tr:hover {
-  background-color: #f8fafc;
-}
+::v-deep .ant-table-tbody > tr {
+  transition: @transition-base;
 
-::v-deep .ant-table-tbody > tr > td {
-  border-bottom: 1px solid #f1f5f9;
+  &:hover {
+    background-color: @bg-hover;
+  }
+
+  > td {
+    border-bottom: 1px solid @border-primary;
+    padding: @spacing-base @spacing-md;
+  }
 }
 
 ::v-deep .ant-switch-disabled {

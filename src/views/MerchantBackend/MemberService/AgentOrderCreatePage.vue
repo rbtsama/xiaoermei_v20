@@ -1,14 +1,14 @@
 <template>
   <sidebar>
-    <div class="h-screen overflow-y-auto bg-slate-50">
+    <div class="h-screen overflow-y-auto bg-secondary">
       <div class="max-w-3xl mx-auto p-8 space-y-8">
         <!-- 页面标题 -->
         <div>
-          <h1 class="text-2xl font-bold text-slate-900">创建专属订单</h1>
+          <h1 class="page-title">创建专属订单</h1>
         </div>
 
         <!-- 订单信息卡片 -->
-        <a-card :bordered="false" class="rounded-xl border-slate-200 shadow-md hover:shadow-lg transition-all duration-200">
+        <a-card :bordered="false" class="order-card">
           <a-form :model="formData" layout="vertical">
             <!-- 日期选择 -->
             <a-row :gutter="16">
@@ -56,18 +56,18 @@
                   :disabled="!room.available"
                 >
                   {{ room.name }} - ¥{{ room.price }}/晚
-                  <span v-if="!room.available" class="text-slate-400">(已满房)</span>
+                  <span v-if="!room.available" class="unavailable-text">(已满房)</span>
                 </a-select-option>
               </a-select>
             </a-form-item>
 
             <!-- 价格设置 -->
-            <div class="space-y-4">
+            <div class="price-section">
               <a-form-item label="售卖总价">
-                <div class="text-2xl font-semibold text-slate-900">
+                <div class="sale-price">
                   {{ formData.salePrice ? `¥${formData.salePrice}` : '-' }}
                 </div>
-                <div v-if="formData.salePrice && calculateNights() > 0" class="text-xs text-slate-500 mt-1">
+                <div v-if="formData.salePrice && calculateNights() > 0" class="price-detail">
                   {{ selectedRoom?.name }} × {{ calculateNights() }} 晚
                 </div>
               </a-form-item>
@@ -114,7 +114,7 @@
             size="large"
             :disabled="!isFormValid"
             @click="handleGenerate"
-            class="w-full max-w-md h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-sm transition-all"
+            class="generate-btn"
           >
             生成付款码
           </a-button>
@@ -129,20 +129,16 @@
           centered
           :body-style="{ padding: '24px' }"
         >
-          <div class="space-y-4">
+          <div class="qr-modal-content">
             <!-- 二维码 -->
             <div class="flex items-center justify-center">
-              <div class="w-64 h-64 bg-slate-100 rounded-lg flex items-center justify-center">
-                <a-icon type="qrcode" class="text-slate-400" style="font-size: 192px" />
+              <div class="qr-placeholder">
+                <a-icon type="qrcode" class="qr-icon" />
               </div>
             </div>
 
             <!-- 保存二维码按钮 -->
-            <a-button
-              block
-              @click="handleDownloadQR"
-              class="h-9 border-slate-300 hover:border-slate-400 hover:bg-slate-50 transition-all"
-            >
+            <a-button block @click="handleDownloadQR" class="download-btn">
               <template #icon>
                 <a-icon type="download" />
               </template>
@@ -299,12 +295,135 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
+.bg-secondary {
+  background-color: @bg-secondary;
+}
+
+.page-title {
+  font-size: @font-size-2xl;
+  font-weight: @font-weight-bold;
+  color: @text-primary;
+}
+
+.order-card {
+  border-radius: @border-radius-lg;
+  border: 1px solid @border-primary;
+  box-shadow: @shadow-sm;
+  transition: @transition-base;
+
+  &:hover {
+    box-shadow: @shadow-md;
+  }
+}
+
+.price-section {
+  margin-top: 16px;
+}
+
+.sale-price {
+  font-size: @font-size-2xl;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+}
+
+.price-detail {
+  font-size: @font-size-xs;
+  color: @text-tertiary;
+  margin-top: 4px;
+}
+
+.unavailable-text {
+  color: @text-tertiary;
+}
+
+.generate-btn {
+  width: 100%;
+  max-width: 28rem;
+  height: 44px;
+  background-color: @brand-primary;
+  border-color: @brand-primary;
+  color: #ffffff;
+  font-weight: @font-weight-medium;
+  box-shadow: @shadow-sm;
+  transition: @transition-base;
+
+  &:hover {
+    background-color: @brand-primary-hover;
+    border-color: @brand-primary-hover;
+  }
+
+  &:disabled {
+    background-color: @text-disabled;
+    border-color: @text-disabled;
+    cursor: not-allowed;
+  }
+}
+
+.qr-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.qr-placeholder {
+  width: 256px;
+  height: 256px;
+  background-color: @bg-tertiary;
+  border-radius: @border-radius-lg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-icon {
+  color: @text-tertiary;
+  font-size: 192px;
+}
+
+.download-btn {
+  height: 36px;
+  border-color: @border-secondary;
+  color: @text-primary;
+  transition: @transition-base;
+
+  &:hover {
+    border-color: @border-focus;
+    background-color: @bg-hover;
+  }
+}
+
 :deep(.ant-form-item-label > label) {
-  font-weight: 500;
-  color: rgb(15, 23, 42);
+  font-weight: @font-weight-medium;
+  color: @text-primary;
 }
 
 :deep(.ant-input-number) {
   width: 100%;
+}
+
+:deep(.ant-input),
+:deep(.ant-select-selector),
+:deep(.ant-input-number),
+:deep(.ant-picker) {
+  border-color: @border-primary;
+  color: @text-primary;
+
+  &:hover {
+    border-color: @border-focus;
+  }
+
+  &:focus,
+  &.ant-input-focused,
+  &.ant-select-focused .ant-select-selector {
+    border-color: @border-focus;
+    box-shadow: 0 0 0 2px @brand-primary-light;
+  }
+}
+
+:deep(.ant-input::placeholder),
+:deep(.ant-select-selection-placeholder) {
+  color: @text-tertiary;
 }
 </style>

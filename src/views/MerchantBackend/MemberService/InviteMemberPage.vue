@@ -1,22 +1,17 @@
 <template>
   <sidebar>
-    <div class="h-screen overflow-y-auto bg-slate-50">
+    <div class="h-screen overflow-y-auto bg-secondary">
       <div class="max-w-5xl mx-auto p-8 space-y-8">
         <!-- 页面标题 -->
         <div class="flex items-center justify-between">
-          <h1 class="text-2xl font-bold text-slate-900">邀请会员</h1>
-          <a-button
-            type="primary"
-            size="large"
-            @click="handleShowQR"
-            class="h-11 bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-sm transition-all"
-          >
+          <h1 class="page-title">邀请会员</h1>
+          <a-button type="primary" size="large" @click="handleShowQR" class="invite-btn">
             邀请会员
           </a-button>
         </div>
 
         <!-- 邀请记录列表 -->
-        <a-card :bordered="false" class="rounded-xl border-slate-200 shadow-md hover:shadow-lg transition-all duration-200">
+        <a-card :bordered="false" class="record-card">
           <a-table
             :columns="columns"
             :data-source="sortedRecords"
@@ -26,12 +21,12 @@
           >
             <!-- 受邀人 -->
             <template #inviteeId="{ text }">
-              <span class="font-medium text-slate-900">{{ text }}</span>
+              <span class="invitee-name">{{ text }}</span>
             </template>
 
             <!-- 受邀时间 -->
             <template #invitedAt="{ text }">
-              <span class="text-slate-900">{{ text }}</span>
+              <span class="invited-time">{{ text }}</span>
             </template>
           </a-table>
 
@@ -48,20 +43,16 @@
           centered
           :body-style="{ padding: '24px' }"
         >
-          <div class="space-y-4">
+          <div class="qr-modal-content">
             <!-- 二维码 -->
             <div class="flex items-center justify-center">
-              <div class="w-64 h-64 bg-slate-100 rounded-lg flex items-center justify-center">
-                <a-icon type="qrcode" class="text-slate-400" style="font-size: 192px" />
+              <div class="qr-placeholder">
+                <a-icon type="qrcode" class="qr-icon" />
               </div>
             </div>
 
             <!-- 保存图片按钮 -->
-            <a-button
-              block
-              @click="handleDownloadQR"
-              class="h-9 border-slate-300 hover:border-slate-400 hover:bg-slate-50 transition-all"
-            >
+            <a-button block @click="handleDownloadQR" class="download-btn">
               <template #icon>
                 <a-icon type="download" />
               </template>
@@ -163,24 +154,110 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
+.bg-secondary {
+  background-color: @bg-secondary;
+}
+
+.page-title {
+  font-size: @font-size-2xl;
+  font-weight: @font-weight-bold;
+  color: @text-primary;
+}
+
+.invite-btn {
+  height: 44px;
+  background-color: @brand-primary;
+  border-color: @brand-primary;
+  color: #ffffff;
+  font-weight: @font-weight-medium;
+  box-shadow: @shadow-sm;
+  transition: @transition-base;
+
+  &:hover {
+    background-color: @brand-primary-hover;
+    border-color: @brand-primary-hover;
+  }
+}
+
+.record-card {
+  border-radius: @border-radius-lg;
+  border: 1px solid @border-primary;
+  box-shadow: @shadow-sm;
+  transition: @transition-base;
+
+  &:hover {
+    box-shadow: @shadow-md;
+  }
+}
+
+.invitee-name {
+  font-weight: @font-weight-medium;
+  color: @text-primary;
+}
+
+.invited-time {
+  color: @text-secondary;
+}
+
+.qr-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.qr-placeholder {
+  width: 256px;
+  height: 256px;
+  background-color: @bg-tertiary;
+  border-radius: @border-radius-lg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-icon {
+  color: @text-tertiary;
+  font-size: 192px;
+}
+
+.download-btn {
+  height: 36px;
+  border-color: @border-secondary;
+  color: @text-primary;
+  transition: @transition-base;
+
+  &:hover {
+    border-color: @border-focus;
+    background-color: @bg-hover;
+  }
+}
+
 :deep(.ant-table) {
   .ant-table-thead > tr > th {
-    background-color: #fafafa;
-    color: rgb(71, 85, 105);
-    font-weight: 600;
-    border-bottom: 1px solid rgb(226, 232, 240);
+    background-color: @bg-secondary;
+    color: @text-secondary;
+    font-weight: @font-weight-semibold;
+    border-bottom: 1px solid @border-primary;
+    padding: @spacing-base @spacing-md;
   }
 
   .ant-table-tbody > tr {
-    transition: all 0.2s;
+    transition: @transition-base;
 
     &:hover {
-      background-color: rgb(248, 250, 252);
+      background-color: @bg-hover;
     }
 
     > td {
-      border-bottom: 1px solid rgb(226, 232, 240);
+      border-bottom: 1px solid @border-primary;
+      padding: @spacing-base @spacing-md;
     }
   }
+}
+
+:deep(.ant-empty) {
+  color: @text-tertiary;
 }
 </style>

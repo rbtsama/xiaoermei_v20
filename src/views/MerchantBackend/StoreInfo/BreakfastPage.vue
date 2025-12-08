@@ -405,9 +405,89 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
 .page-container {
-  padding: 24px;
-  background: #f0f2f5;
+  padding: @spacing-xl;
+  background: @bg-secondary;
   min-height: calc(100vh - 0px);
+}
+
+.space-y-6 > * + * {
+  margin-top: @spacing-xl;
+}
+
+.space-y-4 > * + * {
+  margin-top: @spacing-md;
+}
+
+.space-y-3 > * + * {
+  margin-top: @spacing-base;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .md\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.gap-2 {
+  gap: @spacing-sm;
+}
+
+.gap-3 {
+  gap: @spacing-base;
+}
+
+.gap-4 {
+  gap: @spacing-md;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.w-32 {
+  width: 8rem;
+}
+
+.pl-6 {
+  padding-left: 1.5rem;
+}
+
+.border-l-2 {
+  border-left-width: 2px;
+}
+
+.border-blue-200 {
+  border-color: @brand-primary-light;
+}
+
+.h-9 {
+  height: @input-height;
+}
+
+.text-slate-900 {
+  color: @text-primary;
+}
+
+.text-slate-600 {
+  color: @text-secondary;
+}
+
+.text-sm {
+  font-size: @font-size-sm;
 }
 </style>
