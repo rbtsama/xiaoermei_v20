@@ -19,11 +19,22 @@ export default new Vuex.Store({
   },
 
   actions: {
+    /**
+     * 用户登录
+     * @param commit - Vuex commit 函数
+     * @param credentials - 登录凭证 {username, password}
+     */
     async login({ commit }, credentials) {
-      // 登录逻辑
-      console.log('Login:', credentials)
+      // TODO: 接入真实登录API
+      // const user = await loginAPI(credentials)
+      // commit('SET_USER', user)
+      // commit('SET_PERMISSIONS', user.permissions)
     },
 
+    /**
+     * 用户登出
+     * 清除用户信息和权限
+     */
     async logout({ commit }) {
       commit('SET_USER', null)
       commit('SET_PERMISSIONS', [])

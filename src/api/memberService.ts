@@ -43,7 +43,7 @@ export function saveMerchantVIPDiscountConfig(
 ): Promise<void> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      console.log('保存VIP折扣配置:', config)
+      // TODO: 接入真实API保存配置
       resolve()
     }, 300)
   })
