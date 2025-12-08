@@ -42,6 +42,13 @@ export default defineConfig({
   build: {
     target: 'es2015',
     cssCodeSplit: true,
-    sourcemap: false
+    sourcemap: false,
+    commonjsOptions: {
+      transformMixedEsModules: true
+    }
+  },
+
+  optimizeDeps: {
+    include: ['moment', 'moment/locale/zh-cn']
   }
 })
