@@ -1,11 +1,12 @@
 <template>
   <sidebar>
-    <div class="p-6 space-y-6">
+    <div class="coupon-issue-page">
       <!-- 1. 手动发放 -->
-      <a-card class="rounded-xl border-slate-200 bg-white shadow-sm">
-        <div slot="title" class="flex items-center justify-between">
-          <span class="text-lg font-semibold text-slate-900">手动发放</span>
-          <a-button class="h-9 border-slate-300" @click="goToIssueRecords">
+      <a-card :bordered="false" class="form-card">
+        <div slot="title" class="card-header">
+          <span class="card-title">手动发放</span>
+          <a-button @click="goToIssueRecords">
+            <a-icon type="history" />
             发放记录
           </a-button>
         </div>
@@ -13,14 +14,14 @@
         <a-form-model
           ref="manualFormRef"
           :model="manualForm"
-          :label-col="{ span: 4 }"
-          :wrapper-col="{ span: 18 }"
+          :label-col="{ span: 3 }"
+          :wrapper-col="{ span="21 }"}
         >
           <!-- 发放方式 -->
           <a-form-model-item label="发放方式">
-            <a-radio-group v-model="manualForm.distributionType" @change="handleDistributionTypeChange">
-              <a-radio value="phone">按手机号</a-radio>
-              <a-radio value="vip">按VIP等级</a-radio>
+            <a-radio-group v-model="manualForm.distributionType" button-style="solid" @change="handleDistributionTypeChange">
+              <a-radio-button value="phone">按手机号</a-radio-button>
+              <a-radio-button value="vip">按VIP等级</a-radio-button>
             </a-radio-group>
           </a-form-model-item>
 
@@ -33,10 +34,10 @@
 13800138000
 13900139000
 13700137000"
-              :rows="10"
+              :rows="8"
               class="phone-textarea"
             />
-            <div class="text-xs text-slate-500 mt-1">提示：每行输入一个手机号</div>
+            <div class="field-hint">每行输入一个手机号</div>
           </a-form-model-item>
 
           <!-- 按VIP等级选择 -->
@@ -60,25 +61,25 @@
             <a-select
               v-model="manualForm.couponId"
               placeholder="请选择要派发的优惠券"
-              class="w-full"
             >
               <a-select-option
                 v-for="coupon in enabledCoupons"
                 :key="coupon.id"
                 :value="coupon.id"
               >
-                {{ coupon.id }}（{{ coupon.remark || coupon.name }}）
+                {{ coupon.name }} ({{ getCouponContent(coupon) }})
               </a-select-option>
             </a-select>
           </a-form-model-item>
 
           <!-- 短信通知 -->
           <a-form-model-item label="短信通知">
-            <a-checkbox v-model="manualForm.smsNotify">发送短信通知</a-checkbox>
+            <a-switch v-model="manualForm.smsNotify" checked-children="开" un-checked-children="关" />
+            <span class="field-hint">发送短信通知用户</span>
           </a-form-model-item>
 
           <!-- 提交按钮 -->
-          <a-form-model-item :wrapper-col="{ span: 18, offset: 4 }">
+          <a-form-model-item :wrapper-col="{ span: 21, offset: 3 }">
             <a-button
               type="primary"
               :disabled="!isManualFormValid"
@@ -93,46 +94,52 @@
       </a-card>
 
       <!-- 2. 自动发放 -->
-      <a-card class="rounded-xl border-slate-200 bg-white shadow-sm">
-        <div slot="title" class="text-lg font-semibold text-slate-900">自动发放</div>
+      <a-card :bordered="false" class="list-card">
+        <div slot="title" class="card-title">自动发放</div>
 
         <a-table
           :columns="sceneColumns"
           :data-source="scenes"
           :pagination="false"
           row-key="id"
+          class="custom-table"
         >
           <!-- 场景名称 -->
           <template slot="sceneName" slot-scope="text, record">
-            <span class="font-medium text-slate-900">{{ getSceneName(record.scene) }}</span>
+            <span class="scene-name">{{ getSceneName(record.scene) }}</span>
           </template>
 
           <!-- 触发时机 -->
           <template slot="trigger" slot-scope="text, record">
-            <span class="text-sm text-slate-600">
-              {{ getTriggerDescription(record.scene) }}
-            </span>
+            <span class="trigger-text">{{ getTriggerDescription(record.scene) }}</span>
           </template>
 
           <!-- 选择派发优惠券 -->
           <template slot="coupon" slot-scope="text, record">
-            <span v-if="record.couponId" class="text-slate-900">
+            <span v-if="record.couponId" class="coupon-text">
               {{ getCouponDisplayText(record.couponId) }}
             </span>
-            <span v-else class="text-slate-400">未配置</span>
+            <span v-else class="empty-text">未配置</span>
           </template>
 
           <!-- 短信通知 -->
           <template slot="smsNotify" slot-scope="smsNotify">
-            <span :class="smsNotify ? 'text-green-600' : 'text-slate-600'">
+            <a-tag :color="smsNotify ? 'success' : 'default'">
               {{ smsNotify ? '是' : '否' }}
-            </span>
+            </a-tag>
+          </template>
+
+          <!-- 状态 -->
+          <template slot="status" slot-scope="status">
+            <a-tag :color="status === 'enabled' ? 'success' : 'default'">
+              {{ status === 'enabled' ? '已启用' : '已停用' }}
+            </a-tag>
           </template>
 
           <!-- 操作 -->
           <template slot="action" slot-scope="text, record">
-            <div class="flex items-center justify-center gap-2">
-              <a-button size="small" class="h-7 px-2" @click="handleEditScene(record)">
+            <div class="action-btns">
+              <a-button size="small" @click="handleEditScene(record)">
                 <a-icon type="edit" />
                 配置
               </a-button>
@@ -140,7 +147,6 @@
                 size="small"
                 :type="record.status === 'enabled' ? 'danger' : 'primary'"
                 :disabled="!record.couponId"
-                class="h-7 px-2"
                 @click="handleToggleScene(record)"
               >
                 {{ record.status === 'enabled' ? '停用' : '启用' }}
@@ -154,34 +160,32 @@
       <a-modal
         :visible="confirmVisible"
         title="确认发放优惠券"
+        width="520px"
         @ok="handleConfirmDistribute"
         @cancel="confirmVisible = false"
         ok-text="确认发放"
         cancel-text="取消"
       >
-        <p class="mb-2">请确认以下发放信息</p>
-        <div class="space-y-2">
-          <div class="flex justify-between">
-            <span class="text-slate-600">发放方式：</span>
-            <span class="font-medium">
+        <div class="confirm-content">
+          <div class="confirm-item">
+            <span class="confirm-label">发放方式</span>
+            <span class="confirm-value">
               {{ confirmData.type === 'phone' ? '按手机号' : '按VIP等级' }}
             </span>
           </div>
-          <div class="flex justify-between">
-            <span class="text-slate-600">目标用户：</span>
-            <span class="font-medium">
-              {{ getTargetUsersText() }}
-            </span>
+          <div class="confirm-item">
+            <span class="confirm-label">目标用户</span>
+            <span class="confirm-value">{{ getTargetUsersText() }}</span>
           </div>
-          <div class="flex justify-between">
-            <span class="text-slate-600">发放优惠券：</span>
-            <span class="font-medium">
+          <div class="confirm-item">
+            <span class="confirm-label">发放优惠券</span>
+            <span class="confirm-value">
               {{ confirmData.couponId ? getCouponDisplayText(confirmData.couponId) : '-' }}
             </span>
           </div>
-          <div class="flex justify-between">
-            <span class="text-slate-600">短信通知：</span>
-            <span class="font-medium">{{ confirmData.smsNotify ? '是' : '否' }}</span>
+          <div class="confirm-item">
+            <span class="confirm-label">短信通知</span>
+            <span class="confirm-value">{{ confirmData.smsNotify ? '是' : '否' }}</span>
           </div>
         </div>
       </a-modal>
@@ -190,25 +194,26 @@
       <a-modal
         :visible="sceneDialogVisible"
         :title="`配置${editingScene ? getSceneName(editingScene.scene) : ''}`"
+        width="520px"
         @ok="handleSaveScene"
         @cancel="sceneDialogVisible = false"
         ok-text="保存"
         cancel-text="取消"
       >
-        <a-form-model :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
+        <a-form-model :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
           <a-form-model-item label="选择优惠券">
-            <a-select v-model="sceneForm.couponId" placeholder="选择优惠券" class="w-full">
+            <a-select v-model="sceneForm.couponId" placeholder="选择优惠券">
               <a-select-option
                 v-for="coupon in enabledCoupons"
                 :key="coupon.id"
                 :value="coupon.id"
               >
-                {{ coupon.id }}（{{ coupon.remark || coupon.name }}）
+                {{ coupon.name }} ({{ getCouponContent(coupon) }})
               </a-select-option>
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="短信通知">
-            <a-switch v-model="sceneForm.smsNotify" />
+            <a-switch v-model="sceneForm.smsNotify" checked-children="开" un-checked-children="关" />
           </a-form-model-item>
         </a-form-model>
       </a-modal>
@@ -264,33 +269,41 @@ export default defineComponent({
       {
         title: '场景名称',
         key: 'sceneName',
-        width: 150,
+        width: 120,
         scopedSlots: { customRender: 'sceneName' }
       },
       {
         title: '触发时机',
         key: 'trigger',
+        width: 180,
         scopedSlots: { customRender: 'trigger' }
       },
       {
-        title: '选择派发优惠券',
+        title: '派发优惠券',
         key: 'coupon',
-        width: 280,
         scopedSlots: { customRender: 'coupon' }
       },
       {
         title: '短信通知',
         dataIndex: 'smsNotify',
         key: 'smsNotify',
-        width: 100,
+        width: 90,
         align: 'center',
         scopedSlots: { customRender: 'smsNotify' }
       },
       {
+        title: '状态',
+        dataIndex: 'status',
+        key: 'status',
+        width: 90,
+        align: 'center',
+        scopedSlots: { customRender: 'status' }
+      },
+      {
         title: '操作',
         key: 'action',
-        width: 180,
-        align: 'center',
+        width: 140,
+        fixed: 'right',
         scopedSlots: { customRender: 'action' }
       }
     ]
@@ -443,15 +456,28 @@ export default defineComponent({
       return map[scene] || ''
     }
 
+    const getCouponContent = (coupon) => {
+      if (coupon.type === 'full_reduction') {
+        return `满${coupon.threshold}减${coupon.amount}`
+      } else if (coupon.type === 'discount') {
+        return `${coupon.discount}折`
+      } else if (coupon.type === 'instant_reduction') {
+        return `立减${coupon.amount}`
+      }
+      return ''
+    }
+
     const getCouponDisplayText = (couponId) => {
       const coupon = enabledCoupons.value.find(c => c.id === couponId)
-      return coupon ? `${coupon.id}（${coupon.remark || coupon.name}）` : couponId
+      if (!coupon) return couponId
+      return `${coupon.name} (${getCouponContent(coupon)})`
     }
 
     const getTargetUsersText = () => {
       if (confirmData.type === 'phone') {
-        if (confirmData.phones.length > 3) {
-          return `${confirmData.phones.slice(0, 3).join(', ')}...`
+        const count = confirmData.phones.length
+        if (count > 3) {
+          return `${confirmData.phones.slice(0, 3).join(', ')} 等${count}个用户`
         }
         return confirmData.phones.join(', ')
       } else {
@@ -486,6 +512,7 @@ export default defineComponent({
       goToIssueRecords,
       getSceneName,
       getTriggerDescription,
+      getCouponContent,
       getCouponDisplayText,
       getTargetUsersText
     }
@@ -494,115 +521,78 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-.p-6 {
+@import '@/styles/variables.less';
+
+.coupon-issue-page {
   padding: 24px;
-}
-
-.space-y-6 > * + * {
-  margin-top: 24px;
-}
-
-.rounded-xl {
-  border-radius: 12px;
-}
-
-.border-slate-200 {
-  border-color: #e2e8f0;
-}
-
-.bg-white {
-  background-color: #ffffff;
-}
-
-.shadow-sm {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.flex {
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.items-center {
+// 卡片样式
+.form-card,
+.list-card {
+  border-radius: @border-radius-lg;
+  border: 1px solid @border-primary;
+  box-shadow: @shadow-sm;
+
+  :deep(.ant-card-head) {
+    border-bottom: 1px solid @bg-tertiary;
+    padding: 16px 24px;
+  }
+
+  :deep(.ant-card-body) {
+    padding: 24px;
+  }
+}
+
+.list-card {
+  :deep(.ant-card-body) {
+    padding: 0;
+  }
+}
+
+.card-header {
+  display: flex;
   align-items: center;
-}
-
-.justify-between {
   justify-content: space-between;
-}
-
-.gap-2 {
-  gap: 8px;
-}
-
-.text-lg {
-  font-size: 18px;
-}
-
-.font-semibold {
-  font-weight: 600;
-}
-
-.text-slate-900 {
-  color: #0f172a;
-}
-
-.h-9 {
-  height: 36px;
-}
-
-.border-slate-300 {
-  border-color: #cbd5e1;
-}
-
-.bg-blue-600 {
-  background-color: #2563eb;
-}
-
-.w-full {
   width: 100%;
 }
 
-/* 手机号输入框样式 */
+.card-title {
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+}
+
+// 字段提示
+.field-hint {
+  font-size: @font-size-xs;
+  color: @text-tertiary;
+  margin-top: 4px;
+  display: block;
+}
+
+// 手机号输入框
 .phone-textarea {
-  font-size: 15px !important;
-  line-height: 1.6 !important;
-  color: #1e293b !important;
+  :deep(.ant-input) {
+    font-size: 14px;
+    line-height: 1.6;
+    color: @text-primary;
+    font-family: @font-family;
 
-  &::placeholder {
-    font-size: 14px !important;
-    color: #64748b !important;
-    line-height: 1.6 !important;
+    &::placeholder {
+      font-size: 13px;
+      color: @text-tertiary;
+      line-height: 1.6;
+    }
   }
 }
 
-/* 开始派发按钮 */
-.issue-button {
-  height: 40px !important;
-  padding: 0 32px !important;
-  font-size: 16px !important;
-  font-weight: 600 !important;
-  background-color: #3b82f6 !important;
-  border-color: #3b82f6 !important;
-  color: #ffffff !important;
-
-  &:hover:not(:disabled) {
-    background-color: #2563eb !important;
-    border-color: #2563eb !important;
-    color: #ffffff !important;
-  }
-
-  &:disabled {
-    background-color: #cbd5e1 !important;
-    border-color: #cbd5e1 !important;
-    color: #94a3b8 !important;
-  }
-
-  :deep(.anticon) {
-    margin-right: 6px;
-    font-size: 16px;
-  }
-}
-
+// VIP 复选框网格
 .vip-checkbox-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -610,82 +600,126 @@ export default defineComponent({
 }
 
 .vip-checkbox-item {
-  padding: 12px;
-  background: #f8fafc;
-  border-radius: 6px;
-  border: 2px solid #e2e8f0;
-  transition: all 0.2s;
+  padding: 10px 12px;
+  background: @bg-secondary;
+  border-radius: @border-radius-base;
+  border: 1px solid @border-primary;
+  transition: @transition-base;
 
   &:hover {
-    border-color: #3b82f6;
-    background-color: #eff6ff;
+    border-color: @brand-primary;
+    background: @brand-primary-light;
+  }
+
+  :deep(.ant-checkbox-wrapper) {
+    font-size: @font-size-base;
+    color: @text-primary;
   }
 }
 
-.text-xs {
-  font-size: 12px;
+// 开始派发按钮
+.issue-button {
+  height: 40px;
+  padding: 0 32px;
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  border-radius: @border-radius-base;
+
+  :deep(.anticon) {
+    margin-right: 6px;
+    font-size: 16px;
+  }
 }
 
-.text-slate-500 {
-  color: #64748b;
+// 自定义表格样式
+.custom-table {
+  :deep(.ant-table-thead > tr > th) {
+    background: @bg-secondary;
+    border-bottom: 1px solid @border-primary;
+    color: @text-primary;
+    font-weight: @font-weight-semibold;
+    font-size: @font-size-base;
+    padding: 12px 16px;
+  }
+
+  :deep(.ant-table-tbody > tr) {
+    &:hover > td {
+      background: @bg-hover;
+    }
+
+    > td {
+      border-bottom: 1px solid @border-primary;
+      padding: 12px 16px;
+      color: @text-primary;
+    }
+  }
 }
 
-.mt-1 {
-  margin-top: 4px;
+// 场景名称
+.scene-name {
+  font-weight: @font-weight-medium;
+  color: @text-primary;
+  font-size: @font-size-base;
 }
 
-.font-medium {
-  font-weight: 500;
+// 触发时机
+.trigger-text {
+  color: @text-secondary;
+  font-size: @font-size-sm;
 }
 
-.text-slate-600 {
-  color: #475569;
+// 优惠券文本
+.coupon-text {
+  color: @text-primary;
+  font-size: @font-size-sm;
 }
 
-.text-sm {
-  font-size: 14px;
+// 空文本
+.empty-text {
+  color: @text-tertiary;
+  font-size: @font-size-sm;
 }
 
-.text-green-600 {
-  color: #16a34a;
-}
-
-.text-slate-400 {
-  color: #94a3b8;
-}
-
-.h-7 {
-  height: 28px;
-}
-
-.px-2 {
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-.justify-center {
+// 操作按钮
+.action-btns {
+  display: flex;
+  gap: 8px;
   justify-content: center;
+
+  .ant-btn-sm {
+    height: 28px;
+    padding: 0 12px;
+    font-size: @font-size-sm;
+  }
 }
 
-.mb-2 {
-  margin-bottom: 8px;
+// 确认弹窗内容
+.confirm-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.space-y-2 > * + * {
-  margin-top: 8px;
+.confirm-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
 }
 
-:deep(.ant-table-tbody > tr:hover > td) {
-  background-color: #f8fafc !important;
+.confirm-label {
+  flex-shrink: 0;
+  color: @text-secondary;
+  font-size: @font-size-base;
+  width: 100px;
 }
 
-:deep(.ant-checkbox-wrapper) {
-  width: 100%;
-  margin: 0;
-}
-
-:deep(.ant-checkbox-checked .ant-checkbox-inner) {
-  background-color: #2563eb;
-  border-color: #2563eb;
+.confirm-value {
+  flex: 1;
+  text-align: right;
+  color: @text-primary;
+  font-size: @font-size-base;
+  font-weight: @font-weight-medium;
+  word-break: break-all;
 }
 </style>
