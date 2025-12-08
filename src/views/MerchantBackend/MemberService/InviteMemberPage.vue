@@ -23,12 +23,12 @@
             class="custom-table"
           >
             <!-- 受邀人 -->
-            <template #inviteeId="{ text }">
+            <template slot="inviteeId" slot-scope="{ text }">
               <span class="invitee-name">{{ text }}</span>
             </template>
 
             <!-- 受邀时间 -->
-            <template #invitedAt="{ text }">
+            <template slot="invitedAt" slot-scope="{ text }">
               <span class="invited-time">{{ text }}</span>
             </template>
           </a-table>
@@ -56,7 +56,7 @@
 
             <!-- 保存图片按钮 -->
             <a-button block @click="handleDownloadQR" class="download-btn">
-              <template #icon>
+              <template slot="icon">
                 <a-icon type="download" />
               </template>
               保存图片

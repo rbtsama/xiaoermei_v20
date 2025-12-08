@@ -139,7 +139,7 @@
 
             <!-- 保存二维码按钮 -->
             <a-button block @click="handleDownloadQR" class="download-btn">
-              <template #icon>
+              <template slot="icon">
                 <a-icon type="download" />
               </template>
               保存二维码

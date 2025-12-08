@@ -3,7 +3,7 @@
     :bordered="false"
     class="editable-card"
   >
-    <template #title>
+    <template slot="title">
       <div class="card-header">
         <span class="card-title">{{ title }}</span>
         <div v-if="!hideActions" class="action-buttons">

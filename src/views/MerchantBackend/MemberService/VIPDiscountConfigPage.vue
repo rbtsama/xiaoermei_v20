@@ -26,12 +26,12 @@
             row-key="id"
           >
             <!-- 等级 -->
-            <template #levelName="{ text }">
+            <template slot="levelName" slot-scope="{ text }">
               <span class="level-name">{{ text }}</span>
             </template>
 
             <!-- 平台折扣 -->
-            <template #platformDiscount="{ text }">
+            <template slot="platformDiscount" slot-scope="{ text }">
               <span class="platform-discount">{{ formatPercent(text) }}</span>
             </template>
 

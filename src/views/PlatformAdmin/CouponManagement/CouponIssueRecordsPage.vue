@@ -3,7 +3,7 @@
     <div class="issue-records-page">
       <!-- 发放记录卡片 -->
       <a-card :bordered="false" class="records-card">
-        <template #title>
+        <template slot="title">
           <div class="header-container">
             <a-button @click="goBack" class="back-button">
               <a-icon type="arrow-left" />

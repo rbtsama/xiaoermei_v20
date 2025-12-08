@@ -59,7 +59,7 @@
 
       <!-- 会员列表卡片 -->
       <a-card :bordered="false" class="list-card">
-        <template #title>
+        <template slot="title">
           <span class="card-title">会员列表</span>
         </template>
 

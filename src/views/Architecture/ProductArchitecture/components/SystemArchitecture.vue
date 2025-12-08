@@ -6,7 +6,7 @@
   <div class="space-y-6">
     <!-- 精简统计卡片 - 使用配色系统 -->
     <a-card class="border-2 border-brand-secondary">
-      <template #title>
+      <template slot="title">
         <div class="bg-gradient-to-r from-brand-secondary to-brand-error text-white py-4 -m-6 mb-6 px-6 rounded-t-lg">
           <div class="flex items-center justify-between">
             <div class="text-2xl">双端系统功能架构</div>
@@ -24,7 +24,7 @@
     <div class="grid grid-cols-2 gap-4">
       <!-- 平台后台 -->
       <a-card class="border-2 border-brand-primary">
-        <template #title>
+        <template slot="title">
           <div class="bg-brand-primary text-white py-3 -m-6 mb-6 px-6 rounded-t-lg">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -55,7 +55,7 @@
 
       <!-- 商户端 -->
       <a-card class="border-2 border-brand-success">
-        <template #title>
+        <template slot="title">
           <div class="bg-brand-success text-white py-3 -m-6 mb-6 px-6 rounded-t-lg">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -87,7 +87,7 @@
 
     <!-- 数据流向图 -->
     <a-card class="border-2 border-border-normal">
-      <template #title>
+      <template slot="title">
         <div class="bg-text-primary text-white py-3 -m-6 mb-6 px-6 rounded-t-lg">
           <div class="text-lg">核心业务数据流</div>
         </div>

@@ -77,7 +77,7 @@
           <div class="grid lg:grid-cols-3 gap-6">
             <!-- 1. 按钮模块 -->
             <ComponentSection title="按钮">
-              <template #icon>
+              <template slot="icon">
                 <!-- Icon removed -->
               </template>
               <div class="space-y-4">
@@ -148,7 +148,7 @@
 
             <!-- 2. 标签模块 -->
             <ComponentSection title="标签">
-              <template #icon>
+              <template slot="icon">
                 <!-- Icon removed -->
               </template>
               <div class="space-y-4">
@@ -229,7 +229,7 @@
 
             <!-- 3. 输入表单模块 -->
             <ComponentSection title="输入表单">
-              <template #icon>
+              <template slot="icon">
                 <!-- Icon removed -->
               </template>
               <div class="space-y-4">

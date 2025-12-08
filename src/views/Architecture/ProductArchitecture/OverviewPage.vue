@@ -23,7 +23,7 @@
 
         <!-- 订单主线流程 - 高保真版 -->
         <a-card class="border-2 border-[#C67A28] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-          <template #title>
+          <template slot="title">
             <div class="bg-gradient-to-r from-[#C67A28] to-[#E89A3E] text-white py-5 rounded-t-xl -m-6 mb-6 px-6">
               <div class="text-2xl flex items-center gap-3">
                 <div class="p-2 bg-white/20 rounded-lg backdrop-blur-sm">

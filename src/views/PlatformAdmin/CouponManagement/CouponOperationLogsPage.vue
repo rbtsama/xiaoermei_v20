@@ -3,7 +3,7 @@
     <div class="operation-logs-page">
       <!-- 操作记录卡片 -->
       <a-card :bordered="false" class="logs-card">
-        <template #title>
+        <template slot="title">
           <div class="header-container">
             <a-button @click="goBack" class="back-button">
               <a-icon type="arrow-left" />

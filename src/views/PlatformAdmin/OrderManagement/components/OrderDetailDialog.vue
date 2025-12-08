@@ -190,7 +190,7 @@
       </a-card>
     </div>
 
-    <template #footer>
+    <template slot="footer">
       <a-button @click="handleClose" size="large">关闭</a-button>
     </template>
   </a-modal>
