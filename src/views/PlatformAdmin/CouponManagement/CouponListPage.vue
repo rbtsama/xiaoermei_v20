@@ -1,6 +1,6 @@
 <template>
   <sidebar>
-    <div class="p-6 space-y-6">
+    <div class="coupon-list-page">
       <!-- 创建优惠券Dialog -->
       <coupon-dialog
         :visible="isCreateDialogOpen"
@@ -19,91 +19,104 @@
       />
 
       <!-- 优惠券列表 -->
-      <a-card class="rounded-xl border-slate-200 bg-white shadow-sm">
-        <div slot="title" class="flex items-center justify-between">
-          <span class="text-lg font-semibold text-slate-900">优惠券列表</span>
-          <div class="flex items-center gap-2">
-            <a-button class="h-9 border-slate-300" @click="goToOperationLogs">
+      <a-card :bordered="false" class="list-card">
+        <div slot="title" class="card-header">
+          <span class="card-title">优惠券列表</span>
+          <div class="header-actions">
+            <a-button @click="goToOperationLogs">
               <a-icon type="history" />
               操作记录
             </a-button>
-            <a-button type="primary" class="h-9 bg-blue-600" @click="isCreateDialogOpen = true">
+            <a-button type="primary" @click="isCreateDialogOpen = true">
               <a-icon type="plus" />
               创建优惠券
             </a-button>
           </div>
         </div>
 
-        <div class="border border-slate-200 rounded-lg overflow-hidden">
-          <a-table
-            :columns="columns"
-            :data-source="coupons"
-            :pagination="paginationConfig"
-            :loading="loading"
-            row-key="id"
-            @change="handleTableChange"
-          >
-            <!-- 优惠券类型 -->
-            <template slot="type" slot-scope="type">
-              <a-tag :class="getCouponTypeBadgeClass(type)" class="border">
-                {{ getCouponTypeText(type) }}
-              </a-tag>
-            </template>
+        <a-table
+          :columns="columns"
+          :data-source="coupons"
+          :pagination="paginationConfig"
+          :loading="loading"
+          row-key="id"
+          class="custom-table"
+          @change="handleTableChange"
+        >
+          <!-- 优惠券ID -->
+          <template slot="id" slot-scope="id">
+            <span class="id-text">{{ id }}</span>
+          </template>
 
-            <!-- 备注说明 -->
-            <template slot="remark" slot-scope="remark">
-              <span class="text-slate-900 text-sm max-w-150 truncate" :title="remark || '-'">
-                {{ remark || '-' }}
-              </span>
-            </template>
+          <!-- 优惠券类型 -->
+          <template slot="type" slot-scope="type">
+            <a-tag :class="getCouponTypeBadgeClass(type)">
+              {{ getCouponTypeText(type) }}
+            </a-tag>
+          </template>
 
-            <!-- 有效期 -->
-            <template slot="validDays" slot-scope="validDays">
-              <span class="text-slate-900 text-sm">
-                {{ getValidDaysText(validDays) }}
-              </span>
-            </template>
+          <!-- 优惠券名称 -->
+          <template slot="name" slot-scope="name">
+            <span class="name-text">{{ name }}</span>
+          </template>
 
-            <!-- 费用承担 -->
-            <template slot="ratio" slot-scope="text, record">
-              <span class="text-slate-900 text-sm">
-                平台{{ record.platformRatio }}% / 商户{{ record.merchantRatio }}%
-              </span>
-            </template>
+          <!-- 优惠内容 -->
+          <template slot="content" slot-scope="text, record">
+            <div class="content-text">{{ getCouponContent(record) }}</div>
+          </template>
 
-            <!-- 短信通知 -->
-            <template slot="smsNotify" slot-scope="smsNotify">
-              <span :class="smsNotify ? 'text-green-600' : 'text-slate-600'">
-                {{ smsNotify ? '是' : '否' }}
-              </span>
-            </template>
+          <!-- 备注说明 -->
+          <template slot="remark" slot-scope="remark">
+            <span class="remark-text" :title="remark || '—'">
+              {{ remark || '—' }}
+            </span>
+          </template>
 
-            <!-- 操作 -->
-            <template slot="action" slot-scope="text, record">
-              <div class="flex items-center justify-center gap-2">
-                <!-- 编辑按钮 -->
-                <a-button
-                  size="small"
-                  class="h-7 px-3 border-slate-300"
-                  @click="handleEdit(record)"
-                >
-                  <a-icon type="edit" />
-                  编辑
-                </a-button>
+          <!-- 有效期 -->
+          <template slot="validDays" slot-scope="validDays">
+            <span class="valid-text">{{ getValidDaysText(validDays) }}</span>
+          </template>
 
-                <!-- 启用/停用按钮 -->
-                <a-button
-                  size="small"
-                  :type="record.status === 'enabled' ? 'danger' : 'primary'"
-                  class="h-7 px-3"
-                  @click="handleToggleStatus(record)"
-                >
-                  {{ record.status === 'enabled' ? '停用' : '启用' }}
-                </a-button>
-              </div>
-            </template>
-          </a-table>
-        </div>
+          <!-- 费用承担 -->
+          <template slot="ratio" slot-scope="text, record">
+            <div class="ratio-text">
+              <div>平台 {{ record.platformRatio }}%</div>
+              <div class="ratio-merchant">商户 {{ record.merchantRatio }}%</div>
+            </div>
+          </template>
+
+          <!-- 状态 -->
+          <template slot="status" slot-scope="status">
+            <a-tag :color="status === 'enabled' ? 'success' : 'default'">
+              {{ status === 'enabled' ? '已启用' : '已停用' }}
+            </a-tag>
+          </template>
+
+          <!-- 创建时间 -->
+          <template slot="createdAt" slot-scope="createdAt">
+            <div class="datetime-cell">
+              <div class="date">{{ formatDate(createdAt) }}</div>
+              <div class="time">{{ formatTime(createdAt) }}</div>
+            </div>
+          </template>
+
+          <!-- 操作 -->
+          <template slot="action" slot-scope="text, record">
+            <div class="action-btns">
+              <a-button size="small" @click="handleEdit(record)">
+                <a-icon type="edit" />
+                编辑
+              </a-button>
+              <a-button
+                size="small"
+                :type="record.status === 'enabled' ? 'danger' : 'primary'"
+                @click="handleToggleStatus(record)"
+              >
+                {{ record.status === 'enabled' ? '停用' : '启用' }}
+              </a-button>
+            </div>
+          </template>
+        </a-table>
       </a-card>
     </div>
   </sidebar>
@@ -114,6 +127,7 @@ import { defineComponent, ref, reactive, onMounted } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import CouponDialog from './components/CouponDialog.vue'
 import CouponService from './services/coupon.service'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'CouponListPage',
@@ -139,90 +153,74 @@ export default defineComponent({
         title: '优惠券ID',
         dataIndex: 'id',
         key: 'id',
-        width: 120,
-        customRender: (text) => ({
-          children: text,
-          attrs: {
-            class: 'text-slate-900 font-medium'
-          }
-        })
+        width: 100,
+        scopedSlots: { customRender: 'id' }
       },
       {
         title: '优惠券类型',
         dataIndex: 'type',
         key: 'type',
-        width: 120,
+        width: 100,
         scopedSlots: { customRender: 'type' }
       },
       {
         title: '优惠券名称',
         dataIndex: 'name',
         key: 'name',
-        width: 200,
-        customRender: (text) => ({
-          children: text,
-          attrs: {
-            class: 'text-slate-900'
-          }
-        })
+        width: 180,
+        scopedSlots: { customRender: 'name' }
       },
       {
-        title: '备注说明',
+        title: '优惠内容',
+        key: 'content',
+        width: 140,
+        scopedSlots: { customRender: 'content' }
+      },
+      {
+        title: '备注',
         dataIndex: 'remark',
         key: 'remark',
-        width: 150,
+        width: 120,
         scopedSlots: { customRender: 'remark' }
       },
       {
         title: '有效期',
         dataIndex: 'validDays',
         key: 'validDays',
-        width: 120,
+        width: 100,
         scopedSlots: { customRender: 'validDays' }
       },
       {
         title: '费用承担',
         key: 'ratio',
-        width: 180,
+        width: 100,
         scopedSlots: { customRender: 'ratio' }
       },
       {
-        title: '短信通知',
-        dataIndex: 'smsNotify',
-        key: 'smsNotify',
-        width: 100,
-        align: 'center',
-        scopedSlots: { customRender: 'smsNotify' }
+        title: '状态',
+        dataIndex: 'status',
+        key: 'status',
+        width: 80,
+        scopedSlots: { customRender: 'status' }
       },
       {
         title: '创建时间',
         dataIndex: 'createdAt',
         key: 'createdAt',
-        width: 160,
-        customRender: (text) => ({
-          children: text,
-          attrs: {
-            class: 'text-slate-900 text-sm'
-          }
-        })
+        width: 120,
+        scopedSlots: { customRender: 'createdAt' }
       },
       {
         title: '创建人',
         dataIndex: 'createdBy',
         key: 'createdBy',
-        width: 100,
-        customRender: (text) => ({
-          children: text,
-          attrs: {
-            class: 'text-slate-900 text-sm'
-          }
-        })
+        width: 100
       },
       {
         title: '操作',
         key: 'action',
-        width: 180,
-        align: 'center',
+        width: 140,
+        fixed: 'right',
         scopedSlots: { customRender: 'action' }
       }
     ]
@@ -232,8 +230,10 @@ export default defineComponent({
       current: 1,
       pageSize: 10,
       total: 0,
-      showSizeChanger: false,
-      showTotal: (total) => `共 ${total} 条`
+      showSizeChanger: true,
+      showQuickJumper: true,
+      showTotal: (total) => `共 ${total} 条`,
+      pageSizeOptions: ['10', '20', '50', '100']
     })
 
     // 获取优惠券列表
@@ -301,20 +301,44 @@ export default defineComponent({
       return map[type] || type
     }
 
+    // 获取优惠券内容
+    const getCouponContent = (coupon) => {
+      if (coupon.type === 'full_reduction') {
+        return `满${coupon.threshold}元减${coupon.amount}元`
+      } else if (coupon.type === 'discount') {
+        return `${coupon.discount}折，最高${coupon.maxDiscount}元`
+      } else if (coupon.type === 'instant_reduction') {
+        return `立减${coupon.amount}元`
+      }
+      return '-'
+    }
+
     // 获取优惠券类型样式
     const getCouponTypeBadgeClass = (type) => {
       const classMap = {
-        full_reduction: 'bg-orange-50 text-orange-700 border-orange-300',
-        discount: 'bg-green-50 text-green-700 border-green-300',
-        instant_reduction: 'bg-blue-50 text-blue-700 border-blue-300'
+        full_reduction: 'tag-orange',
+        discount: 'tag-green',
+        instant_reduction: 'tag-blue'
       }
-      return classMap[type] || 'border-slate-300 text-slate-700'
+      return classMap[type] || ''
     }
 
     // 获取有效期文本
     const getValidDaysText = (days) => {
-      if (days === 0) return '永久'
-      return `发放后${days}天`
+      if (days === 0) return '永久有效'
+      return `${days}天`
+    }
+
+    // 格式化日期
+    const formatDate = (datetime) => {
+      if (!datetime) return '-'
+      return dayjs(datetime).format('YYYY-MM-DD')
+    }
+
+    // 格式化时间
+    const formatTime = (datetime) => {
+      if (!datetime) return '-'
+      return dayjs(datetime).format('HH:mm:ss')
     }
 
     onMounted(() => {
@@ -335,174 +359,201 @@ export default defineComponent({
       handleDialogSuccess,
       goToOperationLogs,
       getCouponTypeText,
+      getCouponContent,
       getCouponTypeBadgeClass,
-      getValidDaysText
+      getValidDaysText,
+      formatDate,
+      formatTime
     }
   }
 })
 </script>
 
 <style scoped lang="less">
-.p-6 {
+@import '@/styles/variables.less';
+
+.coupon-list-page {
   padding: 24px;
+  max-width: 1800px;
+  margin: 0 auto;
 }
 
-.space-y-6 > * + * {
-  margin-top: 24px;
+// 卡片样式
+.list-card {
+  border-radius: @border-radius-lg;
+  border: 1px solid @border-primary;
+  box-shadow: @shadow-sm;
+
+  :deep(.ant-card-head) {
+    border-bottom: 1px solid @bg-tertiary;
+    padding: 16px 24px;
+  }
+
+  :deep(.ant-card-body) {
+    padding: 0;
+  }
 }
 
-.rounded-xl {
-  border-radius: 12px;
-}
-
-.border-slate-200 {
-  border-color: #e2e8f0;
-}
-
-.bg-white {
-  background-color: #ffffff;
-}
-
-.shadow-sm {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.flex {
+.card-header {
   display: flex;
-}
-
-.items-center {
   align-items: center;
-}
-
-.justify-between {
   justify-content: space-between;
+  width: 100%;
 }
 
-.gap-2 {
+.card-title {
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+}
+
+.header-actions {
+  display: flex;
   gap: 8px;
 }
 
-.text-lg {
-  font-size: 18px;
+// 自定义表格样式
+.custom-table {
+  :deep(.ant-table) {
+    font-size: @font-size-base;
+  }
+
+  :deep(.ant-table-thead > tr > th) {
+    background: @bg-secondary;
+    border-bottom: 1px solid @border-primary;
+    color: @text-primary;
+    font-weight: @font-weight-semibold;
+    font-size: @font-size-base;
+    padding: 12px 16px;
+  }
+
+  :deep(.ant-table-tbody > tr) {
+    &:hover > td {
+      background: @bg-hover;
+    }
+
+    > td {
+      border-bottom: 1px solid @border-primary;
+      padding: 12px 16px;
+      color: @text-primary;
+    }
+  }
+
+  :deep(.ant-table-pagination) {
+    padding: 16px 24px;
+  }
 }
 
-.font-semibold {
-  font-weight: 600;
+// ID 文本
+.id-text {
+  font-family: @font-family;
+  font-weight: @font-weight-medium;
+  color: @text-primary;
+  font-size: @font-size-sm;
 }
 
-.text-slate-900 {
-  color: #0f172a;
+// 名称文本
+.name-text {
+  color: @text-primary;
+  font-size: @font-size-base;
 }
 
-.h-9 {
-  height: 36px;
+// 内容文本
+.content-text {
+  color: @text-primary;
+  font-size: @font-size-sm;
+  font-weight: @font-weight-medium;
 }
 
-.bg-blue-600 {
-  background-color: #2563eb;
-}
-
-.border {
-  border-width: 1px;
-}
-
-.rounded-lg {
-  border-radius: 8px;
-}
-
-.overflow-hidden {
-  overflow: hidden;
-}
-
-.text-sm {
-  font-size: 14px;
-}
-
-.max-w-150 {
-  max-width: 150px;
-}
-
-.truncate {
+// 备注文本
+.remark-text {
+  color: @text-primary;
+  font-size: @font-size-sm;
+  max-width: 120px;
+  display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.text-green-600 {
-  color: #16a34a;
+// 有效期文本
+.valid-text {
+  color: @text-primary;
+  font-size: @font-size-sm;
 }
 
-.text-slate-600 {
-  color: #475569;
+// 费用承担文本
+.ratio-text {
+  font-size: @font-size-sm;
+
+  div {
+    color: @text-primary;
+    line-height: 1.5;
+  }
+
+  .ratio-merchant {
+    color: @text-secondary;
+    margin-top: 2px;
+  }
 }
 
-.h-7 {
-  height: 28px;
+// 日期时间单元格
+.datetime-cell {
+  .date {
+    display: block;
+    color: @text-primary;
+    font-size: @font-size-base;
+    line-height: 1.5;
+  }
+
+  .time {
+    display: block;
+    color: @text-secondary;
+    font-size: @font-size-sm;
+    line-height: 1.5;
+    margin-top: 2px;
+  }
 }
 
-.px-3 {
-  padding-left: 12px;
-  padding-right: 12px;
+// 标签样式
+.tag-orange {
+  color: #c2410c;
+  background: #fff7ed;
+  border-color: #fed7aa;
 }
 
-.border-slate-300 {
-  border-color: #cbd5e1;
+.tag-green {
+  color: #15803d;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
 }
 
-.justify-center {
-  justify-content: center;
+.tag-blue {
+  color: #1d4ed8;
+  background: #eff6ff;
+  border-color: #bfdbfe;
 }
 
 :deep(.ant-tag) {
   margin: 0;
   padding: 2px 8px;
-  font-size: 12px;
+  font-size: @font-size-xs;
+  font-weight: @font-weight-medium;
   line-height: 20px;
-  border-radius: 4px;
+  border-radius: @border-radius-sm;
+  border-width: 1px;
 }
 
-.bg-orange-50 {
-  background-color: #fff7ed;
-}
+// 操作按钮
+.action-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
 
-.text-orange-700 {
-  color: #c2410c;
-}
-
-.border-orange-300 {
-  border-color: #fdba74;
-}
-
-.bg-green-50 {
-  background-color: #f0fdf4;
-}
-
-.text-green-700 {
-  color: #15803d;
-}
-
-.border-green-300 {
-  border-color: #86efac;
-}
-
-.bg-blue-50 {
-  background-color: #eff6ff;
-}
-
-.text-blue-700 {
-  color: #1d4ed8;
-}
-
-.border-blue-300 {
-  border-color: #93c5fd;
-}
-
-.text-slate-700 {
-  color: #334155;
-}
-
-:deep(.ant-table-tbody > tr:hover > td) {
-  background-color: #f8fafc !important;
+  .ant-btn-sm {
+    height: 28px;
+    padding: 0 12px;
+    font-size: @font-size-sm;
+  }
 }
 </style>
