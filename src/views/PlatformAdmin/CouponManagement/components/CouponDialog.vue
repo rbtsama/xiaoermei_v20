@@ -20,9 +20,10 @@
       <a-form-model-item label="优惠券名称" prop="name">
         <a-input
           v-model="form.name"
-          placeholder="请输入优惠券名称"
+          placeholder="例如：新用户专享券、周末特惠券"
           :maxLength="50"
         />
+        <div class="field-hint">最多50个字符</div>
       </a-form-model-item>
 
       <!-- 优惠券类型 - 单选按钮组 -->
@@ -33,9 +34,9 @@
           <a-radio-button value="instant_reduction">立减券</a-radio-button>
         </a-radio-group>
         <div class="type-hint">
-          <span v-if="form.type === 'full_reduction'">满X元减Y元</span>
-          <span v-else-if="form.type === 'discount'">打X折，最高优惠Y元</span>
-          <span v-else-if="form.type === 'instant_reduction'">直接减Y元</span>
+          <span v-if="form.type === 'full_reduction'">满X元减Y元（例如：满300减50）</span>
+          <span v-else-if="form.type === 'discount'">打X折，最高优惠Y元（例如：85折，最高优惠100元）</span>
+          <span v-else-if="form.type === 'instant_reduction'">直接减Y元（例如：立减30元）</span>
         </div>
       </a-form-model-item>
 
@@ -51,6 +52,7 @@
             >
               <span slot="addonAfter">元</span>
             </a-input-number>
+            <div class="field-hint">订单满多少元可用</div>
           </a-form-model-item>
         </a-col>
         <a-col :span="12">
@@ -63,6 +65,7 @@
             >
               <span slot="addonAfter">元</span>
             </a-input-number>
+            <div class="field-hint">减免多少元</div>
           </a-form-model-item>
         </a-col>
       </a-row>
@@ -80,6 +83,7 @@
             >
               <span slot="addonAfter">折</span>
             </a-input-number>
+            <div class="field-hint">85表示打8.5折</div>
           </a-form-model-item>
         </a-col>
         <a-col :span="12">
@@ -92,6 +96,7 @@
             >
               <span slot="addonAfter">元</span>
             </a-input-number>
+            <div class="field-hint">最多减免金额</div>
           </a-form-model-item>
         </a-col>
       </a-row>
@@ -107,6 +112,7 @@
           >
             <span slot="addonAfter">元</span>
           </a-input-number>
+          <div class="field-hint">直接减免多少元</div>
         </a-form-model-item>
       </template>
 
@@ -118,10 +124,12 @@
               v-model="form.platformRatio"
               :min="0"
               :max="100"
+              placeholder="50"
               style="width: 100%"
             >
               <span slot="addonAfter">%</span>
             </a-input-number>
+            <div class="field-hint">平台承担比例</div>
           </a-form-model-item>
         </a-col>
         <a-col :span="12">
@@ -134,6 +142,7 @@
             >
               <span slot="addonAfter">%</span>
             </a-input-number>
+            <div class="field-hint">自动计算</div>
           </a-form-model-item>
         </a-col>
       </a-row>
@@ -148,14 +157,14 @@
         >
           <span slot="addonAfter">天</span>
         </a-input-number>
-        <span class="field-hint">0表示永久有效</span>
+        <span class="field-hint">发放后N天23:59过期，0表示永久有效</span>
       </a-form-model-item>
 
       <!-- 备注说明 -->
       <a-form-model-item label="备注说明" prop="remark">
         <a-textarea
           v-model="form.remark"
-          placeholder="仅后台可见，选填"
+          placeholder="仅后台可见，可用于备注优惠券用途、活动信息等"
           :rows="3"
           :maxLength="200"
         />
@@ -359,7 +368,8 @@ export default defineComponent({
 .field-hint {
   font-size: 12px;
   color: #b1b1b1;
-  margin-left: 8px;
+  margin-top: 4px;
+  display: block;
 }
 
 // 字符计数
