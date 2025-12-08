@@ -1,4 +1,4 @@
-import type { Order, OrderListResponse } from '@/pages/SharedTypes/order.types'
+import type { Order, OrderListResponse } from '@/views/PlatformAdmin/OrderManagement/types/order.types'
 import type { OrderListFilterParams } from '../types/orderList.types'
 import { mockOrderListData } from './mocks'
 
@@ -37,11 +37,6 @@ class OrderListService {
     // 入住状态筛选
     if (params?.checkInStatus) {
       filtered = filtered.filter(order => order.checkInStatus === params.checkInStatus)
-    }
-
-    // 退款状态筛选
-    if (params?.refundStatus) {
-      filtered = filtered.filter(order => order.refundStatus === params.refundStatus)
     }
 
     // 分页

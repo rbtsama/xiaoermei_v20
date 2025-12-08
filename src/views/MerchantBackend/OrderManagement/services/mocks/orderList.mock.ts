@@ -1,5 +1,5 @@
-import type { Order } from '@/pages/SharedTypes/order.types'
-import { OrderStatus, PaymentStatus, CheckInStatus } from '@/pages/SharedTypes/order.types'
+import type { Order } from '@/views/PlatformAdmin/OrderManagement/types/order.types'
+import { OrderStatus, PaymentStatus, CheckInStatus } from '@/views/PlatformAdmin/OrderManagement/types/order.types'
 
 /**
  * 商户端订单列表Mock数据
