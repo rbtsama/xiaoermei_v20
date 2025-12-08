@@ -1,183 +1,169 @@
 <template>
   <sidebar>
-    <div class="p-6 space-y-6">
+    <div class="join-application-page">
       <!-- 页面标题 -->
-      <div class="mb-8">
-        <h1 class="text-3xl font-bold text-slate-900">入驻申请</h1>
+      <div class="page-header">
+        <h1 class="page-title">入驻申请</h1>
+        <p class="page-desc">请填写真实信息，我们将在3个工作日内完成审核</p>
       </div>
 
-      <form @submit.prevent="handleSubmit" class="space-y-6">
+      <form @submit.prevent="handleSubmit" class="application-form">
         <!-- 账号设置 - 主账号 -->
-        <a-card class="rounded-xl border-slate-200 bg-white shadow-sm" :bordered="false">
+        <a-card class="form-card" :bordered="false">
           <template slot="title">
-            <span class="text-lg font-semibold text-slate-900">主账号</span>
+            <span class="card-title">主账号</span>
           </template>
-          <div class="space-y-4">
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="text-sm font-medium text-slate-700 mb-2 block">
-                  手机号 <span class="text-red-500">*</span>
-                </label>
-                <a-input
-                  v-model="formData.adminPhone"
-                  type="tel"
-                  placeholder="13800138000"
-                  class="h-10 border-slate-300"
-                  :style="{ height: '36px' }"
-                />
-              </div>
-              <div>
-                <label class="text-sm font-medium text-slate-700 mb-2 block">
-                  姓名 <span class="text-red-500">*</span>
-                </label>
-                <a-input
-                  v-model="formData.adminName"
-                  placeholder="李明"
-                  class="h-10 border-slate-300"
-                  :style="{ height: '36px' }"
-                />
-              </div>
-            </div>
+          <div class="form-section">
+            <a-row :gutter="16">
+              <a-col :span="12">
+                <div class="form-item">
+                  <label class="form-label">
+                    手机号 <span class="required">*</span>
+                  </label>
+                  <a-input
+                    v-model="formData.adminPhone"
+                    type="tel"
+                    placeholder="请输入手机号"
+                    class="form-input"
+                  />
+                </div>
+              </a-col>
+              <a-col :span="12">
+                <div class="form-item">
+                  <label class="form-label">
+                    姓名 <span class="required">*</span>
+                  </label>
+                  <a-input
+                    v-model="formData.adminName"
+                    placeholder="请输入姓名"
+                    class="form-input"
+                  />
+                </div>
+              </a-col>
+            </a-row>
           </div>
         </a-card>
 
         <!-- 账号设置 - 运营人员 -->
-        <a-card class="rounded-xl border-slate-200 bg-white shadow-sm" :bordered="false">
+        <a-card class="form-card" :bordered="false">
           <template slot="title">
-            <span class="text-lg font-semibold text-slate-900">运营人员</span>
+            <span class="card-title">运营人员</span>
           </template>
-          <div class="space-y-4">
-            <div>
-              <label class="text-sm font-medium text-slate-700 mb-3 block">
-                是否有专业OTA运营人员
-              </label>
-              <div class="flex gap-3">
+          <div class="form-section">
+            <div class="form-item">
+              <label class="form-label">是否有专业OTA运营人员</label>
+              <div class="choice-group">
                 <button
                   type="button"
                   @click="formData.hasOTASpecialist = false"
-                  :class="{
-                    'flex-1 px-6 py-3 text-sm font-medium rounded-md transition-all':
-                      true,
-                    'bg-blue-600 text-white shadow-sm':
-                      formData.hasOTASpecialist === false,
-                    'bg-white border border-slate-300 text-slate-700 hover:border-blue-400':
-                      formData.hasOTASpecialist !== false
-                  }"
+                  :class="['choice-btn', { active: formData.hasOTASpecialist === false }]"
                 >
                   无
                 </button>
                 <button
                   type="button"
                   @click="formData.hasOTASpecialist = true"
-                  :class="{
-                    'flex-1 px-6 py-3 text-sm font-medium rounded-md transition-all':
-                      true,
-                    'bg-blue-600 text-white shadow-sm':
-                      formData.hasOTASpecialist === true,
-                    'bg-white border border-slate-300 text-slate-700 hover:border-blue-400':
-                      formData.hasOTASpecialist !== true
-                  }"
+                  :class="['choice-btn', { active: formData.hasOTASpecialist === true }]"
                 >
                   有专业运营人员
                 </button>
               </div>
             </div>
 
-            <transition name="fade">
-              <div v-if="formData.hasOTASpecialist" class="grid grid-cols-2 gap-4 pt-2">
-                <div>
-                  <label class="text-sm font-medium text-slate-700 mb-2 block">
-                    运营人员姓名 <span class="text-red-500">*</span>
-                  </label>
-                  <a-input
-                    v-model="formData.otaContactName"
-                    placeholder="王芳"
-                    class="h-10 border-slate-300"
-                    :style="{ height: '36px' }"
-                  />
-                </div>
-                <div>
-                  <label class="text-sm font-medium text-slate-700 mb-2 block">
-                    运营人员手机号 <span class="text-red-500">*</span>
-                  </label>
-                  <a-input
-                    v-model="formData.otaContactPhone"
-                    type="tel"
-                    placeholder="13900139000"
-                    class="h-10 border-slate-300"
-                    :style="{ height: '36px' }"
-                  />
-                </div>
-              </div>
+            <transition name="slide-fade">
+              <a-row v-if="formData.hasOTASpecialist" :gutter="16" class="expand-section">
+                <a-col :span="12">
+                  <div class="form-item">
+                    <label class="form-label">
+                      运营人员姓名 <span class="required">*</span>
+                    </label>
+                    <a-input
+                      v-model="formData.otaContactName"
+                      placeholder="请输入运营人员姓名"
+                      class="form-input"
+                    />
+                  </div>
+                </a-col>
+                <a-col :span="12">
+                  <div class="form-item">
+                    <label class="form-label">
+                      运营人员手机号 <span class="required">*</span>
+                    </label>
+                    <a-input
+                      v-model="formData.otaContactPhone"
+                      type="tel"
+                      placeholder="请输入手机号"
+                      class="form-input"
+                    />
+                  </div>
+                </a-col>
+              </a-row>
             </transition>
           </div>
         </a-card>
 
         <!-- 门店基本信息 -->
-        <a-card class="rounded-xl border-slate-200 bg-white shadow-sm" :bordered="false">
+        <a-card class="form-card" :bordered="false">
           <template slot="title">
-            <span class="text-lg font-semibold text-slate-900">门店基本信息</span>
+            <span class="card-title">门店基本信息</span>
           </template>
-          <div class="space-y-5">
-            <div class="grid grid-cols-5 gap-4">
-              <div class="col-span-3">
-                <label class="text-sm font-medium text-slate-700 mb-2 block">
-                  门店名称 <span class="text-red-500">*</span>
-                </label>
-                <a-input
-                  v-model="formData.storeName"
-                  placeholder="西湖畔度假民宿"
-                  class="h-10 border-slate-300"
-                  :style="{ height: '36px' }"
-                />
-              </div>
-              <div class="col-span-2">
-                <label class="text-sm font-medium text-slate-700 mb-2 block">
-                  店铺类型 <span class="text-red-500">*</span>
-                </label>
-                <div class="flex flex-wrap gap-2">
-                  <button
-                    v-for="(label, value) in storeTypeLabels"
-                    :key="value"
-                    type="button"
-                    @click="formData.storeType = value"
-                    :class="{
-                      'px-3 py-2 text-sm font-medium rounded-md transition-all': true,
-                      'bg-blue-600 text-white shadow-sm': formData.storeType === value,
-                      'bg-white border border-slate-300 text-slate-700 hover:border-blue-400':
-                        formData.storeType !== value
-                    }"
-                  >
-                    {{ label }}
-                  </button>
+          <div class="form-section">
+            <a-row :gutter="16">
+              <a-col :span="14">
+                <div class="form-item">
+                  <label class="form-label">
+                    门店名称 <span class="required">*</span>
+                  </label>
+                  <a-input
+                    v-model="formData.storeName"
+                    placeholder="请输入门店名称"
+                    class="form-input"
+                  />
                 </div>
-              </div>
-            </div>
+              </a-col>
+              <a-col :span="10">
+                <div class="form-item">
+                  <label class="form-label">
+                    店铺类型 <span class="required">*</span>
+                  </label>
+                  <div class="tag-group">
+                    <button
+                      v-for="(label, value) in storeTypeLabels"
+                      :key="value"
+                      type="button"
+                      @click="formData.storeType = value"
+                      :class="['tag-btn', { active: formData.storeType === value }]"
+                    >
+                      {{ label }}
+                    </button>
+                  </div>
+                </div>
+              </a-col>
+            </a-row>
 
-            <div>
-              <label class="text-sm font-medium text-slate-700 mb-2 block">
-                详细地址 <span class="text-red-500">*</span>
+            <div class="form-item">
+              <label class="form-label">
+                详细地址 <span class="required">*</span>
               </label>
               <a-input
                 v-model="formData.storeAddress"
-                placeholder="浙江省杭州市西湖区西湖路123号"
-                class="h-10 border-slate-300"
-                :style="{ height: '36px' }"
+                placeholder="请输入详细地址（省/市/区/街道/门牌号）"
+                class="form-input"
               />
             </div>
 
-            <div>
-              <label class="text-sm font-medium text-slate-700 mb-2 block">
-                门店介绍 <span class="text-red-500">*</span>
+            <div class="form-item">
+              <label class="form-label">
+                门店介绍 <span class="required">*</span>
               </label>
               <a-textarea
                 v-model="formData.storeDescription"
-                placeholder="介绍您的门店特色、位置优势、周边环境等..."
+                placeholder="请介绍您的门店特色、位置优势、周边环境等（至少50字）"
                 :rows="4"
                 :maxLength="1000"
-                class="border-slate-300"
+                class="form-textarea"
               />
-              <div class="text-xs text-slate-400 mt-1 text-right">
+              <div class="char-count">
                 {{ (formData.storeDescription || '').length }}/1000
               </div>
             </div>
@@ -185,77 +171,69 @@
         </a-card>
 
         <!-- 平台运营情况 -->
-        <a-card class="rounded-xl border-slate-200 bg-white shadow-sm" :bordered="false">
+        <a-card class="form-card" :bordered="false">
           <template slot="title">
-            <span class="text-lg font-semibold text-slate-900">平台运营情况</span>
+            <span class="card-title">平台运营情况</span>
           </template>
-          <div class="space-y-6">
+          <div class="form-section">
             <!-- 已上线的平台 -->
-            <div>
-              <label class="text-sm font-medium text-slate-700 mb-3 block">已上线的平台</label>
-              <div class="grid grid-cols-2 gap-3">
+            <div class="form-item">
+              <label class="form-label">已上线的平台</label>
+              <div class="checkbox-grid">
                 <label
                   v-for="(label, value) in otaPlatformLabels"
                   :key="value"
-                  class="flex items-center gap-3 p-3 border border-slate-200 rounded-md cursor-pointer hover:border-blue-400 hover:bg-blue-50/50 transition-all"
+                  class="checkbox-item"
                 >
                   <a-checkbox
                     :checked="formData.onlinePlatforms.includes(value)"
                     @change="togglePlatform('onlinePlatforms', value)"
-                    class="w-5 h-5"
                   />
-                  <span class="text-sm text-slate-700">{{ label }}</span>
+                  <span>{{ label }}</span>
                 </label>
               </div>
             </div>
 
             <!-- 携程星否特惠 -->
-            <label class="flex items-center gap-3 p-3 border border-slate-200 rounded-md cursor-pointer hover:border-blue-400 hover:bg-blue-50/50 transition-all">
-              <a-checkbox
-                v-model="formData.hasCtripSpecialOffer"
-                class="w-5 h-5"
-              />
-              <span class="text-sm text-slate-700">携程星否特惠</span>
-            </label>
-
-            <!-- 兴趣的代运营平台 -->
-            <div>
-              <label class="text-sm font-medium text-slate-700 mb-3 block">
-                希望代运营的平台
+            <div class="form-item">
+              <label class="checkbox-item checkbox-single">
+                <a-checkbox v-model="formData.hasCtripSpecialOffer" />
+                <span>携程星否特惠</span>
               </label>
-              <div class="grid grid-cols-2 gap-3">
+            </div>
+
+            <!-- 希望代运营的平台 -->
+            <div class="form-item">
+              <label class="form-label">希望代运营的平台</label>
+              <div class="checkbox-grid">
                 <label
                   v-for="(label, value) in otaPlatformLabels"
                   :key="value"
-                  class="flex items-center gap-3 p-3 border border-slate-200 rounded-md cursor-pointer hover:border-blue-400 hover:bg-blue-50/50 transition-all"
+                  class="checkbox-item"
                 >
                   <a-checkbox
                     :checked="formData.interestedPlatforms.includes(value)"
                     @change="togglePlatform('interestedPlatforms', value)"
-                    class="w-5 h-5"
                   />
-                  <span class="text-sm text-slate-700">{{ label }}</span>
+                  <span>{{ label }}</span>
                 </label>
               </div>
             </div>
 
             <!-- OTA困境 -->
-            <div>
-              <label class="text-sm font-medium text-slate-700 mb-3 block">
-                目前遇到的困境
-              </label>
-              <div class="grid grid-cols-2 gap-3">
+            <div class="form-item">
+              <label class="form-label">目前遇到的困境（可多选）</label>
+              <div class="checkbox-grid">
                 <label
                   v-for="(label, value) in otaChallengeLabels"
                   :key="value"
-                  class="flex items-center gap-3 p-3 border border-slate-200 rounded-md cursor-pointer hover:border-blue-400 hover:bg-blue-50/50 transition-all"
+                  class="checkbox-item"
                 >
                   <a-checkbox
                     :checked="formData.otaChallenges.includes(value)"
                     @change="toggleChallenge(value)"
-                    class="w-5 h-5"
                   />
-                  <span class="text-sm text-slate-700">{{ label }}</span>
+                  <span>{{ label }}</span>
                 </label>
               </div>
             </div>
@@ -263,88 +241,77 @@
         </a-card>
 
         <!-- 房型图片上传 -->
-        <a-card class="rounded-xl border-slate-200 bg-white shadow-sm" :bordered="false">
+        <a-card class="form-card" :bordered="false">
           <template slot="title">
-            <div class="flex items-center justify-between w-full">
-              <span class="text-lg font-semibold text-slate-900">房型图片</span>
+            <div class="card-title-bar">
+              <span class="card-title">房型图片</span>
               <a-button
                 type="dashed"
                 size="small"
                 @click="addRoomType"
-                class="h-9 text-blue-600 border-blue-300"
+                class="add-btn"
               >
                 <a-icon type="plus" />
                 添加房型
               </a-button>
             </div>
           </template>
-          <div class="space-y-4">
+          <div class="form-section">
             <div
               v-for="(roomType, index) in roomTypes"
               :key="index"
-              class="p-4 border border-slate-200 rounded-lg hover:border-slate-300 transition-colors"
+              class="room-type-item"
             >
-              <div class="flex items-center gap-3 mb-3">
-                <span class="text-sm font-medium text-slate-600">房型 {{ index + 1 }}</span>
+              <div class="room-type-header">
+                <span class="room-type-label">房型 {{ index + 1 }}</span>
                 <a-input
                   v-model="roomType.roomTypeName"
-                  placeholder="单人间 / 双人大床 / 家庭房"
-                  class="h-9 flex-1 border-slate-300"
-                  :style="{ height: '32px' }"
+                  placeholder="例如：单人间 / 双人大床房 / 家庭套房"
+                  class="room-type-input"
                 />
                 <a-button
                   v-if="roomTypes.length > 1"
                   type="link"
                   size="small"
+                  danger
                   @click="removeRoomType(index)"
-                  class="h-9 px-2 text-red-600"
+                  class="remove-btn"
                 >
-                  <a-icon type="close" />
+                  <a-icon type="delete" />
                 </a-button>
               </div>
 
-              <!-- 拖拽上传区域 -->
+              <!-- 图片上传区域 -->
               <div
                 @dragover.prevent="dragIndex = index"
                 @dragleave="dragIndex = null"
                 @drop.prevent="handleDrop($event, index)"
-                :class="{
-                  'border-2 border-dashed rounded-lg p-6 text-center transition-all': true,
-                  'border-blue-500 bg-blue-50': dragIndex === index,
-                  'border-slate-300 hover:border-blue-400 hover:bg-slate-50':
-                    dragIndex !== index
-                }"
+                :class="['upload-area', { dragging: dragIndex === index }]"
               >
-                <a-icon type="upload" class="w-10 h-10 mx-auto mb-2 text-slate-400" />
-                <p class="text-sm text-slate-600 mb-1">拖拽图片到此处，或点击上传</p>
-                <p class="text-xs text-slate-400">支持 JPG、PNG 格式</p>
-                <a-button
-                  type="dashed"
-                  size="small"
-                  class="mt-3 h-9 border-slate-300"
-                >
+                <a-icon type="cloud-upload" class="upload-icon" />
+                <p class="upload-text">拖拽图片到此处，或点击上传</p>
+                <p class="upload-hint">支持 JPG、PNG 格式，建议尺寸 1200x800</p>
+                <a-button type="primary" size="small" class="upload-btn" ghost>
                   选择图片
                 </a-button>
               </div>
 
               <!-- 图片预览 -->
-              <div v-if="roomType.images.length > 0" class="mt-3 grid grid-cols-4 gap-3">
+              <div v-if="roomType.images.length > 0" class="image-preview-grid">
                 <div
                   v-for="(img, imgIndex) in roomType.images"
                   :key="imgIndex"
-                  class="relative group"
+                  class="image-preview-item"
                 >
-                  <div class="aspect-square bg-slate-100 rounded-md overflow-hidden">
-                    <img
-                      :src="img"
-                      :alt="`房型${index + 1}-图片${imgIndex + 1}`"
-                      class="w-full h-full object-cover"
-                    />
-                  </div>
+                  <img
+                    :src="img"
+                    :alt="`房型${index + 1}-图片${imgIndex + 1}`"
+                    class="preview-image"
+                  />
                   <button
                     type="button"
                     @click="removeImage(index, imgIndex)"
-                    class="absolute -top-2 -right-2 w-6 h-6 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                    class="remove-image-btn"
                   >
                     <a-icon type="close" />
                   </button>
@@ -355,18 +322,16 @@
         </a-card>
 
         <!-- 提交按钮 -->
-        <div class="flex justify-end gap-3 pt-4">
-          <a-button
-            type="default"
-            class="h-11 px-8 border-slate-300 text-slate-700"
-          >
+        <div class="submit-bar">
+          <a-button class="submit-btn" size="large">
             保存草稿
           </a-button>
           <a-button
             type="primary"
             :loading="isSubmitting"
             html-type="submit"
-            class="h-11 px-8 bg-blue-600 text-white"
+            size="large"
+            class="submit-btn"
           >
             {{ isSubmitting ? '提交中...' : '提交申请' }}
           </a-button>
@@ -436,6 +401,7 @@ export default defineComponent({
 
     // 处理图片拖拽上传
     const handleDrop = (event, index) => {
+      dragIndex.value = null
       const files = Array.from(event.dataTransfer.files).filter(file =>
         file.type.startsWith('image/')
       )
@@ -483,7 +449,6 @@ export default defineComponent({
         }
         await JoinApplicationService.submitApplication(submitData)
         root.$message.success('入驻申请已提交！')
-        // 可以添加重定向逻辑
       } catch (error) {
         root.$message.error('提交失败，请重试')
       } finally {
@@ -512,371 +477,424 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-.p-6 {
+.join-application-page {
   padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.space-y-6 > * + * {
-  margin-top: 24px;
-}
-
-.rounded-xl {
-  border-radius: 12px;
-}
-
-.border-slate-200 {
-  border-color: #e2e8f0;
-}
-
-.bg-white {
-  background-color: #ffffff;
-}
-
-.shadow-sm {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.text-3xl {
-  font-size: 30px;
-}
-
-.font-bold {
-  font-weight: 700;
-}
-
-.text-slate-900 {
-  color: #0f172a;
-}
-
-.mb-8 {
+.page-header {
   margin-bottom: 32px;
+
+  .page-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.9);
+    margin: 0 0 8px 0;
+  }
+
+  .page-desc {
+    font-size: 14px;
+    color: #666666;
+    margin: 0;
+  }
 }
 
-.text-lg {
-  font-size: 18px;
-}
-
-.font-semibold {
-  font-weight: 600;
-}
-
-.mb-4 {
-  margin-bottom: 16px;
-}
-
-.space-y-4 > * + * {
-  margin-top: 16px;
-}
-
-.space-y-5 > * + * {
-  margin-top: 20px;
-}
-
-.grid {
-  display: grid;
-}
-
-.grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.grid-cols-5 {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-}
-
-.gap-4 {
-  gap: 16px;
-}
-
-.col-span-3 {
-  grid-column: span 3 / span 3;
-}
-
-.col-span-2 {
-  grid-column: span 2 / span 2;
-}
-
-.text-sm {
-  font-size: 14px;
-}
-
-.font-medium {
-  font-weight: 500;
-}
-
-.text-slate-700 {
-  color: #334155;
-}
-
-.mb-2 {
-  margin-bottom: 8px;
-}
-
-.block {
-  display: block;
-}
-
-.text-red-500 {
-  color: #ef4444;
-}
-
-.px-6 {
-  padding-left: 24px;
-  padding-right: 24px;
-}
-
-.py-3 {
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
-.rounded-md {
-  border-radius: 6px;
-}
-
-.transition-all {
-  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.flex {
+.application-form {
   display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.items-center {
-  align-items: center;
-}
-
-.gap-3 {
-  gap: 12px;
-}
-
-.flex-1 {
-  flex: 1 1 0%;
-}
-
-.gap-2 {
-  gap: 8px;
-}
-
-.flex-wrap {
-  flex-wrap: wrap;
-}
-
-.border {
-  border-width: 1px;
-}
-
-.border-slate-300 {
-  border-color: #cbd5e1;
-}
-
-.hover\:border-blue-400:hover {
-  border-color: #60a5fa;
-}
-
-.mb-3 {
-  margin-bottom: 12px;
-}
-
-.hover\:bg-blue-50\/50:hover {
-  background-color: rgba(239, 246, 255, 0.5);
-}
-
-.pt-2 {
-  padding-top: 8px;
-}
-
-.mt-1 {
-  margin-top: 4px;
-}
-
-.text-right {
-  text-align: right;
-}
-
-.text-xs {
-  font-size: 12px;
-}
-
-.text-slate-400 {
-  color: #cbd5e1;
-}
-
-.space-y-6 > * + * {
-  margin-top: 24px;
-}
-
-.p-4 {
-  padding: 16px;
-}
-
-.rounded-lg {
+// 卡片样式
+.form-card {
   border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+
+  :deep(.ant-card-head) {
+    padding: 16px 24px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  :deep(.ant-card-body) {
+    padding: 24px;
+  }
 }
 
-.hover\:border-slate-300:hover {
-  border-color: #cbd5e1;
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
 }
 
-.p-3 {
-  padding: 12px;
-}
-
-.text-slate-600 {
-  color: #475569;
-}
-
-.h-9 {
-  height: 36px;
-}
-
-.mt-3 {
-  margin-top: 12px;
-}
-
-.grid-cols-4 {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.aspect-square {
-  aspect-ratio: 1 / 1;
-}
-
-.bg-slate-100 {
-  background-color: #f1f5f9;
-}
-
-.overflow-hidden {
-  overflow: hidden;
-}
-
-.w-full {
+.card-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
 }
 
-.object-cover {
-  object-fit: cover;
+.add-btn {
+  height: 28px;
+  padding: 0 12px;
+  font-size: 13px;
+  color: #3b82f6;
+  border-color: #3b82f6;
+
+  &:hover {
+    color: #2563eb;
+    border-color: #2563eb;
+  }
 }
 
-.relative {
-  position: relative;
+// 表单区域
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.group:hover .group-hover\:opacity-100 {
-  opacity: 1;
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.absolute {
-  position: absolute;
+.form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.9);
+
+  .required {
+    color: #ef4444;
+    margin-left: 2px;
+  }
 }
 
-.-top-2 {
-  top: -8px;
+// 输入框样式
+.form-input {
+  height: 36px;
+
+  :deep(.ant-input) {
+    height: 36px;
+    border-radius: 6px;
+    border-color: #cbd5e1;
+    font-size: 14px;
+
+    &:hover {
+      border-color: #94a3b8;
+    }
+
+    &:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
+
+    &::placeholder {
+      color: #b1b1b1;
+    }
+  }
 }
 
-.-right-2 {
-  right: -8px;
+.form-textarea {
+  :deep(.ant-input) {
+    border-radius: 6px;
+    border-color: #cbd5e1;
+    font-size: 14px;
+
+    &:hover {
+      border-color: #94a3b8;
+    }
+
+    &:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
+
+    &::placeholder {
+      color: #b1b1b1;
+    }
+  }
 }
 
-.w-6 {
-  width: 24px;
+.char-count {
+  text-align: right;
+  font-size: 12px;
+  color: #b1b1b1;
+  margin-top: -4px;
 }
 
-.h-6 {
-  height: 24px;
+// 选择按钮组
+.choice-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
 
-.bg-red-600 {
-  background-color: #dc2626;
+.choice-btn {
+  height: 40px;
+  padding: 0 20px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #3b82f6;
+    background: #f0f7ff;
+  }
+
+  &.active {
+    border-color: #3b82f6;
+    background: #3b82f6;
+    color: #ffffff;
+  }
 }
 
-.text-white {
-  color: #ffffff;
+// 标签按钮组
+.tag-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.rounded-full {
-  border-radius: 9999px;
+.tag-btn {
+  height: 32px;
+  padding: 0 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #3b82f6;
+    background: #f0f7ff;
+  }
+
+  &.active {
+    border-color: #3b82f6;
+    background: #3b82f6;
+    color: #ffffff;
+  }
 }
 
-.opacity-0 {
+// 复选框网格
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #3b82f6;
+    background: #f0f7ff;
+  }
+
+  span {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.9);
+    user-select: none;
+  }
+}
+
+.checkbox-single {
+  width: fit-content;
+  min-width: 200px;
+}
+
+// 展开动画
+.expand-section {
+  margin-top: 16px;
+}
+
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateY(-10px);
   opacity: 0;
 }
 
-.transition-opacity {
-  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+// 房型图片
+.room-type-item {
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fafafa;
+
+  & + & {
+    margin-top: 16px;
+  }
 }
 
-.flex-col {
-  flex-direction: column;
+.room-type-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
-.justify-center {
+.room-type-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666666;
+  white-space: nowrap;
+}
+
+.room-type-input {
+  flex: 1;
+
+  :deep(.ant-input) {
+    height: 32px;
+    border-radius: 6px;
+    border-color: #cbd5e1;
+    background: #ffffff;
+    font-size: 14px;
+
+    &::placeholder {
+      color: #b1b1b1;
+    }
+  }
+}
+
+.remove-btn {
+  padding: 0 8px;
+  color: #ef4444;
+
+  &:hover {
+    color: #dc2626;
+  }
+}
+
+// 上传区域
+.upload-area {
+  padding: 40px 20px;
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  text-align: center;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #3b82f6;
+    background: #f0f7ff;
+  }
+
+  &.dragging {
+    border-color: #3b82f6;
+    background: #dbeafe;
+  }
+}
+
+.upload-icon {
+  font-size: 48px;
+  color: #cbd5e1;
+  margin-bottom: 12px;
+}
+
+.upload-text {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.9);
+  margin: 0 0 4px 0;
+}
+
+.upload-hint {
+  font-size: 12px;
+  color: #b1b1b1;
+  margin: 0 0 16px 0;
+}
+
+.upload-btn {
+  height: 32px;
+  padding: 0 24px;
+  font-size: 13px;
+}
+
+// 图片预览
+.image-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.image-preview-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f1f5f9;
+
+  &:hover .remove-image-btn {
+    opacity: 1;
+  }
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.9);
+  color: #ffffff;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
   justify-content: center;
+
+  &:hover {
+    background: #ef4444;
+  }
 }
 
-.justify-end {
-  justify-end: flex-end;
+// 提交按钮栏
+.submit-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 8px;
 }
 
-.pt-4 {
-  padding-top: 16px;
-}
-
-.px-8 {
-  padding-left: 32px;
-  padding-right: 32px;
-}
-
-.h-11 {
-  height: 44px;
-}
-
-.bg-blue-600 {
-  background-color: #2563eb;
-}
-
-.border-dashed {
-  border-style: dashed;
-}
-
-.border-2 {
-  border-width: 2px;
-}
-
-.p-6 {
-  padding: 24px;
-}
-
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.mb-1 {
-  margin-bottom: 4px;
-}
-
-:deep(.ant-input),
-:deep(.ant-textarea),
-:deep(.ant-checkbox) {
-  font-family: inherit;
-}
-
-:deep(.ant-input) {
-  border-color: #cbd5e1;
-}
-
-:deep(.ant-input:focus) {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-}
-
-:deep(.ant-textarea) {
-  border-color: #cbd5e1;
-}
-
-:deep(.ant-textarea:focus) {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+.submit-btn {
+  height: 40px;
+  padding: 0 32px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
 }
 </style>
