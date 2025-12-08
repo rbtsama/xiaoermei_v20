@@ -278,6 +278,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted } from '@vue/composition-api'
+import { Modal } from 'ant-design-vue'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import ServiceItemDialog from './components/ServiceItemDialog.vue'
 import ValueAddedServiceService from './services/valueAddedService.service'
@@ -432,15 +433,24 @@ export default defineComponent({
       isRewardEditDialogOpen.value = true
     }
 
-    const handleDeleteReward = async (id: string) => {
-      if (!confirm('确认删除该积分奖励服务？')) return
-
-      try {
-        await ValueAddedServiceService.deleteRewardService(id)
-        await loadData()
-      } catch (error) {
-        console.error('删除失败:', error)
-      }
+    const handleDeleteReward = (id: string) => {
+      Modal.confirm({
+        title: '确认删除',
+        content: '确定要删除该积分奖励服务吗？删除后无法恢复。',
+        okText: '确认删除',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk: async () => {
+          try {
+            await ValueAddedServiceService.deleteRewardService(id)
+            root.$message.success('删除成功')
+            await loadData()
+          } catch (error) {
+            root.$message.error('删除失败')
+            console.error('删除失败:', error)
+          }
+        }
+      })
     }
 
     const handleMoveReward = async (index: number, direction: 'up' | 'down') => {
@@ -467,15 +477,24 @@ export default defineComponent({
       isExchangeEditDialogOpen.value = true
     }
 
-    const handleDeleteExchange = async (id: string) => {
-      if (!confirm('确认删除该积分换购服务？')) return
-
-      try {
-        await ValueAddedServiceService.deleteExchangeService(id)
-        await loadData()
-      } catch (error) {
-        console.error('删除失败:', error)
-      }
+    const handleDeleteExchange = (id: string) => {
+      Modal.confirm({
+        title: '确认删除',
+        content: '确定要删除该积分换购服务吗？删除后无法恢复。',
+        okText: '确认删除',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk: async () => {
+          try {
+            await ValueAddedServiceService.deleteExchangeService(id)
+            root.$message.success('删除成功')
+            await loadData()
+          } catch (error) {
+            root.$message.error('删除失败')
+            console.error('删除失败:', error)
+          }
+        }
+      })
     }
 
     const handleMoveExchange = async (index: number, direction: 'up' | 'down') => {
