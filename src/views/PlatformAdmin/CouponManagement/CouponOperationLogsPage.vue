@@ -1,6 +1,6 @@
 <template>
   <sidebar>
-    <div class="page-container">
+    <div class="operation-logs-page">
       <!-- 操作记录卡片 -->
       <a-card :bordered="false" class="logs-card">
         <template #title>
@@ -20,13 +20,41 @@
           :pagination="pagination"
           @change="handleTableChange"
           rowKey="id"
-          size="middle"
+          class="custom-table"
         >
+          <!-- 优惠券ID -->
+          <template slot="couponId" slot-scope="couponId">
+            <span class="coupon-id">{{ couponId }}</span>
+          </template>
+
+          <!-- 优惠券名称 -->
+          <template slot="couponName" slot-scope="name">
+            <span class="coupon-name">{{ name }}</span>
+          </template>
+
           <!-- 操作类型 -->
           <template slot="operationType" slot-scope="text">
             <a-tag :class="getOperationTypeClass(text)">
               {{ getOperationTypeName(text) }}
             </a-tag>
+          </template>
+
+          <!-- 操作描述 -->
+          <template slot="description" slot-scope="desc">
+            <span class="desc-text">{{ desc }}</span>
+          </template>
+
+          <!-- 操作时间 -->
+          <template slot="operatedAt" slot-scope="datetime">
+            <div class="datetime-cell">
+              <div class="date">{{ formatDate(datetime) }}</div>
+              <div class="time">{{ formatTime(datetime) }}</div>
+            </div>
+          </template>
+
+          <!-- 操作人 -->
+          <template slot="operatedBy" slot-scope="operator">
+            <span class="operator-text">{{ operator }}</span>
           </template>
         </a-table>
       </a-card>
@@ -38,6 +66,7 @@
 import { defineComponent } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import CouponService from './services/coupon.service'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'CouponOperationLogsPage',
@@ -61,37 +90,42 @@ export default defineComponent({
           title: '优惠券ID',
           dataIndex: 'couponId',
           key: 'couponId',
-          width: 150
+          width: 120,
+          scopedSlots: { customRender: 'couponId' }
         },
         {
           title: '优惠券名称',
           dataIndex: 'couponName',
           key: 'couponName',
-          width: 200
+          width: 180,
+          scopedSlots: { customRender: 'couponName' }
         },
         {
           title: '操作类型',
           dataIndex: 'operationType',
           key: 'operationType',
-          width: 100,
+          width: 90,
           scopedSlots: { customRender: 'operationType' }
         },
         {
           title: '操作描述',
           dataIndex: 'description',
-          key: 'description'
+          key: 'description',
+          scopedSlots: { customRender: 'description' }
         },
         {
           title: '操作时间',
           dataIndex: 'operatedAt',
           key: 'operatedAt',
-          width: 180
+          width: 120,
+          scopedSlots: { customRender: 'operatedAt' }
         },
         {
           title: '操作人',
           dataIndex: 'operatedBy',
           key: 'operatedBy',
-          width: 120
+          width: 120,
+          scopedSlots: { customRender: 'operatedBy' }
         }
       ]
     }
@@ -142,27 +176,49 @@ export default defineComponent({
 
     getOperationTypeClass(type: string): string {
       const map: Record<string, string> = {
-        create: 'operation-tag-create',
-        edit: 'operation-tag-edit',
-        enable: 'operation-tag-enable',
-        disable: 'operation-tag-disable',
-        delete: 'operation-tag-delete'
+        create: 'tag-green',
+        edit: 'tag-blue',
+        enable: 'tag-green',
+        disable: 'tag-orange',
+        delete: 'tag-red'
       }
       return map[type] || ''
+    },
+
+    formatDate(datetime: string): string {
+      if (!datetime) return '-'
+      return dayjs(datetime).format('YYYY-MM-DD')
+    },
+
+    formatTime(datetime: string): string {
+      if (!datetime) return '-'
+      return dayjs(datetime).format('HH:mm:ss')
     }
   }
 })
 </script>
 
 <style scoped lang="less">
-.page-container {
+@import '@/styles/variables.less';
+
+.operation-logs-page {
   padding: 24px;
-  background: #f0f2f5;
-  min-height: calc(100vh - 0px);
+  max-width: 1800px;
+  margin: 0 auto;
 
   .logs-card {
-    border-radius: 12px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border-radius: @border-radius-lg;
+    border: 1px solid @border-primary;
+    box-shadow: @shadow-sm;
+
+    :deep(.ant-card-head) {
+      border-bottom: 1px solid @bg-tertiary;
+      padding: 16px 24px;
+    }
+
+    :deep(.ant-card-body) {
+      padding: 0;
+    }
   }
 
   .header-container {
@@ -173,55 +229,120 @@ export default defineComponent({
 
   .back-button {
     height: 32px;
-    border-color: #cbd5e1;
+    padding: 0 12px;
   }
 
   .title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #0f172a;
-  }
-
-  .target-users {
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: @font-size-lg;
+    font-weight: @font-weight-semibold;
+    color: @text-primary;
   }
 }
 
-/* 操作类型标签样式 */
-.operation-tag-create {
-  background-color: #dcfce7;
+// 自定义表格样式
+.custom-table {
+  :deep(.ant-table-thead > tr > th) {
+    background: @bg-secondary;
+    border-bottom: 1px solid @border-primary;
+    color: @text-primary;
+    font-weight: @font-weight-semibold;
+    font-size: @font-size-base;
+    padding: 12px 16px;
+  }
+
+  :deep(.ant-table-tbody > tr) {
+    &:hover > td {
+      background: @bg-hover;
+    }
+
+    > td {
+      border-bottom: 1px solid @border-primary;
+      padding: 12px 16px;
+      color: @text-primary;
+    }
+  }
+
+  :deep(.ant-table-pagination) {
+    padding: 16px 24px;
+  }
+}
+
+// 优惠券ID
+.coupon-id {
+  font-family: @font-family;
+  font-weight: @font-weight-medium;
+  color: @text-primary;
+  font-size: @font-size-sm;
+}
+
+// 优惠券名称
+.coupon-name {
+  color: @text-primary;
+  font-size: @font-size-base;
+}
+
+// 操作描述
+.desc-text {
+  color: @text-primary;
+  font-size: @font-size-sm;
+}
+
+// 操作人
+.operator-text {
+  color: @text-secondary;
+  font-size: @font-size-sm;
+}
+
+// 日期时间单元格
+.datetime-cell {
+  .date {
+    display: block;
+    color: @text-primary;
+    font-size: @font-size-base;
+    line-height: 1.5;
+  }
+
+  .time {
+    display: block;
+    color: @text-secondary;
+    font-size: @font-size-sm;
+    line-height: 1.5;
+    margin-top: 2px;
+  }
+}
+
+// 操作类型标签
+.tag-green {
   color: #15803d;
-  border-color: #86efac;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
 }
 
-.operation-tag-edit {
-  background-color: #dbeafe;
+.tag-blue {
   color: #1d4ed8;
-  border-color: #93c5fd;
+  background: #eff6ff;
+  border-color: #bfdbfe;
 }
 
-.operation-tag-enable {
-  background-color: #dcfce7;
-  color: #15803d;
-  border-color: #86efac;
-}
-
-.operation-tag-disable {
-  background-color: #ffedd5;
+.tag-orange {
   color: #c2410c;
-  border-color: #fdba74;
+  background: #fff7ed;
+  border-color: #fed7aa;
 }
 
-.operation-tag-delete {
-  background-color: #fee2e2;
+.tag-red {
   color: #b91c1c;
+  background: #fee2e2;
   border-color: #fca5a5;
 }
 
-:deep(.ant-table-tbody > tr:hover > td) {
-  background-color: #f8fafc !important;
+:deep(.ant-tag) {
+  margin: 0;
+  padding: 2px 8px;
+  font-size: @font-size-xs;
+  font-weight: @font-weight-medium;
+  line-height: 20px;
+  border-radius: @border-radius-sm;
+  border-width: 1px;
 }
 </style>

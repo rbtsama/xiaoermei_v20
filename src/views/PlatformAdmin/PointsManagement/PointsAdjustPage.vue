@@ -14,14 +14,14 @@
               />
             </a-form-item>
             <a-form-item>
-              <a-button type="primary" html-type="submit" :loading="loading">
+              <a-button type="primary" html-type="submit" :loading="loading" class="btn-primary">
                 <a-icon type="search" />
                 搜索
               </a-button>
             </a-form-item>
           </a-form>
 
-          <a-button @click="goToOperationLogs">
+          <a-button @click="goToOperationLogs" class="btn-default">
             <a-icon type="file-text" />
             操作记录
           </a-button>
@@ -46,14 +46,14 @@
             </div>
           </div>
 
-          <a-button type="primary" @click="showAdjustDialog">
+          <a-button type="primary" @click="showAdjustDialog" class="btn-primary">
             手动调整积分
           </a-button>
         </div>
       </a-card>
 
       <!-- 积分变动历史 -->
-      <a-card v-if="userAccount" title="积分变动历史" :bordered="false">
+      <a-card v-if="userAccount" title="积分变动历史" :bordered="false" class="history-card">
         <a-table
           :columns="columns"
           :data-source="changeLogs"
@@ -83,7 +83,7 @@
 
           <!-- 变动前 -->
           <template slot="balanceBefore" slot-scope="balanceBefore">
-            <span>{{ balanceBefore }}</span>
+            <span class="balance-text">{{ balanceBefore }}</span>
           </template>
 
           <!-- 变动后 -->
@@ -93,7 +93,7 @@
 
           <!-- 操作时间 -->
           <template slot="operatedAt" slot-scope="operatedAt">
-            <span class="text-sm text-slate-600">{{ operatedAt }}</span>
+            <span class="time-text">{{ operatedAt }}</span>
           </template>
         </a-table>
       </a-card>
@@ -106,6 +106,7 @@
         :confirm-loading="adjusting"
         @ok="handleAdjustSubmit"
         @cancel="handleAdjustCancel"
+        :okButtonProps="{ props: { class: 'btn-primary' } }"
       >
         <div class="adjust-dialog-content">
           <!-- 用户信息卡片 -->
@@ -127,13 +128,13 @@
           <a-form-model ref="adjustForm" :model="adjustForm" :rules="adjustRules">
             <!-- 调整类型 -->
             <a-form-model-item label="调整类型" prop="type">
-              <a-radio-group v-model="adjustForm.type">
-                <a-radio value="add">
-                  <a-icon type="plus-circle" style="color: #10b981" />
+              <a-radio-group v-model="adjustForm.type" class="radio-group">
+                <a-radio value="add" class="radio-item">
+                  <a-icon type="plus-circle" class="icon-success" />
                   增加积分
                 </a-radio>
-                <a-radio value="deduct">
-                  <a-icon type="minus-circle" style="color: #ef4444" />
+                <a-radio value="deduct" class="radio-item">
+                  <a-icon type="minus-circle" class="icon-error" />
                   减少积分
                 </a-radio>
               </a-radio-group>
@@ -146,6 +147,7 @@
                 placeholder="请输入正整数"
                 :min="1"
                 :precision="0"
+                class="input-number"
                 style="width: 100%"
               />
             </a-form-model-item>
@@ -158,6 +160,7 @@
                 :rows="4"
                 :maxLength="200"
                 show-count
+                class="textarea-input"
               />
             </a-form-model-item>
           </a-form-model>
@@ -398,31 +401,92 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
+// ========================================
+// 页面容器
+// ========================================
 .page-container {
-  padding: 24px;
-  background: #f0f2f5;
+  padding: @spacing-xl;
+  background: @bg-secondary;
   min-height: calc(100vh - 64px);
 }
 
+// ========================================
+// 卡片样式
+// ========================================
 .search-card,
-.user-info-card {
-  margin-bottom: 24px;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
+.user-info-card,
+.history-card {
+  margin-bottom: @spacing-xl;
+  border-radius: @border-radius-lg;
+  border: 1px solid @border-primary;
+  box-shadow: @shadow-sm;
+  transition: @transition-base;
 
-.search-input {
-  height: 36px;
-  border-color: #cbd5e1;
-  border-radius: 6px;
-
-  &:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  &:hover {
+    box-shadow: @shadow-md;
   }
 }
 
-// 用户信息卡片样式
+// ========================================
+// 搜索输入框
+// ========================================
+.search-input {
+  height: @input-height-lg;
+  border-color: @border-secondary;
+  border-radius: @border-radius-base;
+  font-size: @font-size-base;
+  transition: @transition-base;
+
+  &:focus,
+  &:hover {
+    border-color: @border-focus;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px fade(@brand-primary, 20%);
+  }
+}
+
+// ========================================
+// 按钮样式
+// ========================================
+.btn-primary {
+  height: @button-height;
+  border-radius: @border-radius-base;
+  font-weight: @font-weight-medium;
+  font-size: @font-size-base;
+  background-color: @brand-primary;
+  border-color: @brand-primary;
+  box-shadow: @shadow-sm;
+  transition: @transition-base;
+
+  &:hover {
+    background-color: @brand-primary-hover;
+    border-color: @brand-primary-hover;
+    box-shadow: @shadow-base;
+  }
+}
+
+.btn-default {
+  height: @button-height;
+  border-radius: @border-radius-base;
+  font-weight: @font-weight-medium;
+  font-size: @font-size-base;
+  border-color: @border-secondary;
+  color: @text-primary;
+  transition: @transition-base;
+
+  &:hover {
+    border-color: @brand-primary;
+    color: @brand-primary;
+  }
+}
+
+// ========================================
+// 布局辅助类
+// ========================================
 .flex {
   display: flex;
 }
@@ -436,114 +500,305 @@ export default defineComponent({
 }
 
 .gap-8 > * + * {
-  margin-left: 32px;
+  margin-left: @spacing-2xl;
 }
 
+// ========================================
+// 用户信息展示
+// ========================================
 .info-item {
   .info-label {
-    font-size: 14px;
-    color: #64748b;
-    margin-bottom: 4px;
+    font-size: @font-size-sm;
+    color: @text-secondary;
+    margin-bottom: @spacing-xs;
+    line-height: 1.5;
   }
 
   .info-value {
-    font-size: 18px;
-    font-weight: 600;
-    color: #0f172a;
+    font-size: @font-size-xl;
+    font-weight: @font-weight-semibold;
+    color: @text-primary;
+    line-height: 1.4;
 
     &.vip-level {
-      color: #f97316;
+      color: @warning-color;
     }
 
     &.points-value {
-      color: #10b981;
+      color: @success-color;
     }
   }
 }
 
-// 操作类型标签样式
+// ========================================
+// 操作类型标签
+// ========================================
 .tag-earn {
-  background-color: #dcfce7;
-  color: #15803d;
-  border-color: #86efac;
+  background-color: fade(@success-color, 15%);
+  color: @success-color;
+  border-color: fade(@success-color, 30%);
+  font-size: @font-size-xs;
+  border-radius: @border-radius-sm;
 }
 
 .tag-deduct {
-  background-color: #fed7aa;
-  color: #c2410c;
-  border-color: #fdba74;
+  background-color: fade(@warning-color, 15%);
+  color: @warning-color;
+  border-color: fade(@warning-color, 30%);
+  font-size: @font-size-xs;
+  border-radius: @border-radius-sm;
 }
 
 .tag-expire {
-  background-color: #f1f5f9;
-  color: #475569;
-  border-color: #cbd5e1;
+  background-color: @bg-tertiary;
+  color: @text-secondary;
+  border-color: @border-primary;
+  font-size: @font-size-xs;
+  border-radius: @border-radius-sm;
 }
 
 .tag-adjust {
-  background-color: #dbeafe;
-  color: #1e40af;
-  border-color: #93c5fd;
+  background-color: @brand-primary-light;
+  color: @brand-primary;
+  border-color: fade(@brand-primary, 30%);
+  font-size: @font-size-xs;
+  border-radius: @border-radius-sm;
 }
 
+// ========================================
 // 表格内容样式
+// ========================================
 .points-amount {
-  font-weight: 600;
-  color: #0f172a;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+  font-size: @font-size-base;
 }
 
 .remark-text {
-  color: #475569;
+  color: @text-secondary;
+  font-size: @font-size-base;
+  line-height: 1.6;
+}
+
+.balance-text {
+  color: @text-primary;
+  font-size: @font-size-base;
 }
 
 .balance-after {
-  font-weight: 600;
-  color: #0f172a;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+  font-size: @font-size-base;
 }
 
+.time-text {
+  color: @text-secondary;
+  font-size: @font-size-sm;
+}
+
+// ========================================
 // 调整弹窗样式
+// ========================================
 .adjust-dialog-content {
-  padding-top: 16px;
+  padding-top: @spacing-md;
 }
 
 .user-info-summary {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  padding: 16px;
-  background: #f8fafc;
-  border-radius: 8px;
-  margin-bottom: 24px;
+  gap: @spacing-md;
+  padding: @spacing-md;
+  background: @bg-secondary;
+  border-radius: @border-radius-base;
+  border: 1px solid @border-primary;
+  margin-bottom: @spacing-xl;
 
   .summary-item {
     .summary-label {
-      font-size: 12px;
-      color: #64748b;
-      margin-bottom: 4px;
+      font-size: @font-size-xs;
+      color: @text-secondary;
+      margin-bottom: @spacing-xs;
+      line-height: 1.5;
     }
 
     .summary-value {
-      font-size: 14px;
-      font-weight: 600;
-      color: #0f172a;
+      font-size: @font-size-base;
+      font-weight: @font-weight-semibold;
+      color: @text-primary;
+      line-height: 1.5;
 
       &.vip {
-        color: #f97316;
+        color: @warning-color;
       }
 
       &.points {
-        color: #10b981;
+        color: @success-color;
       }
     }
   }
 }
 
-// 通用文本样式
-.text-sm {
-  font-size: 14px;
+// ========================================
+// 表单元素样式
+// ========================================
+.radio-group {
+  .radio-item {
+    font-size: @font-size-base;
+    color: @text-primary;
+    margin-right: @spacing-xl;
+
+    .icon-success {
+      color: @success-color;
+      margin-right: @spacing-xs;
+    }
+
+    .icon-error {
+      color: @error-color;
+      margin-right: @spacing-xs;
+    }
+  }
 }
 
-.text-slate-600 {
-  color: #475569;
+.input-number {
+  height: @input-height;
+  border-radius: @border-radius-base;
+  font-size: @font-size-base;
+
+  :deep(.ant-input-number-input) {
+    height: @input-height;
+    font-size: @font-size-base;
+  }
+}
+
+.textarea-input {
+  border-radius: @border-radius-base;
+  font-size: @font-size-base;
+  transition: @transition-base;
+
+  &:focus,
+  &:hover {
+    border-color: @border-focus;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px fade(@brand-primary, 20%);
+  }
+}
+
+// ========================================
+// Ant Design 组件样式覆盖
+// ========================================
+:deep(.ant-card-head-title) {
+  color: @text-primary;
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+}
+
+:deep(.ant-table) {
+  font-size: @font-size-base;
+
+  .ant-table-thead > tr > th {
+    background: @bg-secondary;
+    color: @text-primary;
+    font-weight: @font-weight-semibold;
+    border-bottom: 1px solid @border-primary;
+  }
+
+  .ant-table-tbody > tr {
+    transition: @transition-fast;
+
+    &:hover {
+      background: @bg-hover;
+    }
+
+    > td {
+      border-bottom: 1px solid @border-primary;
+    }
+  }
+}
+
+:deep(.ant-pagination) {
+  .ant-pagination-total-text {
+    color: @text-secondary;
+    font-size: @font-size-sm;
+  }
+
+  .ant-pagination-item {
+    border-radius: @border-radius-sm;
+    border-color: @border-secondary;
+
+    a {
+      color: @text-primary;
+    }
+
+    &.ant-pagination-item-active {
+      background-color: @brand-primary;
+      border-color: @brand-primary;
+
+      a {
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+:deep(.ant-form-item-label) {
+  label {
+    color: @text-primary;
+    font-size: @font-size-base;
+    font-weight: @font-weight-medium;
+  }
+}
+
+:deep(.ant-input),
+:deep(.ant-input-number) {
+  border-radius: @border-radius-base;
+  border-color: @border-secondary;
+  transition: @transition-base;
+
+  &:hover {
+    border-color: @border-focus;
+  }
+
+  &:focus {
+    border-color: @border-focus;
+    box-shadow: 0 0 0 2px fade(@brand-primary, 20%);
+  }
+}
+
+:deep(.ant-modal) {
+  .ant-modal-header {
+    border-bottom: 1px solid @border-primary;
+    border-radius: @border-radius-lg @border-radius-lg 0 0;
+
+    .ant-modal-title {
+      color: @text-primary;
+      font-size: @font-size-lg;
+      font-weight: @font-weight-semibold;
+    }
+  }
+
+  .ant-modal-footer {
+    border-top: 1px solid @border-primary;
+    padding: @spacing-md @spacing-xl;
+
+    .ant-btn {
+      height: @button-height-lg;
+      border-radius: @border-radius-base;
+      font-size: @font-size-base;
+      font-weight: @font-weight-medium;
+    }
+
+    .ant-btn-primary {
+      background-color: @brand-primary;
+      border-color: @brand-primary;
+      box-shadow: @shadow-sm;
+
+      &:hover {
+        background-color: @brand-primary-hover;
+        border-color: @brand-primary-hover;
+      }
+    }
+  }
 }
 </style>

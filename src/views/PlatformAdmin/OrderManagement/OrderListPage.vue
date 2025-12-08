@@ -14,7 +14,7 @@
         <div class="flex gap-4 items-end">
           <!-- 订单状态 -->
           <div class="space-y-2" style="width: 160px">
-            <label class="text-sm text-slate-600">订单状态</label>
+            <label class="text-sm text-secondary">订单状态</label>
             <a-select
               v-model="filters.orderStatus"
               placeholder="全部"
@@ -31,7 +31,7 @@
 
           <!-- 下单时间 -->
           <div class="space-y-2 flex-1">
-            <label class="text-sm text-slate-600">下单时间</label>
+            <label class="text-sm text-secondary">下单时间</label>
             <a-range-picker
               v-model="orderCreatedRange"
               format="YYYY-MM-DD"
@@ -43,7 +43,7 @@
 
           <!-- 入住时间 -->
           <div class="space-y-2 flex-1">
-            <label class="text-sm text-slate-600">入住时间</label>
+            <label class="text-sm text-secondary">入住时间</label>
             <a-range-picker
               v-model="checkInRange"
               format="YYYY-MM-DD"
@@ -58,7 +58,7 @@
         <div class="grid grid-cols-12 gap-4 mt-4">
           <!-- 酒店名称 -->
           <div class="space-y-2 col-span-3">
-            <label class="text-sm text-slate-600">酒店名称</label>
+            <label class="text-sm text-secondary">酒店名称</label>
             <a-input
               v-model="filters.hotelName"
               placeholder="搜索酒店"
@@ -68,7 +68,7 @@
 
           <!-- 订单号 -->
           <div class="space-y-2 col-span-3">
-            <label class="text-sm text-slate-600">订单号</label>
+            <label class="text-sm text-secondary">订单号</label>
             <a-input
               v-model="filters.orderNumber"
               placeholder="输入订单号"
@@ -78,7 +78,7 @@
 
           <!-- 手机号 -->
           <div class="space-y-2 col-span-3">
-            <label class="text-sm text-slate-600">手机号</label>
+            <label class="text-sm text-secondary">手机号</label>
             <a-input
               v-model="filters.guestPhone"
               placeholder="输入手机号"
@@ -88,7 +88,7 @@
 
           <!-- 按钮区域 -->
           <div class="space-y-2 col-span-3">
-            <label class="text-sm text-slate-600" style="visibility: hidden;">占位</label>
+            <label class="text-sm text-secondary" style="visibility: hidden;">占位</label>
             <div class="flex gap-2">
               <a-button type="primary" class="h-9 bg-blue-600" @click="handleSearch">
                 <a-icon type="search" />
@@ -104,7 +104,7 @@
 
       <!-- 订单列表 -->
       <a-card class="rounded-xl border-slate-200 bg-white shadow-sm">
-        <div slot="title" class="text-lg font-semibold text-slate-900">订单列表</div>
+        <div slot="title" class="text-lg font-semibold text-primary">订单列表</div>
 
         <div class="border border-slate-200 rounded-lg overflow-hidden">
           <a-table
@@ -117,7 +117,7 @@
           >
             <!-- 订单号 -->
             <template slot="orderNumber" slot-scope="orderNumber">
-              <span class="font-mono text-sm text-slate-900">{{ orderNumber }}</span>
+              <span class="text-sm text-primary">{{ orderNumber }}</span>
             </template>
 
             <!-- 入离日期（带icon标签） -->
@@ -125,18 +125,28 @@
               <div class="text-sm space-y-1">
                 <div class="flex items-center gap-1">
                   <span class="date-icon-in">入</span>
-                  <span class="text-slate-900">{{ record.checkInDate }}</span>
+                  <span class="text-primary">{{ record.checkInDate }}</span>
                 </div>
                 <div class="flex items-center gap-1">
                   <span class="date-icon-out">离</span>
-                  <span class="text-slate-900">{{ record.checkOutDate }}</span>
+                  <span class="text-primary">{{ record.checkOutDate }}</span>
                 </div>
               </div>
             </template>
 
+            <!-- 酒店名称 -->
+            <template slot="hotelName" slot-scope="hotelName">
+              <span class="text-sm text-primary">{{ hotelName }}</span>
+            </template>
+
+            <!-- 房型 -->
+            <template slot="roomType" slot-scope="roomType">
+              <span class="text-sm text-primary">{{ roomType }}</span>
+            </template>
+
             <!-- 支付金额 -->
             <template slot="actualAmount" slot-scope="actualAmount">
-              <span class="text-slate-900">¥{{ actualAmount }}</span>
+              <span class="text-primary">¥{{ actualAmount }}</span>
             </template>
 
             <!-- 订单状态 -->
@@ -158,14 +168,14 @@
                   </span>
                 </div>
               </div>
-              <span v-else class="text-slate-400 text-sm">-</span>
+              <span v-else class="text-tertiary text-sm">-</span>
             </template>
 
             <!-- 下单时间（日期和时间分两行） -->
             <template slot="createdAt" slot-scope="createdAt">
-              <div class="text-sm text-slate-900">
-                <div>{{ createdAt.split(' ')[0] }}</div>
-                <div class="text-xs text-slate-500">{{ createdAt.split(' ')[1] }}</div>
+              <div class="text-sm">
+                <div class="text-primary">{{ createdAt.split(' ')[0] }}</div>
+                <div class="text-xs text-secondary">{{ createdAt.split(' ')[1] }}</div>
               </div>
             </template>
 
@@ -232,8 +242,8 @@ export default defineComponent({
       { title: '状态', dataIndex: 'status', width: 100, scopedSlots: { customRender: 'status' } },
       { title: '下单时间', dataIndex: 'createdAt', width: 160, scopedSlots: { customRender: 'createdAt' } },
       { title: '入住日期', width: 160, scopedSlots: { customRender: 'checkInDates' } },
-      { title: '酒店', dataIndex: 'hotelName', width: 140 },
-      { title: '房型', dataIndex: 'roomType', width: 160 },
+      { title: '酒店', dataIndex: 'hotelName', width: 140, scopedSlots: { customRender: 'hotelName' } },
+      { title: '房型', dataIndex: 'roomType', width: 160, scopedSlots: { customRender: 'roomType' } },
       { title: '支付金额', dataIndex: 'actualAmount', width: 100, scopedSlots: { customRender: 'actualAmount' } },
       { title: '退款记录', width: 120, scopedSlots: { customRender: 'refundRecord' } },
       { title: '操作', width: 80, scopedSlots: { customRender: 'action' } }
@@ -408,6 +418,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
 .p-6 {
   padding: 24px;
 }
@@ -422,6 +434,21 @@ export default defineComponent({
 
 .space-y-1 > * + * {
   margin-top: 4px;
+}
+
+// ========================================
+// 文字颜色系统（使用全局变量）
+// ========================================
+.text-primary {
+  color: @text-primary;  // 90% 黑色 - 主文字
+}
+
+.text-secondary {
+  color: @text-secondary;  // #666 - 辅助性文字（日期时间）
+}
+
+.text-tertiary {
+  color: @text-tertiary;  // #B1B1B1 - 暗提示文字
 }
 
 // 入离日期icon标签样式（圆形浅灰底深灰字）
@@ -524,6 +551,10 @@ export default defineComponent({
   font-size: 14px;
 }
 
+.text-xs {
+  font-size: 12px;
+}
+
 .text-lg {
   font-size: 18px;
 }
@@ -534,18 +565,6 @@ export default defineComponent({
 
 .font-medium {
   font-weight: 500;
-}
-
-.font-mono {
-  font-family: monospace;
-}
-
-.text-slate-600 {
-  color: #475569;
-}
-
-.text-slate-900 {
-  color: #0f172a;
 }
 
 .text-blue-600 {
@@ -628,10 +647,6 @@ export default defineComponent({
   color: #64748b;
 }
 
-.text-slate-400 {
-  color: #94a3b8;
-}
-
 // 列表页退款金额样式
 .refund-amount-red {
   font-size: 13px;
@@ -663,5 +678,27 @@ export default defineComponent({
 
 .flex-1 {
   flex: 1 1 0%;
+}
+
+// ========================================
+// 表格样式优化
+// ========================================
+:deep(.ant-table) {
+  thead tr {
+    background-color: @bg-secondary;  // 表头背景色
+
+    th {
+      color: @text-primary;
+      font-weight: @font-weight-semibold;
+    }
+  }
+
+  tbody tr {
+    transition: @transition-fast;
+
+    &:hover {
+      background-color: @bg-hover;  // hover 背景色
+    }
+  }
 }
 </style>

@@ -544,41 +544,48 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
 .page-container {
-  padding: 24px;
-  background: #f0f2f5;
+  padding: @spacing-xl;
+  background: @bg-secondary;
   min-height: calc(100vh - 64px);
 }
 
 .card-style {
-  margin-bottom: 24px;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  margin-bottom: @spacing-xl;
+  border-radius: @border-radius-lg;
+  border: 1px solid @border-primary;
+  box-shadow: @shadow-sm;
 }
 
 .card-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #0f172a;
+  font-size: @font-size-xl;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
 }
 
 .btn-style {
-  height: 36px;
-  background-color: #3b82f6;
-  border-color: #3b82f6;
+  height: @button-height;
+  border-radius: @border-radius-base;
+  background-color: @brand-primary;
+  border-color: @brand-primary;
+  transition: @transition-base;
 
   &:hover {
-    background-color: #2563eb;
-    border-color: #2563eb;
+    background-color: @brand-primary-hover;
+    border-color: @brand-primary-hover;
   }
 }
 
 .btn-style-outline {
-  height: 36px;
-  border-color: #cbd5e1;
+  height: @button-height;
+  border-radius: @border-radius-base;
+  border-color: @border-secondary;
+  transition: @transition-base;
 
   &:hover {
-    border-color: #94a3b8;
+    border-color: @text-secondary;
   }
 }
 
@@ -596,15 +603,15 @@ export default defineComponent({
 }
 
 .gap-2 > * + * {
-  margin-left: 8px;
+  margin-left: @spacing-sm;
 }
 
 .mb-6 {
-  margin-bottom: 24px;
+  margin-bottom: @spacing-xl;
 }
 
 .mb-3 {
-  margin-bottom: 12px;
+  margin-bottom: @spacing-base;
 }
 
 .block {
@@ -615,133 +622,172 @@ export default defineComponent({
 .grid-5 {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 24px;
+  gap: @spacing-xl;
 }
 
 .grid-10 {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  gap: 12px;
+  gap: @spacing-base;
 }
 
 // 字段样式
 .field-item {
   label {
     display: block;
-    font-size: 14px;
-    font-weight: 500;
-    color: #64748b;
-    margin-bottom: 8px;
+    font-size: @font-size-base;
+    font-weight: @font-weight-medium;
+    color: @text-secondary;
+    margin-bottom: @spacing-sm;
   }
 }
 
 .input-with-unit {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: @spacing-xs;
 
   .input-style {
     flex: 1;
-    height: 36px;
+    height: @input-height-lg;
+    border-radius: @border-radius-base;
   }
 
   .unit-text {
-    font-size: 12px;
-    color: #64748b;
+    font-size: @font-size-xs;
+    color: @text-secondary;
     white-space: nowrap;
   }
 }
 
 .value-display {
-  height: 36px;
+  height: @input-height-lg;
   display: flex;
   align-items: center;
 
   span {
-    font-weight: 600;
-    color: #0f172a;
-    font-size: 14px;
+    font-weight: @font-weight-normal;
+    color: @text-primary;
+    font-size: @font-size-base;
   }
 }
 
 // VIP倍数
 .vip-multipliers {
-  padding-top: 12px;
-  border-top: 1px solid #e2e8f0;
+  padding-top: @spacing-base;
+  border-top: 1px solid @border-primary;
 
   label {
-    font-size: 14px;
-    font-weight: 500;
-    color: #64748b;
+    font-size: @font-size-base;
+    font-weight: @font-weight-medium;
+    color: @text-secondary;
   }
 }
 
 .vip-item {
   .vip-label {
-    font-size: 12px;
-    color: #64748b;
+    font-size: @font-size-xs;
+    color: @text-secondary;
     text-align: center;
     margin-bottom: 6px;
   }
 
   .vip-input {
     width: 100%;
-    height: 32px;
-    font-size: 12px;
+    height: @button-height;
+    border-radius: @border-radius-base;
+    font-size: @font-size-xs;
     text-align: center;
   }
 
   .vip-value {
-    height: 32px;
+    height: @button-height;
     display: flex;
     align-items: center;
     justify-content: center;
 
     span {
-      font-weight: 600;
-      color: #0f172a;
-      font-size: 14px;
+      font-weight: @font-weight-normal;
+      color: @text-primary;
+      font-size: @font-size-base;
     }
   }
 }
 
 // 表格样式
 .table-wrapper {
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  border: 1px solid @border-primary;
+  border-radius: @border-radius-lg;
   overflow: hidden;
+
+  :deep(.ant-table) {
+    font-size: @font-size-base;
+
+    .ant-table-thead > tr > th {
+      background: @bg-secondary;
+      color: @text-primary;
+      font-weight: @font-weight-semibold;
+      padding: @spacing-base @spacing-md;
+      border-bottom: 1px solid @border-primary;
+    }
+
+    .ant-table-tbody > tr {
+      transition: @transition-fast;
+
+      &:hover {
+        background: @bg-hover;
+      }
+
+      > td {
+        padding: @spacing-base @spacing-md;
+        color: @text-primary;
+        border-bottom: 1px solid @border-primary;
+      }
+    }
+  }
 }
 
 .action-buttons {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: @spacing-sm;
+
+  .ant-btn {
+    border-radius: @border-radius-base;
+    transition: @transition-base;
+  }
 }
 
 .btn-delete {
-  border-color: #fca5a5;
-  color: #b91c1c;
+  border-color: @error-color;
+  color: @error-color;
 
   &:hover {
-    background-color: #fef2f2;
+    background-color: fade(@error-color, 10%);
+    border-color: @error-color;
+    color: @error-color;
   }
 }
 
 // 颜色类
 .text-green-600 {
-  color: #16a34a;
+  color: @success-color;
+  font-weight: @font-weight-normal;
 }
 
 .text-red-600 {
-  color: #dc2626;
+  color: @error-color;
+  font-weight: @font-weight-normal;
 }
 
 .font-medium {
-  font-weight: 500;
+  font-weight: @font-weight-medium;
+  color: @text-primary;
 }
 
 .font-semibold {
-  font-weight: 600;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
 }
 </style>
