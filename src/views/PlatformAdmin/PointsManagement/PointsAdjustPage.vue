@@ -346,7 +346,7 @@ export default defineComponent({
     }
 
     const goToOperationLogs = () => {
-      root.$message.info('操作记录功能待开发')
+      root.$router.push('/platform-admin/points-management/operation-logs')
     }
 
     // ========== 样式辅助 ==========

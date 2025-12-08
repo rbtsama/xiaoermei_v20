@@ -65,6 +65,12 @@ const routes = [
     component: () => import('@/views/PlatformAdmin/PointsManagement/PointsAdjustPage.vue'),
     meta: { title: '积分调整' }
   },
+  {
+    path: '/platform-admin/points-management/operation-logs',
+    name: 'PointsOperationLogs',
+    component: () => import('@/views/PlatformAdmin/PointsManagement/PointsOperationLogsPage.vue'),
+    meta: { title: '积分操作记录' }
+  },
 
   // 商户端 - 入驻申请
   {
