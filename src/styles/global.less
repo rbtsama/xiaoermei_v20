@@ -1,0 +1,472 @@
+/**
+ * 全局样式
+ * 应用设计规范到所有页面
+ */
+
+@import './variables.less';
+
+// ========================================
+// 全局字体设置
+// ========================================
+* {
+  font-family: @font-family;
+}
+
+body {
+  font-family: @font-family;
+  font-size: @font-size-base;
+  color: @text-primary;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 订单号等特殊字段使用普通字体（不使用等宽字体）
+.order-number,
+.phone-number,
+.id-number {
+  font-family: @font-family;
+  font-weight: @font-weight-medium;
+}
+
+// ========================================
+// 全局文字颜色规范
+// ========================================
+.text-primary {
+  color: @text-primary !important;
+}
+
+.text-secondary {
+  color: @text-secondary !important;
+}
+
+.text-tertiary {
+  color: @text-tertiary !important;
+}
+
+.text-disabled {
+  color: @text-disabled !important;
+}
+
+// ========================================
+// Ant Design 全局覆盖
+// ========================================
+
+// 按钮样式
+.ant-btn {
+  height: @button-height;
+  padding: 0 16px;
+  font-size: @font-size-base;
+  font-weight: @font-weight-medium;
+  border-radius: @border-radius-base;
+  transition: @transition-base;
+
+  &.ant-btn-sm {
+    height: @button-height-sm;
+    padding: 0 12px;
+    font-size: @font-size-sm;
+  }
+
+  &.ant-btn-lg {
+    height: @button-height-lg;
+    padding: 0 24px;
+    font-size: @font-size-base;
+  }
+
+  &.ant-btn-primary {
+    background: @brand-primary;
+    border-color: @brand-primary;
+
+    &:hover,
+    &:focus {
+      background: @brand-primary-hover;
+      border-color: @brand-primary-hover;
+    }
+  }
+
+  &.ant-btn-default {
+    border-color: @border-secondary;
+    color: @text-primary;
+
+    &:hover,
+    &:focus {
+      border-color: @brand-primary;
+      color: @brand-primary;
+    }
+  }
+}
+
+// 输入框样式
+.ant-input,
+.ant-input-number,
+.ant-select-selector,
+.ant-picker {
+  border-radius: @border-radius-base !important;
+  border-color: @border-secondary !important;
+  font-size: @font-size-base !important;
+
+  &:hover {
+    border-color: @border-primary !important;
+  }
+
+  &:focus,
+  &.ant-input-focused,
+  &.ant-select-focused .ant-select-selector {
+    border-color: @border-focus !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+  }
+
+  &::placeholder {
+    color: @text-tertiary !important;
+  }
+}
+
+.ant-input {
+  height: @input-height;
+}
+
+.ant-input-number {
+  width: 100%;
+}
+
+// Textarea
+.ant-input-textarea textarea {
+  border-radius: @border-radius-base !important;
+  border-color: @border-secondary !important;
+
+  &:hover {
+    border-color: @border-primary !important;
+  }
+
+  &:focus {
+    border-color: @border-focus !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+  }
+}
+
+// 卡片样式
+.ant-card {
+  border-radius: @border-radius-lg;
+  border-color: @border-primary;
+  box-shadow: @shadow-sm;
+
+  .ant-card-head {
+    border-bottom-color: @bg-tertiary;
+    padding: 16px 24px;
+
+    .ant-card-head-title {
+      font-size: @font-size-lg;
+      font-weight: @font-weight-semibold;
+      color: @text-primary;
+    }
+  }
+
+  .ant-card-body {
+    padding: 24px;
+  }
+}
+
+// 表格样式
+.ant-table {
+  font-size: @font-size-base;
+
+  .ant-table-thead > tr > th {
+    background: @bg-secondary;
+    border-bottom-color: @border-primary;
+    color: @text-primary;
+    font-weight: @font-weight-semibold;
+    font-size: @font-size-base;
+    padding: 12px 16px;
+  }
+
+  .ant-table-tbody > tr {
+    &:hover > td {
+      background: @bg-hover;
+    }
+
+    > td {
+      border-bottom-color: @border-primary;
+      padding: 12px 16px;
+      color: @text-primary;
+    }
+  }
+
+  // 日期时间列样式
+  .datetime-cell {
+    .date {
+      display: block;
+      color: @text-primary;
+      font-size: @font-size-base;
+      line-height: 1.5;
+    }
+
+    .time {
+      display: block;
+      color: @text-secondary;
+      font-size: @font-size-sm;
+      line-height: 1.5;
+      margin-top: 2px;
+    }
+  }
+}
+
+// 标签样式
+.ant-tag {
+  border-radius: @border-radius-sm;
+  font-size: @font-size-xs;
+  font-weight: @font-weight-medium;
+  padding: 2px 8px;
+  border-width: 1px;
+
+  &.ant-tag-success {
+    color: @success-color;
+    background: fade(@success-color, 10%);
+    border-color: fade(@success-color, 30%);
+  }
+
+  &.ant-tag-warning {
+    color: @warning-color;
+    background: fade(@warning-color, 10%);
+    border-color: fade(@warning-color, 30%);
+  }
+
+  &.ant-tag-error {
+    color: @error-color;
+    background: fade(@error-color, 10%);
+    border-color: fade(@error-color, 30%);
+  }
+
+  &.ant-tag-processing {
+    color: @brand-primary;
+    background: fade(@brand-primary, 10%);
+    border-color: fade(@brand-primary, 30%);
+  }
+}
+
+// Modal 弹窗样式
+.ant-modal {
+  .ant-modal-header {
+    border-bottom-color: @bg-tertiary;
+    padding: 16px 24px;
+
+    .ant-modal-title {
+      font-size: @font-size-lg;
+      font-weight: @font-weight-semibold;
+      color: @text-primary;
+    }
+  }
+
+  .ant-modal-body {
+    padding: 24px;
+  }
+
+  .ant-modal-footer {
+    border-top-color: @bg-tertiary;
+    padding: 12px 16px;
+
+    .ant-btn {
+      margin-left: 8px;
+    }
+  }
+}
+
+// Dropdown 下拉菜单
+.ant-dropdown-menu {
+  border-radius: @border-radius-base;
+  box-shadow: @shadow-md;
+
+  .ant-dropdown-menu-item {
+    font-size: @font-size-base;
+    color: @text-primary;
+    padding: 8px 16px;
+
+    &:hover {
+      background: @bg-hover;
+    }
+  }
+}
+
+// Select 选择器
+.ant-select-dropdown {
+  border-radius: @border-radius-base;
+  box-shadow: @shadow-md;
+
+  .ant-select-item {
+    font-size: @font-size-base;
+    color: @text-primary;
+
+    &:hover {
+      background: @bg-hover;
+    }
+
+    &.ant-select-item-option-selected {
+      background: @brand-primary-light;
+      color: @brand-primary;
+    }
+  }
+}
+
+// Switch 开关
+.ant-switch {
+  &.ant-switch-checked {
+    background: @success-color;
+  }
+}
+
+// Radio 单选框
+.ant-radio-group-solid {
+  .ant-radio-button-wrapper {
+    height: @button-height;
+    line-height: 30px;
+    font-size: @font-size-sm;
+    border-color: @border-secondary;
+    color: @text-primary;
+
+    &:hover {
+      color: @brand-primary;
+    }
+  }
+
+  .ant-radio-button-wrapper-checked {
+    background: @brand-primary;
+    border-color: @brand-primary;
+
+    &:hover {
+      background: @brand-primary-hover;
+      border-color: @brand-primary-hover;
+    }
+  }
+}
+
+// Checkbox 复选框
+.ant-checkbox-wrapper {
+  font-size: @font-size-base;
+  color: @text-primary;
+
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: @brand-primary;
+    border-color: @brand-primary;
+  }
+}
+
+// Pagination 分页
+.ant-pagination {
+  .ant-pagination-item {
+    border-radius: @border-radius-base;
+    border-color: @border-primary;
+
+    a {
+      color: @text-primary;
+    }
+
+    &:hover {
+      border-color: @brand-primary;
+
+      a {
+        color: @brand-primary;
+      }
+    }
+
+    &.ant-pagination-item-active {
+      border-color: @brand-primary;
+      background: @brand-primary;
+
+      a {
+        color: #ffffff;
+      }
+    }
+  }
+
+  .ant-pagination-prev,
+  .ant-pagination-next {
+    .ant-pagination-item-link {
+      border-radius: @border-radius-base;
+      border-color: @border-primary;
+      color: @text-primary;
+
+      &:hover {
+        border-color: @brand-primary;
+        color: @brand-primary;
+      }
+    }
+  }
+}
+
+// Message 消息提示
+.ant-message-notice-content {
+  border-radius: @border-radius-base;
+  box-shadow: @shadow-md;
+}
+
+// Notification 通知
+.ant-notification-notice {
+  border-radius: @border-radius-base;
+  box-shadow: @shadow-md;
+}
+
+// Form 表单
+.ant-form-item-label > label {
+  color: @text-primary;
+  font-weight: @font-weight-medium;
+  font-size: @font-size-base;
+}
+
+.ant-form-item-explain,
+.ant-form-item-extra {
+  font-size: @font-size-xs;
+  color: @text-secondary;
+}
+
+// Tabs 标签页
+.ant-tabs-tab {
+  font-size: @font-size-base;
+  color: @text-primary;
+
+  &:hover {
+    color: @brand-primary;
+  }
+
+  &.ant-tabs-tab-active {
+    color: @brand-primary;
+  }
+}
+
+// ========================================
+// 工具类
+// ========================================
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.font-medium {
+  font-weight: @font-weight-medium;
+}
+
+.font-semibold {
+  font-weight: @font-weight-semibold;
+}
+
+.font-bold {
+  font-weight: @font-weight-bold;
+}
+
+// ========================================
+// 响应式工具类
+// ========================================
+@media (max-width: 768px) {
+  .ant-table {
+    font-size: @font-size-sm;
+
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td {
+      padding: 8px 12px;
+    }
+  }
+}

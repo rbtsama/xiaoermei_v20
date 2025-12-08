@@ -8,6 +8,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './styles/theme.less'
+import './styles/global.less'
 
 // 使用插件
 Vue.use(VueRouter)
