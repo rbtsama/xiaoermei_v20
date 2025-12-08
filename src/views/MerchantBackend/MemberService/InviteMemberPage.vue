@@ -12,12 +12,15 @@
 
         <!-- 邀请记录列表 -->
         <a-card :bordered="false" class="record-card">
+          <div slot="title" class="card-title">邀请记录</div>
+
           <a-table
             :columns="columns"
             :data-source="sortedRecords"
             :pagination="false"
             :loading="loading"
             row-key="id"
+            class="custom-table"
           >
             <!-- 受邀人 -->
             <template #inviteeId="{ text }">
@@ -185,11 +188,21 @@ export default defineComponent({
   border-radius: @border-radius-lg;
   border: 1px solid @border-primary;
   box-shadow: @shadow-sm;
-  transition: @transition-base;
 
-  &:hover {
-    box-shadow: @shadow-md;
+  :deep(.ant-card-head) {
+    border-bottom: 1px solid @bg-tertiary;
+    padding: 16px 24px;
   }
+
+  :deep(.ant-card-body) {
+    padding: 0;
+  }
+}
+
+.card-title {
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
 }
 
 .invitee-name {
@@ -234,25 +247,26 @@ export default defineComponent({
   }
 }
 
-:deep(.ant-table) {
-  .ant-table-thead > tr > th {
-    background-color: @bg-secondary;
-    color: @text-secondary;
-    font-weight: @font-weight-semibold;
+// 自定义表格样式
+.custom-table {
+  :deep(.ant-table-thead > tr > th) {
+    background: @bg-secondary;
     border-bottom: 1px solid @border-primary;
-    padding: @spacing-base @spacing-md;
+    color: @text-primary;
+    font-weight: @font-weight-semibold;
+    font-size: @font-size-base;
+    padding: 12px 16px;
   }
 
-  .ant-table-tbody > tr {
-    transition: @transition-base;
-
-    &:hover {
-      background-color: @bg-hover;
+  :deep(.ant-table-tbody > tr) {
+    &:hover > td {
+      background: @bg-hover;
     }
 
     > td {
       border-bottom: 1px solid @border-primary;
-      padding: @spacing-base @spacing-md;
+      padding: 12px 16px;
+      color: @text-primary;
     }
   }
 }

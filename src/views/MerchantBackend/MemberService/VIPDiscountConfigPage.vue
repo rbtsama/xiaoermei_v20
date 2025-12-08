@@ -223,10 +223,9 @@ export default defineComponent({
   border-radius: @border-radius-lg;
   border: 1px solid @border-primary;
   box-shadow: @shadow-sm;
-  transition: @transition-base;
 
-  &:hover {
-    box-shadow: @shadow-md;
+  :deep(.ant-card-body) {
+    padding: 0;
   }
 }
 
@@ -281,22 +280,21 @@ export default defineComponent({
 :deep(.ant-table) {
   .ant-table-thead > tr > th {
     background-color: @bg-secondary;
-    color: @text-secondary;
+    color: @text-primary;
     font-weight: @font-weight-semibold;
     border-bottom: 1px solid @border-primary;
-    padding: @spacing-base @spacing-md;
+    padding: 12px 16px;
   }
 
   .ant-table-tbody > tr {
-    transition: @transition-base;
-
     &:hover {
       background-color: @bg-hover;
     }
 
     > td {
       border-bottom: 1px solid @border-primary;
-      padding: @spacing-base @spacing-md;
+      padding: 12px 16px;
+      color: @text-primary;
     }
   }
 }

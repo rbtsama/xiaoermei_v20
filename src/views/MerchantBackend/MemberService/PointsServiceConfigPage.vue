@@ -1,74 +1,103 @@
 <template>
   <sidebar>
-    <div class="h-screen overflow-y-auto bg-secondary">
-      <div class="max-w-7xl mx-auto p-6">
-        <!-- 页面头部 -->
-        <div class="mb-6">
-          <h1 class="page-title">积分服务配置</h1>
+    <div class="points-service-page">
+      <!-- 积分奖励服务 -->
+      <a-card :bordered="false" class="service-card">
+        <div slot="title" class="card-header">
+          <span class="card-title">
+            <a-icon type="gift" class="title-icon" />
+            积分奖励
+          </span>
         </div>
 
-        <!-- 积分奖励服务 -->
-        <a-card :bordered="false" class="mb-6 service-card">
-          <template #title>
-            <div class="card-title">
-              <a-icon type="gift" class="title-icon" />
-              积分奖励
-            </div>
+        <a-table
+          :columns="rewardColumns"
+          :data-source="config.ecoRewards"
+          :pagination="false"
+          :row-key="(record) => record.id"
+          :loading="loading"
+          class="custom-table"
+        >
+          <template slot="serviceName" slot-scope="text">
+            <span class="service-name">{{ text }}</span>
           </template>
 
-          <a-table
-            :columns="rewardColumns"
-            :data-source="config.ecoRewards"
-            :pagination="false"
-            :row-key="(record) => record.id"
-            :loading="loading"
-          >
-            <template #serviceName="text">
-              <span class="service-name">{{ text }}</span>
-            </template>
-            <template #description="text">
-              <span class="description-text">{{ text || '-' }}</span>
-            </template>
-            <template #pointsAmount="text">
-              <span class="points-amount">{{ Math.abs(text) }} 积分</span>
-            </template>
-            <template #enabled="enabled">
-              <a-switch :checked="enabled" disabled />
-            </template>
-          </a-table>
-        </a-card>
-
-        <!-- 积分换购服务 -->
-        <a-card :bordered="false" class="service-card">
-          <template #title>
-            <div class="card-title">
-              <a-icon type="shopping" class="title-icon" />
-              积分换购
-            </div>
+          <template slot="description" slot-scope="text">
+            <span class="description-text">{{ text || '—' }}</span>
           </template>
 
-          <a-table
-            :columns="serviceColumns"
-            :data-source="config.valueAddedServices"
-            :pagination="false"
-            :row-key="(record) => record.id"
-            :loading="loading"
-          >
-            <template #serviceName="text">
-              <span class="service-name">{{ text }}</span>
-            </template>
-            <template #description="text">
-              <span class="description-text">{{ text || '-' }}</span>
-            </template>
-            <template #pointsAmount="text">
-              <span class="points-amount">{{ text }} 积分</span>
-            </template>
-            <template #enabled="enabled">
-              <a-switch :checked="enabled" disabled />
-            </template>
-          </a-table>
-        </a-card>
-      </div>
+          <template slot="pointsAmount" slot-scope="text">
+            <span class="points-amount">{{ Math.abs(text) }} 积分</span>
+          </template>
+
+          <template slot="enabled" slot-scope="enabled, record">
+            <a-tag :class="enabled ? 'tag-green' : 'tag-gray'">
+              {{ enabled ? '已启用' : '已停用' }}
+            </a-tag>
+          </template>
+
+          <template slot="action" slot-scope="text, record">
+            <div class="action-btns">
+              <a-button
+                size="small"
+                :type="record.enabled ? 'danger' : 'primary'"
+                @click="handleToggleService(record)"
+              >
+                {{ record.enabled ? '停用' : '启用' }}
+              </a-button>
+            </div>
+          </template>
+        </a-table>
+      </a-card>
+
+      <!-- 积分换购服务 -->
+      <a-card :bordered="false" class="service-card">
+        <div slot="title" class="card-header">
+          <span class="card-title">
+            <a-icon type="shopping" class="title-icon" />
+            积分换购
+          </span>
+        </div>
+
+        <a-table
+          :columns="serviceColumns"
+          :data-source="config.valueAddedServices"
+          :pagination="false"
+          :row-key="(record) => record.id"
+          :loading="loading"
+          class="custom-table"
+        >
+          <template slot="serviceName" slot-scope="text">
+            <span class="service-name">{{ text }}</span>
+          </template>
+
+          <template slot="description" slot-scope="text">
+            <span class="description-text">{{ text || '—' }}</span>
+          </template>
+
+          <template slot="pointsAmount" slot-scope="text">
+            <span class="points-amount">{{ text }} 积分</span>
+          </template>
+
+          <template slot="enabled" slot-scope="enabled, record">
+            <a-tag :class="enabled ? 'tag-green' : 'tag-gray'">
+              {{ enabled ? '已启用' : '已停用' }}
+            </a-tag>
+          </template>
+
+          <template slot="action" slot-scope="text, record">
+            <div class="action-btns">
+              <a-button
+                size="small"
+                :type="record.enabled ? 'danger' : 'primary'"
+                @click="handleToggleService(record)"
+              >
+                {{ record.enabled ? '停用' : '启用' }}
+              </a-button>
+            </div>
+          </template>
+        </a-table>
+      </a-card>
     </div>
   </sidebar>
 </template>
@@ -104,7 +133,6 @@ export default defineComponent({
           title: '服务说明',
           dataIndex: 'description',
           key: 'description',
-          width: 250,
           scopedSlots: { customRender: 'description' },
         },
         {
@@ -115,11 +143,18 @@ export default defineComponent({
           scopedSlots: { customRender: 'pointsAmount' },
         },
         {
-          title: '启用',
+          title: '状态',
           dataIndex: 'enabled',
           key: 'enabled',
-          width: 100,
+          width: 90,
           scopedSlots: { customRender: 'enabled' },
+        },
+        {
+          title: '操作',
+          key: 'action',
+          width: 100,
+          fixed: 'right',
+          scopedSlots: { customRender: 'action' },
         },
       ],
       serviceColumns: [
@@ -134,7 +169,6 @@ export default defineComponent({
           title: '服务说明',
           dataIndex: 'description',
           key: 'description',
-          width: 250,
           scopedSlots: { customRender: 'description' },
         },
         {
@@ -145,11 +179,18 @@ export default defineComponent({
           scopedSlots: { customRender: 'pointsAmount' },
         },
         {
-          title: '启用',
+          title: '状态',
           dataIndex: 'enabled',
           key: 'enabled',
-          width: 100,
+          width: 90,
           scopedSlots: { customRender: 'enabled' },
+        },
+        {
+          title: '操作',
+          key: 'action',
+          width: 100,
+          fixed: 'right',
+          scopedSlots: { customRender: 'action' },
         },
       ],
     }
@@ -169,6 +210,16 @@ export default defineComponent({
         this.loading = false
       }
     },
+    async handleToggleService(record) {
+      try {
+        // 这里应该调用API切换服务状态
+        // await togglePointsService(record.id)
+        this.$message.success(`已${record.enabled ? '停用' : '启用'}服务`)
+        this.loadConfig()
+      } catch (error) {
+        this.$message.error('操作失败')
+      }
+    },
   },
 })
 </script>
@@ -176,90 +227,129 @@ export default defineComponent({
 <style scoped lang="less">
 @import '@/styles/variables.less';
 
-.bg-secondary {
-  background-color: @bg-secondary;
+.points-service-page {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.page-title {
-  font-size: @font-size-2xl;
-  font-weight: @font-weight-bold;
-  color: @text-primary;
-}
-
+// 卡片样式
 .service-card {
   border-radius: @border-radius-lg;
   border: 1px solid @border-primary;
   box-shadow: @shadow-sm;
-  transition: @transition-base;
 
-  &:hover {
-    box-shadow: @shadow-md;
+  :deep(.ant-card-head) {
+    border-bottom: 1px solid @bg-tertiary;
+    padding: 16px 24px;
   }
+
+  :deep(.ant-card-body) {
+    padding: 0;
+  }
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .card-title {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: @font-size-base;
+  font-size: @font-size-lg;
   font-weight: @font-weight-semibold;
   color: @text-primary;
+
+  .title-icon {
+    color: @brand-primary;
+    font-size: 16px;
+  }
 }
 
-.title-icon {
-  color: @brand-primary;
+// 自定义表格样式
+.custom-table {
+  :deep(.ant-table-thead > tr > th) {
+    background: @bg-secondary;
+    border-bottom: 1px solid @border-primary;
+    color: @text-primary;
+    font-weight: @font-weight-semibold;
+    font-size: @font-size-base;
+    padding: 12px 16px;
+  }
+
+  :deep(.ant-table-tbody > tr) {
+    &:hover > td {
+      background: @bg-hover;
+    }
+
+    > td {
+      border-bottom: 1px solid @border-primary;
+      padding: 12px 16px;
+      color: @text-primary;
+    }
+  }
 }
 
+// 服务名称
 .service-name {
   font-weight: @font-weight-medium;
   color: @text-primary;
+  font-size: @font-size-base;
 }
 
+// 描述文字
 .description-text {
   font-size: @font-size-sm;
   color: @text-secondary;
 }
 
+// 积分数量
 .points-amount {
   font-weight: @font-weight-semibold;
   color: @text-primary;
-}
-
-::v-deep .ant-card {
-  border: 1px solid @border-primary;
-}
-
-::v-deep .ant-card-head {
-  border-bottom: 1px solid @border-primary;
-}
-
-::v-deep .ant-table {
   font-size: @font-size-base;
 }
 
-::v-deep .ant-table-thead > tr > th {
-  background-color: @bg-secondary;
-  color: @text-secondary;
-  font-weight: @font-weight-semibold;
-  border-bottom: 1px solid @border-primary;
-  padding: @spacing-base @spacing-md;
+// 标签样式
+.tag-green {
+  color: #15803d;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
 }
 
-::v-deep .ant-table-tbody > tr {
-  transition: @transition-base;
-
-  &:hover {
-    background-color: @bg-hover;
-  }
-
-  > td {
-    border-bottom: 1px solid @border-primary;
-    padding: @spacing-base @spacing-md;
-  }
+.tag-gray {
+  color: #64748b;
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
-::v-deep .ant-switch-disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+:deep(.ant-tag) {
+  margin: 0;
+  padding: 2px 8px;
+  font-size: @font-size-xs;
+  font-weight: @font-weight-medium;
+  line-height: 20px;
+  border-radius: @border-radius-sm;
+  border-width: 1px;
+}
+
+// 操作按钮
+.action-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+
+  .ant-btn-sm {
+    height: 28px;
+    padding: 0 12px;
+    font-size: @font-size-sm;
+  }
 }
 </style>
