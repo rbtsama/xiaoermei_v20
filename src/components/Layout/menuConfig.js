@@ -1,26 +1,5 @@
 export const menuConfig = [
   {
-    title: '设计架构',
-    key: 'architecture',
-    children: [
-      {
-        title: '产品架构',
-        key: 'product-architecture',
-        children: [
-          { title: '总图', path: '/architecture/product/overview', key: 'overview' }
-        ]
-      },
-      {
-        title: '设计规范',
-        key: 'design-system',
-        children: [
-          { title: '配色系统', path: '/architecture/design/color-system', key: 'color-system' },
-          { title: '配色系统2', path: '/architecture/design/color-system-2', key: 'color-system-2' }
-        ]
-      }
-    ]
-  },
-  {
     title: '平台后台',
     key: 'platform-admin',
     children: [

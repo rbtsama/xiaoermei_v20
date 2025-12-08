@@ -7,27 +7,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: '/architecture/product/overview'
-  },
-
-  // 设计架构模块
-  {
-    path: '/architecture/product/overview',
-    name: 'ProductOverview',
-    component: () => import('@/views/Architecture/ProductArchitecture/OverviewPage.vue'),
-    meta: { title: '产品架构总图' }
-  },
-  {
-    path: '/architecture/design/color-system',
-    name: 'ColorSystem',
-    component: () => import('@/views/Architecture/DesignSystem/ColorSystemPage.vue'),
-    meta: { title: '配色系统' }
-  },
-  {
-    path: '/architecture/design/color-system-2',
-    name: 'ColorSystem2',
-    component: () => import('@/views/Architecture/DesignSystem/ColorSystem2Page.vue'),
-    meta: { title: '配色系统2' }
+    redirect: '/platform-admin/coupon-management/list'
   },
 
   // 平台后台 - 订单管理
