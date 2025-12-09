@@ -18,6 +18,7 @@
           :data-source="tableData"
           :loading="isLoading"
           :pagination="pagination"
+          :scroll="{ x: 1200 }"
           @change="handleTableChange"
           rowKey="id"
           class="custom-table"

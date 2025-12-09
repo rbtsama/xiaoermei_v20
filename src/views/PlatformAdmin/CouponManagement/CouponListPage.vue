@@ -39,6 +39,7 @@
           :data-source="coupons"
           :pagination="paginationConfig"
           :loading="loading"
+          :scroll="{ x: 1300 }"
           row-key="id"
           class="custom-table"
           @change="handleTableChange"
