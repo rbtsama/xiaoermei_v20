@@ -230,7 +230,7 @@ export const mockUserMemberInfos: UserMemberInfo[] = [
     realName: null,
     gender: Gender.MALE,
     region: null,
-    phone: '13923455678',
+    phone: '18812345678',
     currentLevel: 3,
     currentLevelName: 'VIP3 (体验)',
     formalLevel: 2,
@@ -252,7 +252,7 @@ export const mockUserMemberInfos: UserMemberInfo[] = [
     realName: null,
     gender: null,
     region: null,
-    phone: '13634569012',
+    phone: '18134569012',
     currentLevel: 1,
     currentLevelName: 'VIP1',
     formalLevel: 1,
@@ -274,7 +274,7 @@ export const mockUserMemberInfos: UserMemberInfo[] = [
     realName: '王芳',
     gender: Gender.FEMALE,
     region: { province: '上海市', city: '上海市' },
-    phone: '13745670123',
+    phone: '18145670123',
     currentLevel: 2,
     currentLevelName: 'VIP2 (体验)',
     formalLevel: 0,
@@ -425,7 +425,7 @@ export const mockMemberQueryRecords: MemberQueryRecord[] = [
   // 会员3：注册，VIP3，间夜消费获得
   {
     id: 'member-3',
-    phone: '13923455678',
+    phone: '18812345678',
     accountStatus: 'registered',
     currentLevel: 3,
     formalLevel: 3,
@@ -440,7 +440,7 @@ export const mockMemberQueryRecords: MemberQueryRecord[] = [
   // 会员4：注册，VIP1，7天酒店商户导入
   {
     id: 'member-4',
-    phone: '13634569012',
+    phone: '18134569012',
     accountStatus: 'registered',
     currentLevel: 1,
     formalLevel: 1,
@@ -455,7 +455,7 @@ export const mockMemberQueryRecords: MemberQueryRecord[] = [
   // 会员5：注册，VIP2，有赠送VIP2
   {
     id: 'member-5',
-    phone: '13745670123',
+    phone: '18145670123',
     accountStatus: 'registered',
     currentLevel: 2,
     formalLevel: 0,
@@ -479,13 +479,13 @@ export const mockMemberQueryRecords: MemberQueryRecord[] = [
     relatedMerchant: '万达文华',
     giftLevel: 3,
     giftExpiryDate: '2025/12/25',
-    giftFrom: '13923455678',
+    giftFrom: '18812345678',
     updatedAt: '2025/12/02 10:20:00',
   },
   // 会员7：注册，VIP4，有赠送VIP2
   {
     id: 'member-7',
-    phone: '13967892345',
+    phone: '18867892345',
     accountStatus: 'registered',
     currentLevel: 4,
     formalLevel: 4,
@@ -494,13 +494,13 @@ export const mockMemberQueryRecords: MemberQueryRecord[] = [
     relatedMerchant: '瑞吉酒店',
     giftLevel: 2,
     giftExpiryDate: '2025/12/10',
-    giftFrom: '13634569012',
+    giftFrom: '18134569012',
     updatedAt: '2025/12/02 09:50:30',
   },
   // 会员8：注册，VIP5，有赠送VIP5
   {
     id: 'member-8',
-    phone: '13978903456',
+    phone: '18878903456',
     accountStatus: 'registered',
     currentLevel: 5,
     formalLevel: 3,
@@ -509,13 +509,13 @@ export const mockMemberQueryRecords: MemberQueryRecord[] = [
     relatedMerchant: '丽思卡尔顿',
     giftLevel: 5,
     giftExpiryDate: '2025/12/18',
-    giftFrom: '13745670123',
+    giftFrom: '18145670123',
     updatedAt: '2025/12/02 08:30:20',
   },
   // 会员9：注册，VIP6
   {
     id: 'member-9',
-    phone: '13989014567',
+    phone: '18889014567',
     accountStatus: 'registered',
     currentLevel: 6,
     formalLevel: 4,
@@ -530,7 +530,7 @@ export const mockMemberQueryRecords: MemberQueryRecord[] = [
   // 会员10：注册，VIP2，商户导入
   {
     id: 'member-10',
-    phone: '14200000001',
+    phone: '18800000011',
     accountStatus: 'registered',
     currentLevel: 2,
     formalLevel: 2,
