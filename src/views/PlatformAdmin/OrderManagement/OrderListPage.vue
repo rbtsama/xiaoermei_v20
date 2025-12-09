@@ -112,6 +112,7 @@
             :data-source="orders"
             :pagination="paginationConfig"
             :loading="loading"
+            :scroll="{ x: 1400 }"
             row-key="id"
             @change="handleTableChange"
           >
