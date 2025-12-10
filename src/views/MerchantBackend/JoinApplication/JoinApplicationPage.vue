@@ -167,8 +167,7 @@ export default defineComponent({
         name: '门店主页首图',
         required: true,
         spec: '比例2:3，竖构图，最多5张',
-        description: '展示竖构图的民宿照片（如门口、公区、特色角落）',
-        exampleImage: '/examples/视频封面.jpg'
+        description: '展示竖构图的民宿照片（如门口、公区、特色角落）'
       },
       {
         name: '旅游交通图',
@@ -193,7 +192,8 @@ export default defineComponent({
         name: '视频封面',
         required: false,
         spec: '比例16:9',
-        description: '视频播放前的封面图（选填）'
+        description: '视频播放前的封面图（选填）',
+        exampleImage: '/examples/视频封面.jpg'
       },
       {
         name: '最新情报图',
