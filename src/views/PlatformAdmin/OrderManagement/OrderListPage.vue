@@ -157,6 +157,14 @@
               </a-tag>
             </template>
 
+            <!-- 入住人信息 -->
+            <template slot="guestInfo" slot-scope="text, record">
+              <div class="text-sm">
+                <div class="text-primary">{{ record.guestName }}</div>
+                <div class="text-xs text-secondary">{{ record.guestPhone }}</div>
+              </div>
+            </template>
+
             <!-- 退款记录（状态标签+金额） -->
             <template slot="refundRecord" slot-scope="text, record">
               <div v-if="record.refundRecords && record.refundRecords.length > 0">
@@ -241,6 +249,7 @@ export default defineComponent({
     const columns = [
       { title: '订单号', dataIndex: 'orderNumber', width: 140, scopedSlots: { customRender: 'orderNumber' } },
       { title: '状态', dataIndex: 'status', width: 100, scopedSlots: { customRender: 'status' } },
+      { title: '入住人', width: 140, scopedSlots: { customRender: 'guestInfo' } },
       { title: '下单时间', dataIndex: 'createdAt', width: 160, scopedSlots: { customRender: 'createdAt' } },
       { title: '入住日期', width: 160, scopedSlots: { customRender: 'checkInDates' } },
       { title: '酒店', dataIndex: 'hotelName', width: 140, scopedSlots: { customRender: 'hotelName' } },
