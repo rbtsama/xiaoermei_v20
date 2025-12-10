@@ -39,7 +39,7 @@
                   <a-menu-item
                     v-for="leaf in child.children"
                     :key="leaf.key"
-                    @click.native.stop="handleMenuClick(leaf.path, leaf.key)"
+                    @click="handleMenuClick(leaf.path, leaf.key)"
                   >
                     {{ leaf.title }}
                   </a-menu-item>
@@ -47,7 +47,7 @@
                 <a-menu-item
                   v-else
                   :key="child.key"
-                  @click.native.stop="handleMenuClick(child.path, child.key)"
+                  @click="handleMenuClick(child.path, child.key)"
                 >
                   {{ child.title }}
                 </a-menu-item>
