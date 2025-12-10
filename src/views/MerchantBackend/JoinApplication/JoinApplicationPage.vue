@@ -66,13 +66,15 @@
           </a-table>
         </a-card>
 
-        <div class="action-bar">
-          <a-button size="large" @click="handleLater" class="action-btn">
-            稍后再填
-          </a-button>
-          <a-button type="primary" size="large" @click="handleStart" class="action-btn">
-            我已准备好，开始填写
-          </a-button>
+        <!-- 底部吸底按钮栏 -->
+        <div class="checklist-footer">
+          <div class="footer-content">
+            <div style="flex: 1"></div>
+            <a-button type="primary" size="large" @click="handleStart">
+              开始录入门店信息
+              <a-icon type="right" />
+            </a-button>
+          </div>
         </div>
       </div>
 
@@ -262,15 +264,9 @@ export default defineComponent({
       }
     ]
 
-    // 稍后再填
-    const handleLater = () => {
-      root.$router.push('/')
-    }
-
     // 开始填写
     const handleStart = () => {
       showChecklist.value = false
-      // TODO: 跳转到主表单页面
     }
 
     return {
@@ -282,7 +278,6 @@ export default defineComponent({
       infoColumns,
       infoRequirements,
       handlePreviewExample,
-      handleLater,
       handleStart
     }
   }
@@ -298,7 +293,7 @@ export default defineComponent({
 }
 
 .checklist-container {
-  padding: 20px;
+  padding: 20px 20px 100px;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -386,18 +381,28 @@ export default defineComponent({
   }
 }
 
-.action-bar {
+.checklist-footer {
+  position: fixed;
+  bottom: 0;
+  left: 256px;
+  right: 0;
+  height: 72px;
+  background: @bg-primary;
+  border-top: 1px solid @border-primary;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 98;
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 16px;
-}
 
-.action-btn {
-  height: 44px;
-  padding: 0 48px;
-  font-size: @font-size-base;
-  font-weight: @font-weight-medium;
-  border-radius: @border-radius-base;
+  .footer-content {
+    max-width: 1400px;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 }
 
 .form-container {
