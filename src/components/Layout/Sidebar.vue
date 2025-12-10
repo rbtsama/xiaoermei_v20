@@ -88,6 +88,7 @@ export default defineComponent({
     const selectedKeys = ref([])
     const openKeys = ref([])
     const isNavigating = ref(false) // 添加标志位，防止导航时触发 openKeys 更新
+    const savedOpenKeys = ref([]) // 保存导航前的 openKeys 状态
 
     // 获取所有一级和二级菜单的keys（默认全部展开）
     const getAllMenuKeys = () => {
@@ -174,9 +175,11 @@ export default defineComponent({
     watch(() => root.$route.path, (newPath) => {
       // 如果是主动导航，不更新 openKeys，只更新 selectedKeys
       updateSelectedKeys(newPath, !isNavigating.value)
-      // 重置导航标志
+      // 延迟重置导航标志，确保 onOpenChange 事件已经处理完成
       if (isNavigating.value) {
-        isNavigating.value = false
+        setTimeout(() => {
+          isNavigating.value = false
+        }, 100)
       }
     }, { immediate: false })
 
@@ -187,6 +190,12 @@ export default defineComponent({
 
     // 菜单展开/收起事件
     const onOpenChange = (keys) => {
+      // 如果正在导航，恢复到保存的 openKeys（防止点击菜单时的收起/展开抖动）
+      if (isNavigating.value) {
+        // 强制恢复到导航前的状态
+        openKeys.value = [...savedOpenKeys.value]
+        return
+      }
       openKeys.value = keys
       localStorage.setItem(STORAGE_KEYS.OPEN_KEYS, JSON.stringify(keys))
     }
@@ -199,6 +208,9 @@ export default defineComponent({
     // 菜单点击事件
     const handleMenuClick = (path, key) => {
       if (!path) return
+
+      // 保存当前的 openKeys 状态
+      savedOpenKeys.value = [...openKeys.value]
 
       // 设置导航标志，防止路由变化时更新 openKeys
       isNavigating.value = true

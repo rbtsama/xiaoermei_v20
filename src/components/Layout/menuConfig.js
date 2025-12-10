@@ -40,10 +40,10 @@ export const menuConfig = [
     key: 'merchant-backend',
     children: [
       {
-        title: '入驻平台',
+        title: '门店入驻',
         key: 'join-application',
         children: [
-          { title: '入驻申请', path: '/merchant-backend/join-application/apply', key: 'apply' }
+          { title: '门店部署', path: '/merchant-backend/join-application/apply', key: 'store-deployment' }
         ]
       },
       {
@@ -59,13 +59,7 @@ export const menuConfig = [
           { title: '门店图片', path: '/merchant-backend/store-info/images', key: 'images' }
         ]
       },
-      {
-        title: '订单管理',
-        key: 'hotel-order-management',
-        children: [
-          { title: '订单列表', path: '/hotel-backend/order-list', key: 'hotel-order-list' }
-        ]
-      },
+      { title: '订单列表', path: '/hotel-backend/order-list', key: 'hotel-order-list' },
       {
         title: '会员服务',
         key: 'member-service',

@@ -1,342 +1,73 @@
 <template>
   <sidebar>
-    <div class="join-application-page">
-      <!-- 页面标题 -->
-      <div class="page-header">
-        <h1 class="page-title">入驻申请</h1>
-        <p class="page-desc">请填写真实信息，我们将在3个工作日内完成审核</p>
-      </div>
+    <div class="store-deployment-page">
+      <!-- 准备清单页面 -->
+      <div v-if="showChecklist" class="checklist-container">
+        <div class="page-header">
+          <h1 class="page-title">门店部署申请</h1>
+          <p class="page-desc">在开始填写之前，请先准备以下材料，以便快速完成申请</p>
+        </div>
 
-      <form @submit.prevent="handleSubmit" class="application-form">
-        <!-- 账号设置 - 主账号 -->
-        <a-card class="form-card" :bordered="false">
+        <a-card :bordered="false" class="checklist-card">
           <template slot="title">
-            <span class="card-title">主账号</span>
+            <span class="card-title">📷 需要准备的图片/视频</span>
           </template>
-          <div class="form-section">
-            <a-row :gutter="16">
-              <a-col :span="12">
-                <div class="form-item">
-                  <label class="form-label">
-                    手机号 <span class="required">*</span>
-                  </label>
-                  <a-input
-                    v-model="formData.adminPhone"
-                    type="tel"
-                    placeholder="请输入手机号"
-                    class="form-input"
-                  />
-                </div>
-              </a-col>
-              <a-col :span="12">
-                <div class="form-item">
-                  <label class="form-label">
-                    姓名 <span class="required">*</span>
-                  </label>
-                  <a-input
-                    v-model="formData.adminName"
-                    placeholder="请输入姓名"
-                    class="form-input"
-                  />
-                </div>
-              </a-col>
-            </a-row>
-          </div>
-        </a-card>
 
-        <!-- 账号设置 - 运营人员 -->
-        <a-card class="form-card" :bordered="false">
-          <template slot="title">
-            <span class="card-title">运营人员</span>
-          </template>
-          <div class="form-section">
-            <div class="form-item">
-              <label class="form-label">是否有专业OTA运营人员</label>
-              <div class="choice-group">
-                <button
-                  type="button"
-                  @click="formData.hasOTASpecialist = false"
-                  :class="['choice-btn', { active: formData.hasOTASpecialist === false }]"
-                >
-                  无
-                </button>
-                <button
-                  type="button"
-                  @click="formData.hasOTASpecialist = true"
-                  :class="['choice-btn', { active: formData.hasOTASpecialist === true }]"
-                >
-                  有专业运营人员
-                </button>
-              </div>
-            </div>
-
-            <transition name="slide-fade">
-              <a-row v-if="formData.hasOTASpecialist" :gutter="16" class="expand-section">
-                <a-col :span="12">
-                  <div class="form-item">
-                    <label class="form-label">
-                      运营人员姓名 <span class="required">*</span>
-                    </label>
-                    <a-input
-                      v-model="formData.otaContactName"
-                      placeholder="请输入运营人员姓名"
-                      class="form-input"
-                    />
-                  </div>
-                </a-col>
-                <a-col :span="12">
-                  <div class="form-item">
-                    <label class="form-label">
-                      运营人员手机号 <span class="required">*</span>
-                    </label>
-                    <a-input
-                      v-model="formData.otaContactPhone"
-                      type="tel"
-                      placeholder="请输入手机号"
-                      class="form-input"
-                    />
-                  </div>
-                </a-col>
-              </a-row>
-            </transition>
-          </div>
-        </a-card>
-
-        <!-- 门店基本信息 -->
-        <a-card class="form-card" :bordered="false">
-          <template slot="title">
-            <span class="card-title">门店基本信息</span>
-          </template>
-          <div class="form-section">
-            <a-row :gutter="16">
-              <a-col :span="14">
-                <div class="form-item">
-                  <label class="form-label">
-                    门店名称 <span class="required">*</span>
-                  </label>
-                  <a-input
-                    v-model="formData.storeName"
-                    placeholder="请输入门店名称"
-                    class="form-input"
-                  />
-                </div>
-              </a-col>
-              <a-col :span="10">
-                <div class="form-item">
-                  <label class="form-label">
-                    店铺类型 <span class="required">*</span>
-                  </label>
-                  <div class="tag-group">
-                    <button
-                      v-for="(label, value) in storeTypeLabels"
-                      :key="value"
-                      type="button"
-                      @click="formData.storeType = value"
-                      :class="['tag-btn', { active: formData.storeType === value }]"
-                    >
-                      {{ label }}
-                    </button>
-                  </div>
-                </div>
-              </a-col>
-            </a-row>
-
-            <div class="form-item">
-              <label class="form-label">
-                详细地址 <span class="required">*</span>
-              </label>
-              <a-input
-                v-model="formData.storeAddress"
-                placeholder="请输入详细地址（省/市/区/街道/门牌号）"
-                class="form-input"
-              />
-            </div>
-
-            <div class="form-item">
-              <label class="form-label">
-                门店介绍 <span class="required">*</span>
-              </label>
-              <a-textarea
-                v-model="formData.storeDescription"
-                placeholder="请介绍您的门店特色、位置优势、周边环境等（至少50字）"
-                :rows="4"
-                :maxLength="1000"
-                class="form-textarea"
-              />
-              <div class="char-count">
-                {{ (formData.storeDescription || '').length }}/1000
-              </div>
-            </div>
-          </div>
-        </a-card>
-
-        <!-- 平台运营情况 -->
-        <a-card class="form-card" :bordered="false">
-          <template slot="title">
-            <span class="card-title">平台运营情况</span>
-          </template>
-          <div class="form-section">
-            <!-- 已上线的平台 -->
-            <div class="form-item">
-              <label class="form-label">已上线的平台</label>
-              <div class="checkbox-grid">
-                <label
-                  v-for="(label, value) in otaPlatformLabels"
-                  :key="value"
-                  class="checkbox-item"
-                >
-                  <a-checkbox
-                    :checked="formData.onlinePlatforms.includes(value)"
-                    @change="togglePlatform('onlinePlatforms', value)"
-                  />
-                  <span>{{ label }}</span>
-                </label>
-              </div>
-            </div>
-
-            <!-- 携程星否特惠 -->
-            <div class="form-item">
-              <label class="checkbox-item checkbox-single">
-                <a-checkbox v-model="formData.hasCtripSpecialOffer" />
-                <span>携程星否特惠</span>
-              </label>
-            </div>
-
-            <!-- 希望代运营的平台 -->
-            <div class="form-item">
-              <label class="form-label">希望代运营的平台</label>
-              <div class="checkbox-grid">
-                <label
-                  v-for="(label, value) in otaPlatformLabels"
-                  :key="value"
-                  class="checkbox-item"
-                >
-                  <a-checkbox
-                    :checked="formData.interestedPlatforms.includes(value)"
-                    @change="togglePlatform('interestedPlatforms', value)"
-                  />
-                  <span>{{ label }}</span>
-                </label>
-              </div>
-            </div>
-
-            <!-- OTA困境 -->
-            <div class="form-item">
-              <label class="form-label">目前遇到的困境（可多选）</label>
-              <div class="checkbox-grid">
-                <label
-                  v-for="(label, value) in otaChallengeLabels"
-                  :key="value"
-                  class="checkbox-item"
-                >
-                  <a-checkbox
-                    :checked="formData.otaChallenges.includes(value)"
-                    @change="toggleChallenge(value)"
-                  />
-                  <span>{{ label }}</span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </a-card>
-
-        <!-- 房型图片上传 -->
-        <a-card class="form-card" :bordered="false">
-          <template slot="title">
-            <div class="card-title-bar">
-              <span class="card-title">房型图片</span>
-              <a-button
-                type="dashed"
-                size="small"
-                @click="addRoomType"
-                class="add-btn"
-              >
-                <a-icon type="plus" />
-                添加房型
-              </a-button>
-            </div>
-          </template>
-          <div class="form-section">
-            <div
-              v-for="(roomType, index) in roomTypes"
-              :key="index"
-              class="room-type-item"
-            >
-              <div class="room-type-header">
-                <span class="room-type-label">房型 {{ index + 1 }}</span>
-                <a-input
-                  v-model="roomType.roomTypeName"
-                  placeholder="例如：单人间 / 双人大床房 / 家庭套房"
-                  class="room-type-input"
-                />
-                <a-button
-                  v-if="roomTypes.length > 1"
-                  type="link"
-                  size="small"
-                  danger
-                  @click="removeRoomType(index)"
-                  class="remove-btn"
-                >
-                  <a-icon type="delete" />
-                </a-button>
-              </div>
-
-              <!-- 图片上传区域 -->
-              <div
-                @dragover.prevent="dragIndex = index"
-                @dragleave="dragIndex = null"
-                @drop.prevent="handleDrop($event, index)"
-                :class="['upload-area', { dragging: dragIndex === index }]"
-              >
-                <a-icon type="cloud-upload" class="upload-icon" />
-                <p class="upload-text">拖拽图片到此处，或点击上传</p>
-                <p class="upload-hint">支持 JPG、PNG 格式，建议尺寸 1200x800</p>
-                <a-button type="primary" size="small" class="upload-btn" ghost>
-                  选择图片
-                </a-button>
-              </div>
-
-              <!-- 图片预览 -->
-              <div v-if="roomType.images.length > 0" class="image-preview-grid">
-                <div
-                  v-for="(img, imgIndex) in roomType.images"
-                  :key="imgIndex"
-                  class="image-preview-item"
-                >
-                  <img
-                    :src="img"
-                    :alt="`房型${index + 1}-图片${imgIndex + 1}`"
-                    class="preview-image"
-                  />
-                  <button
-                    type="button"
-                    @click="removeImage(index, imgIndex)"
-                    class="remove-image-btn"
-                  >
-                    <a-icon type="close" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </a-card>
-
-        <!-- 提交按钮 -->
-        <div class="submit-bar">
-          <a-button class="submit-btn" size="large">
-            保存草稿
-          </a-button>
-          <a-button
-            type="primary"
-            :loading="isSubmitting"
-            html-type="submit"
-            size="large"
-            class="submit-btn"
+          <a-table
+            :columns="imageColumns"
+            :data-source="imageRequirements"
+            :pagination="false"
+            rowKey="name"
+            class="checklist-table"
           >
-            {{ isSubmitting ? '提交中...' : '提交申请' }}
+            <template slot="required" slot-scope="required">
+              <a-tag :color="required ? 'red' : 'blue'">
+                {{ required ? '必填 ★' : '选填' }}
+              </a-tag>
+            </template>
+          </a-table>
+        </a-card>
+
+        <a-card :bordered="false" class="checklist-card">
+          <template slot="title">
+            <span class="card-title">📝 需要准备的信息</span>
+          </template>
+
+          <a-table
+            :columns="infoColumns"
+            :data-source="infoRequirements"
+            :pagination="false"
+            rowKey="name"
+            class="checklist-table"
+          >
+            <template slot="required" slot-scope="required">
+              <a-tag :color="required ? 'red' : 'blue'">
+                {{ required ? '必填 ★' : '选填' }}
+              </a-tag>
+            </template>
+          </a-table>
+        </a-card>
+
+        <a-alert
+          message="温馨提示"
+          description="表单会自动保存，您可以随时退出，稍后继续填写。建议您先准备好所有材料，以便一次性完成填写。"
+          type="info"
+          show-icon
+          class="tip-alert"
+        />
+
+        <div class="action-bar">
+          <a-button size="large" @click="handleLater" class="action-btn">
+            稍后再填
+          </a-button>
+          <a-button type="primary" size="large" @click="handleStart" class="action-btn">
+            我已准备好，开始填写
           </a-button>
         </div>
-      </form>
+      </div>
+
+      <!-- 主表单页面 -->
+      <store-deployment-form v-else />
     </div>
   </sidebar>
 </template>
@@ -344,140 +75,184 @@
 <script>
 import { defineComponent, ref } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
-import JoinApplicationService from './services/joinApplication.service'
-import {
-  StoreTypeLabels,
-  OTAPlatformLabels,
-  OTAChallengeLabels,
-} from './types/joinApplication.types'
+import StoreDeploymentForm from './StoreDeploymentForm.vue'
 
 export default defineComponent({
-  name: 'JoinApplicationPage',
+  name: 'StoreDeploymentPage',
   components: {
-    Sidebar
+    Sidebar,
+    StoreDeploymentForm
   },
   setup(props, { root }) {
-    // 表单数据
-    const formData = ref({
-      adminPhone: '',
-      adminName: '',
-      storeName: '',
-      storeType: undefined,
-      bookingPlatform: '',
-      storeAddress: '',
-      storeDescription: '',
-      hasOTASpecialist: false,
-      otaContactName: '',
-      otaContactPhone: '',
-      onlinePlatforms: [],
-      hasCtripSpecialOffer: false,
-      interestedPlatforms: [],
-      otaChallenges: [],
-      roomTypeImages: [],
-    })
+    const showChecklist = ref(true)
 
-    // 房型图片管理
-    const roomTypes = ref([
-      { roomTypeName: '', images: [] }
-    ])
-
-    // 图片拖拽状态
-    const dragIndex = ref(null)
-
-    // 提交状态
-    const isSubmitting = ref(false)
-
-    // 添加房型
-    const addRoomType = () => {
-      roomTypes.value.push({ roomTypeName: '', images: [] })
-    }
-
-    // 移除房型
-    const removeRoomType = (index) => {
-      if (roomTypes.value.length > 1) {
-        roomTypes.value = roomTypes.value.filter((_, i) => i !== index)
+    // 图片/视频清单列
+    const imageColumns = [
+      {
+        title: '素材名称',
+        dataIndex: 'name',
+        width: 150
+      },
+      {
+        title: '是否必填',
+        dataIndex: 'required',
+        width: 100,
+        scopedSlots: { customRender: 'required' }
+      },
+      {
+        title: '规格要求',
+        dataIndex: 'spec',
+        width: 250
+      },
+      {
+        title: '说明',
+        dataIndex: 'description'
       }
-    }
+    ]
 
-    // 处理图片拖拽上传
-    const handleDrop = (event, index) => {
-      dragIndex.value = null
-      const files = Array.from(event.dataTransfer.files).filter(file =>
-        file.type.startsWith('image/')
-      )
-
-      if (files.length > 0) {
-        const newImages = files.map(file => URL.createObjectURL(file))
-        roomTypes.value[index].images = [...roomTypes.value[index].images, ...newImages]
+    // 图片/视频清单数据
+    const imageRequirements = [
+      {
+        name: '门店logo',
+        required: true,
+        spec: '比例1:1，建议尺寸500×500px以上',
+        description: '展示一个典型的民宿logo，方形构图'
+      },
+      {
+        name: '列表页封面',
+        required: true,
+        spec: '比例4:3，宽度大于1000px',
+        description: '展示一张横构图的民宿外观照片'
+      },
+      {
+        name: '门店主页首图',
+        required: true,
+        spec: '比例2:3，竖构图，最多5张',
+        description: '展示竖构图的民宿照片（如门口、公区、特色角落）'
+      },
+      {
+        name: '旅游交通图',
+        required: true,
+        spec: '不限比例，清晰可见',
+        description: '标注了门店位置、周边景点、交通站点的地图'
+      },
+      {
+        name: '房型图片',
+        required: true,
+        spec: '比例3:2，每个房型最多10张',
+        description: '展示房间内景照片（床、卫浴、窗景等角度）'
+      },
+      {
+        name: '门店视频',
+        required: false,
+        spec: '比例16:9，大小<100MB，格式mp4/mov/avi',
+        description: '门店介绍视频（选填）'
+      },
+      {
+        name: '视频封面',
+        required: false,
+        spec: '比例16:9',
+        description: '视频播放前的封面图（选填）'
+      },
+      {
+        name: '最新情报图',
+        required: false,
+        spec: '竖版长图，宽度建议750px',
+        description: '展示一张排版好的活动海报或介绍长图（选填）'
       }
-    }
+    ]
 
-    // 移除图片
-    const removeImage = (roomIndex, imageIndex) => {
-      roomTypes.value[roomIndex].images = roomTypes.value[roomIndex].images.filter(
-        (_, i) => i !== imageIndex
-      )
-    }
-
-    // 切换平台选择
-    const togglePlatform = (field, platform) => {
-      const current = formData.value[field] || []
-      if (current.includes(platform)) {
-        formData.value[field] = current.filter(p => p !== platform)
-      } else {
-        formData.value[field] = [...current, platform]
+    // 信息清单列
+    const infoColumns = [
+      {
+        title: '信息类别',
+        dataIndex: 'name',
+        width: 200
+      },
+      {
+        title: '是否必填',
+        dataIndex: 'required',
+        width: 100,
+        scopedSlots: { customRender: 'required' }
+      },
+      {
+        title: '说明',
+        dataIndex: 'description'
       }
+    ]
+
+    // 信息清单数据
+    const infoRequirements = [
+      {
+        name: '主账号手机号',
+        required: true,
+        description: '用于登录系统的手机号'
+      },
+      {
+        name: '门店介绍文案',
+        required: true,
+        description: '200-1000字，可从公众号、美团等平台复制'
+      },
+      {
+        name: '门店设施清单',
+        required: true,
+        description: '勾选门店提供的所有设施和服务'
+      },
+      {
+        name: '周边交通、景点、餐饮信息',
+        required: true,
+        description: '需要填写具体地点名称、距离、驾车时间'
+      },
+      {
+        name: '运营政策',
+        required: true,
+        description: '入住时间、退房时间、取消政策等'
+      },
+      {
+        name: 'PMS系统信息',
+        required: false,
+        description: '如使用"订单来了"等系统，需准备门店编号'
+      },
+      {
+        name: '所有房型详细参数',
+        required: true,
+        description: '每个房型的面积、床型、设施等信息'
+      }
+    ]
+
+    // 稍后再填
+    const handleLater = () => {
+      root.$router.push('/')
     }
 
-    // 切换困境选择
-    const toggleChallenge = (challenge) => {
-      const current = formData.value.otaChallenges || []
-      if (current.includes(challenge)) {
-        formData.value.otaChallenges = current.filter(c => c !== challenge)
-      } else {
-        formData.value.otaChallenges = [...current, challenge]
-      }
-    }
-
-    // 提交表单
-    const handleSubmit = async () => {
-      try {
-        isSubmitting.value = true
-        const submitData = {
-          ...formData.value,
-          roomTypeImages: roomTypes.value,
-        }
-        await JoinApplicationService.submitApplication(submitData)
-        root.$message.success('入驻申请已提交！')
-      } catch (error) {
-        root.$message.error('提交失败，请重试')
-      } finally {
-        isSubmitting.value = false
-      }
+    // 开始填写
+    const handleStart = () => {
+      showChecklist.value = false
+      // TODO: 跳转到主表单页面
     }
 
     return {
-      formData,
-      roomTypes,
-      dragIndex,
-      isSubmitting,
-      storeTypeLabels: StoreTypeLabels,
-      otaPlatformLabels: OTAPlatformLabels,
-      otaChallengeLabels: OTAChallengeLabels,
-      addRoomType,
-      removeRoomType,
-      handleDrop,
-      removeImage,
-      togglePlatform,
-      toggleChallenge,
-      handleSubmit,
+      showChecklist,
+      imageColumns,
+      imageRequirements,
+      infoColumns,
+      infoRequirements,
+      handleLater,
+      handleStart
     }
   }
 })
 </script>
 
 <style scoped lang="less">
-.join-application-page {
+@import '@/styles/variables.less';
+
+.store-deployment-page {
+  min-height: 100vh;
+  background: @bg-tertiary;
+}
+
+.checklist-container {
   padding: 24px;
   max-width: 1400px;
   margin: 0 auto;
@@ -485,36 +260,31 @@ export default defineComponent({
 
 .page-header {
   margin-bottom: 32px;
+  text-align: center;
 
   .page-title {
-    font-size: 24px;
-    font-weight: 600;
-    color: rgba(0, 0, 0, 0.9);
-    margin: 0 0 8px 0;
+    font-size: @font-size-2xl;
+    font-weight: @font-weight-semibold;
+    color: @text-primary;
+    margin: 0 0 12px 0;
   }
 
   .page-desc {
-    font-size: 14px;
-    color: #666666;
+    font-size: @font-size-base;
+    color: @text-secondary;
     margin: 0;
   }
 }
 
-.application-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-// 卡片样式
-.form-card {
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+.checklist-card {
+  margin-bottom: 24px;
+  border-radius: @border-radius-lg;
+  border: 1px solid @border-primary;
+  box-shadow: @shadow-sm;
 
   :deep(.ant-card-head) {
+    border-bottom: 1px solid @border-primary;
     padding: 16px 24px;
-    border-bottom: 1px solid #f1f5f9;
   }
 
   :deep(.ant-card-body) {
@@ -523,378 +293,72 @@ export default defineComponent({
 }
 
 .card-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.9);
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
 }
 
-.card-title-bar {
+.checklist-table {
+  :deep(.ant-table) {
+    border: 1px solid @border-primary;
+    border-radius: @border-radius-base;
+  }
+
+  :deep(.ant-table-thead > tr > th) {
+    background: @bg-secondary;
+    border-bottom: 1px solid @border-primary;
+    color: @text-primary;
+    font-weight: @font-weight-semibold;
+    font-size: @font-size-base;
+    padding: 12px 16px;
+  }
+
+  :deep(.ant-table-tbody > tr > td) {
+    border-bottom: 1px solid @border-primary;
+    padding: 12px 16px;
+    color: @text-primary;
+    font-size: @font-size-sm;
+  }
+
+  :deep(.ant-table-tbody > tr:last-child > td) {
+    border-bottom: none;
+  }
+}
+
+.tip-alert {
+  margin-bottom: 32px;
+  border-radius: @border-radius-base;
+
+  :deep(.ant-alert-message) {
+    font-size: @font-size-base;
+    font-weight: @font-weight-medium;
+    color: @text-primary;
+  }
+
+  :deep(.ant-alert-description) {
+    font-size: @font-size-sm;
+    color: @text-secondary;
+    line-height: 1.6;
+  }
+}
+
+.action-bar {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.add-btn {
-  height: 28px;
-  padding: 0 12px;
-  font-size: 13px;
-  color: #3b82f6;
-  border-color: #3b82f6;
-
-  &:hover {
-    color: #2563eb;
-    border-color: #2563eb;
-  }
-}
-
-// 表单区域
-.form-section {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.form-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.form-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 0.9);
-
-  .required {
-    color: #ef4444;
-    margin-left: 2px;
-  }
-}
-
-// 输入框样式
-.form-input {
-  height: 36px;
-
-  :deep(.ant-input) {
-    height: 36px;
-    border-radius: 6px;
-    border-color: #cbd5e1;
-    font-size: 14px;
-
-    &:hover {
-      border-color: #94a3b8;
-    }
-
-    &:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-    }
-
-    &::placeholder {
-      color: #b1b1b1;
-    }
-  }
-}
-
-.form-textarea {
-  :deep(.ant-input) {
-    border-radius: 6px;
-    border-color: #cbd5e1;
-    font-size: 14px;
-
-    &:hover {
-      border-color: #94a3b8;
-    }
-
-    &:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-    }
-
-    &::placeholder {
-      color: #b1b1b1;
-    }
-  }
-}
-
-.char-count {
-  text-align: right;
-  font-size: 12px;
-  color: #b1b1b1;
-  margin-top: -4px;
-}
-
-// 选择按钮组
-.choice-group {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-.choice-btn {
-  height: 40px;
-  padding: 0 20px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  background: #ffffff;
-  color: rgba(0, 0, 0, 0.9);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: #3b82f6;
-    background: #f0f7ff;
-  }
-
-  &.active {
-    border-color: #3b82f6;
-    background: #3b82f6;
-    color: #ffffff;
-  }
-}
-
-// 标签按钮组
-.tag-group {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.tag-btn {
-  height: 32px;
-  padding: 0 16px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  background: #ffffff;
-  color: rgba(0, 0, 0, 0.9);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: #3b82f6;
-    background: #f0f7ff;
-  }
-
-  &.active {
-    border-color: #3b82f6;
-    background: #3b82f6;
-    color: #ffffff;
-  }
-}
-
-// 复选框网格
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-.checkbox-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  background: #ffffff;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: #3b82f6;
-    background: #f0f7ff;
-  }
-
-  span {
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.9);
-    user-select: none;
-  }
-}
-
-.checkbox-single {
-  width: fit-content;
-  min-width: 200px;
-}
-
-// 展开动画
-.expand-section {
-  margin-top: 16px;
-}
-
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all 0.3s ease;
-}
-
-.slide-fade-enter,
-.slide-fade-leave-to {
-  transform: translateY(-10px);
-  opacity: 0;
-}
-
-// 房型图片
-.room-type-item {
-  padding: 20px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #fafafa;
-
-  & + & {
-    margin-top: 16px;
-  }
-}
-
-.room-type-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.room-type-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #666666;
-  white-space: nowrap;
-}
-
-.room-type-input {
-  flex: 1;
-
-  :deep(.ant-input) {
-    height: 32px;
-    border-radius: 6px;
-    border-color: #cbd5e1;
-    background: #ffffff;
-    font-size: 14px;
-
-    &::placeholder {
-      color: #b1b1b1;
-    }
-  }
-}
-
-.remove-btn {
-  padding: 0 8px;
-  color: #ef4444;
-
-  &:hover {
-    color: #dc2626;
-  }
-}
-
-// 上传区域
-.upload-area {
-  padding: 40px 20px;
-  border: 2px dashed #cbd5e1;
-  border-radius: 8px;
-  text-align: center;
-  background: #ffffff;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: #3b82f6;
-    background: #f0f7ff;
-  }
-
-  &.dragging {
-    border-color: #3b82f6;
-    background: #dbeafe;
-  }
-}
-
-.upload-icon {
-  font-size: 48px;
-  color: #cbd5e1;
-  margin-bottom: 12px;
-}
-
-.upload-text {
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.9);
-  margin: 0 0 4px 0;
-}
-
-.upload-hint {
-  font-size: 12px;
-  color: #b1b1b1;
-  margin: 0 0 16px 0;
-}
-
-.upload-btn {
-  height: 32px;
-  padding: 0 24px;
-  font-size: 13px;
-}
-
-// 图片预览
-.image-preview-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.image-preview-item {
-  position: relative;
-  aspect-ratio: 1;
-  border-radius: 6px;
-  overflow: hidden;
-  background: #f1f5f9;
-
-  &:hover .remove-image-btn {
-    opacity: 1;
-  }
-}
-
-.preview-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.remove-image-btn {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 24px;
-  height: 24px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(239, 68, 68, 0.9);
-  color: #ffffff;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s;
-  display: flex;
-  align-items: center;
   justify-content: center;
-
-  &:hover {
-    background: #ef4444;
-  }
+  gap: 16px;
 }
 
-// 提交按钮栏
-.submit-bar {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  padding-top: 8px;
+.action-btn {
+  height: 44px;
+  padding: 0 48px;
+  font-size: @font-size-base;
+  font-weight: @font-weight-medium;
+  border-radius: @border-radius-base;
 }
 
-.submit-btn {
-  height: 40px;
-  padding: 0 32px;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 6px;
+.form-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 </style>
