@@ -253,6 +253,101 @@ export interface RoomType {
 }
 
 /**
+ * 主体类型
+ */
+export enum EntityType {
+  COMPANY = 'company',           // 有限责任公司
+  INDIVIDUAL = 'individual'      // 个体工商户
+}
+
+/**
+ * 营业执照有效期类型
+ */
+export enum LicenseValidityType {
+  DATE = 'date',                 // 日期选择
+  PERMANENT = 'permanent'        // 永久有效
+}
+
+/**
+ * 支付结算信息 - 有限责任公司
+ */
+export interface CompanyPaymentInfo {
+  registerAccount: string        // 注册账号（手机号或邮箱）
+  companyName: string           // 营业执照上的公司名称
+  creditCode: string            // 统一社会信用代码
+  licenseValidityType: LicenseValidityType  // 营业执照有效期类型
+  licenseValidityDate?: string  // 营业执照有效期（日期）
+  legalPersonName: string       // 法人姓名
+  legalPersonIdCard: string     // 法人身份证号
+  legalPersonAddress: string    // 法人居住地址
+  legalPersonIdValidityType: LicenseValidityType  // 身份证有效期类型
+  legalPersonIdValidityDate?: string  // 身份证有效期
+  storeRegion: string           // 门店所在地区
+  storeDetailAddress: string    // 门店详细地址
+  accountName: string           // 账户名称
+  bankAccountNumber: string     // 对公账户银行账号
+  openingBank: string           // 开户银行
+  openingLocation: string       // 开户地
+  openingBankFullName: string   // 开户银行全称
+  openingProof: string          // 开户证明（图片URL）
+  merchantName: string          // 商户名称
+  merchantShortName: string     // 账户简称
+  contactName: string           // 联系人姓名
+  contactIdCard: string         // 联系人身份证号码
+  contactPhone: string          // 联系人手机号码
+  contactEmail: string          // 联系人常用邮箱
+  businessLicensePhoto: string  // 营业执照照片
+  legalPersonIdPhoto: string    // 法人身份证照片
+  storeDoorPhoto: string        // 门店门头照片
+  storeFrontDeskPhoto: string   // 前台照片
+  storeInteriorPhoto: string    // 店铺内景照片
+}
+
+/**
+ * 支付结算信息 - 个体工商户
+ */
+export interface IndividualPaymentInfo {
+  registerAccount: string        // 注册账号
+  ownerName: string             // 营业执照上的经营者姓名
+  creditCode: string            // 统一社会信用代码
+  licenseValidityType: LicenseValidityType
+  licenseValidityDate?: string
+  idCardName: string            // 姓名
+  idCardNumber: string          // 身份证号
+  idCardAddress: string         // 居住地址
+  idCardValidityType: LicenseValidityType
+  idCardValidityDate?: string
+  storeRegion: string
+  storeDetailAddress: string
+  accountName: string           // 账户名称
+  bankCardNumber: string        // 银行账号
+  bankName: string              // 开户行
+  bankLocation: string          // 开户地
+  bankFullName: string          // 开户银行全称
+  bankCardPhoto: string         // 法人银行卡照片
+  merchantName: string
+  merchantShortName: string
+  contactName: string
+  contactIdCard: string
+  contactPhone: string
+  contactEmail: string
+  businessLicensePhoto: string
+  idCardPhoto: string
+  storeDoorPhoto: string
+  storeFrontDeskPhoto: string
+  storeInteriorPhoto: string
+}
+
+/**
+ * 支付结算信息
+ */
+export interface PaymentSettlement {
+  entityType: EntityType        // 主体类型
+  companyInfo?: CompanyPaymentInfo  // 有限责任公司信息
+  individualInfo?: IndividualPaymentInfo  // 个体工商户信息
+}
+
+/**
  * 完整的门店部署表单数据
  */
 export interface StoreDeploymentForm {
@@ -263,6 +358,7 @@ export interface StoreDeploymentForm {
   surroundingInfo: SurroundingInfo // 周边信息
   operationPolicy: OperationPolicy // 运营政策
   storeDisplay: StoreDisplay    // 门店展示
+  paymentSettlement: PaymentSettlement  // 支付结算
   roomTypes: RoomType[]         // 房型列表
   status: ReviewStatus          // 审核状态
   createdAt?: string            // 创建时间

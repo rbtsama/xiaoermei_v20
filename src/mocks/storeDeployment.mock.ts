@@ -9,7 +9,9 @@ import {
   BreakfastPolicy,
   ChildCriteria,
   ChargeType,
-  AllowExtraGuest
+  AllowExtraGuest,
+  EntityType,
+  LicenseValidityType
 } from '@/types/storeDeployment'
 
 /**
@@ -85,6 +87,40 @@ export const mockDraftData: StoreDeploymentForm = {
       homePageImages: []
     },
     videos: {}
+  },
+  paymentSettlement: {
+    entityType: EntityType.COMPANY,
+    companyInfo: {
+      registerAccount: '',
+      companyName: '',
+      creditCode: '',
+      licenseValidityType: LicenseValidityType.DATE,
+      licenseValidityDate: '',
+      legalPersonName: '',
+      legalPersonIdCard: '',
+      legalPersonAddress: '',
+      legalPersonIdValidityType: LicenseValidityType.DATE,
+      legalPersonIdValidityDate: '',
+      storeRegion: '',
+      storeDetailAddress: '',
+      accountName: '',
+      bankAccountNumber: '',
+      openingBank: '',
+      openingLocation: '',
+      openingBankFullName: '',
+      openingProof: '',
+      merchantName: '',
+      merchantShortName: '',
+      contactName: '',
+      contactIdCard: '',
+      contactPhone: '',
+      contactEmail: '',
+      businessLicensePhoto: '',
+      legalPersonIdPhoto: '',
+      storeDoorPhoto: '',
+      storeFrontDeskPhoto: '',
+      storeInteriorPhoto: ''
+    }
   },
   roomTypes: [],
   createdAt: '2025-12-10 14:30:00',
