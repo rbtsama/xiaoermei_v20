@@ -208,11 +208,13 @@
             :key="item.id"
             class="surrounding-item"
           >
-            <a-row :gutter="12">
+            <a-row :gutter="12" type="flex" align="middle">
               <a-col :span="6">
+                <div class="field-label">地点名称</div>
                 <a-input v-model="item.locationName" placeholder="桐庐站" @change="handleChange" />
               </a-col>
               <a-col :span="5">
+                <div class="field-label">距离约</div>
                 <a-input-number
                   v-model="item.distance"
                   placeholder="24"
@@ -225,6 +227,7 @@
                 </a-input-number>
               </a-col>
               <a-col :span="5">
+                <div class="field-label">驾驶约</div>
                 <a-input-number
                   v-model="item.drivingTime"
                   placeholder="25"
@@ -237,6 +240,7 @@
                 </a-input-number>
               </a-col>
               <a-col :span="5">
+                <div class="field-label">&nbsp;</div>
                 <a-radio
                   :checked="item.featured"
                   @change="handleFeaturedChange('transportation', index)"
@@ -245,6 +249,7 @@
                 </a-radio>
               </a-col>
               <a-col :span="3">
+                <div class="field-label">&nbsp;</div>
                 <a-button
                   v-if="index !== 0"
                   type="link"
@@ -278,11 +283,13 @@
             :key="item.id"
             class="surrounding-item"
           >
-            <a-row :gutter="12">
+            <a-row :gutter="12" type="flex" align="middle">
               <a-col :span="6">
+                <div class="field-label">地点名称</div>
                 <a-input v-model="item.locationName" placeholder="富春江镇" @change="handleChange" />
               </a-col>
               <a-col :span="5">
+                <div class="field-label">距离约</div>
                 <a-input-number
                   v-model="item.distance"
                   placeholder="12"
@@ -295,6 +302,7 @@
                 </a-input-number>
               </a-col>
               <a-col :span="5">
+                <div class="field-label">驾驶约</div>
                 <a-input-number
                   v-model="item.drivingTime"
                   placeholder="15"
@@ -307,6 +315,7 @@
                 </a-input-number>
               </a-col>
               <a-col :span="5">
+                <div class="field-label">&nbsp;</div>
                 <a-radio
                   :checked="item.featured"
                   @change="handleFeaturedChange('attractions', index)"
@@ -315,6 +324,7 @@
                 </a-radio>
               </a-col>
               <a-col :span="3">
+                <div class="field-label">&nbsp;</div>
                 <a-button
                   v-if="index !== 0"
                   type="link"
@@ -351,11 +361,13 @@
             :key="item.id"
             class="surrounding-item"
           >
-            <a-row :gutter="12">
+            <a-row :gutter="12" type="flex" align="middle">
               <a-col :span="6">
+                <div class="field-label">地点名称</div>
                 <a-input v-model="item.locationName" placeholder="芦茨村" @change="handleChange" />
               </a-col>
               <a-col :span="5">
+                <div class="field-label">距离约</div>
                 <a-input-number
                   v-model="item.distance"
                   placeholder="2"
@@ -368,6 +380,7 @@
                 </a-input-number>
               </a-col>
               <a-col :span="5">
+                <div class="field-label">驾驶约</div>
                 <a-input-number
                   v-model="item.drivingTime"
                   placeholder="10"
@@ -380,6 +393,7 @@
                 </a-input-number>
               </a-col>
               <a-col :span="8">
+                <div class="field-label">&nbsp;</div>
                 <a-button type="link" danger @click="removeSurroundingItem('food', index)">
                   <a-icon type="delete" />删除
                 </a-button>
@@ -663,6 +677,13 @@ export default defineComponent({
   :deep(.ant-input-number) {
     border-radius: @border-radius-base;
   }
+}
+
+.field-label {
+  font-size: @font-size-xs;
+  color: @text-secondary;
+  margin-bottom: 6px;
+  font-weight: @font-weight-medium;
 }
 
 :deep(.ant-divider) {
