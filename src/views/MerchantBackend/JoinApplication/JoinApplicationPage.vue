@@ -1,284 +1,239 @@
 <template>
   <sidebar>
     <div class="store-deployment-page">
-      <!-- 准备清单页面 -->
-      <div v-if="showChecklist" class="checklist-container">
-        <!-- 温馨提示 -->
+      <!-- 温馨提示（固定在顶部Tab之前） -->
+      <div class="tip-container">
         <a-alert
           message="表单会自动保存，您可以随时退出，稍后继续填写。建议您先准备好所有材料，以便一次性完成填写。"
           type="info"
           show-icon
           class="tip-alert"
         />
+      </div>
 
-        <a-card :bordered="false" class="checklist-card">
-          <template slot="title">
-            <span class="card-title">📷 请提前准备好图片</span>
-          </template>
+      <!-- 吸顶Tab导航 -->
+      <div class="sticky-tabs-container" :class="{ sticky: isSticky }">
+        <a-tabs
+          v-model="activeTab"
+          type="card"
+          class="deployment-tabs"
+        >
+          <!-- Tab 0: 准备清单 -->
+          <a-tab-pane key="tab0">
+            <span slot="tab" class="tab-label">
+              准备清单
+              <span class="tab-progress">{{ tabProgress.tab0 }}</span>
+            </span>
+          </a-tab-pane>
 
-          <a-table
-            :columns="imageColumns"
-            :data-source="imageRequirements"
-            :pagination="false"
-            rowKey="name"
-            class="checklist-table"
-          >
-            <template slot="required" slot-scope="required">
-              <a-tag :color="required ? 'red' : 'blue'">
-                {{ required ? '必填' : '选填' }}
-              </a-tag>
-            </template>
-            <template slot="description" slot-scope="text, record">
-              <div class="description-cell">
-                <span>{{ text }}</span>
-                <a-button
-                  v-if="record.exampleImage"
-                  type="link"
-                  size="small"
-                  @click="handlePreviewExample(record.exampleImage)"
-                  class="example-btn"
-                >
-                  <a-icon type="picture" />
-                  查看示例
-                </a-button>
-              </div>
-            </template>
-          </a-table>
-        </a-card>
+          <!-- Tab 1: 账号与门店信息 -->
+          <a-tab-pane key="tab1">
+            <span slot="tab" class="tab-label">
+              账号与门店信息
+              <span class="tab-progress">{{ tabProgress.tab1 }}</span>
+            </span>
+          </a-tab-pane>
 
-        <a-card :bordered="false" class="checklist-card">
-          <template slot="title">
-            <span class="card-title">📝 请提前准备好信息</span>
-          </template>
+          <!-- Tab 2: 设施与周边 -->
+          <a-tab-pane key="tab2">
+            <span slot="tab" class="tab-label">
+              设施与周边
+              <span class="tab-progress">{{ tabProgress.tab2 }}</span>
+            </span>
+          </a-tab-pane>
 
-          <a-table
-            :columns="infoColumns"
-            :data-source="infoRequirements"
-            :pagination="false"
-            rowKey="name"
-            class="checklist-table"
-          >
-            <template slot="required" slot-scope="required">
-              <a-tag :color="required ? 'red' : 'blue'">
-                {{ required ? '必填' : '选填' }}
-              </a-tag>
-            </template>
-          </a-table>
-        </a-card>
+          <!-- Tab 3: 运营政策 -->
+          <a-tab-pane key="tab3">
+            <span slot="tab" class="tab-label">
+              运营政策
+              <span class="tab-progress">{{ tabProgress.tab3 }}</span>
+            </span>
+          </a-tab-pane>
 
-        <!-- 底部吸底按钮栏 -->
-        <div class="checklist-footer">
-          <div class="footer-content">
-            <div style="flex: 1"></div>
-            <a-button type="primary" size="large" @click="handleStart">
-              开始录入门店信息
-              <a-icon type="right" />
-            </a-button>
-          </div>
+          <!-- Tab 4: 门店展示 -->
+          <a-tab-pane key="tab4">
+            <span slot="tab" class="tab-label">
+              门店展示
+              <span class="tab-progress">{{ tabProgress.tab4 }}</span>
+            </span>
+          </a-tab-pane>
+
+          <!-- Tab 5: 房型配置 -->
+          <a-tab-pane key="tab5">
+            <span slot="tab" class="tab-label">
+              房型配置
+              <span class="tab-progress">{{ tabProgress.tab5 }}</span>
+            </span>
+          </a-tab-pane>
+        </a-tabs>
+      </div>
+
+      <!-- Tab内容区域 -->
+      <div class="tab-content-wrapper">
+        <!-- Tab 0: 准备清单 -->
+        <div v-show="activeTab === 'tab0'" class="tab-content">
+          <checklist-content />
+        </div>
+
+        <!-- Tab 1-5: 表单内容 -->
+        <div v-show="activeTab !== 'tab0'" class="tab-content">
+          <store-deployment-form
+            :active-tab="activeTab"
+            @progress-update="handleProgressUpdate"
+            @save-success="handleSaveSuccess"
+            @save-error="handleSaveError"
+          />
         </div>
       </div>
 
-      <!-- 主表单页面 -->
-      <store-deployment-form v-else />
+      <!-- 底部操作栏 -->
+      <div class="bottom-action-bar">
+        <div class="action-content">
+          <a-button
+            v-if="activeTab !== 'tab0'"
+            size="large"
+            @click="handlePrevTab"
+          >
+            <a-icon type="left" />
+            上一步
+          </a-button>
+          <div style="flex: 1"></div>
 
-      <!-- 示例图片预览弹窗 -->
-      <a-modal
-        :visible="previewVisible"
-        :footer="null"
-        @cancel="previewVisible = false"
-        width="800px"
-        centered
-      >
-        <img :src="previewImage" style="width: 100%" alt="示例图片" />
-      </a-modal>
+          <!-- 自动保存状态 -->
+          <div v-if="activeTab !== 'tab0'" class="save-status">
+            <a-icon v-if="autoSaveStatus === 'saving'" type="loading" />
+            <a-icon v-else-if="autoSaveStatus === 'saved'" type="check-circle" theme="filled" class="success-icon" />
+            <a-icon v-else-if="autoSaveStatus === 'error'" type="close-circle" theme="filled" class="error-icon" />
+            <span class="status-text">
+              <template v-if="autoSaveStatus === 'saving'">正在保存...</template>
+              <template v-else-if="autoSaveStatus === 'saved'">已保存 {{ lastSaveTime }}</template>
+              <template v-else-if="autoSaveStatus === 'error'">保存失败</template>
+            </span>
+          </div>
+
+          <a-button v-if="activeTab !== 'tab0'" size="large" @click="handleSaveDraft">
+            保存草稿
+          </a-button>
+          <a-button
+            type="primary"
+            size="large"
+            @click="handleNextTab"
+          >
+            <template v-if="activeTab === 'tab5'">提交审核</template>
+            <template v-else>
+              下一步
+              <a-icon type="right" />
+            </template>
+          </a-button>
+        </div>
+      </div>
     </div>
   </sidebar>
 </template>
 
 <script>
-import { defineComponent, ref } from '@vue/composition-api'
+import { defineComponent, ref, reactive, computed, onMounted, onBeforeMount } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
+import ChecklistContent from './components/ChecklistContent.vue'
 import StoreDeploymentForm from './StoreDeploymentForm.vue'
+import { AutoSaveStatus } from '@/types/storeDeployment'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'StoreDeploymentPage',
   components: {
     Sidebar,
+    ChecklistContent,
     StoreDeploymentForm
   },
   setup(props, { root }) {
-    const showChecklist = ref(true)
+    const activeTab = ref('tab0')
+    const isSticky = ref(false)
+    const autoSaveStatus = ref(AutoSaveStatus.IDLE)
+    const lastSaveTime = ref('')
 
-    // 图片预览状态
-    const previewVisible = ref(false)
-    const previewImage = ref('')
+    // Tab进度统计
+    const tabProgress = reactive({
+      tab0: '-',  // 准备清单不显示进度
+      tab1: '0/10',
+      tab2: '0/8',
+      tab3: '0/12',
+      tab4: '0/6',
+      tab5: '0/1'
+    })
 
-    // 查看示例图
-    const handlePreviewExample = (imagePath) => {
-      previewImage.value = imagePath
-      previewVisible.value = true
+    // 监听滚动实现吸顶
+    const handleScroll = () => {
+      isSticky.value = window.scrollY > 100
     }
 
-    // 图片/视频清单列
-    const imageColumns = [
-      {
-        title: '素材名称',
-        dataIndex: 'name',
-        width: 150
-      },
-      {
-        title: '是否必填',
-        dataIndex: 'required',
-        width: 100,
-        scopedSlots: { customRender: 'required' }
-      },
-      {
-        title: '规格要求',
-        dataIndex: 'spec',
-        width: 250
-      },
-      {
-        title: '说明',
-        dataIndex: 'description',
-        scopedSlots: { customRender: 'description' }
+    // Tab切换
+    const handlePrevTab = () => {
+      const tabs = ['tab0', 'tab1', 'tab2', 'tab3', 'tab4', 'tab5']
+      const currentIndex = tabs.indexOf(activeTab.value)
+      if (currentIndex > 0) {
+        activeTab.value = tabs[currentIndex - 1]
       }
-    ]
-
-    // 图片/视频清单数据（必填在前，选填在后）
-    const imageRequirements = [
-      // 必填项
-      {
-        name: '门店logo',
-        required: true,
-        spec: '比例1:1，建议尺寸500×500px以上',
-        description: '展示一个典型的民宿logo，方形构图',
-        exampleImage: '/examples/门店logo.jpg'
-      },
-      {
-        name: '列表页封面',
-        required: true,
-        spec: '比例4:3，宽度大于1000px',
-        description: '展示一张横构图的民宿外观照片',
-        exampleImage: '/examples/列表封面.jpg'
-      },
-      {
-        name: '门店主页首图',
-        required: true,
-        spec: '比例2:3，竖构图，最多5张',
-        description: '展示竖构图的民宿照片（如门口、公区、特色角落）',
-        exampleImage: '/examples/门店主页首图.png'
-      },
-      {
-        name: '旅游交通图',
-        required: true,
-        spec: '不限比例，清晰可见',
-        description: '标注门店位置、周边景点、交通站点的地图',
-        exampleImage: '/examples/旅游交通图.jpg'
-      },
-      {
-        name: '房型图片',
-        required: true,
-        spec: '比例3:2，每个房型最多10张',
-        description: '展示房间内景照片（床、卫浴、窗景等角度）'
-      },
-      // 选填项
-      {
-        name: '门店视频',
-        required: false,
-        spec: '比例16:9，大小<100MB',
-        description: '门店介绍视频'
-      },
-      {
-        name: '视频封面',
-        required: false,
-        spec: '比例16:9',
-        description: '视频播放前的封面图',
-        exampleImage: '/examples/视频封面.jpg'
-      },
-      {
-        name: '最新情报图',
-        required: false,
-        spec: '竖版长图，宽度建议750px',
-        description: '展示一张排版好的活动海报或介绍长图',
-        exampleImage: '/examples/最新情报.jpg'
-      }
-    ]
-
-    // 信息清单列
-    const infoColumns = [
-      {
-        title: '信息类别',
-        dataIndex: 'name',
-        width: 200
-      },
-      {
-        title: '是否必填',
-        dataIndex: 'required',
-        width: 100,
-        scopedSlots: { customRender: 'required' }
-      },
-      {
-        title: '说明',
-        dataIndex: 'description'
-      }
-    ]
-
-    // 信息清单数据（必填在前，选填在后）
-    const infoRequirements = [
-      // 必填项
-      {
-        name: '主账号手机号',
-        required: true,
-        description: '用于登录系统的手机号'
-      },
-      {
-        name: '门店介绍文案',
-        required: true,
-        description: '200-1000字，可从公众号、美团等平台复制'
-      },
-      {
-        name: '门店设施清单',
-        required: true,
-        description: '勾选门店提供的所有设施和服务'
-      },
-      {
-        name: '周边交通、景点、餐饮信息',
-        required: true,
-        description: '需要填写具体地点名称、距离、驾车时间'
-      },
-      {
-        name: '运营政策',
-        required: true,
-        description: '入住时间、退房时间、取消政策等'
-      },
-      {
-        name: '所有房型详细参数',
-        required: true,
-        description: '每个房型的面积、床型、设施等信息'
-      },
-      // 选填项
-      {
-        name: 'PMS系统信息',
-        required: false,
-        description: '如使用"订单来了"等系统，需准备门店编号'
-      }
-    ]
-
-    // 开始填写
-    const handleStart = () => {
-      showChecklist.value = false
     }
+
+    const handleNextTab = () => {
+      const tabs = ['tab0', 'tab1', 'tab2', 'tab3', 'tab4', 'tab5']
+      const currentIndex = tabs.indexOf(activeTab.value)
+      if (currentIndex < tabs.length - 1) {
+        activeTab.value = tabs[currentIndex + 1]
+      } else {
+        // 最后一个Tab，提交审核
+        handleSubmit()
+      }
+    }
+
+    // 保存草稿
+    const handleSaveDraft = () => {
+      root.$message.success('草稿已保存')
+    }
+
+    // 保存成功
+    const handleSaveSuccess = () => {
+      autoSaveStatus.value = AutoSaveStatus.SAVED
+      lastSaveTime.value = dayjs().format('HH:mm')
+    }
+
+    // 保存失败
+    const handleSaveError = () => {
+      autoSaveStatus.value = AutoSaveStatus.ERROR
+    }
+
+    // 提交审核
+    const handleSubmit = () => {
+      root.$message.info('提交审核功能开发中...')
+    }
+
+    // 进度更新
+    const handleProgressUpdate = (progress) => {
+      Object.assign(tabProgress, progress)
+    }
+
+    onMounted(() => {
+      window.addEventListener('scroll', handleScroll)
+    })
+
+    onBeforeMount(() => {
+      window.removeEventListener('scroll', handleScroll)
+    })
 
     return {
-      showChecklist,
-      previewVisible,
-      previewImage,
-      imageColumns,
-      imageRequirements,
-      infoColumns,
-      infoRequirements,
-      handlePreviewExample,
-      handleStart
+      activeTab,
+      isSticky,
+      autoSaveStatus,
+      lastSaveTime,
+      tabProgress,
+      handlePrevTab,
+      handleNextTab,
+      handleSaveDraft,
+      handleSubmit,
+      handleProgressUpdate,
+      handleSaveSuccess,
+      handleSaveError
     }
   }
 })
@@ -290,92 +245,16 @@ export default defineComponent({
 .store-deployment-page {
   min-height: 100vh;
   background: @bg-tertiary;
+  padding-bottom: 80px;
 }
 
-.checklist-container {
-  padding: 20px 20px 100px;
+.tip-container {
+  padding: 20px 20px 0;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-.checklist-card {
-  margin-bottom: 16px;
-  border-radius: @border-radius-lg;
-  border: 1px solid @border-primary;
-  box-shadow: @shadow-sm;
-
-  :deep(.ant-card-head) {
-    border-bottom: 1px solid @border-primary;
-    padding: 6px 20px;
-    min-height: auto;
-  }
-
-  :deep(.ant-card-head-title) {
-    padding: 0;
-  }
-
-  :deep(.ant-card-body) {
-    padding: 16px 20px;
-  }
-}
-
-.card-title {
-  font-size: @font-size-base;
-  font-weight: @font-weight-semibold;
-  color: @text-primary;
-}
-
-.checklist-table {
-  :deep(.ant-table) {
-    border: 1px solid @border-primary;
-    border-radius: @border-radius-base;
-  }
-
-  :deep(.ant-table-thead > tr > th) {
-    background: @bg-secondary;
-    border-bottom: 1px solid @border-primary;
-    color: @text-primary;
-    font-weight: @font-weight-semibold;
-    font-size: @font-size-base;
-    padding: 12px 16px;
-  }
-
-  :deep(.ant-table-tbody > tr > td) {
-    border-bottom: 1px solid @border-primary;
-    padding: 12px 16px;
-    color: @text-primary;
-    font-size: @font-size-sm;
-  }
-
-  :deep(.ant-table-tbody > tr:last-child > td) {
-    border-bottom: none;
-  }
-}
-
-.description-cell {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.example-btn {
-  flex-shrink: 0;
-  padding: 0 8px;
-  font-size: @font-size-sm;
-  color: @brand-primary;
-
-  &:hover {
-    color: @brand-primary-hover;
-  }
-
-  :deep(.anticon) {
-    font-size: @font-size-sm;
-  }
-}
-
 .tip-alert {
-  margin-bottom: 16px;
   border-radius: @border-radius-base;
   padding: 16px 20px;
 
@@ -391,7 +270,110 @@ export default defineComponent({
   }
 }
 
-.checklist-footer {
+.sticky-tabs-container {
+  background: @bg-primary;
+  transition: all 0.3s ease;
+  z-index: 99;
+
+  &.sticky {
+    position: fixed;
+    top: 0;
+    left: 256px;
+    right: 0;
+    box-shadow: @shadow-md;
+  }
+}
+
+.deployment-tabs {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 12px 20px 0;
+
+  :deep(.ant-tabs-bar) {
+    margin-bottom: 0;
+    border-bottom: 2px solid @border-primary;
+  }
+
+  :deep(.ant-tabs-nav) {
+    display: flex;
+    gap: 4px;
+  }
+
+  :deep(.ant-tabs-tab) {
+    border: none !important;
+    background: transparent !important;
+    color: @text-secondary !important;
+    font-size: @font-size-base;
+    padding: 10px 20px;
+    margin: 0 !important;
+    border-radius: @border-radius-base @border-radius-base 0 0;
+    transition: all 0.2s ease;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: transparent;
+      transition: background 0.2s ease;
+    }
+
+    &:hover {
+      background: rgba(59, 130, 246, 0.05) !important;
+      color: @brand-primary !important;
+    }
+
+    &.ant-tabs-tab-active {
+      background: @bg-primary !important;
+      color: @brand-primary !important;
+      font-weight: @font-weight-semibold;
+
+      &::after {
+        background: @brand-primary;
+      }
+    }
+  }
+
+  :deep(.ant-tabs-content) {
+    display: none;
+  }
+}
+
+.tab-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tab-progress {
+  font-size: @font-size-xs;
+  color: @text-secondary;
+  font-weight: @font-weight-normal;
+  padding: 2px 6px;
+  background: @bg-secondary;
+  border-radius: @border-radius-sm;
+
+  .ant-tabs-tab-active & {
+    color: @brand-primary;
+    background: rgba(59, 130, 246, 0.1);
+    font-weight: @font-weight-medium;
+  }
+}
+
+.tab-content-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.tab-content {
+  padding: 24px 0;
+}
+
+.bottom-action-bar {
   position: fixed;
   bottom: 0;
   left: 256px;
@@ -404,20 +386,35 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-
-  .footer-content {
-    max-width: 1400px;
-    width: 100%;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
 }
 
-.form-container {
-  padding: 24px;
+.action-content {
   max-width: 1400px;
-  margin: 0 auto;
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.save-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: @font-size-sm;
+  color: @text-secondary;
+  margin-right: 8px;
+
+  .success-icon {
+    color: @success-color;
+  }
+
+  .error-icon {
+    color: @error-color;
+  }
+
+  .status-text {
+    white-space: nowrap;
+  }
 }
 </style>
