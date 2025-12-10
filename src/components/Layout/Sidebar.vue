@@ -39,7 +39,7 @@
                   <a-menu-item
                     v-for="leaf in child.children"
                     :key="leaf.key"
-                    @click="handleMenuClick(leaf.path, leaf.key)"
+                    @click.native.stop="handleMenuClick(leaf.path, leaf.key)"
                   >
                     {{ leaf.title }}
                   </a-menu-item>
@@ -47,7 +47,7 @@
                 <a-menu-item
                   v-else
                   :key="child.key"
-                  @click="handleMenuClick(child.path, child.key)"
+                  @click.native.stop="handleMenuClick(child.path, child.key)"
                 >
                   {{ child.title }}
                 </a-menu-item>
@@ -89,6 +89,7 @@ export default defineComponent({
     const openKeys = ref([])
     const isNavigating = ref(false) // 添加标志位，防止导航时触发 openKeys 更新
     const savedOpenKeys = ref([]) // 保存导航前的 openKeys 状态
+    const preventOpenChange = ref(false) // 完全阻止 openChange 更新
 
     // 获取所有一级和二级菜单的keys（默认全部展开）
     const getAllMenuKeys = () => {
@@ -179,7 +180,7 @@ export default defineComponent({
       if (isNavigating.value) {
         setTimeout(() => {
           isNavigating.value = false
-        }, 100)
+        }, 200)
       }
     }, { immediate: false })
 
@@ -190,10 +191,8 @@ export default defineComponent({
 
     // 菜单展开/收起事件
     const onOpenChange = (keys) => {
-      // 如果正在导航，恢复到保存的 openKeys（防止点击菜单时的收起/展开抖动）
+      // 如果正在导航，完全忽略菜单状态变化（防止点击菜单时的收起/展开抖动）
       if (isNavigating.value) {
-        // 强制恢复到导航前的状态
-        openKeys.value = [...savedOpenKeys.value]
         return
       }
       openKeys.value = keys
@@ -304,6 +303,17 @@ export default defineComponent({
   padding: 8px 0;
   overflow-y: auto;
   overflow-x: hidden;
+
+  // 禁用菜单展开/收起动画，防止点击时的视觉抖动
+  :deep(.ant-menu-submenu-title),
+  :deep(.ant-menu-sub) {
+    transition: none !important;
+  }
+
+  :deep(.ant-menu-inline),
+  :deep(.ant-menu-sub.ant-menu-inline) {
+    transition: none !important;
+  }
 
   :deep(.ant-menu-item),
   :deep(.ant-menu-submenu-title) {

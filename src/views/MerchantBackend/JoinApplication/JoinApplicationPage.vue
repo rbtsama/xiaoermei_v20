@@ -25,6 +25,21 @@
                 {{ required ? '必填 ★' : '选填' }}
               </a-tag>
             </template>
+            <template slot="description" slot-scope="text, record">
+              <div class="description-cell">
+                <span>{{ text }}</span>
+                <a-button
+                  v-if="record.exampleImage"
+                  type="link"
+                  size="small"
+                  @click="handlePreviewExample(record.exampleImage)"
+                  class="example-btn"
+                >
+                  <a-icon type="picture" />
+                  查看示例
+                </a-button>
+              </div>
+            </template>
           </a-table>
         </a-card>
 
@@ -68,6 +83,17 @@
 
       <!-- 主表单页面 -->
       <store-deployment-form v-else />
+
+      <!-- 示例图片预览弹窗 -->
+      <a-modal
+        :visible="previewVisible"
+        :footer="null"
+        @cancel="previewVisible = false"
+        width="800px"
+        centered
+      >
+        <img :src="previewImage" style="width: 100%" alt="示例图片" />
+      </a-modal>
     </div>
   </sidebar>
 </template>
@@ -85,6 +111,16 @@ export default defineComponent({
   },
   setup(props, { root }) {
     const showChecklist = ref(true)
+
+    // 图片预览状态
+    const previewVisible = ref(false)
+    const previewImage = ref('')
+
+    // 查看示例图
+    const handlePreviewExample = (imagePath) => {
+      previewImage.value = imagePath
+      previewVisible.value = true
+    }
 
     // 图片/视频清单列
     const imageColumns = [
@@ -106,7 +142,8 @@ export default defineComponent({
       },
       {
         title: '说明',
-        dataIndex: 'description'
+        dataIndex: 'description',
+        scopedSlots: { customRender: 'description' }
       }
     ]
 
@@ -116,25 +153,29 @@ export default defineComponent({
         name: '门店logo',
         required: true,
         spec: '比例1:1，建议尺寸500×500px以上',
-        description: '展示一个典型的民宿logo，方形构图'
+        description: '展示一个典型的民宿logo，方形构图',
+        exampleImage: '/examples/门店logo.jpg'
       },
       {
         name: '列表页封面',
         required: true,
         spec: '比例4:3，宽度大于1000px',
-        description: '展示一张横构图的民宿外观照片'
+        description: '展示一张横构图的民宿外观照片',
+        exampleImage: '/examples/列表封面.jpg'
       },
       {
         name: '门店主页首图',
         required: true,
         spec: '比例2:3，竖构图，最多5张',
-        description: '展示竖构图的民宿照片（如门口、公区、特色角落）'
+        description: '展示竖构图的民宿照片（如门口、公区、特色角落）',
+        exampleImage: '/examples/视频封面.jpg'
       },
       {
         name: '旅游交通图',
         required: true,
         spec: '不限比例，清晰可见',
-        description: '标注了门店位置、周边景点、交通站点的地图'
+        description: '标注了门店位置、周边景点、交通站点的地图',
+        exampleImage: '/examples/旅游交通图.jpg'
       },
       {
         name: '房型图片',
@@ -233,10 +274,13 @@ export default defineComponent({
 
     return {
       showChecklist,
+      previewVisible,
+      previewImage,
       imageColumns,
       imageRequirements,
       infoColumns,
       infoRequirements,
+      handlePreviewExample,
       handleLater,
       handleStart
     }
@@ -322,6 +366,24 @@ export default defineComponent({
 
   :deep(.ant-table-tbody > tr:last-child > td) {
     border-bottom: none;
+  }
+}
+
+.description-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.example-btn {
+  flex-shrink: 0;
+  padding: 0 8px;
+  font-size: @font-size-xs;
+  color: @brand-primary;
+
+  &:hover {
+    color: @brand-primary-hover;
   }
 }
 
