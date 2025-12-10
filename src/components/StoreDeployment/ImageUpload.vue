@@ -35,7 +35,7 @@
       >
         <div
           v-for="(img, index) in images"
-          :key="img.url || index"
+          :key="img.id || `img-${index}`"
           :class="['image-preview-item', { uploading: img.uploading }]"
         >
           <!-- 上传中状态 -->
@@ -165,15 +165,25 @@ export default defineComponent({
       (newValue) => {
         if (props.multiple) {
           images.value = (Array.isArray(newValue) ? newValue : [])
-            .map(item => {
-              // 如果已经是对象格式，直接使用；否则转换为对象
-              if (typeof item === 'string') {
-                return { url: item, uploading: false }
+            .map((item, idx) => {
+              // 如果已经是对象格式且有id，直接使用
+              if (typeof item === 'object' && item.id) {
+                return item
               }
-              return item
+              // 否则转换为对象格式，添加唯一id
+              const url = typeof item === 'string' ? item : item.url
+              return {
+                id: `img_${Date.now()}_${idx}`,
+                url,
+                uploading: false
+              }
             })
         } else {
-          images.value = newValue ? [{ url: newValue, uploading: false }] : []
+          images.value = newValue ? [{
+            id: `img_${Date.now()}`,
+            url: newValue,
+            uploading: false
+          }] : []
         }
       },
       { immediate: true }
@@ -228,7 +238,11 @@ export default defineComponent({
       }
 
       // 添加上传中的占位
-      const placeholders = files.map(() => ({ url: '', uploading: true }))
+      const placeholders = files.map((file, idx) => ({
+        id: `uploading_${Date.now()}_${idx}`,
+        url: '',
+        uploading: true
+      }))
       if (props.multiple) {
         images.value.push(...placeholders)
       } else {
@@ -244,7 +258,11 @@ export default defineComponent({
         // 更新图片列表
         let startIndex = images.value.length - placeholders.length
         urls.forEach((url, index) => {
-          images.value[startIndex + index] = { url, uploading: false }
+          images.value[startIndex + index] = {
+            id: `img_${Date.now()}_${startIndex + index}`,
+            url,
+            uploading: false
+          }
         })
 
         // 触发更新
