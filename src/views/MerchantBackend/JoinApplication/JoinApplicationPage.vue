@@ -32,12 +32,19 @@
               </span>
             </div>
 
-            <a-button v-if="activeTab !== 'tab0'" @click="handleSaveDraft" size="small">
+            <a-button v-if="activeTab !== 'tab0'" @click="handleSaveDraft">
+              <a-icon type="save" />
               保存草稿
             </a-button>
-            <a-button type="primary" @click="handleNextTab" size="small">
-              <template v-if="activeTab === 'tab5'">提交审核</template>
-              <template v-else>下一步</template>
+            <a-button type="primary" @click="handleNextTab">
+              <template v-if="activeTab === 'tab5'">
+                <a-icon type="check" />
+                提交审核
+              </template>
+              <template v-else>
+                下一步
+                <a-icon type="right" />
+              </template>
             </a-button>
           </div>
         </div>
@@ -217,78 +224,118 @@ export default defineComponent({
 .tabs-header {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 10px 20px;
+  padding: 16px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 24px;
 }
 
 .tabs-list {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   flex: 1;
 }
 
 .tab-item {
-  padding: 6px 14px;
-  border-radius: @border-radius-base;
-  background: transparent;
+  padding: 12px 20px;
+  border-radius: @border-radius-lg;
+  background: @bg-primary;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
-  gap: 6px;
-  border: 1px solid transparent;
+  gap: 10px;
+  border: 1.5px solid @border-primary;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: @border-radius-lg;
+    padding: 1.5px;
+    background: linear-gradient(135deg, transparent, transparent);
+    -webkit-mask: linear-gradient(@bg-primary 0 0) content-box, linear-gradient(@bg-primary 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
 
   &:hover {
     background: rgba(59, 130, 246, 0.05);
     border-color: @brand-primary;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+
+    .tab-title {
+      color: @brand-primary;
+    }
   }
 
   &.active {
     background: @brand-primary;
     border-color: @brand-primary;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+    transform: translateY(-1px);
 
     .tab-title {
       color: @bg-primary;
-      font-weight: @font-weight-medium;
+      font-weight: @font-weight-semibold;
     }
 
     .tab-badge {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.25);
       color: @bg-primary;
+      border-color: rgba(255, 255, 255, 0.4);
+      font-weight: @font-weight-semibold;
+      box-shadow: none;
     }
   }
 
   &.completed:not(.active) {
+    border-color: @success-color;
+    background: rgba(16, 185, 129, 0.05);
+
     .tab-title {
       color: @success-color;
+      font-weight: @font-weight-medium;
     }
 
     .tab-badge {
-      background: rgba(16, 185, 129, 0.1);
-      color: @success-color;
+      background: @success-color;
+      color: @bg-primary;
+      border-color: @success-color;
+      font-weight: @font-weight-semibold;
+      box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
     }
   }
 }
 
 .tab-title {
-  font-size: @font-size-sm;
+  font-size: @font-size-base;
   color: @text-primary;
   white-space: nowrap;
   transition: all 0.2s ease;
+  font-weight: @font-weight-medium;
 }
 
 .tab-badge {
   font-size: @font-size-xs;
-  padding: 1px 5px;
-  border-radius: @border-radius-sm;
+  padding: 3px 10px;
+  border-radius: @border-radius-base;
   background: @bg-secondary;
   color: @text-secondary;
-  font-weight: @font-weight-normal;
+  font-weight: @font-weight-medium;
+  border: 1px solid @border-secondary;
   transition: all 0.2s ease;
+  min-width: 36px;
+  text-align: center;
+  line-height: 1.2;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .header-actions {
