@@ -35,44 +35,79 @@
         <span class="section-title">门店图片</span>
       </template>
 
-      <!-- 门店logo -->
-      <div class="image-upload-section">
-        <div class="upload-label">
-          <span class="label-text">门店logo</span>
-          <a-tag color="red" size="small">必填</a-tag>
+      <!-- 2列网格布局 -->
+      <div class="images-grid">
+        <!-- 门店logo -->
+        <div class="image-upload-item">
+          <div class="upload-label">
+            <span class="label-text">门店logo</span>
+            <a-tag color="red" size="small">必填</a-tag>
+          </div>
+          <p class="upload-hint">建议比例1:1，尺寸500×500px以上</p>
+          <image-upload
+            v-model="localData.images.logo"
+            :multiple="false"
+            :maxSize="5"
+            ratio="1:1"
+            compact
+            @change="handleChange"
+          />
         </div>
-        <p class="upload-hint">门店标志，用于列表展示和分享，建议比例1:1，建议尺寸500×500px以上</p>
-        <image-upload
-          v-model="localData.images.logo"
-          :multiple="false"
-          :maxSize="5"
-          ratio="1:1"
-          compact
-          @change="handleChange"
-        />
-      </div>
 
-      <a-divider />
-
-      <!-- 列表页封面 -->
-      <div class="image-upload-section">
-        <div class="upload-label">
-          <span class="label-text">列表页封面</span>
-          <a-tag color="red" size="small">必填</a-tag>
+        <!-- 门店主页首图 -->
+        <div class="image-upload-item">
+          <div class="upload-label">
+            <span class="label-text">门店主页首图</span>
+            <a-tag color="red" size="small">必填</a-tag>
+          </div>
+          <p class="upload-hint">建议比例2:3，最多5张</p>
+          <image-upload
+            v-model="localData.images.homePageImages"
+            :multiple="true"
+            :maxCount="5"
+            :maxSize="10"
+            ratio="2:3"
+            compact
+            @change="handleChange"
+          />
         </div>
-        <p class="upload-hint">平台首页门店列表的封面图，建议比例4:3，宽度>1000px</p>
-        <image-upload
-          v-model="localData.images.listCover"
-          :multiple="false"
-          :maxSize="10"
-          ratio="4:3"
-          @change="handleChange"
-        />
-      </div>
 
-      <a-divider />
+        <!-- 列表页封面 -->
+        <div class="image-upload-item">
+          <div class="upload-label">
+            <span class="label-text">列表页封面</span>
+            <a-tag color="red" size="small">必填</a-tag>
+          </div>
+          <p class="upload-hint">建议比例4:3，宽度>1000px</p>
+          <image-upload
+            v-model="localData.images.listCover"
+            :multiple="false"
+            :maxSize="10"
+            ratio="4:3"
+            compact
+            @change="handleChange"
+          />
+        </div>
+
+        <!-- 旅游交通图 -->
+        <div class="image-upload-item">
+          <div class="upload-label">
+            <span class="label-text">旅游交通图</span>
+            <a-tag color="red" size="small">必填</a-tag>
+          </div>
+          <p class="upload-hint">标注门店位置及周边交通、景点的地图</p>
+          <image-upload
+            v-model="localData.images.travelMap"
+            :multiple="false"
+            :maxSize="10"
+            compact
+            @change="handleChange"
+          />
+        </div>
+      </div>
 
       <!-- 小程序分享图（系统自动生成） -->
+      <a-divider />
       <div class="image-upload-section">
         <div class="upload-label">
           <span class="label-text">小程序分享图</span>
@@ -84,42 +119,6 @@
           <div class="image-label">自动生成预览（5:4比例）</div>
         </div>
         <div v-else class="empty-hint">请先上传列表页封面</div>
-      </div>
-
-      <a-divider />
-
-      <!-- 旅游交通图 -->
-      <div class="image-upload-section">
-        <div class="upload-label">
-          <span class="label-text">旅游交通图</span>
-          <a-tag color="red" size="small">必填</a-tag>
-        </div>
-        <p class="upload-hint">标注门店位置及周边交通、景点的地图，不限比例，清晰可见即可</p>
-        <image-upload
-          v-model="localData.images.travelMap"
-          :multiple="false"
-          :maxSize="10"
-          @change="handleChange"
-        />
-      </div>
-
-      <a-divider />
-
-      <!-- 门店主页首图 -->
-      <div class="image-upload-section">
-        <div class="upload-label">
-          <span class="label-text">门店主页首图</span>
-          <a-tag color="red" size="small">必填</a-tag>
-        </div>
-        <p class="upload-hint">门店详情页顶部轮播图，展示门店外观、公区等，建议比例2:3，最多5张，最少1张</p>
-        <image-upload
-          v-model="localData.images.homePageImages"
-          :multiple="true"
-          :maxCount="5"
-          :maxSize="10"
-          ratio="2:3"
-          @change="handleChange"
-        />
       </div>
     </a-card>
 
@@ -374,8 +373,19 @@ export default defineComponent({
   }
 }
 
+.images-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.image-upload-item {
+  // 每个上传项的容器
+}
+
 .image-upload-section {
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 
   &:last-child {
     margin-bottom: 0;
