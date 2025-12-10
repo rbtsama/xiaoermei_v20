@@ -3,13 +3,8 @@
     <!-- 门店亮点 -->
     <a-card :bordered="false" class="form-section-card">
       <template slot="title">
-        <div class="section-header">
-          <span class="section-title">门店亮点</span>
-          <span class="selected-count">已选 {{ localData.highlights.length }} 项（至少选择3项）</span>
-        </div>
+        <span class="section-title">门店亮点</span>
       </template>
-
-      <p class="section-hint">请选择门店的特色亮点，这些标签将展示在门店首页</p>
 
       <!-- 建筑与景观类 -->
       <div class="highlight-category">
@@ -52,6 +47,7 @@
           :multiple="false"
           :maxSize="5"
           ratio="1:1"
+          compact
           @change="handleChange"
         />
       </div>
@@ -326,29 +322,10 @@ export default defineComponent({
   }
 }
 
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
 .section-title {
   font-size: @font-size-lg;
   font-weight: @font-weight-semibold;
   color: @text-primary;
-}
-
-.selected-count {
-  font-size: @font-size-sm;
-  color: @text-secondary;
-}
-
-.section-hint {
-  font-size: @font-size-sm;
-  color: @text-secondary;
-  margin-bottom: 20px;
-  line-height: 1.6;
 }
 
 .highlight-category {

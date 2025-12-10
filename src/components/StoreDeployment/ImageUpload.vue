@@ -7,7 +7,7 @@
       @dragover.prevent="isDragging = true"
       @dragleave="isDragging = false"
       @drop.prevent="handleDrop"
-      :class="['upload-area', { dragging: isDragging }]"
+      :class="['upload-area', { dragging: isDragging, compact: compact }]"
     >
       <input
         ref="fileInput"
@@ -129,6 +129,11 @@ export default defineComponent({
     uploadText: {
       type: String,
       default: '拖拽图片到此处，或点击上传'
+    },
+    // 紧凑模式（更小的上传区域）
+    compact: {
+      type: Boolean,
+      default: false
     },
     // 已有图片列表（v-model）
     value: {
@@ -317,6 +322,30 @@ export default defineComponent({
   background: @bg-primary;
   cursor: pointer;
   transition: all 0.2s;
+
+  &.compact {
+    padding: 24px 20px;
+
+    .upload-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .upload-text {
+      font-size: @font-size-sm;
+    }
+
+    .upload-hint {
+      font-size: @font-size-xs;
+      margin-bottom: 12px;
+    }
+
+    .upload-btn {
+      height: 28px;
+      padding: 0 16px;
+      font-size: @font-size-xs;
+    }
+  }
 
   &:hover {
     border-color: @brand-primary;
