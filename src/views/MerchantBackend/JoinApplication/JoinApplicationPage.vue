@@ -1,16 +1,6 @@
 <template>
   <sidebar>
     <div class="store-deployment-page">
-      <!-- 温馨提示（固定在顶部Tab之前） -->
-      <div class="tip-container">
-        <a-alert
-          message="表单会自动保存，您可以随时退出，稍后继续填写。建议您先准备好所有材料，以便一次性完成填写。"
-          type="info"
-          show-icon
-          class="tip-alert"
-        />
-      </div>
-
       <!-- 吸顶Tab导航 -->
       <div class="sticky-tabs-container" :class="{ sticky: isSticky }">
         <a-tabs
@@ -246,28 +236,6 @@ export default defineComponent({
   min-height: 100vh;
   background: @bg-tertiary;
   padding-bottom: 80px;
-}
-
-.tip-container {
-  padding: 20px 20px 0;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.tip-alert {
-  border-radius: @border-radius-base;
-  padding: 16px 20px;
-
-  :deep(.ant-alert-message) {
-    font-size: @font-size-base;
-    color: @text-primary;
-    line-height: 1.8;
-    font-weight: @font-weight-medium;
-  }
-
-  :deep(.ant-alert-icon) {
-    font-size: 18px;
-  }
 }
 
 .sticky-tabs-container {

@@ -3,10 +3,7 @@
     <!-- 门店设施 -->
     <a-card :bordered="false" class="form-section-card">
       <template slot="title">
-        <div class="section-header">
-          <span class="section-title">门店设施</span>
-          <span class="selected-count">已选 {{ totalSelectedCount }} 项</span>
-        </div>
+        <span class="section-title">门店设施</span>
       </template>
 
       <!-- 交通服务 -->
@@ -191,10 +188,7 @@
     <!-- 周边信息 -->
     <a-card :bordered="false" class="form-section-card">
       <template slot="title">
-        <div class="section-header">
-          <span class="section-title">周边信息</span>
-          <span class="featured-count">已选择 {{ featuredCount }}/2 项重点展示信息</span>
-        </div>
+        <span class="section-title">周边信息</span>
       </template>
 
       <!-- 交通分类 -->
