@@ -313,26 +313,64 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    // 本地数据
-    const localData = reactive({ ...props.formData.operationPolicy })
+    // 本地数据（使用安全的默认值）
+    const localData = reactive({
+      latestBookingTime: '22:00',
+      checkInTime: '15:00',
+      checkOutTime: '12:00',
+      importantNotice: '',
+      cancellationPolicy: '',
+      checkInAge: {
+        minAge: 'unlimited',
+        maxAge: '不限制'
+      },
+      childPolicy: {
+        acceptChildren: ChildPolicy.ACCEPT,
+        minAge: 'unlimited'
+      },
+      depositPolicy: '',
+      paymentMethods: [],
+      breakfastPolicy: {
+        provided: BreakfastPolicy.NOT_PROVIDED,
+        breakfastType: '',
+        servingStyle: '',
+        startTime: '',
+        endTime: '',
+        extraFee: 0
+      },
+      childBreakfast: {
+        criteria: ChildCriteria.AGE,
+        ageStandard: '',
+        heightStandard: '',
+        chargeType: ChargeType.FREE,
+        fee: 0
+      },
+      ...props.formData.operationPolicy
+    })
 
-    // 时间选择器的值
+    // 时间选择器的值（使用可选链安全访问）
     const latestBookingTimeValue = ref(localData.latestBookingTime ? moment(localData.latestBookingTime, 'HH:mm') : null)
     const checkInTimeValue = ref(localData.checkInTime ? moment(localData.checkInTime, 'HH:mm') : null)
     const checkOutTimeValue = ref(localData.checkOutTime ? moment(localData.checkOutTime, 'HH:mm') : null)
-    const breakfastStartTimeValue = ref(localData.breakfastPolicy.startTime ? moment(localData.breakfastPolicy.startTime, 'HH:mm') : null)
-    const breakfastEndTimeValue = ref(localData.breakfastPolicy.endTime ? moment(localData.breakfastPolicy.endTime, 'HH:mm') : null)
+    const breakfastStartTimeValue = ref(localData.breakfastPolicy?.startTime ? moment(localData.breakfastPolicy.startTime, 'HH:mm') : null)
+    const breakfastEndTimeValue = ref(localData.breakfastPolicy?.endTime ? moment(localData.breakfastPolicy.endTime, 'HH:mm') : null)
 
-    // 监听props变化
+    // 监听props变化（添加安全检查）
     watch(
       () => props.formData.operationPolicy,
       (newData) => {
+        if (!newData) return
+
         Object.assign(localData, newData)
         latestBookingTimeValue.value = newData.latestBookingTime ? moment(newData.latestBookingTime, 'HH:mm') : null
         checkInTimeValue.value = newData.checkInTime ? moment(newData.checkInTime, 'HH:mm') : null
         checkOutTimeValue.value = newData.checkOutTime ? moment(newData.checkOutTime, 'HH:mm') : null
-        breakfastStartTimeValue.value = newData.breakfastPolicy.startTime ? moment(newData.breakfastPolicy.startTime, 'HH:mm') : null
-        breakfastEndTimeValue.value = newData.breakfastPolicy.endTime ? moment(newData.breakfastPolicy.endTime, 'HH:mm') : null
+
+        // 安全访问嵌套属性
+        if (newData.breakfastPolicy) {
+          breakfastStartTimeValue.value = newData.breakfastPolicy.startTime ? moment(newData.breakfastPolicy.startTime, 'HH:mm') : null
+          breakfastEndTimeValue.value = newData.breakfastPolicy.endTime ? moment(newData.breakfastPolicy.endTime, 'HH:mm') : null
+        }
       },
       { deep: true }
     )
