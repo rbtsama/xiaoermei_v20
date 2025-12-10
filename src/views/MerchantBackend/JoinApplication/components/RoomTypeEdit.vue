@@ -26,7 +26,7 @@
                 <a-input
                   v-model="localData.roomTypeName"
                   placeholder="山景大床房"
-                  maxlength="50"
+                  :maxLength="50"
                 />
               </a-form-model-item>
             </a-col>
@@ -50,7 +50,7 @@
                 <a-input
                   v-model="localData.floor"
                   placeholder="2 或 3-5 或 2、4"
-                  maxlength="50"
+                  :maxLength="50"
                 />
                 <div class="field-hint">单个楼层直接填数字；连续楼层用"-"；多个不连续楼层用"、"</div>
               </a-form-model-item>
@@ -120,7 +120,7 @@
                 <a-input
                   v-model="localData.layout"
                   placeholder="卧室1 客厅1 卫生间1"
-                  maxlength="100"
+                  :maxLength="100"
                 />
               </a-form-model-item>
             </a-col>
@@ -132,7 +132,7 @@
                 <a-input
                   v-model="localData.bedType"
                   placeholder="1.8m×2m"
-                  maxlength="50"
+                  :maxLength="50"
                 />
               </a-form-model-item>
             </a-col>
@@ -154,7 +154,7 @@
             <a-input
               v-model="localData.breakfastInfo"
               placeholder="免费成人早餐2份、儿童早餐1份"
-              maxlength="200"
+              :maxLength="200"
             />
           </a-form-model-item>
 
@@ -162,7 +162,7 @@
             <a-input
               v-model="localData.roomTags"
               placeholder="有浴缸，有家庭套房，可加床，可拆分为双床"
-              maxlength="200"
+              :maxLength="200"
             />
           </a-form-model-item>
 
@@ -455,21 +455,7 @@ export default defineComponent({
       )
     })
 
-    // 监听props变化
-    watch(
-      () => props.roomType,
-      (newRoomType) => {
-        if (newRoomType) {
-          Object.assign(localData, newRoomType)
-        } else {
-          // 重置为空
-          resetLocalData()
-        }
-      },
-      { immediate: true }
-    )
-
-    // 重置数据
+    // 重置数据（定义在watch之前）
     const resetLocalData = () => {
       localData.id = `room_${Date.now()}`
       localData.roomTypeName = ''
@@ -501,6 +487,20 @@ export default defineComponent({
       localData.description = ''
       localData.images = []
     }
+
+    // 监听props变化
+    watch(
+      () => props.roomType,
+      (newRoomType) => {
+        if (newRoomType) {
+          Object.assign(localData, newRoomType)
+        } else {
+          // 重置为空
+          resetLocalData()
+        }
+      },
+      { immediate: true }
+    )
 
     // 取消
     const handleCancel = () => {
