@@ -123,8 +123,6 @@
 
         <!-- 门店视频 -->
         <div class="image-upload-item">
-        <!-- 门店视频 -->
-        <div class="image-upload-item">
           <div class="upload-label">
             <span class="label-text">门店视频</span>
             <a-tag color="blue" size="small">选填</a-tag>
