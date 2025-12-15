@@ -13,6 +13,10 @@
           <div class="upload-label">
             <span class="label-text">门店logo</span>
             <a-tag color="red" size="small">必填</a-tag>
+            <a-button type="link" size="small" @click="handlePreviewExample('/examples/门店logo.jpg')" class="example-link">
+              <a-icon type="picture" />
+              查看示例
+            </a-button>
           </div>
           <p class="upload-hint">建议比例1:1，尺寸500×500px以上</p>
           <image-upload
@@ -30,6 +34,10 @@
           <div class="upload-label">
             <span class="label-text">门店主页首图</span>
             <a-tag color="red" size="small">必填</a-tag>
+            <a-button type="link" size="small" @click="handlePreviewExample('/examples/门店主页首图.png')" class="example-link">
+              <a-icon type="picture" />
+              查看示例
+            </a-button>
           </div>
           <p class="upload-hint">建议比例2:3，最多5张</p>
           <image-upload
@@ -48,6 +56,10 @@
           <div class="upload-label">
             <span class="label-text">列表页封面</span>
             <a-tag color="red" size="small">必填</a-tag>
+            <a-button type="link" size="small" @click="handlePreviewExample('/examples/列表封面.jpg')" class="example-link">
+              <a-icon type="picture" />
+              查看示例
+            </a-button>
           </div>
           <p class="upload-hint">建议比例4:3，宽度>1000px</p>
           <image-upload
@@ -65,6 +77,10 @@
           <div class="upload-label">
             <span class="label-text">旅游交通图</span>
             <a-tag color="red" size="small">必填</a-tag>
+            <a-button type="link" size="small" @click="handlePreviewExample('/examples/旅游交通图.jpg')" class="example-link">
+              <a-icon type="picture" />
+              查看示例
+            </a-button>
           </div>
           <p class="upload-hint">标注门店位置及周边交通、景点的地图</p>
           <image-upload
@@ -127,6 +143,10 @@
         <div class="upload-label">
           <span class="label-text">视频封面</span>
           <a-tag color="blue" size="small">选填</a-tag>
+          <a-button type="link" size="small" @click="handlePreviewExample('/examples/视频封面.jpg')" class="example-link">
+            <a-icon type="picture" />
+            查看示例
+          </a-button>
         </div>
         <p class="upload-hint">视频播放前的封面图，建议比例16:9</p>
         <image-upload
@@ -145,6 +165,10 @@
         <div class="upload-label">
           <span class="label-text">最新情报</span>
           <a-tag color="blue" size="small">选填</a-tag>
+          <a-button type="link" size="small" @click="handlePreviewExample('/examples/最新情报.jpg')" class="example-link">
+            <a-icon type="picture" />
+            查看示例
+          </a-button>
         </div>
         <p class="upload-hint">排版好的活动海报或门店介绍长图，丰富门店首页内容，建议竖版长图，宽度750px左右</p>
         <image-upload
@@ -155,11 +179,22 @@
         />
       </div>
     </a-card>
+
+    <!-- 示例图片预览弹窗 -->
+    <a-modal
+      :visible="previewVisible"
+      :footer="null"
+      @cancel="previewVisible = false"
+      width="800px"
+      centered
+    >
+      <img :src="previewImage" style="width: 100%" alt="示例图片" />
+    </a-modal>
   </div>
 </template>
 
 <script>
-import { defineComponent, reactive, computed, watch } from '@vue/composition-api'
+import { defineComponent, reactive, computed, watch, ref } from '@vue/composition-api'
 import ImageUpload from '@/components/StoreDeployment/ImageUpload.vue'
 import { uploadVideo } from '@/api/storeDeployment'
 
@@ -180,6 +215,10 @@ export default defineComponent({
       images: { ...props.formData.storeDisplay.images },
       videos: { ...props.formData.storeDisplay.videos }
     })
+
+    // 示例图片预览
+    const previewVisible = ref(false)
+    const previewImage = ref('')
 
     // 视频文件列表
     const videoFileList = computed(() => {
@@ -249,14 +288,21 @@ export default defineComponent({
       })
     }
 
+    // 查看示例图片
+    const handlePreviewExample = (imagePath) => {
+      previewImage.value = imagePath
+      previewVisible.value = true
+    }
+
     return {
       localData,
       videoFileList,
-      HIGHLIGHTS_ARCHITECTURE,
-      HIGHLIGHTS_SERVICES,
+      previewVisible,
+      previewImage,
       handleVideoUpload,
       handleVideoRemove,
-      handleChange
+      handleChange,
+      handlePreviewExample
     }
   }
 })
@@ -362,6 +408,22 @@ export default defineComponent({
   align-items: center;
   gap: 8px;
   margin-bottom: 8px;
+}
+
+.example-link {
+  padding: 0 8px;
+  font-size: @font-size-sm;
+  color: @brand-primary;
+  height: auto;
+  line-height: 1;
+
+  &:hover {
+    color: @brand-primary-hover;
+  }
+
+  :deep(.anticon) {
+    font-size: @font-size-sm;
+  }
 }
 
 .label-text {
