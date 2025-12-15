@@ -10,36 +10,36 @@
       <div class="policy-section">
         <div class="subsection-title">预订政策</div>
 
-      <a-row :gutter="24">
-        <a-col :span="8">
-          <div class="form-item">
-            <label class="form-label">当天最晚预订时间 <span class="required">*</span></label>
-            <a-input v-model="formValues.latestBookingTime" placeholder="22:00" />
-          </div>
-        </a-col>
-        <a-col :span="8">
-          <div class="form-item">
-            <label class="form-label">开始办理入住时间 <span class="required">*</span></label>
-            <a-input v-model="formValues.checkInTime" placeholder="15:00" />
-          </div>
-        </a-col>
-        <a-col :span="8">
-          <div class="form-item">
-            <label class="form-label">最晚退房时间 <span class="required">*</span></label>
-            <a-input v-model="formValues.checkOutTime" placeholder="12:00" />
-          </div>
-        </a-col>
-      </a-row>
+        <a-row :gutter="24">
+          <a-col :span="8">
+            <div class="form-item">
+              <label class="form-label">当天最晚预订时间 <span class="required">*</span></label>
+              <a-input v-model="formValues.latestBookingTime" placeholder="22:00" />
+            </div>
+          </a-col>
+          <a-col :span="8">
+            <div class="form-item">
+              <label class="form-label">开始办理入住时间 <span class="required">*</span></label>
+              <a-input v-model="formValues.checkInTime" placeholder="15:00" />
+            </div>
+          </a-col>
+          <a-col :span="8">
+            <div class="form-item">
+              <label class="form-label">最晚退房时间 <span class="required">*</span></label>
+              <a-input v-model="formValues.checkOutTime" placeholder="12:00" />
+            </div>
+          </a-col>
+        </a-row>
 
-      <div class="form-item">
-        <label class="form-label">重要通知</label>
-        <a-textarea
-          v-model="formValues.importantNotice"
-          placeholder="临时性重要通知，如设施维护等。示例：泳池维护中，12月30日前暂不可使用。"
-          :rows="3"
-          :maxLength="500"
-        />
-      </div>
+        <div class="form-item">
+          <label class="form-label">重要通知</label>
+          <a-textarea
+            v-model="formValues.importantNotice"
+            placeholder="临时性重要通知，如设施维护等。示例：泳池维护中，12月30日前暂不可使用。"
+            :rows="3"
+            :maxLength="500"
+          />
+        </div>
 
         <div class="form-item">
           <label class="form-label">取消政策 <span class="required">*</span></label>
@@ -58,44 +58,44 @@
       <div class="policy-section">
         <div class="subsection-title">入住政策</div>
 
-      <div class="form-item">
-        <label class="form-label">最小入住年龄 <span class="required">*</span></label>
-        <a-select v-model="formValues.minCheckInAge" placeholder="请选择">
-          <a-select-option value="unlimited">不限制</a-select-option>
-          <a-select-option value="16+">16岁以上</a-select-option>
-          <a-select-option value="18+">18岁以上</a-select-option>
-          <a-select-option value="21+">21岁以上</a-select-option>
-        </a-select>
-      </div>
+        <div class="form-item">
+          <label class="form-label">最小入住年龄 <span class="required">*</span></label>
+          <a-select v-model="formValues.minCheckInAge" placeholder="请选择">
+            <a-select-option value="unlimited">不限制</a-select-option>
+            <a-select-option value="16+">16岁以上</a-select-option>
+            <a-select-option value="18+">18岁以上</a-select-option>
+            <a-select-option value="21+">21岁以上</a-select-option>
+          </a-select>
+        </div>
 
-      <div class="form-item">
-        <label class="form-label">是否接待儿童 <span class="required">*</span></label>
-        <a-radio-group v-model="formValues.acceptChildren">
-          <a-radio value="no">不接待儿童</a-radio>
-          <a-radio value="yes">接待儿童</a-radio>
-        </a-radio-group>
-      </div>
+        <div class="form-item">
+          <label class="form-label">是否接待儿童 <span class="required">*</span></label>
+          <a-radio-group v-model="formValues.acceptChildren">
+            <a-radio value="no">不接待儿童</a-radio>
+            <a-radio value="yes">接待儿童</a-radio>
+          </a-radio-group>
+        </div>
 
-      <div v-if="formValues.acceptChildren === 'yes'" class="form-item">
-        <label class="form-label">最小年龄要求 <span class="required">*</span></label>
-        <a-select v-model="formValues.childMinAge" placeholder="请选择">
-          <a-select-option value="unlimited">不限制</a-select-option>
-          <a-select-option value="1+">1岁以上</a-select-option>
-          <a-select-option value="3+">3岁以上</a-select-option>
-          <a-select-option value="6+">6岁以上</a-select-option>
-          <a-select-option value="12+">12岁以上</a-select-option>
-        </a-select>
-      </div>
+        <div v-if="formValues.acceptChildren === 'yes'" class="form-item">
+          <label class="form-label">最小年龄要求 <span class="required">*</span></label>
+          <a-select v-model="formValues.childMinAge" placeholder="请选择">
+            <a-select-option value="unlimited">不限制</a-select-option>
+            <a-select-option value="1+">1岁以上</a-select-option>
+            <a-select-option value="3+">3岁以上</a-select-option>
+            <a-select-option value="6+">6岁以上</a-select-option>
+            <a-select-option value="12+">12岁以上</a-select-option>
+          </a-select>
+        </div>
 
-      <div class="form-item">
-        <label class="form-label">押金政策 <span class="required">*</span></label>
-        <a-textarea
-          v-model="formValues.depositPolicy"
-          placeholder="示例：固定收取1000元；可用支付方式：支持现金、信用卡和第三方支付平台；退还押金方式：退房当日原支付方式退还；或者填写：不收取押金"
-          :rows="5"
-          :maxLength="500"
-        />
-      </div>
+        <div class="form-item">
+          <label class="form-label">押金政策 <span class="required">*</span></label>
+          <a-textarea
+            v-model="formValues.depositPolicy"
+            placeholder="示例：固定收取1000元；可用支付方式：支持现金、信用卡和第三方支付平台；退还押金方式：退房当日原支付方式退还；或者填写：不收取押金"
+            :rows="5"
+            :maxLength="500"
+          />
+        </div>
 
         <div class="form-item">
           <label class="form-label">前台可用支付方式 <span class="required">*</span></label>
@@ -117,103 +117,106 @@
       <div class="policy-section">
         <div class="subsection-title">早餐政策</div>
 
-      <div class="form-item">
-        <label class="form-label">是否提供早餐 <span class="required">*</span></label>
-        <a-radio-group v-model="formValues.providesBreakfast">
-          <a-radio value="no">不提供早餐</a-radio>
-          <a-radio value="yes">提供早餐</a-radio>
-        </a-radio-group>
+        <div class="form-item">
+          <label class="form-label">是否提供早餐 <span class="required">*</span></label>
+          <a-radio-group v-model="formValues.providesBreakfast">
+            <a-radio value="no">不提供早餐</a-radio>
+            <a-radio value="yes">提供早餐</a-radio>
+          </a-radio-group>
+        </div>
+
+        <template v-if="formValues.providesBreakfast === 'yes'">
+          <a-row :gutter="24">
+            <a-col :span="8">
+              <div class="form-item">
+                <label class="form-label">早餐类型 <span class="required">*</span></label>
+                <a-select v-model="formValues.breakfastType" placeholder="请选择">
+                  <a-select-option value="chinese">中式</a-select-option>
+                  <a-select-option value="western">西式</a-select-option>
+                  <a-select-option value="mixed">中西式</a-select-option>
+                </a-select>
+              </div>
+            </a-col>
+            <a-col :span="8">
+              <div class="form-item">
+                <label class="form-label">供应形式 <span class="required">*</span></label>
+                <a-select v-model="formValues.servingStyle" placeholder="请选择">
+                  <a-select-option value="set_meal">固定套餐</a-select-option>
+                  <a-select-option value="buffet">自助餐</a-select-option>
+                  <a-select-option value="a_la_carte">单点</a-select-option>
+                </a-select>
+              </div>
+            </a-col>
+            <a-col :span="8">
+              <div class="form-item">
+                <label class="form-label">加早费用（元/份） <span class="required">*</span></label>
+                <a-input-number v-model="formValues.breakfastFee" :min="0" placeholder="58" style="width: 100%" />
+              </div>
+            </a-col>
+          </a-row>
+
+          <a-row :gutter="24">
+            <a-col :span="12">
+              <div class="form-item">
+                <label class="form-label">开始时间 <span class="required">*</span></label>
+                <a-input v-model="formValues.breakfastStartTime" placeholder="07:30" />
+              </div>
+            </a-col>
+            <a-col :span="12">
+              <div class="form-item">
+                <label class="form-label">结束时间 <span class="required">*</span></label>
+                <a-input v-model="formValues.breakfastEndTime" placeholder="10:00" />
+              </div>
+            </a-col>
+          </a-row>
+        </template>
       </div>
-
-      <template v-if="formValues.providesBreakfast === 'yes'">
-        <a-row :gutter="24">
-          <a-col :span="8">
-            <div class="form-item">
-              <label class="form-label">早餐类型 <span class="required">*</span></label>
-              <a-select v-model="formValues.breakfastType" placeholder="请选择">
-                <a-select-option value="chinese">中式</a-select-option>
-                <a-select-option value="western">西式</a-select-option>
-                <a-select-option value="mixed">中西式</a-select-option>
-              </a-select>
-            </div>
-          </a-col>
-          <a-col :span="8">
-            <div class="form-item">
-              <label class="form-label">供应形式 <span class="required">*</span></label>
-              <a-select v-model="formValues.servingStyle" placeholder="请选择">
-                <a-select-option value="set_meal">固定套餐</a-select-option>
-                <a-select-option value="buffet">自助餐</a-select-option>
-                <a-select-option value="a_la_carte">单点</a-select-option>
-              </a-select>
-            </div>
-          </a-col>
-          <a-col :span="8">
-            <div class="form-item">
-              <label class="form-label">加早费用（元/份） <span class="required">*</span></label>
-              <a-input-number v-model="formValues.breakfastFee" :min="0" placeholder="58" style="width: 100%" />
-            </div>
-          </a-col>
-        </a-row>
-
-        <a-row :gutter="24">
-          <a-col :span="12">
-            <div class="form-item">
-              <label class="form-label">开始时间 <span class="required">*</span></label>
-              <a-input v-model="formValues.breakfastStartTime" placeholder="07:30" />
-            </div>
-          </a-col>
-          <a-col :span="12">
-            <div class="form-item">
-              <label class="form-label">结束时间 <span class="required">*</span></label>
-              <a-input v-model="formValues.breakfastEndTime" placeholder="10:00" />
-            </div>
-          </a-col>
-        </a-row>
-      </template>
 
       <a-divider />
 
       <!-- 儿童早餐 -->
-      <div class="subsection-title">儿童早餐</div>
+      <div class="policy-section">
+        <div class="subsection-title">儿童早餐</div>
 
-      <div class="form-item">
-        <label class="form-label">判断标准 <span class="required">*</span></label>
-        <a-radio-group v-model="formValues.childCriteria">
-          <a-radio value="age">按年龄</a-radio>
-          <a-radio value="height">按身高</a-radio>
-        </a-radio-group>
-      </div>
+        <div class="form-item">
+          <label class="form-label">判断标准 <span class="required">*</span></label>
+          <a-radio-group v-model="formValues.childCriteria">
+            <a-radio value="age">按年龄</a-radio>
+            <a-radio value="height">按身高</a-radio>
+          </a-radio-group>
+        </div>
 
-      <div v-if="formValues.childCriteria === 'age'" class="form-item">
-        <label class="form-label">年龄标准 <span class="required">*</span></label>
-        <a-select v-model="formValues.childAgeStandard" placeholder="请选择">
-          <a-select-option value="under_6">6岁以下</a-select-option>
-          <a-select-option value="under_12">12岁以下</a-select-option>
-          <a-select-option value="under_16">16岁以下</a-select-option>
-          <a-select-option value="under_18">18岁以下</a-select-option>
-        </a-select>
-      </div>
+        <div v-if="formValues.childCriteria === 'age'" class="form-item">
+          <label class="form-label">年龄标准 <span class="required">*</span></label>
+          <a-select v-model="formValues.childAgeStandard" placeholder="请选择">
+            <a-select-option value="under_6">6岁以下</a-select-option>
+            <a-select-option value="under_12">12岁以下</a-select-option>
+            <a-select-option value="under_16">16岁以下</a-select-option>
+            <a-select-option value="under_18">18岁以下</a-select-option>
+          </a-select>
+        </div>
 
-      <div v-if="formValues.childCriteria === 'height'" class="form-item">
-        <label class="form-label">身高标准 <span class="required">*</span></label>
-        <a-select v-model="formValues.childHeightStandard" placeholder="请选择">
-          <a-select-option value="under_1.2">1.2米以下</a-select-option>
-          <a-select-option value="under_1.4">1.4米以下</a-select-option>
-          <a-select-option value="under_1.5">1.5米以下</a-select-option>
-        </a-select>
-      </div>
+        <div v-if="formValues.childCriteria === 'height'" class="form-item">
+          <label class="form-label">身高标准 <span class="required">*</span></label>
+          <a-select v-model="formValues.childHeightStandard" placeholder="请选择">
+            <a-select-option value="under_1.2">1.2米以下</a-select-option>
+            <a-select-option value="under_1.4">1.4米以下</a-select-option>
+            <a-select-option value="under_1.5">1.5米以下</a-select-option>
+          </a-select>
+        </div>
 
-      <div class="form-item">
-        <label class="form-label">收费方式 <span class="required">*</span></label>
-        <a-radio-group v-model="formValues.childChargeType">
-          <a-radio value="free">免费</a-radio>
-          <a-radio value="charged">收费</a-radio>
-        </a-radio-group>
-      </div>
+        <div class="form-item">
+          <label class="form-label">收费方式 <span class="required">*</span></label>
+          <a-radio-group v-model="formValues.childChargeType">
+            <a-radio value="free">免费</a-radio>
+            <a-radio value="charged">收费</a-radio>
+          </a-radio-group>
+        </div>
 
-      <div v-if="formValues.childChargeType === 'charged'" class="form-item">
-        <label class="form-label">收费金额（元/人） <span class="required">*</span></label>
-        <a-input-number v-model="formValues.childBreakfastFee" :min="0" placeholder="30" style="width: 100%" />
+        <div v-if="formValues.childChargeType === 'charged'" class="form-item">
+          <label class="form-label">收费金额（元/人） <span class="required">*</span></label>
+          <a-input-number v-model="formValues.childBreakfastFee" :min="0" placeholder="30" style="width: 100%" />
+        </div>
       </div>
     </a-card>
   </div>
