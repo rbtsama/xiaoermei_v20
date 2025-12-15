@@ -620,9 +620,12 @@ export default defineComponent({
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
+  align-items: stretch;
 
   :deep(.ant-checkbox-wrapper) {
     margin: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     padding: 10px 12px;
     border: 1px solid @border-primary;
     border-radius: @border-radius-base;
@@ -630,7 +633,7 @@ export default defineComponent({
     transition: all 0.2s;
     display: flex;
     align-items: center;
-    height: 100%;
+    justify-content: flex-start;
 
     &:hover {
       border-color: @brand-primary;

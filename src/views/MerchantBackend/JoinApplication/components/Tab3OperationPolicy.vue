@@ -393,9 +393,14 @@ export default defineComponent({
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
+  align-items: stretch;
 
   :deep(.ant-checkbox-wrapper) {
     margin: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    display: flex;
+    align-items: center;
   }
 }
 
