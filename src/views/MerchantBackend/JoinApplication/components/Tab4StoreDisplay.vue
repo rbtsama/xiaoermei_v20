@@ -1,13 +1,11 @@
 <template>
   <div class="tab4-container">
-    <!-- 门店图片 -->
+    <!-- 门店基础图片 -->
     <a-card :bordered="false" class="form-section-card">
       <template slot="title">
-        <span class="section-title">门店图片</span>
+        <span class="section-title">门店基础图片</span>
       </template>
 
-      <!-- 必填图片（3列布局） -->
-      <div class="subsection-title">必填图片</div>
       <div class="images-grid-3">
         <!-- 门店logo -->
         <div class="image-upload-item">
@@ -69,52 +67,64 @@
             @change="handleChange"
           />
         </div>
-
-        <!-- 房型图 -->
-        <div class="image-upload-item">
-          <div class="upload-label">
-            <span class="label-text">房型图</span>
-            <a-tag color="red" size="small">必填</a-tag>
-            <a-button type="link" size="small" @click="handlePreviewExample('/examples/房型图.jpg')" class="example-link">
-              图片实例
-            </a-button>
-          </div>
-          <p class="upload-hint">建议尺寸3:2，最多可上传10张</p>
-          <image-upload
-            v-model="localData.images.roomImages"
-            :multiple="true"
-            :maxCount="10"
-            :maxSize="10"
-            ratio="3:2"
-            compact
-            @change="handleChange"
-          />
-        </div>
-
-        <!-- 旅游交通图 -->
-        <div class="image-upload-item">
-          <div class="upload-label">
-            <span class="label-text">旅游交通图</span>
-            <a-tag color="red" size="small">必填</a-tag>
-            <a-button type="link" size="small" @click="handlePreviewExample('/examples/旅游交通图.jpg')" class="example-link">
-              图片实例
-            </a-button>
-          </div>
-          <p class="upload-hint">标注门店位置及周边交通、景点的地图</p>
-          <image-upload
-            v-model="localData.images.travelMap"
-            :multiple="false"
-            :maxSize="10"
-            compact
-            @change="handleChange"
-          />
-        </div>
       </div>
+    </a-card>
 
-      <a-divider />
+    <!-- 房型图片 -->
+    <a-card :bordered="false" class="form-section-card">
+      <template slot="title">
+        <span class="section-title">房型图片</span>
+      </template>
 
-      <!-- 选填图片/视频（3列布局） -->
-      <div class="subsection-title">选填图片/视频</div>
+      <div class="image-upload-item">
+        <div class="upload-label">
+          <span class="label-text">房型图</span>
+          <a-tag color="red" size="small">必填</a-tag>
+          <a-button type="link" size="small" @click="handlePreviewExample('/examples/房型图.jpg')" class="example-link">
+            图片实例
+          </a-button>
+        </div>
+        <p class="upload-hint">建议尺寸3:2，最多可上传10张</p>
+        <image-upload
+          v-model="localData.images.roomImages"
+          :multiple="true"
+          :maxCount="10"
+          :maxSize="10"
+          ratio="3:2"
+          @change="handleChange"
+        />
+      </div>
+    </a-card>
+
+    <!-- 旅游交通图 -->
+    <a-card :bordered="false" class="form-section-card">
+      <template slot="title">
+        <span class="section-title">旅游交通图</span>
+      </template>
+
+      <div class="image-upload-item">
+        <div class="upload-label">
+          <a-tag color="red" size="small">必填</a-tag>
+          <a-button type="link" size="small" @click="handlePreviewExample('/examples/旅游交通图.jpg')" class="example-link">
+            图片实例
+          </a-button>
+        </div>
+        <p class="upload-hint">标注门店位置及周边交通、景点的地图</p>
+        <image-upload
+          v-model="localData.images.travelMap"
+          :multiple="false"
+          :maxSize="10"
+          @change="handleChange"
+        />
+      </div>
+    </a-card>
+
+    <!-- 视频素材 -->
+    <a-card :bordered="false" class="form-section-card">
+      <template slot="title">
+        <span class="section-title">视频素材</span>
+      </template>
+
       <div class="images-grid-3">
         <!-- 门店视频 -->
         <div class="image-upload-item">
@@ -174,11 +184,14 @@
           />
         </div>
       </div>
+    </a-card>
 
-      <a-divider />
+    <!-- 小程序分享图 -->
+    <a-card :bordered="false" class="form-section-card">
+      <template slot="title">
+        <span class="section-title">小程序分享图</span>
+      </template>
 
-      <!-- 小程序分享图（系统自动生成） -->
-      <div class="subsection-title">小程序分享图</div>
       <div class="image-upload-section">
         <div class="upload-label">
           <a-tag color="blue" size="small">自动生成</a-tag>
