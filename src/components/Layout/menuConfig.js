@@ -44,14 +44,14 @@ export const menuConfig = [
     title: '商户端',
     key: 'merchant-backend',
     children: [
+      { title: '订单列表', path: '/hotel-backend/order-list', key: 'hotel-order-list' },
       {
-        title: '门店入驻',
-        key: 'join-application',
+        title: '门店管理',
+        key: 'store-management',
         children: [
-          { title: '门店部署', path: '/merchant-backend/join-application/apply', key: 'store-deployment' }
+          { title: '门店信息配置', path: '/merchant-backend/join-application/apply', key: 'store-config' }
         ]
       },
-      { title: '订单列表', path: '/hotel-backend/order-list', key: 'hotel-order-list' },
       {
         title: '会员服务',
         key: 'member-service',
