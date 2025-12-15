@@ -17,10 +17,10 @@
               <template v-if="step.key !== 'tab0' && submittedTabs[step.key]">
                 <a-icon type="check-circle" theme="filled" class="submitted-icon" />
               </template>
-              <!-- 未提交：黄色感叹号 + 待完善 -->
+              <!-- 未提交：待完善 + 黄色感叹号 -->
               <template v-else-if="step.key !== 'tab0' && !submittedTabs[step.key]">
-                <a-icon type="exclamation-circle" theme="filled" class="pending-icon" />
                 <span class="pending-text">（待完善）</span>
+                <a-icon type="exclamation-circle" theme="filled" class="pending-icon" />
               </template>
             </div>
           </div>
@@ -445,18 +445,18 @@ export default defineComponent({
 .submitted-icon {
   color: @success-color;
   font-size: 16px;
-  margin-left: 6px;
-}
-
-.pending-icon {
-  color: @warning-color;
-  font-size: 16px;
-  margin-left: 6px;
+  margin-left: 8px;
 }
 
 .pending-text {
   font-size: 12px;
   color: @warning-color;
+  margin-left: 6px;
+}
+
+.pending-icon {
+  color: @warning-color;
+  font-size: 14px;
   margin-left: 4px;
 }
 </style>
