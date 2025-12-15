@@ -6,19 +6,19 @@
         <span class="section-title">门店图片</span>
       </template>
 
-      <!-- 2列网格布局 -->
-      <div class="images-grid">
+      <!-- 必填图片（3列布局） -->
+      <div class="subsection-title">必填图片</div>
+      <div class="images-grid-3">
         <!-- 门店logo -->
         <div class="image-upload-item">
           <div class="upload-label">
             <span class="label-text">门店logo</span>
             <a-tag color="red" size="small">必填</a-tag>
             <a-button type="link" size="small" @click="handlePreviewExample('/examples/门店logo.jpg')" class="example-link">
-              <a-icon type="picture" />
-              查看示例
+              图片实例
             </a-button>
           </div>
-          <p class="upload-hint">建议比例1:1，尺寸500×500px以上</p>
+          <p class="upload-hint">建议尺寸1:1</p>
           <image-upload
             v-model="localData.images.logo"
             :multiple="false"
@@ -35,11 +35,10 @@
             <span class="label-text">门店主页首图</span>
             <a-tag color="red" size="small">必填</a-tag>
             <a-button type="link" size="small" @click="handlePreviewExample('/examples/门店主页首图.png')" class="example-link">
-              <a-icon type="picture" />
-              查看示例
+              图片实例
             </a-button>
           </div>
-          <p class="upload-hint">建议比例2:3，最多5张</p>
+          <p class="upload-hint">建议图片比例2:3，最多5张</p>
           <image-upload
             v-model="localData.images.homePageImages"
             :multiple="true"
@@ -57,16 +56,36 @@
             <span class="label-text">列表页封面</span>
             <a-tag color="red" size="small">必填</a-tag>
             <a-button type="link" size="small" @click="handlePreviewExample('/examples/列表封面.jpg')" class="example-link">
-              <a-icon type="picture" />
-              查看示例
+              图片实例
             </a-button>
           </div>
-          <p class="upload-hint">建议比例4:3，宽度>1000px</p>
+          <p class="upload-hint">平台首页的门店列表封面，建议尺寸4:3，宽度大于1000px</p>
           <image-upload
             v-model="localData.images.listCover"
             :multiple="false"
             :maxSize="10"
             ratio="4:3"
+            compact
+            @change="handleChange"
+          />
+        </div>
+
+        <!-- 房型图 -->
+        <div class="image-upload-item">
+          <div class="upload-label">
+            <span class="label-text">房型图</span>
+            <a-tag color="red" size="small">必填</a-tag>
+            <a-button type="link" size="small" @click="handlePreviewExample('/examples/房型图.jpg')" class="example-link">
+              图片实例
+            </a-button>
+          </div>
+          <p class="upload-hint">建议尺寸3:2，最多可上传10张</p>
+          <image-upload
+            v-model="localData.images.roomImages"
+            :multiple="true"
+            :maxCount="10"
+            :maxSize="10"
+            ratio="3:2"
             compact
             @change="handleChange"
           />
@@ -78,8 +97,7 @@
             <span class="label-text">旅游交通图</span>
             <a-tag color="red" size="small">必填</a-tag>
             <a-button type="link" size="small" @click="handlePreviewExample('/examples/旅游交通图.jpg')" class="example-link">
-              <a-icon type="picture" />
-              查看示例
+              图片实例
             </a-button>
           </div>
           <p class="upload-hint">标注门店位置及周边交通、景点的地图</p>
@@ -93,90 +111,84 @@
         </div>
       </div>
 
-      <!-- 小程序分享图（系统自动生成） -->
       <a-divider />
+
+      <!-- 选填图片/视频（3列布局） -->
+      <div class="subsection-title">选填图片/视频</div>
+      <div class="images-grid-3">
+        <!-- 门店视频 -->
+        <div class="image-upload-item">
+          <div class="upload-label">
+            <span class="label-text">门店视频</span>
+            <a-tag color="blue" size="small">选填</a-tag>
+          </div>
+          <p class="upload-hint">请上传16:9大小不超过100MB格式为*.mp4 *.mov *.avi的文件</p>
+          <div class="video-upload-area">
+            <a-upload
+              :file-list="videoFileList"
+              :before-upload="handleVideoUpload"
+              :remove="handleVideoRemove"
+              accept="video/mp4,video/quicktime,video/x-msvideo"
+            >
+              <a-button v-if="!localData.videos.video">
+                <a-icon type="upload" /> 上传视频
+              </a-button>
+            </a-upload>
+          </div>
+        </div>
+
+        <!-- 视频封面 -->
+        <div class="image-upload-item">
+          <div class="upload-label">
+            <span class="label-text">视频封面</span>
+            <a-tag color="blue" size="small">选填</a-tag>
+            <a-button type="link" size="small" @click="handlePreviewExample('/examples/视频封面.jpg')" class="example-link">
+              图片实例
+            </a-button>
+          </div>
+          <p class="upload-hint">请上传16:9的图片</p>
+          <image-upload
+            v-model="localData.videos.videoCover"
+            :multiple="false"
+            :maxSize="5"
+            ratio="16:9"
+            @change="handleChange"
+          />
+        </div>
+
+        <!-- 最新情报 -->
+        <div class="image-upload-item">
+          <div class="upload-label">
+            <span class="label-text">最新情报</span>
+            <a-tag color="blue" size="small">选填</a-tag>
+            <a-button type="link" size="small" @click="handlePreviewExample('/examples/最新情报.jpg')" class="example-link">
+              图片实例
+            </a-button>
+          </div>
+          <p class="upload-hint">建议上传排版好的拼接长图文，整体介绍门店、最新活动和品牌故事，丰富门店首页内容</p>
+          <image-upload
+            v-model="localData.videos.latestNews"
+            :multiple="false"
+            :maxSize="10"
+            @change="handleChange"
+          />
+        </div>
+      </div>
+
+      <a-divider />
+
+      <!-- 小程序分享图（系统自动生成） -->
+      <div class="subsection-title">小程序分享图</div>
       <div class="image-upload-section">
         <div class="upload-label">
-          <span class="label-text">小程序分享图</span>
           <a-tag color="blue" size="small">自动生成</a-tag>
         </div>
-        <p class="upload-hint">系统将根据列表页封面自动居中裁剪为5:4比例，用于分享链接时的封面</p>
+        <p class="upload-hint">用于将门店分享给客人时生成链接的封面图片和标题。上传列表页封面图后，居中切5:4，不可编辑</p>
         <div v-if="localData.images.listCover" class="auto-generated-image">
           <img :src="localData.images.listCover" alt="小程序分享图预览" />
           <div class="image-label">自动生成预览（5:4比例）</div>
         </div>
         <div v-else class="empty-hint">请先上传列表页封面</div>
-      </div>
-    </a-card>
-
-    <!-- 视频素材 -->
-    <a-card :bordered="false" class="form-section-card">
-      <template slot="title">
-        <span class="section-title">视频素材（选填）</span>
-      </template>
-
-      <!-- 门店视频 -->
-      <div class="image-upload-section">
-        <div class="upload-label">
-          <span class="label-text">门店视频</span>
-          <a-tag color="blue" size="small">选填</a-tag>
-        </div>
-        <p class="upload-hint">门店介绍视频，展示门店环境和特色，建议比例16:9，大小<100MB，格式mp4/mov/avi</p>
-        <div class="video-upload-area">
-          <a-upload
-            :file-list="videoFileList"
-            :before-upload="handleVideoUpload"
-            :remove="handleVideoRemove"
-            accept="video/mp4,video/quicktime,video/x-msvideo"
-          >
-            <a-button v-if="!localData.videos.video">
-              <a-icon type="upload" /> 上传视频
-            </a-button>
-          </a-upload>
-        </div>
-      </div>
-
-      <a-divider />
-
-      <!-- 视频封面 -->
-      <div v-if="localData.videos.video" class="image-upload-section">
-        <div class="upload-label">
-          <span class="label-text">视频封面</span>
-          <a-tag color="blue" size="small">选填</a-tag>
-          <a-button type="link" size="small" @click="handlePreviewExample('/examples/视频封面.jpg')" class="example-link">
-            <a-icon type="picture" />
-            查看示例
-          </a-button>
-        </div>
-        <p class="upload-hint">视频播放前的封面图，建议比例16:9</p>
-        <image-upload
-          v-model="localData.videos.videoCover"
-          :multiple="false"
-          :maxSize="5"
-          ratio="16:9"
-          @change="handleChange"
-        />
-      </div>
-
-      <a-divider />
-
-      <!-- 最新情报 -->
-      <div class="image-upload-section">
-        <div class="upload-label">
-          <span class="label-text">最新情报</span>
-          <a-tag color="blue" size="small">选填</a-tag>
-          <a-button type="link" size="small" @click="handlePreviewExample('/examples/最新情报.jpg')" class="example-link">
-            <a-icon type="picture" />
-            查看示例
-          </a-button>
-        </div>
-        <p class="upload-hint">排版好的活动海报或门店介绍长图，丰富门店首页内容，建议竖版长图，宽度750px左右</p>
-        <image-upload
-          v-model="localData.videos.latestNews"
-          :multiple="false"
-          :maxSize="10"
-          @change="handleChange"
-        />
       </div>
     </a-card>
 
@@ -212,7 +224,10 @@ export default defineComponent({
   setup(props, { emit, root }) {
     // 本地数据
     const localData = reactive({
-      images: { ...props.formData.storeDisplay.images },
+      images: {
+        ...props.formData.storeDisplay.images,
+        roomImages: props.formData.storeDisplay.images?.roomImages || []
+      },
       videos: { ...props.formData.storeDisplay.videos }
     })
 
@@ -384,11 +399,20 @@ export default defineComponent({
   }
 }
 
-.images-grid {
+.images-grid-3 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.subsection-title {
+  font-size: @font-size-base;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid @bg-secondary;
 }
 
 .image-upload-item {
