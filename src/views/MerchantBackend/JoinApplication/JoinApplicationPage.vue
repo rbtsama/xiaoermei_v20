@@ -10,42 +10,69 @@
               v-for="step in steps"
               :key="step.key"
               @click="activeTab = step.key"
-              :class="['tab-item', { active: activeTab === step.key }]"
+              :class="['tab-item', { active: activeTab === step.key, submitted: submittedTabs[step.key] }]"
             >
               <span class="tab-title">{{ step.title }}</span>
+              <!-- 已提交：绿色勾选 -->
+              <template v-if="step.key !== 'tab0' && submittedTabs[step.key]">
+                <a-icon type="check-circle" theme="filled" class="submitted-icon" />
+              </template>
+              <!-- 未提交：黄色感叹号 + 待完善 -->
+              <template v-else-if="step.key !== 'tab0' && !submittedTabs[step.key]">
+                <a-icon type="exclamation-circle" theme="filled" class="pending-icon" />
+                <span class="pending-text">（待完善）</span>
+              </template>
             </div>
           </div>
 
           <!-- 右侧操作按钮 -->
           <div class="header-actions">
-            <!-- 自动保存状态 -->
-            <div v-if="activeTab !== 'tab0'" class="save-status">
-              <a-icon v-if="autoSaveStatus === 'saving'" type="loading" />
-              <a-icon v-else-if="autoSaveStatus === 'saved'" type="check-circle" theme="filled" class="success-icon" />
-              <span class="status-text">
-                <template v-if="autoSaveStatus === 'saving'">保存中...</template>
-                <template v-else-if="autoSaveStatus === 'saved'">{{ lastSaveTime }} 自动保存</template>
-              </span>
-            </div>
+            <!-- Tab0：准备清单，不显示任何按钮 -->
+            <template v-if="activeTab === 'tab0'">
+              <!-- 不显示按钮 -->
+            </template>
 
-            <a-button v-if="activeTab !== 'tab0'" @click="handleSaveDraft" size="large" class="action-btn">
-              <a-icon type="save" />
-              保存草稿
-            </a-button>
-            <a-button type="primary" @click="handleNextTab" size="large" class="action-btn primary-btn">
-              <template v-if="activeTab === 'tab0'">
-                开始填写
-                <a-icon type="right" />
-              </template>
-              <template v-else-if="activeTab === 'tab6'">
+            <!-- Tab1-6：未提交状态 -->
+            <template v-else-if="!submittedTabs[activeTab]">
+              <!-- 自动保存状态 -->
+              <div class="save-status">
+                <a-icon v-if="autoSaveStatus === 'saving'" type="loading" />
+                <a-icon v-else-if="autoSaveStatus === 'saved'" type="check-circle" theme="filled" class="success-icon" />
+                <span class="status-text">
+                  <template v-if="autoSaveStatus === 'saving'">保存中...</template>
+                  <template v-else-if="autoSaveStatus === 'saved'">{{ lastSaveTime }} 自动保存</template>
+                </span>
+              </div>
+
+              <a-button @click="handleSaveDraft" size="large" class="action-btn">
+                <a-icon type="save" />
+                保存草稿
+              </a-button>
+
+              <a-button type="primary" @click="handleSubmitTab" size="large" class="action-btn primary-btn">
                 <a-icon type="check" />
-                提交审核
-              </template>
-              <template v-else>
-                下一步
-                <a-icon type="right" />
-              </template>
-            </a-button>
+                提交本页
+              </a-button>
+            </template>
+
+            <!-- Tab1-6：已提交，非编辑模式 -->
+            <template v-else-if="!editingTabs[activeTab]">
+              <a-button type="primary" @click="handleStartEdit" size="large" class="action-btn primary-btn">
+                <a-icon type="edit" />
+                编辑
+              </a-button>
+            </template>
+
+            <!-- Tab1-6：已提交，编辑模式 -->
+            <template v-else>
+              <a-button @click="handleCancelEdit" size="large" class="action-btn">
+                取消
+              </a-button>
+              <a-button type="primary" @click="handleSaveEdit" size="large" class="action-btn primary-btn">
+                <a-icon type="save" />
+                保存
+              </a-button>
+            </template>
           </div>
         </div>
       </div>
@@ -93,6 +120,26 @@ export default defineComponent({
     const autoSaveStatus = ref(AutoSaveStatus.IDLE)
     const lastSaveTime = ref('')
 
+    // Tab提交状态（记录哪些Tab已提交）
+    const submittedTabs = reactive({
+      tab1: false,
+      tab2: false,
+      tab3: false,
+      tab4: false,
+      tab5: false,
+      tab6: false
+    })
+
+    // Tab编辑模式（记录哪些Tab处于编辑状态）
+    const editingTabs = reactive({
+      tab1: false,
+      tab2: false,
+      tab3: false,
+      tab4: false,
+      tab5: false,
+      tab6: false
+    })
+
     // Tab进度统计
     const tabProgress = reactive({
       tab0: '-',  // 准备清单不显示进度
@@ -125,26 +172,6 @@ export default defineComponent({
       isSticky.value = window.scrollY > 100
     }
 
-    // Tab切换
-    const handlePrevTab = () => {
-      const tabs = ['tab0', 'tab1', 'tab2', 'tab3', 'tab4', 'tab5', 'tab6']
-      const currentIndex = tabs.indexOf(activeTab.value)
-      if (currentIndex > 0) {
-        activeTab.value = tabs[currentIndex - 1]
-      }
-    }
-
-    const handleNextTab = () => {
-      const tabs = ['tab0', 'tab1', 'tab2', 'tab3', 'tab4', 'tab5', 'tab6']
-      const currentIndex = tabs.indexOf(activeTab.value)
-      if (currentIndex < tabs.length - 1) {
-        activeTab.value = tabs[currentIndex + 1]
-      } else {
-        // 最后一个Tab，提交审核
-        handleSubmit()
-      }
-    }
-
     // 保存草稿
     const handleSaveDraft = () => {
       root.$message.success('草稿已保存')
@@ -161,9 +188,61 @@ export default defineComponent({
       autoSaveStatus.value = AutoSaveStatus.ERROR
     }
 
-    // 提交审核
-    const handleSubmit = () => {
-      root.$message.info('提交审核功能开发中...')
+    // 提交本页
+    const handleSubmitTab = async () => {
+      if (activeTab.value === 'tab0') return
+
+      // TODO: 调用StoreDeploymentForm的验证方法
+      // 这里需要通过ref或事件与子组件通信，触发验证
+
+      // 模拟验证和提交
+      try {
+        root.$message.loading({ content: '正在提交...', key: 'submit', duration: 0 })
+
+        // 模拟API调用
+        await new Promise(resolve => setTimeout(resolve, 1000))
+
+        // 提交成功，标记为已提交
+        submittedTabs[activeTab.value] = true
+
+        root.$message.success({ content: '提交成功！', key: 'submit', duration: 2 })
+      } catch (error) {
+        root.$message.error({ content: '提交失败，请检查必填项', key: 'submit', duration: 2 })
+      }
+    }
+
+    // 开始编辑
+    const handleStartEdit = () => {
+      if (activeTab.value === 'tab0') return
+      editingTabs[activeTab.value] = true
+    }
+
+    // 保存编辑
+    const handleSaveEdit = async () => {
+      if (activeTab.value === 'tab0') return
+
+      try {
+        root.$message.loading({ content: '正在保存...', key: 'save', duration: 0 })
+
+        // 模拟API调用
+        await new Promise(resolve => setTimeout(resolve, 800))
+
+        // 退出编辑模式
+        editingTabs[activeTab.value] = false
+
+        root.$message.success({ content: '保存成功！', key: 'save', duration: 2 })
+      } catch (error) {
+        root.$message.error({ content: '保存失败', key: 'save', duration: 2 })
+      }
+    }
+
+    // 取消编辑
+    const handleCancelEdit = () => {
+      if (activeTab.value === 'tab0') return
+
+      // TODO: 恢复原始数据
+      editingTabs[activeTab.value] = false
+      root.$message.info('已取消编辑')
     }
 
     // 进度更新
@@ -184,13 +263,16 @@ export default defineComponent({
       isSticky,
       autoSaveStatus,
       lastSaveTime,
+      submittedTabs,
+      editingTabs,
       tabProgress,
       steps,
       isStepCompleted,
-      handlePrevTab,
-      handleNextTab,
       handleSaveDraft,
-      handleSubmit,
+      handleSubmitTab,
+      handleStartEdit,
+      handleSaveEdit,
+      handleCancelEdit,
       handleProgressUpdate,
       handleSaveSuccess,
       handleSaveError
@@ -357,5 +439,24 @@ export default defineComponent({
     white-space: nowrap;
     font-weight: @font-weight-medium;
   }
+}
+
+// Tab提交状态图标
+.submitted-icon {
+  color: @success-color;
+  font-size: 16px;
+  margin-left: 6px;
+}
+
+.pending-icon {
+  color: @warning-color;
+  font-size: 16px;
+  margin-left: 6px;
+}
+
+.pending-text {
+  font-size: 12px;
+  color: @warning-color;
+  margin-left: 4px;
 }
 </style>
