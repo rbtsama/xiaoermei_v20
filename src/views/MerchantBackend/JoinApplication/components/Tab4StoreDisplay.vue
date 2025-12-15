@@ -1,9 +1,9 @@
 <template>
   <div class="tab4-container">
-    <!-- 门店基础图片 -->
+    <!-- 门店展示 -->
     <a-card :bordered="false" class="form-section-card">
       <template slot="title">
-        <span class="section-title">门店基础图片</span>
+        <span class="section-title">门店展示</span>
       </template>
 
       <div class="images-grid-3">
@@ -67,65 +67,62 @@
             @change="handleChange"
           />
         </div>
-      </div>
-    </a-card>
 
-    <!-- 房型图片 -->
-    <a-card :bordered="false" class="form-section-card">
-      <template slot="title">
-        <span class="section-title">房型图片</span>
-      </template>
-
-      <div class="image-upload-item">
-        <div class="upload-label">
-          <span class="label-text">房型图</span>
-          <a-tag color="red" size="small">必填</a-tag>
-          <a-button type="link" size="small" @click="handlePreviewExample('/examples/房型图.jpg')" class="example-link">
-            图片实例
-          </a-button>
+        <!-- 房型图 -->
+        <div class="image-upload-item">
+          <div class="upload-label">
+            <span class="label-text">房型图</span>
+            <a-tag color="red" size="small">必填</a-tag>
+            <a-button type="link" size="small" @click="handlePreviewExample('/examples/房型图.jpg')" class="example-link">
+              图片实例
+            </a-button>
+          </div>
+          <p class="upload-hint">建议尺寸3:2，最多可上传10张</p>
+          <image-upload
+            v-model="localData.images.roomImages"
+            :multiple="true"
+            :maxCount="10"
+            :maxSize="10"
+            ratio="3:2"
+            compact
+            @change="handleChange"
+          />
         </div>
-        <p class="upload-hint">建议尺寸3:2，最多可上传10张</p>
-        <image-upload
-          v-model="localData.images.roomImages"
-          :multiple="true"
-          :maxCount="10"
-          :maxSize="10"
-          ratio="3:2"
-          @change="handleChange"
-        />
-      </div>
-    </a-card>
 
-    <!-- 旅游交通图 -->
-    <a-card :bordered="false" class="form-section-card">
-      <template slot="title">
-        <span class="section-title">旅游交通图</span>
-      </template>
-
-      <div class="image-upload-item">
-        <div class="upload-label">
-          <a-tag color="red" size="small">必填</a-tag>
-          <a-button type="link" size="small" @click="handlePreviewExample('/examples/旅游交通图.jpg')" class="example-link">
-            图片实例
-          </a-button>
+        <!-- 旅游交通图 -->
+        <div class="image-upload-item">
+          <div class="upload-label">
+            <span class="label-text">旅游交通图</span>
+            <a-tag color="red" size="small">必填</a-tag>
+            <a-button type="link" size="small" @click="handlePreviewExample('/examples/旅游交通图.jpg')" class="example-link">
+              图片实例
+            </a-button>
+          </div>
+          <p class="upload-hint">标注门店位置及周边交通、景点的地图</p>
+          <image-upload
+            v-model="localData.images.travelMap"
+            :multiple="false"
+            :maxSize="10"
+            compact
+            @change="handleChange"
+          />
         </div>
-        <p class="upload-hint">标注门店位置及周边交通、景点的地图</p>
-        <image-upload
-          v-model="localData.images.travelMap"
-          :multiple="false"
-          :maxSize="10"
-          @change="handleChange"
-        />
-      </div>
-    </a-card>
 
-    <!-- 视频素材 -->
-    <a-card :bordered="false" class="form-section-card">
-      <template slot="title">
-        <span class="section-title">视频素材</span>
-      </template>
+        <!-- 小程序分享图 -->
+        <div class="image-upload-item">
+          <div class="upload-label">
+            <span class="label-text">小程序分享图</span>
+            <a-tag color="blue" size="small">自动生成</a-tag>
+          </div>
+          <p class="upload-hint">上传列表页封面后自动生成，居中切5:4</p>
+          <div v-if="localData.images.listCover" class="auto-generated-preview">
+            <img :src="localData.images.listCover" alt="预览" />
+          </div>
+          <div v-else class="empty-preview">请先上传列表页封面</div>
+        </div>
 
-      <div class="images-grid-3">
+        <!-- 门店视频 -->
+        <div class="image-upload-item">
         <!-- 门店视频 -->
         <div class="image-upload-item">
           <div class="upload-label">
@@ -183,25 +180,6 @@
             @change="handleChange"
           />
         </div>
-      </div>
-    </a-card>
-
-    <!-- 小程序分享图 -->
-    <a-card :bordered="false" class="form-section-card">
-      <template slot="title">
-        <span class="section-title">小程序分享图</span>
-      </template>
-
-      <div class="image-upload-section">
-        <div class="upload-label">
-          <a-tag color="blue" size="small">自动生成</a-tag>
-        </div>
-        <p class="upload-hint">用于将门店分享给客人时生成链接的封面图片和标题。上传列表页封面图后，居中切5:4，不可编辑</p>
-        <div v-if="localData.images.listCover" class="auto-generated-image">
-          <img :src="localData.images.listCover" alt="小程序分享图预览" />
-          <div class="image-label">自动生成预览（5:4比例）</div>
-        </div>
-        <div v-else class="empty-hint">请先上传列表页封面</div>
       </div>
     </a-card>
 
@@ -476,35 +454,31 @@ export default defineComponent({
   line-height: 1.6;
 }
 
-.auto-generated-image {
-  width: 300px;
+.auto-generated-preview {
+  width: 100%;
+  height: 150px;
   border-radius: @border-radius-base;
   overflow: hidden;
   border: 1px solid @border-primary;
+  background: @bg-secondary;
 
   img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
     object-fit: cover;
-    aspect-ratio: 5/4;
-  }
-
-  .image-label {
-    padding: 8px 12px;
-    background: @bg-secondary;
-    text-align: center;
-    font-size: @font-size-xs;
-    color: @text-secondary;
   }
 }
 
-.empty-hint {
-  padding: 24px;
-  text-align: center;
+.empty-preview {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: @text-secondary;
   background: @bg-secondary;
   border-radius: @border-radius-base;
+  border: 1px dashed @border-primary;
   font-size: @font-size-sm;
 }
 
