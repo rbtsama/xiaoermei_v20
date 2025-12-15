@@ -14,23 +14,18 @@
             >
               <span class="tab-title">{{ step.title }}</span>
               <!-- 已提交：绿色勾选 -->
-              <template v-if="step.key !== 'tab0' && submittedTabs[step.key]">
+              <template v-if="submittedTabs[step.key]">
                 <a-icon type="check-circle" theme="filled" class="submitted-icon" />
               </template>
               <!-- 未提交：红色感叹号 -->
-              <a-icon v-else-if="step.key !== 'tab0' && !submittedTabs[step.key]" type="exclamation-circle" theme="filled" class="pending-icon" />
+              <a-icon v-else type="exclamation-circle" theme="filled" class="pending-icon" />
             </div>
           </div>
 
           <!-- 右侧操作按钮 -->
           <div class="header-actions">
-            <!-- Tab0：准备清单，不显示任何按钮 -->
-            <template v-if="activeTab === 'tab0'">
-              <!-- 不显示按钮 -->
-            </template>
-
             <!-- Tab1-6：未提交状态 -->
-            <template v-else-if="!submittedTabs[activeTab]">
+            <template v-if="!submittedTabs[activeTab]">
               <!-- 自动保存状态 -->
               <div class="save-status">
                 <a-icon v-if="autoSaveStatus === 'saving'" type="loading" />
@@ -76,13 +71,8 @@
 
       <!-- Tab内容区域 -->
       <div class="tab-content-wrapper">
-        <!-- Tab 0: 准备清单 -->
-        <div v-show="activeTab === 'tab0'" class="tab-content">
-          <checklist-content />
-        </div>
-
-        <!-- Tab 1-5: 表单内容 -->
-        <div v-show="activeTab !== 'tab0'" class="tab-content">
+        <!-- Tab 1-6: 表单内容 -->
+        <div class="tab-content">
           <store-deployment-form
             :active-tab="activeTab"
             @progress-update="handleProgressUpdate"
@@ -99,7 +89,6 @@
 <script>
 import { defineComponent, ref, reactive, computed, onMounted, onBeforeMount } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
-import ChecklistContent from './components/ChecklistContent.vue'
 import StoreDeploymentForm from './StoreDeploymentForm.vue'
 import { AutoSaveStatus } from '@/types/storeDeployment'
 import dayjs from 'dayjs'
@@ -108,11 +97,10 @@ export default defineComponent({
   name: 'StoreDeploymentPage',
   components: {
     Sidebar,
-    ChecklistContent,
     StoreDeploymentForm
   },
   setup(props, { root }) {
-    const activeTab = ref('tab0')
+    const activeTab = ref('tab1')
     const isSticky = ref(false)
     const autoSaveStatus = ref(AutoSaveStatus.IDLE)
     const lastSaveTime = ref('')
@@ -139,7 +127,6 @@ export default defineComponent({
 
     // Tab进度统计
     const tabProgress = reactive({
-      tab0: '-',  // 准备清单不显示进度
       tab1: '0/10',
       tab2: '0/8',
       tab3: '0/12',
@@ -150,7 +137,6 @@ export default defineComponent({
 
     // Steps配置
     const steps = computed(() => [
-      { key: 'tab0', title: '准备清单', progress: tabProgress.tab0 },
       { key: 'tab1', title: '基本信息', progress: tabProgress.tab1 },
       { key: 'tab2', title: '设施周边', progress: tabProgress.tab2 },
       { key: 'tab3', title: '运营政策', progress: tabProgress.tab3 },
@@ -187,7 +173,6 @@ export default defineComponent({
 
     // 提交本页
     const handleSubmitTab = async () => {
-      if (activeTab.value === 'tab0') return
 
       // TODO: 调用StoreDeploymentForm的验证方法
       // 这里需要通过ref或事件与子组件通信，触发验证
@@ -210,13 +195,11 @@ export default defineComponent({
 
     // 开始编辑
     const handleStartEdit = () => {
-      if (activeTab.value === 'tab0') return
       editingTabs[activeTab.value] = true
     }
 
     // 保存编辑
     const handleSaveEdit = async () => {
-      if (activeTab.value === 'tab0') return
 
       try {
         root.$message.loading({ content: '正在保存...', key: 'save', duration: 0 })
@@ -235,8 +218,6 @@ export default defineComponent({
 
     // 取消编辑
     const handleCancelEdit = () => {
-      if (activeTab.value === 'tab0') return
-
       // TODO: 恢复原始数据
       editingTabs[activeTab.value] = false
       root.$message.info('已取消编辑')
