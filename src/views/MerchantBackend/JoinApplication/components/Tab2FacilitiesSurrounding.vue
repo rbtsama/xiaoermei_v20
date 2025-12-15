@@ -622,7 +622,7 @@ export default defineComponent({
   gap: 12px;
 
   :deep(.ant-checkbox-wrapper) {
-    margin: 0;
+    margin: 0 !important;
     padding: 10px 12px;
     border: 1px solid @border-primary;
     border-radius: @border-radius-base;
@@ -630,6 +630,7 @@ export default defineComponent({
     transition: all 0.2s;
     display: flex;
     align-items: center;
+    height: 100%;
 
     &:hover {
       border-color: @brand-primary;

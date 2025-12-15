@@ -428,9 +428,31 @@ export default defineComponent({
   gap: 12px 16px;
 
   :deep(.ant-checkbox-wrapper) {
-    margin: 0;
+    margin: 0 !important;
+    padding: 10px 12px;
+    border: 1px solid @border-primary;
+    border-radius: @border-radius-base;
+    background: @bg-primary;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    height: 100%;
     font-size: @font-size-sm;
     color: @text-primary;
+
+    &:hover {
+      border-color: @brand-primary;
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    &.ant-checkbox-wrapper-checked {
+      border-color: @brand-primary;
+      background: rgba(59, 130, 246, 0.08);
+    }
+
+    .ant-checkbox {
+      top: 0;
+    }
   }
 }
 

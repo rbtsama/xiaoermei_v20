@@ -1,10 +1,14 @@
 <template>
   <div class="tab3-container">
-    <!-- 基本政策 -->
+    <!-- 酒店政策（统一大卡片） -->
     <a-card :bordered="false" class="form-section-card">
       <template slot="title">
-        <span class="section-title">基本政策</span>
+        <span class="section-title">酒店政策</span>
       </template>
+
+      <!-- 预订政策 -->
+      <div class="policy-section">
+        <div class="subsection-title">预订政策</div>
 
       <a-row :gutter="24">
         <a-col :span="8">
@@ -37,22 +41,22 @@
         />
       </div>
 
-      <div class="form-item">
-        <label class="form-label">取消政策 <span class="required">*</span></label>
-        <a-textarea
-          v-model="formValues.cancellationPolicy"
-          placeholder="示例：入住前10天可以免费取消，入住前3天取消将收取全额房费的30%作为损失补偿费用，之后不可取消。"
-          :rows="5"
-          :maxLength="500"
-        />
+        <div class="form-item">
+          <label class="form-label">取消政策 <span class="required">*</span></label>
+          <a-textarea
+            v-model="formValues.cancellationPolicy"
+            placeholder="示例：入住前10天可以免费取消，入住前3天取消将收取全额房费的30%作为损失补偿费用，之后不可取消。"
+            :rows="5"
+            :maxLength="500"
+          />
+        </div>
       </div>
-    </a-card>
 
-    <!-- 入住政策 -->
-    <a-card :bordered="false" class="form-section-card">
-      <template slot="title">
-        <span class="section-title">入住政策</span>
-      </template>
+      <a-divider />
+
+      <!-- 入住政策 -->
+      <div class="policy-section">
+        <div class="subsection-title">入住政策</div>
 
       <div class="form-item">
         <label class="form-label">最小入住年龄 <span class="required">*</span></label>
@@ -93,25 +97,25 @@
         />
       </div>
 
-      <div class="form-item">
-        <label class="form-label">前台可用支付方式 <span class="required">*</span></label>
-        <a-checkbox-group v-model="formValues.paymentMethods" class="payment-grid">
-          <a-checkbox value="unionpay">银联</a-checkbox>
-          <a-checkbox value="visa">VISA</a-checkbox>
-          <a-checkbox value="mastercard">Mastercard</a-checkbox>
-          <a-checkbox value="wechat">微信</a-checkbox>
-          <a-checkbox value="alipay">支付宝</a-checkbox>
-          <a-checkbox value="apple_pay">Apple Pay</a-checkbox>
-          <a-checkbox value="cash">现金</a-checkbox>
-        </a-checkbox-group>
+        <div class="form-item">
+          <label class="form-label">前台可用支付方式 <span class="required">*</span></label>
+          <a-checkbox-group v-model="formValues.paymentMethods" class="payment-grid">
+            <a-checkbox value="unionpay">银联</a-checkbox>
+            <a-checkbox value="visa">VISA</a-checkbox>
+            <a-checkbox value="mastercard">Mastercard</a-checkbox>
+            <a-checkbox value="wechat">微信</a-checkbox>
+            <a-checkbox value="alipay">支付宝</a-checkbox>
+            <a-checkbox value="apple_pay">Apple Pay</a-checkbox>
+            <a-checkbox value="cash">现金</a-checkbox>
+          </a-checkbox-group>
+        </div>
       </div>
-    </a-card>
 
-    <!-- 早餐政策 -->
-    <a-card :bordered="false" class="form-section-card">
-      <template slot="title">
-        <span class="section-title">早餐政策</span>
-      </template>
+      <a-divider />
+
+      <!-- 早餐政策 -->
+      <div class="policy-section">
+        <div class="subsection-title">早餐政策</div>
 
       <div class="form-item">
         <label class="form-label">是否提供早餐 <span class="required">*</span></label>
@@ -166,13 +170,11 @@
           </a-col>
         </a-row>
       </template>
-    </a-card>
 
-    <!-- 儿童早餐 -->
-    <a-card :bordered="false" class="form-section-card">
-      <template slot="title">
-        <span class="section-title">儿童早餐</span>
-      </template>
+      <a-divider />
+
+      <!-- 儿童早餐 -->
+      <div class="subsection-title">儿童早餐</div>
 
       <div class="form-item">
         <label class="form-label">判断标准 <span class="required">*</span></label>
@@ -388,6 +390,31 @@ export default defineComponent({
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
+
+  :deep(.ant-checkbox-wrapper) {
+    margin: 0 !important;
+  }
+}
+
+.policy-section {
+  margin-bottom: 32px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.subsection-title {
+  font-size: @font-size-base;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid @bg-secondary;
+}
+
+:deep(.ant-divider) {
+  margin: 32px 0;
 }
 
 :deep(.ant-input),
