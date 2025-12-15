@@ -18,9 +18,7 @@
                 <a-icon type="check-circle" theme="filled" class="submitted-icon" />
               </template>
               <!-- 未提交：红色感叹号 -->
-              <template v-else-if="step.key !== 'tab0' && !submittedTabs[step.key]">
-                <a-icon type="exclamation-circle" theme="filled" class="pending-icon" />
-              </template>
+              <a-icon v-else-if="step.key !== 'tab0' && !submittedTabs[step.key]" type="exclamation-circle" theme="filled" class="pending-icon" />
             </div>
           </div>
 

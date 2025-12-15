@@ -1,34 +1,5 @@
 <template>
   <div class="tab4-container">
-    <!-- 门店亮点 -->
-    <a-card :bordered="false" class="form-section-card">
-      <template slot="title">
-        <span class="section-title">门店亮点</span>
-      </template>
-
-      <!-- 建筑与景观类 -->
-      <div class="highlight-category">
-        <div class="category-title">建筑与景观类</div>
-        <a-checkbox-group v-model="localData.highlights" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in HIGHLIGHTS_ARCHITECTURE" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
-        </a-checkbox-group>
-      </div>
-
-      <a-divider />
-
-      <!-- 服务与设施类 -->
-      <div class="highlight-category">
-        <div class="category-title">服务与设施类</div>
-        <a-checkbox-group v-model="localData.highlights" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in HIGHLIGHTS_SERVICES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
-        </a-checkbox-group>
-      </div>
-    </a-card>
-
     <!-- 门店图片 -->
     <a-card :bordered="false" class="form-section-card">
       <template slot="title">
@@ -191,10 +162,6 @@
 import { defineComponent, reactive, computed, watch } from '@vue/composition-api'
 import ImageUpload from '@/components/StoreDeployment/ImageUpload.vue'
 import { uploadVideo } from '@/api/storeDeployment'
-import {
-  HIGHLIGHTS_ARCHITECTURE,
-  HIGHLIGHTS_SERVICES
-} from '@/types/storeDeployment'
 
 export default defineComponent({
   name: 'Tab4StoreDisplay',
@@ -210,7 +177,6 @@ export default defineComponent({
   setup(props, { emit, root }) {
     // 本地数据
     const localData = reactive({
-      highlights: [...props.formData.storeDisplay.highlights],
       images: { ...props.formData.storeDisplay.images },
       videos: { ...props.formData.storeDisplay.videos }
     })
@@ -232,7 +198,6 @@ export default defineComponent({
     watch(
       () => props.formData.storeDisplay,
       (newData) => {
-        localData.highlights = [...newData.highlights]
         localData.images = { ...newData.images }
         localData.videos = { ...newData.videos }
       },
@@ -277,7 +242,7 @@ export default defineComponent({
     const handleChange = () => {
       emit('update', {
         storeDisplay: {
-          highlights: localData.highlights,
+          ...props.formData.storeDisplay,
           images: localData.images,
           videos: localData.videos
         }

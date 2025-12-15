@@ -140,6 +140,39 @@
       </a-form-model>
     </a-card>
 
+    <!-- 门店亮点 -->
+    <a-card :bordered="false" class="form-section-card">
+      <template slot="title">
+        <span class="section-title">门店亮点</span>
+      </template>
+
+      <!-- 建筑与景观类 -->
+      <div class="highlight-category">
+        <div class="category-title">建筑与景观类</div>
+        <a-checkbox-group v-model="localData.highlights" @change="handleChange" class="checkbox-grid-5col">
+          <a-checkbox v-for="item in HIGHLIGHTS_ARCHITECTURE" :key="item" :value="item">
+            {{ item }}
+          </a-checkbox>
+        </a-checkbox-group>
+      </div>
+
+      <a-divider />
+
+      <!-- 服务与设施类 -->
+      <div class="highlight-category">
+        <div class="category-title">服务与设施类</div>
+        <a-checkbox-group v-model="localData.highlights" @change="handleChange" class="checkbox-grid-5col">
+          <a-checkbox v-for="item in HIGHLIGHTS_SERVICES" :key="item" :value="item">
+            {{ item }}
+          </a-checkbox>
+        </a-checkbox-group>
+      </div>
+
+      <div class="field-hint" style="margin-top: 16px;">
+        请至少选择3项门店亮点，已选择 <span :class="{ 'warning-text': localData.highlights.length < 3 }">{{ localData.highlights.length }}</span> 项
+      </div>
+    </a-card>
+
     <!-- 门店介绍 -->
     <a-card :bordered="false" class="form-section-card">
       <template slot="title">
@@ -173,6 +206,10 @@ XXXX位于富春江畔毗邻芦茨湾，几幢青瓦白墙小楼依次坐落在�
 
 <script>
 import { defineComponent, reactive, computed, watch } from '@vue/composition-api'
+import {
+  HIGHLIGHTS_ARCHITECTURE,
+  HIGHLIGHTS_SERVICES
+} from '@/types/storeDeployment'
 
 export default defineComponent({
   name: 'Tab1AccountStoreInfo',
@@ -186,7 +223,8 @@ export default defineComponent({
     // 本地数据（用于双向绑定）
     const localData = reactive({
       accountInfo: { ...props.formData.accountInfo },
-      storeBasicInfo: { ...props.formData.storeBasicInfo }
+      storeBasicInfo: { ...props.formData.storeBasicInfo },
+      highlights: [...(props.formData.storeDisplay?.highlights || [])]
     })
 
     // 手机号校验错误
@@ -220,6 +258,7 @@ export default defineComponent({
       (newData) => {
         localData.accountInfo = { ...newData.accountInfo }
         localData.storeBasicInfo = { ...newData.storeBasicInfo }
+        localData.highlights = [...(newData.storeDisplay?.highlights || [])]
       },
       { deep: true }
     )
@@ -228,7 +267,11 @@ export default defineComponent({
     const handleChange = () => {
       emit('update', {
         accountInfo: localData.accountInfo,
-        storeBasicInfo: localData.storeBasicInfo
+        storeBasicInfo: localData.storeBasicInfo,
+        storeDisplay: {
+          ...props.formData.storeDisplay,
+          highlights: localData.highlights
+        }
       })
     }
 
@@ -237,7 +280,9 @@ export default defineComponent({
       phoneErrors,
       descriptionLength,
       validatePhone,
-      handleChange
+      handleChange,
+      HIGHLIGHTS_ARCHITECTURE,
+      HIGHLIGHTS_SERVICES
     }
   }
 })
@@ -365,5 +410,32 @@ export default defineComponent({
     border-color: @brand-primary;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
   }
+}
+
+// 门店亮点样式
+.highlight-category {
+  .category-title {
+    font-size: @font-size-base;
+    font-weight: @font-weight-semibold;
+    color: @text-primary;
+    margin-bottom: 16px;
+  }
+}
+
+.checkbox-grid-5col {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px 16px;
+
+  :deep(.ant-checkbox-wrapper) {
+    margin: 0;
+    font-size: @font-size-sm;
+    color: @text-primary;
+  }
+}
+
+.warning-text {
+  color: @error-color;
+  font-weight: @font-weight-semibold;
 }
 </style>
