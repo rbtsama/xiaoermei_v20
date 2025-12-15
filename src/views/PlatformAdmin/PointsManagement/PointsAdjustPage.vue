@@ -194,6 +194,15 @@ export default defineComponent({
     const pageSize = ref(20)
     const isAdjustDialogVisible = ref(false)
 
+    // 从URL查询参数恢复搜索
+    const initFromQuery = async () => {
+      const queryPhone = root.$route.query.phone as string
+      if (queryPhone) {
+        phoneNumber.value = queryPhone
+        await handleSearch()
+      }
+    }
+
     // 调整表单
     const adjustForm = reactive({
       type: 'add' as 'add' | 'deduct',
@@ -280,6 +289,9 @@ export default defineComponent({
         userAccount.value = account
         currentPage.value = 1
         await fetchChangeLogs()
+
+        // 保存搜索状态
+        localStorage.setItem('points_adjust_phone', phoneNumber.value)
       } catch (error) {
         console.error('搜索用户失败:', error)
       } finally {
@@ -386,6 +398,7 @@ export default defineComponent({
       paginationConfig,
 
       // 方法
+      initFromQuery,
       handleSearch,
       handleTableChange,
       showAdjustDialog,
@@ -395,6 +408,10 @@ export default defineComponent({
       getOperationTypeLabel,
       getOperationTypeClass
     }
+  },
+
+  async mounted() {
+    await this.initFromQuery()
   }
 })
 </script>

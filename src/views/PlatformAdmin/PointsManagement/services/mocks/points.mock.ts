@@ -50,7 +50,7 @@ export const mockUserPointsAccounts: UserPointsAccount[] = [
   {
     id: 'account_002',
     userId: 'user_002',
-    phoneNumber: '13900139000',
+    phoneNumber: '18800139000',
     userName: '李四',
     totalPoints: 12300,
     availablePoints: 11800,
@@ -63,7 +63,7 @@ export const mockUserPointsAccounts: UserPointsAccount[] = [
   {
     id: 'account_003',
     userId: 'user_003',
-    phoneNumber: '13700137000',
+    phoneNumber: '18100137000',
     userName: '王五',
     totalPoints: 2400,
     availablePoints: 2200,
@@ -76,7 +76,7 @@ export const mockUserPointsAccounts: UserPointsAccount[] = [
   {
     id: 'account_004',
     userId: 'user_004',
-    phoneNumber: '13600136000',
+    phoneNumber: '18100136000',
     userName: '赵六',
     totalPoints: 18900,
     availablePoints: 18500,
@@ -89,7 +89,7 @@ export const mockUserPointsAccounts: UserPointsAccount[] = [
   {
     id: 'account_005',
     userId: 'user_005',
-    phoneNumber: '13500135000',
+    phoneNumber: '18100135000',
     userName: '孙七',
     totalPoints: 3600,
     availablePoints: 3400,
@@ -134,7 +134,7 @@ export const mockPointsChangeLogs: PointsChangeLog[] = [
   {
     id: 'log_003',
     userId: 'user_002',
-    phoneNumber: '13900139000',
+    phoneNumber: '18800139000',
     userName: '李四',
     operationType: 'earn',
     pointsAmount: 200,
@@ -147,7 +147,7 @@ export const mockPointsChangeLogs: PointsChangeLog[] = [
   {
     id: 'log_004',
     userId: 'user_003',
-    phoneNumber: '13700137000',
+    phoneNumber: '18100137000',
     userName: '王五',
     operationType: 'adjust',
     pointsAmount: 500,
@@ -160,7 +160,7 @@ export const mockPointsChangeLogs: PointsChangeLog[] = [
   {
     id: 'log_005',
     userId: 'user_004',
-    phoneNumber: '13600136000',
+    phoneNumber: '18100136000',
     userName: '赵六',
     operationType: 'earn',
     pointsAmount: 150,
@@ -186,7 +186,7 @@ export const mockPointsChangeLogs: PointsChangeLog[] = [
   {
     id: 'log_007',
     userId: 'user_005',
-    phoneNumber: '13500135000',
+    phoneNumber: '18100135000',
     userName: '孙七',
     operationType: 'deduct',
     pointsAmount: 20,
@@ -199,7 +199,7 @@ export const mockPointsChangeLogs: PointsChangeLog[] = [
   {
     id: 'log_008',
     userId: 'user_002',
-    phoneNumber: '13900139000',
+    phoneNumber: '18800139000',
     userName: '李四',
     operationType: 'deduct',
     pointsAmount: 80,
@@ -256,7 +256,7 @@ export const mockOperationLogs: OperationLog[] = [
   {
     id: 'op_log_006',
     operationType: '手动调整积分',
-    operationDetails: '手机号: 13400134000, +150 积分, 原因: 推广奖励',
+    operationDetails: '手机号: 18100134000, +150 积分, 原因: 推广奖励',
     targetId: 'pe009',
     operator: '李四',
     operatedAt: '2025/01/08 15:10:45',

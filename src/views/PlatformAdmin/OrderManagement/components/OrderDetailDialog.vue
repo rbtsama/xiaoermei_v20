@@ -65,11 +65,19 @@
             <div class="field-value">{{ order.guestCount }} 人</div>
           </div>
           <div class="info-item">
-            <div class="field-label">联系人</div>
+            <div class="field-label">下单人</div>
+            <div class="field-value">{{ order.userName }}</div>
+          </div>
+          <div class="info-item">
+            <div class="field-label">下单人手机号</div>
+            <div class="field-value">{{ order.userPhone }}</div>
+          </div>
+          <div class="info-item">
+            <div class="field-label">入住人</div>
             <div class="field-value">{{ order.guestName }}</div>
           </div>
           <div class="info-item">
-            <div class="field-label">联系电话</div>
+            <div class="field-label">入住人手机号</div>
             <div class="field-value">{{ order.guestPhone }}</div>
           </div>
           <div v-if="order.roomNumber" class="info-item">

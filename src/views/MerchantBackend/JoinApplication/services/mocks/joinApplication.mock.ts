@@ -26,7 +26,7 @@ export const mockJoinApplication: JoinApplication = {
   // 运营人员信息
   hasOTASpecialist: true,
   otaContactName: '王芳',
-  otaContactPhone: '13900139000',
+  otaContactPhone: '18800139000',
 
   // 平台相关
   onlinePlatforms: [OTAPlatform.CTRIP, OTAPlatform.MEITUAN, OTAPlatform.FLIGGY],

@@ -68,56 +68,9 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
+import ValueAddedServiceService from './services/valueAddedService.service'
+import type { OperationLog } from './types/valueAddedService.types'
 import dayjs from 'dayjs'
-
-// Mock数据
-const mockPointsLogs = [
-  {
-    id: '1',
-    phone: '13800138000',
-    pointsChange: 100,
-    balance: 1500,
-    remark: '新用户注册奖励',
-    operatedAt: '2025-12-08 10:30:15',
-    operator: '系统'
-  },
-  {
-    id: '2',
-    phone: '13900139000',
-    pointsChange: -50,
-    balance: 450,
-    remark: '兑换优惠券',
-    operatedAt: '2025-12-08 09:20:30',
-    operator: '系统'
-  },
-  {
-    id: '3',
-    phone: '13700137000',
-    pointsChange: 200,
-    balance: 800,
-    remark: '管理员手动调整 - 补偿积分',
-    operatedAt: '2025-12-07 16:45:22',
-    operator: '张三'
-  },
-  {
-    id: '4',
-    phone: '13600136000',
-    pointsChange: -100,
-    balance: 300,
-    remark: '积分过期自动扣除',
-    operatedAt: '2025-12-07 14:10:05',
-    operator: '系统'
-  },
-  {
-    id: '5',
-    phone: '13500135000',
-    pointsChange: 50,
-    balance: 650,
-    remark: '邀请好友奖励',
-    operatedAt: '2025-12-07 11:25:40',
-    operator: '系统'
-  }
-]
 
 export default defineComponent({
   name: 'PointsOperationLogsPage',
@@ -125,7 +78,7 @@ export default defineComponent({
 
   data() {
     return {
-      tableData: [],
+      tableData: [] as OperationLog[],
       isLoading: false,
       pagination: {
         current: 1,
@@ -138,30 +91,15 @@ export default defineComponent({
       },
       columns: [
         {
-          title: '操作手机号',
-          dataIndex: 'phone',
-          key: 'phone',
-          width: 120,
-          scopedSlots: { customRender: 'phone' }
+          title: '操作类型',
+          dataIndex: 'operationType',
+          key: 'operationType',
+          width: 180
         },
         {
-          title: '积分变化',
-          dataIndex: 'pointsChange',
-          key: 'pointsChange',
-          width: 100,
-          scopedSlots: { customRender: 'pointsChange' }
-        },
-        {
-          title: '积分余额',
-          dataIndex: 'balance',
-          key: 'balance',
-          width: 100,
-          scopedSlots: { customRender: 'balance' }
-        },
-        {
-          title: '调整备注',
-          dataIndex: 'remark',
-          key: 'remark',
+          title: '操作详情',
+          dataIndex: 'operationDetails',
+          key: 'operationDetails',
           scopedSlots: { customRender: 'remark' }
         },
         {
@@ -190,16 +128,13 @@ export default defineComponent({
     async loadData() {
       this.isLoading = true
       try {
-        // 模拟API延迟
-        await new Promise(resolve => setTimeout(resolve, 300))
-
-        // 使用Mock数据（按操作时间倒序）
-        const sortedData = [...mockPointsLogs].sort((a, b) =>
-          new Date(b.operatedAt).getTime() - new Date(a.operatedAt).getTime()
+        const result = await ValueAddedServiceService.getOperationLogs(
+          this.pagination.pageSize,
+          this.pagination.current
         )
 
-        this.tableData = sortedData
-        this.pagination.total = sortedData.length
+        this.tableData = result.data
+        this.pagination.total = result.total
       } catch (error) {
         console.error('Failed to load operation logs:', error)
         this.$message.error('加载操作记录失败')
@@ -215,7 +150,16 @@ export default defineComponent({
     },
 
     goBack() {
-      this.$router.push('/platform-admin/points-management/adjust')
+      // 恢复之前的搜索状态
+      const savedPhone = localStorage.getItem('points_adjust_phone')
+      if (savedPhone) {
+        this.$router.push({
+          path: '/platform-admin/points-management/adjust',
+          query: { phone: savedPhone }
+        })
+      } else {
+        this.$router.push('/platform-admin/points-management/adjust')
+      }
     },
 
     formatDate(datetime: string): string {

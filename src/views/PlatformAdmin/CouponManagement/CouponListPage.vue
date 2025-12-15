@@ -73,9 +73,18 @@
             </span>
           </template>
 
-          <!-- 有效期 -->
-          <template slot="validDays" slot-scope="validDays">
-            <span class="valid-text">{{ getValidDaysText(validDays) }}</span>
+          <!-- 有效天数 -->
+          <template slot="validDays" slot-scope="text, record">
+            <span class="valid-text">{{ getValidDaysText(record) }}</span>
+          </template>
+
+          <!-- 有效日期 -->
+          <template slot="validDateRange" slot-scope="text, record">
+            <div v-if="record.validDateRange && record.validDateRange.length === 2" class="date-range-cell">
+              <div class="date-line">{{ record.validDateRange[0] }}</div>
+              <div class="date-line">{{ record.validDateRange[1] }}</div>
+            </div>
+            <span v-else class="valid-text">—</span>
           </template>
 
           <!-- 费用承担 -->
@@ -178,11 +187,18 @@ export default defineComponent({
         scopedSlots: { customRender: 'remark' }
       },
       {
-        title: '有效期',
+        title: '有效天数',
         dataIndex: 'validDays',
         key: 'validDays',
         width: 100,
         scopedSlots: { customRender: 'validDays' }
+      },
+      {
+        title: '有效日期',
+        dataIndex: 'validDateRange',
+        key: 'validDateRange',
+        width: 140,
+        scopedSlots: { customRender: 'validDateRange' }
       },
       {
         title: '费用承担',
@@ -310,10 +326,13 @@ export default defineComponent({
       return classMap[type] || ''
     }
 
-    // 获取有效期文本
-    const getValidDaysText = (days) => {
-      if (days === 0) return '永久有效'
-      return `${days}天`
+    // 获取有效天数文本
+    const getValidDaysText = (record) => {
+      if (record.validDateRange) {
+        return '—'
+      }
+      if (record.validDays === 0) return '永久'
+      return record.validDays ? `${record.validDays}天` : '—'
     }
 
     // 格式化日期
@@ -467,6 +486,19 @@ export default defineComponent({
 .valid-text {
   color: @text-primary;
   font-size: @font-size-sm;
+}
+
+// 日期范围单元格
+.date-range-cell {
+  .date-line {
+    color: @text-primary;
+    font-size: @font-size-sm;
+    line-height: 1.5;
+
+    &:first-child {
+      margin-bottom: 2px;
+    }
+  }
 }
 
 // 费用承担文本

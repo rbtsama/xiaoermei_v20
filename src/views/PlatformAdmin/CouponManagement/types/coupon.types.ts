@@ -35,8 +35,12 @@ export interface Coupon {
   platformRatio: number
   // 商户承担比例（自动计算）
   merchantRatio: number
-  // 有效天数（0=永久，其他=发放后N天23:59过期）
-  validDays: number
+  // 有效天数（0=永久，其他=发放后N天23:59过期）- 与validDateRange二选一
+  validDays?: number
+  // 有效日期范围（[开始日期, 结束日期]）- 与validDays二选一
+  validDateRange?: [string, string]
+  // 使用规则（用户可见）
+  usageRules?: string
   // 备注说明（仅后台可见）
   remark?: string
   // 状态

@@ -82,7 +82,9 @@ class CouponService {
       discount: data.discount,
       maxDiscount: data.maxDiscount,
       smsNotify: data.smsNotify !== undefined ? data.smsNotify : true, // 默认开启短信通知
-      validDays: data.validDays || 0,
+      validDays: data.validDays,
+      validDateRange: data.validDateRange,
+      usageRules: data.usageRules,
       remark: data.remark,
       platformRatio: data.platformRatio || 50,
       merchantRatio: data.merchantRatio || 50,

@@ -72,56 +72,20 @@ const routes = [
     meta: { title: '积分操作记录' }
   },
 
+  // 平台后台 - 短信配置
+  {
+    path: '/platform-admin/sms-config',
+    name: 'SmsConfig',
+    component: () => import('@/views/PlatformAdmin/SmsConfig/SmsConfigPage.vue'),
+    meta: { title: '短信配置' }
+  },
+
   // 商户端 - 入驻申请
   {
     path: '/merchant-backend/join-application/apply',
     name: 'JoinApplication',
     component: () => import('@/views/MerchantBackend/JoinApplication/JoinApplicationPage.vue'),
     meta: { title: '入驻申请' }
-  },
-
-  // 商户端 - 门店信息
-  {
-    path: '/merchant-backend/store-info/basic',
-    name: 'StoreBasicInfo',
-    component: () => import('@/views/MerchantBackend/StoreInfo/BasicInfoPage.vue'),
-    meta: { title: '基本信息' }
-  },
-  {
-    path: '/merchant-backend/store-info/policy',
-    name: 'StorePolicy',
-    component: () => import('@/views/MerchantBackend/StoreInfo/PolicyPage.vue'),
-    meta: { title: '政策相关' }
-  },
-  {
-    path: '/merchant-backend/store-info/facilities',
-    name: 'StoreFacilities',
-    component: () => import('@/views/MerchantBackend/StoreInfo/FacilitiesPage.vue'),
-    meta: { title: '门店设施' }
-  },
-  {
-    path: '/merchant-backend/store-info/surrounding',
-    name: 'StoreSurrounding',
-    component: () => import('@/views/MerchantBackend/StoreInfo/SurroundingPage.vue'),
-    meta: { title: '周边信息' }
-  },
-  {
-    path: '/merchant-backend/store-info/breakfast',
-    name: 'StoreBreakfast',
-    component: () => import('@/views/MerchantBackend/StoreInfo/BreakfastPage.vue'),
-    meta: { title: '早餐政策' }
-  },
-  {
-    path: '/merchant-backend/store-info/extra-bed',
-    name: 'StoreExtraBed',
-    component: () => import('@/views/MerchantBackend/StoreInfo/ExtraBedPage.vue'),
-    meta: { title: '加床政策' }
-  },
-  {
-    path: '/merchant-backend/store-info/images',
-    name: 'StoreImages',
-    component: () => import('@/views/MerchantBackend/StoreInfo/ImagesPage.vue'),
-    meta: { title: '门店图片' }
   },
 
   // 商户端 - 订单管理

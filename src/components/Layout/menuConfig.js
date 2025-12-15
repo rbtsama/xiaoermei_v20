@@ -32,6 +32,11 @@ export const menuConfig = [
           { title: '积分配置', path: '/platform-admin/points-management/config', key: 'points-config' },
           { title: '积分调整', path: '/platform-admin/points-management/adjust', key: 'points-adjust' }
         ]
+      },
+      {
+        title: '短信配置',
+        key: 'sms-config',
+        path: '/platform-admin/sms-config'
       }
     ]
   },
@@ -44,19 +49,6 @@ export const menuConfig = [
         key: 'join-application',
         children: [
           { title: '门店部署', path: '/merchant-backend/join-application/apply', key: 'store-deployment' }
-        ]
-      },
-      {
-        title: '门店信息',
-        key: 'store-info',
-        children: [
-          { title: '基本信息', path: '/merchant-backend/store-info/basic', key: 'basic' },
-          { title: '政策相关', path: '/merchant-backend/store-info/policy', key: 'policy' },
-          { title: '门店设施', path: '/merchant-backend/store-info/facilities', key: 'facilities' },
-          { title: '周边信息', path: '/merchant-backend/store-info/surrounding', key: 'surrounding' },
-          { title: '早餐政策', path: '/merchant-backend/store-info/breakfast', key: 'breakfast' },
-          { title: '加床政策', path: '/merchant-backend/store-info/extra-bed', key: 'extra-bed' },
-          { title: '门店图片', path: '/merchant-backend/store-info/images', key: 'images' }
         ]
       },
       { title: '订单列表', path: '/hotel-backend/order-list', key: 'hotel-order-list' },

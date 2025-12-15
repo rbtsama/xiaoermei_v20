@@ -147,8 +147,16 @@
         </a-col>
       </a-row>
 
+      <!-- 有效期类型选择 -->
+      <a-form-model-item label="有效期类型" prop="validityType">
+        <a-radio-group v-model="form.validityType" @change="handleValidityTypeChange">
+          <a-radio value="days">有效天数</a-radio>
+          <a-radio value="dateRange">有效日期</a-radio>
+        </a-radio-group>
+      </a-form-model-item>
+
       <!-- 有效天数 -->
-      <a-form-model-item label="有效天数" prop="validDays">
+      <a-form-model-item v-if="form.validityType === 'days'" label="有效天数" prop="validDays">
         <a-input-number
           v-model="form.validDays"
           :min="0"
@@ -158,6 +166,29 @@
           <span slot="addonAfter">天</span>
         </a-input-number>
         <span class="field-hint">发放后N天23:59过期，0表示永久有效</span>
+      </a-form-model-item>
+
+      <!-- 有效日期 -->
+      <a-form-model-item v-if="form.validityType === 'dateRange'" label="有效日期" prop="validDateRange">
+        <a-range-picker
+          v-model="form.validDateRange"
+          format="YYYY-MM-DD"
+          value-format="YYYY-MM-DD"
+          style="width: 100%"
+          :show-time="false"
+        />
+        <span class="field-hint">仅在此日期范围内可用（从开始日期0点到结束日期23:59:59）</span>
+      </a-form-model-item>
+
+      <!-- 使用规则 -->
+      <a-form-model-item label="使用规则" prop="usageRules">
+        <a-textarea
+          v-model="form.usageRules"
+          placeholder="用户可见的使用规则说明，例如：限周末使用、不可与其他优惠同享等"
+          :rows="3"
+          :maxLength="200"
+        />
+        <div class="char-count">{{ (form.usageRules || '').length }}/200</div>
       </a-form-model-item>
 
       <!-- 备注说明 -->
@@ -197,7 +228,7 @@ export default defineComponent({
     }
   },
 
-  setup(props, { emit }) {
+  setup(props, { emit, root }) {
     const loading = ref(false)
     const formRef = ref<any>(null)
 
@@ -209,11 +240,14 @@ export default defineComponent({
       discount: undefined as number | undefined,
       maxDiscount: undefined as number | undefined,
       platformRatio: 50,
-      validDays: 30,
+      validityType: 'days' as 'days' | 'dateRange',
+      validDays: 30 as number | undefined,
+      validDateRange: undefined as [string, string] | undefined,
+      usageRules: '',
       remark: ''
     })
 
-    const rules = {
+    const rules = reactive({
       name: [
         { required: true, message: '请输入优惠券名称', trigger: 'blur' },
         { max: 50, message: '名称不能超过50字符', trigger: 'blur' }
@@ -238,10 +272,10 @@ export default defineComponent({
         { required: true, message: '请输入平台承担比例', type: 'number' },
         { type: 'number', min: 0, max: 100, message: '比例必须在0-100之间' }
       ],
-      validDays: [
-        { required: true, message: '请输入有效天数', type: 'number' }
+      validityType: [
+        { required: true, message: '请选择有效期类型' }
       ]
-    }
+    })
 
     const merchantRatio = computed(() => 100 - (form.platformRatio || 0))
 
@@ -255,7 +289,19 @@ export default defineComponent({
         form.discount = newCoupon.discount
         form.maxDiscount = newCoupon.maxDiscount
         form.platformRatio = newCoupon.platformRatio
-        form.validDays = newCoupon.validDays
+
+        // 判断有效期类型
+        if (newCoupon.validDateRange) {
+          form.validityType = 'dateRange'
+          form.validDateRange = newCoupon.validDateRange
+          form.validDays = undefined
+        } else {
+          form.validityType = 'days'
+          form.validDays = newCoupon.validDays
+          form.validDateRange = undefined
+        }
+
+        form.usageRules = newCoupon.usageRules || ''
         form.remark = newCoupon.remark || ''
       }
     }, { immediate: true })
@@ -270,7 +316,10 @@ export default defineComponent({
         form.discount = undefined
         form.maxDiscount = undefined
         form.platformRatio = 50
+        form.validityType = 'days'
         form.validDays = 30
+        form.validDateRange = undefined
+        form.usageRules = ''
         form.remark = ''
         formRef.value?.resetFields()
       } else if (visible && props.mode === 'create') {
@@ -281,7 +330,10 @@ export default defineComponent({
         form.discount = undefined
         form.maxDiscount = undefined
         form.platformRatio = 50
+        form.validityType = 'days'
         form.validDays = 30
+        form.validDateRange = undefined
+        form.usageRules = ''
         form.remark = ''
       }
     })
@@ -294,9 +346,33 @@ export default defineComponent({
       form.maxDiscount = undefined
     }
 
+    const handleValidityTypeChange = () => {
+      // 切换有效期类型时清空对应字段
+      if (form.validityType === 'days') {
+        form.validDateRange = undefined
+        form.validDays = 30
+      } else {
+        form.validDays = undefined
+        form.validDateRange = undefined
+      }
+    }
+
     const handleSubmit = async () => {
       try {
         await formRef.value?.validate()
+
+        // 手动验证有效期
+        if (form.validityType === 'days') {
+          if (form.validDays === undefined || form.validDays === null) {
+            root.$message.error('请输入有效天数')
+            return
+          }
+        } else if (form.validityType === 'dateRange') {
+          if (!form.validDateRange || form.validDateRange.length !== 2) {
+            root.$message.error('请选择有效日期范围')
+            return
+          }
+        }
 
         loading.value = true
 
@@ -305,9 +381,16 @@ export default defineComponent({
           type: form.type,
           platformRatio: form.platformRatio,
           merchantRatio: merchantRatio.value,
-          validDays: form.validDays,
+          usageRules: form.usageRules,
           remark: form.remark,
           smsNotify: false
+        }
+
+        // 根据有效期类型添加对应字段
+        if (form.validityType === 'days') {
+          couponData.validDays = form.validDays
+        } else {
+          couponData.validDateRange = form.validDateRange
         }
 
         // 根据类型添加对应字段
@@ -348,6 +431,7 @@ export default defineComponent({
       rules,
       merchantRatio,
       handleTypeChange,
+      handleValidityTypeChange,
       handleSubmit,
       handleClose
     }
