@@ -73,6 +73,18 @@
               @change="handleLicenseDateChange"
             />
           </a-form-model-item>
+
+          <a-form-model-item label="营业执照照片">
+            <span class="required-mark">*</span>
+            <div class="field-hint">请保持营业照片的主体和门店主体一致。照片需要面清晰，文字可辨认。</div>
+            <image-upload
+              v-model="companyData.businessLicensePhoto"
+              :multiple="false"
+              :maxSize="10"
+              compact
+              @change="handleChange"
+            />
+          </a-form-model-item>
         </a-form-model>
       </a-card>
 
@@ -128,16 +140,32 @@
             />
           </a-form-model-item>
 
-          <a-form-model-item label="营业执照照片">
+          <a-form-model-item label="法人身份证照片">
             <span class="required-mark">*</span>
-            <div class="upload-hint-text">请保持营业照片的主体和门店主体一致。照片需要面清晰，文字可辨认。</div>
-            <image-upload
-              v-model="companyData.businessLicensePhoto"
-              :multiple="false"
-              :maxSize="10"
-              compact
-              @change="handleChange"
-            />
+            <div class="id-card-uploads">
+              <div class="upload-item">
+                <div class="upload-label">正面照</div>
+                <div class="upload-hint">请上传最新有效身份证件，身份证请勿遮挡，保持帧数90度拍摄，照片需要面清晰，文字可辨认。</div>
+                <image-upload
+                  v-model="companyData.legalPersonIdPhotoFront"
+                  :multiple="false"
+                  :maxSize="10"
+                  compact
+                  @change="handleChange"
+                />
+              </div>
+              <div class="upload-item">
+                <div class="upload-label">国徽面照</div>
+                <div class="upload-hint">请上传最新有效身份证件，身份证请勿遮挡，保持帧数90度拍摄，照片需要面清晰，文字可辨认。</div>
+                <image-upload
+                  v-model="companyData.legalPersonIdPhotoBack"
+                  :multiple="false"
+                  :maxSize="10"
+                  compact
+                  @change="handleChange"
+                />
+              </div>
+            </div>
           </a-form-model-item>
         </a-form-model>
       </a-card>
@@ -320,38 +348,6 @@
         </template>
 
         <div class="photos-grid">
-          <!-- 法人身份证正面照 -->
-          <div class="photo-upload-item">
-            <div class="upload-label">
-              <span class="label-text">法人身份证正面照</span>
-              <span class="required-mark">*</span>
-            </div>
-            <p class="upload-hint">请上传最新有效身份证件，身份证请勿遮挡，保持帧数90度拍摄，照片需要面清晰，文字可辨认。</p>
-            <image-upload
-              v-model="companyData.legalPersonIdPhotoFront"
-              :multiple="false"
-              :maxSize="10"
-              compact
-              @change="handleChange"
-            />
-          </div>
-
-          <!-- 法人身份证国徽面照 -->
-          <div class="photo-upload-item">
-            <div class="upload-label">
-              <span class="label-text">法人身份证国徽面照</span>
-              <span class="required-mark">*</span>
-            </div>
-            <p class="upload-hint">请上传最新有效身份证件，身份证请勿遮挡，保持帧数90度拍摄，照片需要面清晰，文字可辨认。</p>
-            <image-upload
-              v-model="companyData.legalPersonIdPhotoBack"
-              :multiple="false"
-              :maxSize="10"
-              compact
-              @change="handleChange"
-            />
-          </div>
-
           <!-- 门店门头 -->
           <div class="photo-upload-item">
             <div class="upload-label">
@@ -730,5 +726,27 @@ export default defineComponent({
   font-size: @font-size-base;
   margin-right: 4px;
   font-weight: @font-weight-semibold;
+}
+
+.id-card-uploads {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+
+  .upload-item {
+    .upload-label {
+      font-size: @font-size-sm;
+      font-weight: @font-weight-medium;
+      color: @text-primary;
+      margin-bottom: 8px;
+    }
+
+    .upload-hint {
+      font-size: @font-size-xs;
+      color: @text-secondary;
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+  }
 }
 </style>
