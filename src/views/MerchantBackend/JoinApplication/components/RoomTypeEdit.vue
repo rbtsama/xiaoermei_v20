@@ -588,14 +588,14 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding-left: 24px;
 }
 
 .bed-item {
   display: flex;
   align-items: center;
-  padding: 8px;
-  background: @bg-primary;
+  padding: 12px;
+  background: #ffffff;
+  border: 1px solid @border-primary;
   border-radius: @border-radius-sm;
 }
 
