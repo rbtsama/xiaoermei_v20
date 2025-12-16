@@ -145,8 +145,8 @@ export default defineComponent({
       { key: 'tab2', title: '设施周边', progress: tabProgress.tab2 },
       { key: 'tab3', title: '运营政策', progress: tabProgress.tab3 },
       { key: 'tab4', title: '门店展示', progress: tabProgress.tab4 },
-      { key: 'tab5', title: '支付结算', progress: tabProgress.tab5 },
-      { key: 'tab6', title: '房型设置', progress: tabProgress.tab6 }
+      { key: 'tab5', title: '房型设置', progress: tabProgress.tab5 },
+      { key: 'tab6', title: '支付结算', progress: tabProgress.tab6 }
     ])
 
     // 判断步骤是否完成

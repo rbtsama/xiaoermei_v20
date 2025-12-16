@@ -32,16 +32,16 @@
       @update="handleFormUpdate"
     />
 
-    <!-- Tab 5: 支付结算 -->
-    <Tab6PaymentSettlement
+    <!-- Tab 5: 房型设置 -->
+    <Tab5RoomTypeList
       v-if="activeTab === 'tab5'"
       :form-data="formData"
       :is-locked="submittedTabs.tab5 && !editingTabs.tab5"
       @update="handleFormUpdate"
     />
 
-    <!-- Tab 6: 房型配置 -->
-    <Tab5RoomTypeList
+    <!-- Tab 6: 支付结算 -->
+    <Tab6PaymentSettlement
       v-if="activeTab === 'tab6'"
       :form-data="formData"
       :is-locked="submittedTabs.tab6 && !editingTabs.tab6"
