@@ -251,7 +251,23 @@ export default defineComponent({
         }
       }
 
-      // TODO: 添加Tab2-6的验证逻辑
+      // Tab5验证（房型设置）
+      if (currentTab === 'tab5') {
+        const totalRoomCount = formData.storeBasicInfo?.roomCount || 0
+        const configuredCount = (formData.roomTypes || []).reduce((sum, r) => sum + (r.roomCount || 0), 0)
+
+        if (totalRoomCount === 0) {
+          root.$message.error('请先在Tab1中填写门店总房间数')
+          return false
+        }
+
+        if (configuredCount !== totalRoomCount) {
+          root.$message.error(`房间数量不匹配：酒店共${totalRoomCount}间，已配置${configuredCount}间`)
+          return false
+        }
+      }
+
+      // TODO: 添加Tab2-4、Tab6的验证逻辑
 
       return true
     }

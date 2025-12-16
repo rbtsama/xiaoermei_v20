@@ -4,9 +4,13 @@
     <a-alert
       :message="progressMessage"
       :type="progressType"
-      show-icon
       class="progress-alert"
-    />
+    >
+      <template slot="icon">
+        <a-icon v-if="progressType === 'success'" type="check-circle" theme="filled" />
+        <a-icon v-else type="exclamation-circle" theme="filled" />
+      </template>
+    </a-alert>
 
     <!-- 房型列表 -->
     <div v-if="localData.length > 0" class="room-type-list">
@@ -130,20 +134,16 @@ export default defineComponent({
       if (totalRoomCount.value === 0) {
         return '请先在Tab1中填写门店总房间数'
       }
-      if (configuredCount.value < totalRoomCount.value) {
-        return `您在Tab1中填写的房间数量为${totalRoomCount.value}间，已配置${configuredCount.value}间，还需配置${remainingCount.value}间`
-      }
       if (configuredCount.value === totalRoomCount.value) {
-        return `已配置${configuredCount.value}间，与门店总房间数一致 ✓`
+        return `酒店房间数共${totalRoomCount.value}间，已配置${configuredCount.value}间`
       }
-      return `已配置${configuredCount.value}间，超出门店总房间数${configuredCount.value - totalRoomCount.value}间，请调整`
+      return `酒店房间数共${totalRoomCount.value}间，已配置${configuredCount.value}间`
     })
 
     const progressType = computed(() => {
       if (totalRoomCount.value === 0) return 'warning'
-      if (configuredCount.value < totalRoomCount.value) return 'info'
       if (configuredCount.value === totalRoomCount.value) return 'success'
-      return 'error'
+      return 'warning'
     })
 
     // 监听props变化
@@ -180,6 +180,13 @@ export default defineComponent({
       })
     }
 
+    // 数据变化
+    const handleChange = () => {
+      emit('update', {
+        roomTypes: [...localData]
+      })
+    }
+
     // 复制房型
     const handleDuplicate = async (room) => {
       try {
@@ -209,13 +216,6 @@ export default defineComponent({
       }
       editVisible.value = false
       handleChange()
-    }
-
-    // 处理数据变化
-    const handleChange = () => {
-      emit('update', {
-        roomTypes: [...localData]
-      })
     }
 
     return {
