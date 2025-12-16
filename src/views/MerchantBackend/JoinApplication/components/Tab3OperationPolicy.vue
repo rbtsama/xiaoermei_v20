@@ -302,11 +302,11 @@
           <!-- 供应形式 -->
           <div class="form-item">
             <label class="form-label">供应形式</label>
-            <a-radio-group v-model="formValues.servingStyle" :disabled="isLocked" @change="handleChange">
-              <a-radio value="set_meal">套餐</a-radio>
-              <a-radio value="buffet">自助餐</a-radio>
-              <a-radio value="a_la_carte">单点</a-radio>
-            </a-radio-group>
+            <a-checkbox-group v-model="formValues.servingStyles" :disabled="isLocked" @change="handleChange">
+              <a-checkbox value="set_meal">套餐</a-checkbox>
+              <a-checkbox value="buffet">自助餐</a-checkbox>
+              <a-checkbox value="a_la_carte">单点</a-checkbox>
+            </a-checkbox-group>
           </div>
 
           <!-- 加早费用 -->
@@ -438,7 +438,7 @@ export default defineComponent({
       breakfastStartTime: '07:30',
       breakfastEndTime: '09:30',
       breakfastTypes: [],
-      servingStyle: 'set_meal',
+      servingStyles: [],
       breakfastFee: 0,
       childBreakfastPolicy: 'free',
       childBreakfastAgeLimit: 12,
@@ -475,7 +475,7 @@ export default defineComponent({
             startTime: formValues.breakfastStartTime || '',
             endTime: formValues.breakfastEndTime || '',
             types: formValues.breakfastTypes,
-            servingStyle: formValues.servingStyle,
+            servingStyles: formValues.servingStyles,
             fee: formValues.breakfastFee,
             childPolicy: formValues.childBreakfastPolicy,
             childAgeLimit: formValues.childBreakfastAgeLimit,
