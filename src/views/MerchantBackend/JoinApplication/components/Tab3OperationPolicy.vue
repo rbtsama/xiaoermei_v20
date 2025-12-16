@@ -34,6 +34,7 @@
               <a-time-picker
                 v-model="formValues.latestBookingTime"
                 format="HH:mm"
+                value-format="HH:mm"
                 :minute-step="30"
                 placeholder="入住日14:30"
                 style="width: 100%"
@@ -49,6 +50,7 @@
               <a-time-picker
                 v-model="formValues.checkInTime"
                 format="HH:mm"
+                value-format="HH:mm"
                 :minute-step="30"
                 placeholder="入住日14:30"
                 style="width: 100%"
@@ -64,6 +66,7 @@
               <a-time-picker
                 v-model="formValues.checkOutTime"
                 format="HH:mm"
+                value-format="HH:mm"
                 :minute-step="30"
                 placeholder="离店日12:00"
                 style="width: 100%"
@@ -99,6 +102,7 @@
               <a-time-picker
                 v-model="formValues.cancelTimeBeforeCheckIn"
                 format="HH:mm"
+                value-format="HH:mm"
                 :minute-step="30"
                 placeholder="18:00"
                 style="width: 100%"
@@ -259,6 +263,7 @@
                 <a-time-picker
                   v-model="formValues.breakfastStartTime"
                   format="HH:mm"
+                  value-format="HH:mm"
                   :minute-step="30"
                   placeholder="07:30"
                   style="width: 100%"
@@ -273,6 +278,7 @@
                 <a-time-picker
                   v-model="formValues.breakfastEndTime"
                   format="HH:mm"
+                  value-format="HH:mm"
                   :minute-step="30"
                   placeholder="09:30"
                   style="width: 100%"
