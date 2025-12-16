@@ -9,43 +9,46 @@
     class="room-edit-modal"
   >
     <div class="form-container">
-      <a-form-model :model="localData">
+      <a-form-model
+        :model="localData"
+        :label-col="{ span: 6 }"
+        :wrapper-col="{ span: 14 }"
+      >
         <!-- 基础信息分类 -->
         <div class="section-title">基础信息</div>
 
         <!-- 房型名称 -->
-        <a-row :gutter="24">
-          <a-col :span="12">
-            <a-form-model-item label="房型名称" required>
-              <a-input
-                v-model="localData.roomTypeName"
-                placeholder="山景大床房"
-                :maxLength="20"
-              />
-            </a-form-model-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-model-item label="该房型数量" required>
-              <a-input-number
-                v-model="localData.roomCount"
-                :min="1"
-                :max="100"
-                :precision="0"
-                placeholder="2"
-                style="width: 100%"
-              />
-            </a-form-model-item>
-          </a-col>
-        </a-row>
+        <a-form-model-item label="房型名称" required>
+          <a-input
+            v-model="localData.roomTypeName"
+            placeholder="山景大床房"
+            :maxLength="20"
+          />
+          <div class="field-hint">房型的名称展示</div>
+        </a-form-model-item>
+
+        <!-- 该房型数量 -->
+        <a-form-model-item label="该房型数量" required>
+          <a-input-number
+            v-model="localData.roomCount"
+            :min="1"
+            :max="100"
+            :precision="0"
+            placeholder="2"
+            style="width: 100%"
+          />
+          <div class="field-hint">该房型的房间总数</div>
+        </a-form-model-item>
 
         <!-- 房型特色 -->
         <a-form-model-item label="房型特色">
-          <a-checkbox-group v-model="localData.roomFeatures">
+          <a-checkbox-group v-model="localData.roomFeatures" class="checkbox-grid-2col">
             <a-checkbox value="有浴缸">有浴缸</a-checkbox>
             <a-checkbox value="有家庭套房">有家庭套房</a-checkbox>
             <a-checkbox value="可加床">可加床</a-checkbox>
             <a-checkbox value="可拆分为双床">可拆分为双床</a-checkbox>
           </a-checkbox-group>
+          <div class="field-hint">选择房型的特殊功能</div>
         </a-form-model-item>
 
         <!-- 房型说明 -->
@@ -56,43 +59,42 @@
             :rows="3"
             :maxLength="200"
           />
+          <div class="field-hint">介绍房型特色、优势等，最多200字</div>
         </a-form-model-item>
 
         <!-- 房型图片 -->
         <a-form-model-item label="房型图片" required>
-          <p class="field-hint">展示房间内部照片，包括床、卫浴、窗景等，建议比例3:2，最多10张，最少1张，支持jpg、png格式</p>
           <image-upload
             v-model="localData.images"
             :multiple="true"
             :maxCount="10"
             :maxSize="10"
           />
+          <div class="field-hint">展示房间内部照片，包括床、卫浴、窗景等，建议比例3:2，最多10张，最少1张，支持jpg、png格式</div>
         </a-form-model-item>
 
-        <!-- 楼层、面积 -->
-        <a-row :gutter="24">
-          <a-col :span="12">
-            <a-form-model-item label="楼层">
-              <a-input
-                v-model="localData.floor"
-                placeholder="多个楼层用逗号分隔，如2,3,4"
-                :maxLength="50"
-              />
-            </a-form-model-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-model-item label="房间面积（㎡）" required>
-              <a-input-number
-                v-model="localData.area"
-                :min="1"
-                :max="500"
-                :precision="0"
-                placeholder="35"
-                style="width: 100%"
-              />
-            </a-form-model-item>
-          </a-col>
-        </a-row>
+        <!-- 楼层 -->
+        <a-form-model-item label="楼层">
+          <a-input
+            v-model="localData.floor"
+            placeholder="多个楼层用逗号分隔，如2,3,4"
+            :maxLength="50"
+          />
+          <div class="field-hint">房型所在楼层，多个楼层用逗号分隔</div>
+        </a-form-model-item>
+
+        <!-- 房间面积 -->
+        <a-form-model-item label="房间面积（㎡）" required>
+          <a-input-number
+            v-model="localData.area"
+            :min="1"
+            :max="500"
+            :precision="0"
+            placeholder="35"
+            style="width: 100%"
+          />
+          <div class="field-hint">房间的实际面积</div>
+        </a-form-model-item>
 
         <!-- 是否有窗 -->
         <a-form-model-item label="是否有窗" required>
@@ -128,6 +130,7 @@
             placeholder="2"
             style="width: 200px"
           />
+          <div class="field-hint">该房型最多可入住人数</div>
         </a-form-model-item>
 
         <!-- 允许加客 -->
@@ -136,35 +139,35 @@
             <a-radio :value="AllowExtraGuest.NOT_ALLOWED">不允许</a-radio>
             <a-radio :value="AllowExtraGuest.ALLOWED">允许</a-radio>
           </a-radio-group>
+          <div class="field-hint">是否允许在基础人数外加人</div>
         </a-form-model-item>
 
         <!-- 加客配置（条件显示） -->
         <template v-if="localData.allowExtraGuest === AllowExtraGuest.ALLOWED">
-          <a-row :gutter="24">
-            <a-col :span="12">
-              <a-form-model-item label="最多可加人数" required>
-                <a-input-number
-                  v-model="localData.maxExtraGuests"
-                  :min="1"
-                  :max="10"
-                  :precision="0"
-                  placeholder="1"
-                  style="width: 100%"
-                />
-              </a-form-model-item>
-            </a-col>
-            <a-col :span="12">
-              <a-form-model-item label="加客费用（元/人）" required>
-                <a-input-number
-                  v-model="localData.extraGuestFee"
-                  :min="0"
-                  :precision="0"
-                  placeholder="200"
-                  style="width: 100%"
-                />
-              </a-form-model-item>
-            </a-col>
-          </a-row>
+          <!-- 最多可加人数 -->
+          <a-form-model-item label="最多可加人数" required>
+            <a-input-number
+              v-model="localData.maxExtraGuests"
+              :min="1"
+              :max="10"
+              :precision="0"
+              placeholder="1"
+              style="width: 200px"
+            />
+            <div class="field-hint">最多可加人数</div>
+          </a-form-model-item>
+
+          <!-- 加客费用 -->
+          <a-form-model-item label="加客费用（元/人）" required>
+            <a-input-number
+              v-model="localData.extraGuestFee"
+              :min="0"
+              :precision="0"
+              placeholder="200"
+              style="width: 200px"
+            />
+            <div class="field-hint">每增加一人的费用</div>
+          </a-form-model-item>
         </template>
 
         <!-- 房间布局 -->
@@ -184,47 +187,51 @@
             </a-col>
             <a-col flex="none"><span>间</span></a-col>
           </a-row>
+          <div class="field-hint">配置房间的客厅、卫生间、卧室数量</div>
         </a-form-model-item>
 
         <!-- 床型配置（动态生成） -->
         <template v-if="localData.roomLayout.bedrooms > 0">
-          <div
-            v-for="(bedroom, idx) in localData.roomLayout.bedroomConfigs"
-            :key="idx"
-            class="bedroom-config"
-          >
-            <div class="bedroom-header">
-              <span class="bedroom-label">卧室{{ idx + 1 }}：</span>
-              <span>床数量</span>
-              <a-input-number
-                v-model="bedroom.bedCount"
-                :min="1"
-                :precision="0"
-                placeholder="1"
-                style="width: 80px; margin: 0 8px;"
-                @change="handleBedCountChange(idx)"
-              />
-              <span>张</span>
-            </div>
+          <a-form-model-item label="床型配置" class="bed-config-wrapper">
+            <div
+              v-for="(bedroom, idx) in localData.roomLayout.bedroomConfigs"
+              :key="idx"
+              class="bedroom-config"
+            >
+              <div class="bedroom-header">
+                <span class="bedroom-label">卧室{{ idx + 1 }}：</span>
+                <span>床数量</span>
+                <a-input-number
+                  v-model="bedroom.bedCount"
+                  :min="1"
+                  :precision="0"
+                  placeholder="1"
+                  style="width: 80px; margin: 0 8px;"
+                  @change="handleBedCountChange(idx)"
+                />
+                <span>张</span>
+              </div>
 
-            <div class="beds-list">
-              <div
-                v-for="(bed, bedIdx) in bedroom.beds"
-                :key="bedIdx"
-                class="bed-item"
-              >
-                <span class="bed-label">床{{ bedIdx + 1 }}：</span>
-                <span>宽</span>
-                <a-select v-model="bed.width" style="width: 100px; margin: 0 8px;">
-                  <a-select-option v-for="w in bedWidthOptions" :key="w" :value="w">{{ w }}m</a-select-option>
-                </a-select>
-                <span>× 长</span>
-                <a-select v-model="bed.length" style="width: 100px; margin: 0 8px;">
-                  <a-select-option v-for="l in bedLengthOptions" :key="l" :value="l">{{ l }}m</a-select-option>
-                </a-select>
+              <div class="beds-list">
+                <div
+                  v-for="(bed, bedIdx) in bedroom.beds"
+                  :key="bedIdx"
+                  class="bed-item"
+                >
+                  <span class="bed-label">床{{ bedIdx + 1 }}：</span>
+                  <span>宽</span>
+                  <a-select v-model="bed.width" style="width: 100px; margin: 0 8px;">
+                    <a-select-option v-for="w in bedWidthOptions" :key="w" :value="w">{{ w }}m</a-select-option>
+                  </a-select>
+                  <span>× 长</span>
+                  <a-select v-model="bed.length" style="width: 100px; margin: 0 8px;">
+                    <a-select-option v-for="l in bedLengthOptions" :key="l" :value="l">{{ l }}m</a-select-option>
+                  </a-select>
+                </div>
               </div>
             </div>
-          </div>
+            <div class="field-hint">根据卧室数量配置每间卧室的床型</div>
+          </a-form-model-item>
         </template>
 
         <!-- 房型设施分类 -->
@@ -575,17 +582,26 @@ export default defineComponent({
 .field-hint {
   font-size: @font-size-xs;
   color: @text-secondary;
-  margin-bottom: 12px;
-  line-height: 1.6;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.bed-config-wrapper {
+  :deep(.ant-form-item-control) {
+    line-height: 1;
+  }
 }
 
 .bedroom-config {
   padding: 16px;
-  margin-bottom: 16px;
-  margin-left: 24px;
-  background: #f0f2f5;
+  margin-bottom: 12px;
+  background: @bg-secondary;
   border-radius: @border-radius-base;
   border: 1px solid @border-primary;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .bedroom-header {
@@ -604,7 +620,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-left: 24px;
+  margin-left: 12px;
 }
 
 .bed-item {
@@ -646,6 +662,16 @@ export default defineComponent({
   }
 }
 
+.checkbox-grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 12px;
+
+  :deep(.ant-checkbox-wrapper) {
+    margin: 0;
+  }
+}
+
 .required {
   color: @error-color;
   margin-left: 2px;
@@ -660,20 +686,40 @@ export default defineComponent({
 }
 
 :deep(.ant-form-item) {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 
   .ant-form-item-label {
     text-align: left;
-    padding-bottom: 8px;
+    font-weight: @font-weight-medium;
+    color: @text-primary;
 
     label {
-      font-weight: @font-weight-medium;
-      color: @text-primary;
-
       &::after {
         content: '';
       }
     }
   }
+}
+
+:deep(.ant-input),
+:deep(.ant-input-number),
+:deep(.ant-select-selector),
+:deep(.ant-picker) {
+  border-radius: @border-radius-base;
+  border-color: @border-primary;
+
+  &:hover {
+    border-color: @brand-primary-hover;
+  }
+
+  &:focus,
+  &-focused {
+    border-color: @brand-primary;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  }
+}
+
+:deep(.ant-input-number) {
+  width: 100%;
 }
 </style>
