@@ -628,7 +628,7 @@ export default defineComponent({
 .checkbox-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 12px 16px;
   align-items: stretch;
 
   :deep(.ant-checkbox-wrapper) {
@@ -643,6 +643,8 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    font-size: @font-size-sm;
+    color: @text-primary;
 
     &:hover {
       border-color: @brand-primary;
