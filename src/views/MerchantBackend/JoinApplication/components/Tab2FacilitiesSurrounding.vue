@@ -80,7 +80,7 @@
       <div class="facility-category">
         <div class="category-header">
           <span class="category-title">娱乐设施</span>
-          <a-tag color="blue" size="small">选填</a-tag>
+          
         </div>
         <a-checkbox-group v-model="localData.storeFacilities.entertainment" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in ENTERTAINMENT_FACILITIES" :key="item" :value="item">
@@ -95,7 +95,7 @@
       <div class="facility-category">
         <div class="category-header">
           <span class="category-title">餐饮服务</span>
-          <a-tag color="blue" size="small">选填</a-tag>
+          
         </div>
         <a-checkbox-group v-model="localData.storeFacilities.catering" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in CATERING_FACILITIES" :key="item" :value="item">
@@ -110,7 +110,7 @@
       <div class="facility-category">
         <div class="category-header">
           <span class="category-title">商务服务</span>
-          <a-tag color="blue" size="small">选填</a-tag>
+          
         </div>
         <a-checkbox-group v-model="localData.storeFacilities.business" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in BUSINESS_FACILITIES" :key="item" :value="item">
@@ -125,7 +125,7 @@
       <div class="facility-category">
         <div class="category-header">
           <span class="category-title">儿童设施</span>
-          <a-tag color="blue" size="small">选填</a-tag>
+          
         </div>
         <a-checkbox-group v-model="localData.storeFacilities.children" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in CHILDREN_FACILITIES" :key="item" :value="item">
@@ -140,7 +140,7 @@
       <div class="facility-category">
         <div class="category-header">
           <span class="category-title">运动设施</span>
-          <a-tag color="blue" size="small">选填</a-tag>
+          
         </div>
         <a-checkbox-group v-model="localData.storeFacilities.sports" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in SPORTS_FACILITIES" :key="item" :value="item">
@@ -155,7 +155,7 @@
       <div class="facility-category">
         <div class="category-header">
           <span class="category-title">康体设施</span>
-          <a-tag color="blue" size="small">选填</a-tag>
+          
         </div>
         <a-checkbox-group v-model="localData.storeFacilities.wellness" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in WELLNESS_FACILITIES" :key="item" :value="item">
@@ -170,7 +170,7 @@
       <div class="facility-category">
         <div class="category-header">
           <span class="category-title">无障碍设施</span>
-          <a-tag color="blue" size="small">选填</a-tag>
+          
         </div>
         <a-checkbox-group v-model="localData.storeFacilities.accessibility" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in ACCESSIBILITY_FACILITIES" :key="item" :value="item">
@@ -189,8 +189,7 @@
       <!-- 交通分类 -->
       <div class="surrounding-category">
         <div class="category-header">
-          <span class="category-title">交通</span>
-          <a-tag color="red" size="small">必填</a-tag>
+          <span class="category-title">交通 <span class="required">*</span></span>
           <span class="category-hint">（必须选择1条作为标志信息）</span>
           <a-button type="dashed" size="small" :disabled="isLocked" @click="addSurroundingItem('transportation')" class="add-btn">
             <a-icon type="plus" />添加交通信息
@@ -268,8 +267,7 @@
       <!-- 景点分类 -->
       <div class="surrounding-category">
         <div class="category-header">
-          <span class="category-title">景点</span>
-          <a-tag color="red" size="small">必填</a-tag>
+          <span class="category-title">景点 <span class="required">*</span></span>
           <span class="category-hint">（必须选择1条作为标志信息）</span>
           <a-button type="dashed" size="small" :disabled="isLocked" @click="addSurroundingItem('attractions')" class="add-btn">
             <a-icon type="plus" />添加景点信息
@@ -348,7 +346,7 @@
       <div class="surrounding-category">
         <div class="category-header">
           <span class="category-title">逛吃</span>
-          <a-tag color="blue" size="small">选填</a-tag>
+          
           <a-button type="dashed" size="small" :disabled="isLocked" @click="addSurroundingItem('food')" class="add-btn">
             <a-icon type="plus" />添加逛吃信息
           </a-button>

@@ -153,8 +153,7 @@
     <!-- 门店亮点 -->
     <a-card :bordered="false" class="form-section-card">
       <template slot="title">
-        <span class="section-title">门店亮点（至少选择3项）</span>
-        <a-tag color="red" size="small" style="margin-left: 8px;">必填</a-tag>
+        <span class="section-title">门店亮点（至少选择3项）<span class="required">*</span></span>
       </template>
 
       <!-- 建筑与景观类 -->
