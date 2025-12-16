@@ -26,7 +26,7 @@
                 <a-input
                   v-model="localData.roomTypeName"
                   placeholder="山景大床房"
-                  :maxLength="50"
+                  :maxLength="20"
                 />
               </a-form-model-item>
             </a-col>
@@ -37,7 +37,42 @@
                   v-model="localData.roomCount"
                   :min="1"
                   :max="100"
+                  :precision="0"
                   placeholder="2"
+                  style="width: 100%"
+                />
+              </a-form-model-item>
+            </a-col>
+          </a-row>
+
+          <a-form-model-item label="房型说明">
+            <a-textarea
+              v-model="localData.roomDescription"
+              placeholder="介绍房型特色、优势等"
+              :rows="3"
+              :maxLength="200"
+            />
+          </a-form-model-item>
+
+          <a-row :gutter="24">
+            <a-col :span="12">
+              <a-form-model-item label="楼层" required>
+                <a-checkbox-group v-model="localData.floors" class="floor-checkboxes">
+                  <a-checkbox v-for="floor in [1,2,3,4,5,6,7,8,9,10]" :key="floor" :value="String(floor)">
+                    {{ floor }}楼
+                  </a-checkbox>
+                </a-checkbox-group>
+              </a-form-model-item>
+            </a-col>
+
+            <a-col :span="12">
+              <a-form-model-item label="房间面积（㎡）" required>
+                <a-input-number
+                  v-model="localData.area"
+                  :min="1"
+                  :max="500"
+                  :precision="0"
+                  placeholder="35"
                   style="width: 100%"
                 />
               </a-form-model-item>
@@ -45,23 +80,42 @@
           </a-row>
 
           <a-row :gutter="24">
-            <a-col :span="12">
-              <a-form-model-item label="楼层">
-                <a-input
-                  v-model="localData.floor"
-                  placeholder="2 或 3-5 或 2、4"
-                  :maxLength="50"
-                />
-                <div class="field-hint">单个楼层直接填数字；连续楼层用"-"；多个不连续楼层用"、"</div>
+            <a-col :span="8">
+              <a-form-model-item label="是否有窗" required>
+                <a-radio-group v-model="localData.hasWindow">
+                  <a-radio :value="true">是</a-radio>
+                  <a-radio :value="false">否</a-radio>
+                </a-radio-group>
               </a-form-model-item>
             </a-col>
 
+            <a-col :span="8">
+              <a-form-model-item label="是否禁烟" required>
+                <a-radio-group v-model="localData.nonSmoking">
+                  <a-radio :value="true">是</a-radio>
+                  <a-radio :value="false">否</a-radio>
+                </a-radio-group>
+              </a-form-model-item>
+            </a-col>
+
+            <a-col :span="8">
+              <a-form-model-item label="携带宠物" required>
+                <a-radio-group v-model="localData.petsAllowed">
+                  <a-radio :value="false">不允许</a-radio>
+                  <a-radio :value="true">允许</a-radio>
+                </a-radio-group>
+              </a-form-model-item>
+            </a-col>
+          </a-row>
+
+          <a-row :gutter="24">
             <a-col :span="12">
               <a-form-model-item label="可住人数" required>
                 <a-input-number
                   v-model="localData.capacity"
                   :min="1"
                   :max="20"
+                  :precision="0"
                   placeholder="2"
                   style="width: 100%"
                 />
@@ -69,7 +123,7 @@
             </a-col>
           </a-row>
 
-          <a-form-model-item label="是否允许加客" required>
+          <a-form-model-item label="允许加客">
             <a-radio-group v-model="localData.allowExtraGuest">
               <a-radio :value="AllowExtraGuest.NOT_ALLOWED">不允许</a-radio>
               <a-radio :value="AllowExtraGuest.ALLOWED">允许</a-radio>
@@ -405,21 +459,22 @@ export default defineComponent({
     const localData = reactive({
       id: '',
       roomTypeName: '',
+      roomDescription: '',
       roomCount: 1,
-      floor: '',
+      floors: [],
+      area: 0,
+      hasWindow: true,
+      nonSmoking: true,
+      petsAllowed: false,
       capacity: 2,
       allowExtraGuest: AllowExtraGuest.NOT_ALLOWED,
       maxExtraGuests: 0,
       extraGuestFee: 0,
-      area: 0,
       layout: '',
       bedType: '',
       bedCount: 1,
       breakfastInfo: '',
       roomTags: '',
-      hasWindow: true,
-      nonSmoking: true,
-      petsAllowed: false,
       facilities: {
         roomFacilities: [],
         roomLayout: [],
