@@ -655,20 +655,74 @@ export default defineComponent({
 .checkbox-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  gap: 12px 16px;
+  align-items: stretch;
 
   :deep(.ant-checkbox-wrapper) {
-    margin: 0;
+    margin: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 10px 12px;
+    border: 1px solid @border-primary;
+    border-radius: @border-radius-base;
+    background: @bg-primary;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: @font-size-sm;
+    color: @text-primary;
+
+    &:hover {
+      border-color: @brand-primary;
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    &.ant-checkbox-wrapper-checked {
+      border-color: @brand-primary;
+      background: rgba(59, 130, 246, 0.08);
+    }
+
+    .ant-checkbox {
+      top: 0;
+    }
   }
 }
 
 .checkbox-grid-2col {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px 12px;
+  gap: 12px 16px;
+  align-items: stretch;
 
   :deep(.ant-checkbox-wrapper) {
-    margin: 0;
+    margin: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 10px 12px;
+    border: 1px solid @border-primary;
+    border-radius: @border-radius-base;
+    background: @bg-primary;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: @font-size-sm;
+    color: @text-primary;
+
+    &:hover {
+      border-color: @brand-primary;
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    &.ant-checkbox-wrapper-checked {
+      border-color: @brand-primary;
+      background: rgba(59, 130, 246, 0.08);
+    }
+
+    .ant-checkbox {
+      top: 0;
+    }
   }
 }
 
