@@ -310,21 +310,35 @@ export const mockCompleteData: StoreDeploymentForm = {
     {
       id: 'room_001',
       roomTypeName: '山景大床房',
+      roomDescription: '临江独立阳台，超开阔视野',
       roomCount: 5,
-      floor: '2',
+      floors: ['2'],
+      area: 35,
+      hasWindow: true,
+      nonSmoking: true,
+      petsAllowed: false,
       capacity: 2,
       allowExtraGuest: AllowExtraGuest.ALLOWED,
       maxExtraGuests: 1,
       extraGuestFee: 200,
-      area: 35,
-      layout: '卧室1 卫生间1',
-      bedType: '1.8m×2m',
-      bedCount: 1,
-      breakfastInfo: '免费成人早餐2份',
-      roomTags: '有浴缸，可加床',
-      hasWindow: true,
-      nonSmoking: true,
-      petsAllowed: false,
+      roomLayout: {
+        livingRooms: 0,
+        bathrooms: 1,
+        bedrooms: 1,
+        bedroomConfigs: [
+          {
+            bedroomIndex: 1,
+            bedCount: 1,
+            beds: [
+              {
+                bedIndex: 1,
+                width: '1.8',
+                length: '2.0'
+              }
+            ]
+          }
+        ]
+      },
       facilities: {
         roomFacilities: ['空调', '冰箱', '阳台', '遮光帘', 'WIFI'],
         roomLayout: ['沙发', '休闲椅', '茶几', '书桌', '衣柜'],
@@ -335,31 +349,48 @@ export const mockCompleteData: StoreDeploymentForm = {
         mediaTech: ['电视', '音响'],
         foodDrink: ['瓶装水', '电热水壶', '茶叶']
       },
-      description: '临江独立阳台，超开阔视野；房间禁烟，无电视；此房型可在沙发区域加床；每间房最多可携带1位16岁以下儿童，与成人共享床铺，儿童早餐免费提供。',
+      description: '房间禁烟，可在沙发区域加床',
       images: [
         'https://example.com/images/room1_1.jpg',
         'https://example.com/images/room1_2.jpg',
-        'https://example.com/images/room1_3.jpg',
-        'https://example.com/images/room1_4.jpg',
-        'https://example.com/images/room1_5.jpg'
+        'https://example.com/images/room1_3.jpg'
       ]
     },
     {
       id: 'room_002',
       roomTypeName: '江景双床房',
+      roomDescription: '双床房，适合朋友或家庭入住',
       roomCount: 8,
-      floor: '2、3',
-      capacity: 2,
-      allowExtraGuest: AllowExtraGuest.NOT_ALLOWED,
+      floors: ['2', '3'],
       area: 32,
-      layout: '卧室1 卫生间1',
-      bedType: '1.5m×2m',
-      bedCount: 2,
-      breakfastInfo: '免费成人早餐2份',
-      roomTags: '可拆分为双床',
       hasWindow: true,
       nonSmoking: true,
       petsAllowed: false,
+      capacity: 2,
+      allowExtraGuest: AllowExtraGuest.NOT_ALLOWED,
+      roomLayout: {
+        livingRooms: 0,
+        bathrooms: 1,
+        bedrooms: 1,
+        bedroomConfigs: [
+          {
+            bedroomIndex: 1,
+            bedCount: 2,
+            beds: [
+              {
+                bedIndex: 1,
+                width: '1.5',
+                length: '2.0'
+              },
+              {
+                bedIndex: 2,
+                width: '1.5',
+                length: '2.0'
+              }
+            ]
+          }
+        ]
+      },
       facilities: {
         roomFacilities: ['空调', '阳台', '遮光帘', 'WIFI'],
         roomLayout: ['休闲椅', '茶几', '衣柜'],
