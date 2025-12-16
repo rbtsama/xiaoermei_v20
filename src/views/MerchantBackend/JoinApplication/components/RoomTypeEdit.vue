@@ -10,10 +10,10 @@
   >
     <div class="room-edit-container">
       <!-- 基本信息 -->
-      <a-card :bordered="false" class="form-section-card">
-        <template slot="title">
+      <div class="form-section">
+        <div class="section-header">
           <span class="section-title">基本信息</span>
-        </template>
+        </div>
 
         <a-form-model
           :model="localData"
@@ -57,11 +57,12 @@
           <a-row :gutter="24">
             <a-col :span="12">
               <a-form-model-item label="楼层" required>
-                <a-checkbox-group v-model="localData.floors" class="floor-checkboxes">
-                  <a-checkbox v-for="floor in [1,2,3,4,5,6,7,8,9,10]" :key="floor" :value="String(floor)">
-                    {{ floor }}楼
-                  </a-checkbox>
-                </a-checkbox-group>
+                <a-input
+                  v-model="localData.floor"
+                  placeholder="1,2,3"
+                  allow-clear
+                />
+                <div class="field-hint">多个楼层用逗号分隔，例如：1,2,3</div>
               </a-form-model-item>
             </a-col>
 
@@ -277,193 +278,19 @@
             </div>
           </a-form-model-item>
 
-          <a-row :gutter="24">
-            <a-col :span="8">
-              <a-form-model-item label="是否有窗" required :label-col="{ span: 10 }" :wrapper-col="{ span: 14 }">
-                <a-radio-group v-model="localData.hasWindow">
-                  <a-radio :value="true">是</a-radio>
-                  <a-radio :value="false">否</a-radio>
-                </a-radio-group>
-              </a-form-model-item>
-            </a-col>
-
-            <a-col :span="8">
-              <a-form-model-item label="是否禁烟" required :label-col="{ span: 10 }" :wrapper-col="{ span: 14 }">
-                <a-radio-group v-model="localData.nonSmoking">
-                  <a-radio :value="true">是</a-radio>
-                  <a-radio :value="false">否</a-radio>
-                </a-radio-group>
-              </a-form-model-item>
-            </a-col>
-
-            <a-col :span="8">
-              <a-form-model-item label="是否可携带宠物" required :label-col="{ span: 13 }" :wrapper-col="{ span: 11 }">
-                <a-radio-group v-model="localData.petsAllowed">
-                  <a-radio :value="true">是</a-radio>
-                  <a-radio :value="false">否</a-radio>
-                </a-radio-group>
-              </a-form-model-item>
-            </a-col>
-          </a-row>
+          <!-- 房型图片 -->
+          <a-form-model-item label="房型图片" required>
+            <p class="field-hint">展示房间内部的照片，包括床、卫浴、窗景等角度，建议比例3:2，最多10张，最少1张</p>
+            <image-upload
+              v-model="localData.images"
+              :multiple="true"
+              :maxCount="10"
+              :maxSize="10"
+              ratio="3:2"
+            />
+          </a-form-model-item>
         </a-form-model>
-      </a-card>
-
-      <!-- 房型设施 -->
-      <a-card :bordered="false" class="form-section-card">
-        <template slot="title">
-          <div class="section-header">
-            <span class="section-title">房型设施</span>
-            <span class="selected-count">已选 {{ totalFacilitiesCount }} 项</span>
-          </div>
-        </template>
-
-        <p class="section-hint">请勾选此房型配备的设施</p>
-
-        <!-- 客房设施 -->
-        <div class="facility-category">
-          <div class="category-header">
-            <span class="category-title">客房设施<span class="required">*</span></span>
-          </div>
-          <a-checkbox-group v-model="localData.facilities.roomFacilities" class="checkbox-grid">
-            <a-checkbox v-for="item in ROOM_FACILITIES" :key="item" :value="item">
-              {{ item }}
-            </a-checkbox>
-          </a-checkbox-group>
-        </div>
-
-        <a-divider />
-
-        <!-- 客房布局和家具 -->
-        <div class="facility-category">
-          <div class="category-header">
-            <span class="category-title">客房布局和家具<span class="required">*</span></span>
-          </div>
-          <a-checkbox-group v-model="localData.facilities.roomLayout" class="checkbox-grid">
-            <a-checkbox v-for="item in ROOM_LAYOUT_FURNITURE" :key="item" :value="item">
-              {{ item }}
-            </a-checkbox>
-          </a-checkbox-group>
-        </div>
-
-        <a-divider />
-
-        <!-- 卫浴设施 -->
-        <div class="facility-category">
-          <div class="category-header">
-            <span class="category-title">卫浴设施<span class="required">*</span></span>
-          </div>
-          <a-checkbox-group v-model="localData.facilities.bathroom" class="checkbox-grid">
-            <a-checkbox v-for="item in BATHROOM_FACILITIES" :key="item" :value="item">
-              {{ item }}
-            </a-checkbox>
-          </a-checkbox-group>
-        </div>
-
-        <a-divider />
-
-        <!-- 洗浴用品 -->
-        <div class="facility-category">
-          <div class="category-header">
-            <span class="category-title">洗浴用品<span class="required">*</span></span>
-          </div>
-          <a-checkbox-group v-model="localData.facilities.toiletries" class="checkbox-grid">
-            <a-checkbox v-for="item in TOILETRIES" :key="item" :value="item">
-              {{ item }}
-            </a-checkbox>
-          </a-checkbox-group>
-        </div>
-
-        <a-divider />
-
-        <!-- 床上用品 -->
-        <div class="facility-category">
-          <div class="category-header">
-            <span class="category-title">床上用品</span>
-          </div>
-          <a-checkbox-group v-model="localData.facilities.bedding" class="checkbox-grid">
-            <a-checkbox v-for="item in BEDDING" :key="item" :value="item">
-              {{ item }}
-            </a-checkbox>
-          </a-checkbox-group>
-        </div>
-
-        <a-divider />
-
-        <!-- 便利设施 -->
-        <div class="facility-category">
-          <div class="category-header">
-            <span class="category-title">便利设施</span>
-          </div>
-          <a-checkbox-group v-model="localData.facilities.convenience" class="checkbox-grid">
-            <a-checkbox v-for="item in CONVENIENCE_FACILITIES" :key="item" :value="item">
-              {{ item }}
-            </a-checkbox>
-          </a-checkbox-group>
-        </div>
-
-        <a-divider />
-
-        <!-- 媒体科技 -->
-        <div class="facility-category">
-          <div class="category-header">
-            <span class="category-title">媒体科技</span>
-          </div>
-          <a-checkbox-group v-model="localData.facilities.mediaTech" class="checkbox-grid">
-            <a-checkbox v-for="item in MEDIA_TECH" :key="item" :value="item">
-              {{ item }}
-            </a-checkbox>
-          </a-checkbox-group>
-        </div>
-
-        <a-divider />
-
-        <!-- 食品饮品 -->
-        <div class="facility-category">
-          <div class="category-header">
-            <span class="category-title">食品饮品</span>
-          </div>
-          <a-checkbox-group v-model="localData.facilities.foodDrink" class="checkbox-grid">
-            <a-checkbox v-for="item in FOOD_DRINK" :key="item" :value="item">
-              {{ item }}
-            </a-checkbox>
-          </a-checkbox-group>
-        </div>
-      </a-card>
-
-      <!-- 相关说明 -->
-      <a-card :bordered="false" class="form-section-card">
-        <template slot="title">
-          <span class="section-title">相关说明</span>
-        </template>
-
-        <a-textarea
-          v-model="localData.description"
-          placeholder="补充说明此房型的特殊要求、限制条件等。例如：临江独立阳台，超开阔视野；房间禁烟，无电视；禁止携带烟花爆竹等易燃易爆物品进村；限住2位成人，超出收取200元/人，此房型可在沙发区域加床..."
-          :rows="5"
-          :maxLength="500"
-        />
-        <div class="char-count">{{ (localData.description || '').length }}/500</div>
-      </a-card>
-
-      <!-- 房型图片 -->
-      <a-card :bordered="false" class="form-section-card">
-        <template slot="title">
-          <div class="section-header">
-            <span class="section-title">房型图片</span>
-            <a-tag color="red" size="small">必填 ★</a-tag>
-          </div>
-        </template>
-
-        <p class="section-hint">展示房间内部的照片，包括床、卫浴、窗景等角度，建议比例3:2，最多10张，最少1张</p>
-
-        <image-upload
-          v-model="localData.images"
-          :multiple="true"
-          :maxCount="10"
-          :maxSize="10"
-          ratio="3:2"
-        />
-      </a-card>
+      </div>
 
       <!-- 操作按钮 -->
       <div class="modal-footer">
@@ -484,17 +311,7 @@
 <script>
 import { defineComponent, reactive, computed, watch } from '@vue/composition-api'
 import ImageUpload from '@/components/StoreDeployment/ImageUpload.vue'
-import {
-  AllowExtraGuest,
-  ROOM_FACILITIES,
-  ROOM_LAYOUT_FURNITURE,
-  BATHROOM_FACILITIES,
-  TOILETRIES,
-  BEDDING,
-  CONVENIENCE_FACILITIES,
-  MEDIA_TECH,
-  FOOD_DRINK
-} from '@/types/storeDeployment'
+import { AllowExtraGuest } from '@/types/storeDeployment'
 
 export default defineComponent({
   name: 'RoomTypeEdit',
@@ -530,7 +347,7 @@ export default defineComponent({
       roomTypeName: '',
       roomDescription: '',
       roomCount: 1,
-      floors: [],
+      floor: '',
       area: 0,
       hasWindow: true,
       nonSmoking: true,
@@ -557,31 +374,12 @@ export default defineComponent({
           }
         ]
       },
-      facilities: {
-        roomFacilities: [],
-        roomLayout: [],
-        bathroom: [],
-        toiletries: [],
-        bedding: [],
-        convenience: [],
-        mediaTech: [],
-        foodDrink: []
-      },
-      description: '',
       images: []
     })
 
     // 标题
     const title = computed(() => {
       return props.roomType ? `编辑房型：${props.roomType.roomTypeName}` : '添加房型'
-    })
-
-    // 已选设施总数
-    const totalFacilitiesCount = computed(() => {
-      return Object.values(localData.facilities).reduce(
-        (sum, arr) => sum + arr.length,
-        0
-      )
     })
 
     // 处理卧室数量变化
@@ -637,7 +435,7 @@ export default defineComponent({
       localData.roomTypeName = ''
       localData.roomDescription = ''
       localData.roomCount = 1
-      localData.floors = []
+      localData.floor = ''
       localData.area = 0
       localData.hasWindow = true
       localData.nonSmoking = true
@@ -664,17 +462,6 @@ export default defineComponent({
           }
         ]
       }
-      localData.facilities = {
-        roomFacilities: [],
-        roomLayout: [],
-        bathroom: [],
-        toiletries: [],
-        bedding: [],
-        convenience: [],
-        mediaTech: [],
-        foodDrink: []
-      }
-      localData.description = ''
       localData.images = []
     }
 
@@ -714,30 +501,30 @@ export default defineComponent({
         root.$message.error('请填写房型数量')
         return
       }
+      if (!localData.floor) {
+        root.$message.error('请填写楼层')
+        return
+      }
+      if (!localData.area || localData.area < 1) {
+        root.$message.error('请填写房间面积')
+        return
+      }
       if (!localData.capacity || localData.capacity < 1) {
         root.$message.error('请填写可住人数')
         return
       }
+      if (localData.allowExtraGuest === AllowExtraGuest.ALLOWED) {
+        if (!localData.maxExtraGuests || localData.maxExtraGuests < 1) {
+          root.$message.error('请填写最多可加人数')
+          return
+        }
+        if (localData.extraGuestFee === undefined || localData.extraGuestFee === null) {
+          root.$message.error('请填写加客费用')
+          return
+        }
+      }
       if (localData.images.length === 0) {
         root.$message.error('请至少上传1张房型图片')
-        return
-      }
-
-      // 检查必填设施
-      if (localData.facilities.roomFacilities.length === 0) {
-        root.$message.error('客房设施至少选择1项')
-        return
-      }
-      if (localData.facilities.roomLayout.length === 0) {
-        root.$message.error('客房布局和家具至少选择1项')
-        return
-      }
-      if (localData.facilities.bathroom.length === 0) {
-        root.$message.error('卫浴设施至少选择1项')
-        return
-      }
-      if (localData.facilities.toiletries.length === 0) {
-        root.$message.error('洗浴用品至少选择1项')
         return
       }
 
@@ -747,7 +534,7 @@ export default defineComponent({
 
     // 保存并继续添加
     const handleSaveAndContinue = () => {
-      // 校验并保存
+      // 校验必填项
       if (!localData.roomTypeName) {
         root.$message.error('请填写房型名称')
         return
@@ -756,9 +543,27 @@ export default defineComponent({
         root.$message.error('请填写房型数量')
         return
       }
+      if (!localData.floor) {
+        root.$message.error('请填写楼层')
+        return
+      }
+      if (!localData.area || localData.area < 1) {
+        root.$message.error('请填写房间面积')
+        return
+      }
       if (!localData.capacity || localData.capacity < 1) {
         root.$message.error('请填写可住人数')
         return
+      }
+      if (localData.allowExtraGuest === AllowExtraGuest.ALLOWED) {
+        if (!localData.maxExtraGuests || localData.maxExtraGuests < 1) {
+          root.$message.error('请填写最多可加人数')
+          return
+        }
+        if (localData.extraGuestFee === undefined || localData.extraGuestFee === null) {
+          root.$message.error('请填写加客费用')
+          return
+        }
       }
       if (localData.images.length === 0) {
         root.$message.error('请至少上传1张房型图片')
@@ -775,20 +580,11 @@ export default defineComponent({
     return {
       localData,
       title,
-      totalFacilitiesCount,
       bedWidthOptions,
       bedLengthOptions,
       handleBedroomsChange,
       handleBedCountChange,
       AllowExtraGuest,
-      ROOM_FACILITIES,
-      ROOM_LAYOUT_FURNITURE,
-      BATHROOM_FACILITIES,
-      TOILETRIES,
-      BEDDING,
-      CONVENIENCE_FACILITIES,
-      MEDIA_TECH,
-      FOOD_DRINK,
       handleCancel,
       handleSave,
       handleSaveAndContinue
@@ -815,86 +611,34 @@ export default defineComponent({
   gap: 24px;
 }
 
-.form-section-card {
+.form-section {
+  padding: 20px;
+  background: @bg-primary;
   border-radius: @border-radius-lg;
   border: 1px solid @border-primary;
   box-shadow: @shadow-sm;
-
-  :deep(.ant-card-head) {
-    border-bottom: 1px solid @border-primary;
-    padding: 12px 20px;
-  }
-
-  :deep(.ant-card-body) {
-    padding: 24px 20px;
-  }
 }
 
 .section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid @border-primary;
 }
 
 .section-title {
-  font-size: @font-size-base;
+  font-size: @font-size-lg;
   font-weight: @font-weight-semibold;
   color: @text-primary;
-}
-
-.selected-count {
-  font-size: @font-size-sm;
-  color: @text-secondary;
-}
-
-.section-hint {
-  font-size: @font-size-sm;
-  color: @text-secondary;
-  margin-bottom: 16px;
-  line-height: 1.6;
 }
 
 .field-hint {
   font-size: @font-size-xs;
   color: @text-secondary;
   margin-top: 4px;
-}
-
-.facility-category {
-  margin-bottom: 20px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-.category-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.category-title {
-  font-size: @font-size-sm;
-  font-weight: @font-weight-medium;
-  color: @text-primary;
-}
-
-.required {
-  color: #ef4444;
-  margin-left: 4px;
-}
-
-.floor-checkboxes {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-
-  :deep(.ant-checkbox-wrapper) {
-    margin: 0;
-  }
+  line-height: 1.5;
 }
 
 .bedroom-configs {
@@ -940,45 +684,6 @@ export default defineComponent({
   color: @text-secondary;
 }
 
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-
-  :deep(.ant-checkbox-wrapper) {
-    margin: 0;
-    padding: 8px 10px;
-    border: 1px solid @border-primary;
-    border-radius: @border-radius-base;
-    background: @bg-primary;
-    transition: all 0.2s;
-    font-size: @font-size-sm;
-    display: flex;
-    align-items: center;
-
-    &:hover {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.05);
-    }
-
-    &.ant-checkbox-wrapper-checked {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.08);
-    }
-
-    .ant-checkbox {
-      top: 0;
-    }
-  }
-}
-
-.char-count {
-  text-align: right;
-  font-size: @font-size-xs;
-  color: @text-secondary;
-  margin-top: 8px;
-}
-
 .modal-footer {
   display: flex;
   justify-content: flex-end;
@@ -989,9 +694,5 @@ export default defineComponent({
 
 :deep(.ant-form-item) {
   margin-bottom: 16px;
-}
-
-:deep(.ant-divider) {
-  margin: 20px 0;
 }
 </style>

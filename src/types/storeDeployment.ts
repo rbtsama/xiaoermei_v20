@@ -262,7 +262,7 @@ export interface RoomType {
   roomTypeName: string          // 房型名称（最多20字）
   roomDescription?: string      // 房型说明
   roomCount: number             // 该房型数量
-  floors: string[]              // 楼层（多选1-10）
+  floor: string                 // 楼层（逗号分隔，例如：1,2,3）
   area: number                  // 面积（平方米）
   hasWindow: boolean            // 是否有窗
   nonSmoking: boolean           // 是否禁烟
@@ -271,9 +271,7 @@ export interface RoomType {
   allowExtraGuest: AllowExtraGuest // 允许加客
   maxExtraGuests?: number       // 最多可加人数
   extraGuestFee?: number        // 加客费用（元/人）
-  roomLayout: RoomLayout        // 房间布局（新增）
-  facilities: RoomFacilities    // 房型设施
-  description?: string          // 相关说明
+  roomLayout: RoomLayout        // 房间布局
   images: string[]              // 房型图片（最多10张）
 }
 

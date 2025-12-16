@@ -312,7 +312,7 @@ export const mockCompleteData: StoreDeploymentForm = {
       roomTypeName: '山景大床房',
       roomDescription: '临江独立阳台，超开阔视野',
       roomCount: 5,
-      floors: ['2'],
+      floor: '2',
       area: 35,
       hasWindow: true,
       nonSmoking: true,
@@ -339,17 +339,6 @@ export const mockCompleteData: StoreDeploymentForm = {
           }
         ]
       },
-      facilities: {
-        roomFacilities: ['空调', '冰箱', '阳台', '遮光帘', 'WIFI'],
-        roomLayout: ['沙发', '休闲椅', '茶几', '书桌', '衣柜'],
-        bathroom: ['独立卫浴', '24小时热水', '吹风机', '淋浴和浴缸', '毛巾', '浴巾', '拖鞋'],
-        toiletries: ['牙具', '梳子', '洗发水', '护发素', '沐浴露', '香皂'],
-        bedding: ['备选枕头', '备用毯子'],
-        convenience: ['衣架', '雨伞'],
-        mediaTech: ['电视', '音响'],
-        foodDrink: ['瓶装水', '电热水壶', '茶叶']
-      },
-      description: '房间禁烟，可在沙发区域加床',
       images: [
         'https://example.com/images/room1_1.jpg',
         'https://example.com/images/room1_2.jpg',
@@ -361,7 +350,7 @@ export const mockCompleteData: StoreDeploymentForm = {
       roomTypeName: '江景双床房',
       roomDescription: '双床房，适合朋友或家庭入住',
       roomCount: 8,
-      floors: ['2', '3'],
+      floor: '2,3',
       area: 32,
       hasWindow: true,
       nonSmoking: true,
@@ -391,17 +380,6 @@ export const mockCompleteData: StoreDeploymentForm = {
           }
         ]
       },
-      facilities: {
-        roomFacilities: ['空调', '阳台', '遮光帘', 'WIFI'],
-        roomLayout: ['休闲椅', '茶几', '衣柜'],
-        bathroom: ['独立卫浴', '24小时热水', '吹风机', '淋浴', '毛巾', '浴巾', '拖鞋'],
-        toiletries: ['牙具', '洗发水', '护发素', '沐浴露'],
-        bedding: [],
-        convenience: ['衣架'],
-        mediaTech: ['电视'],
-        foodDrink: ['瓶装水', '电热水壶']
-      },
-      description: '面朝富春江，视野开阔；两张1.5米双床，可拆分使用；房间禁烟。',
       images: [
         'https://example.com/images/room2_1.jpg',
         'https://example.com/images/room2_2.jpg',
@@ -411,32 +389,46 @@ export const mockCompleteData: StoreDeploymentForm = {
     {
       id: 'room_003',
       roomTypeName: '家庭套房',
+      roomDescription: '超大家庭套房，两室一厅设计，独立花园',
       roomCount: 8,
       floor: '3',
+      area: 55,
+      hasWindow: true,
+      nonSmoking: true,
+      petsAllowed: true,
       capacity: 4,
       allowExtraGuest: AllowExtraGuest.ALLOWED,
       maxExtraGuests: 2,
       extraGuestFee: 150,
-      area: 55,
-      layout: '卧室2 客厅1 卫生间1',
-      bedType: '1.8m×2m + 1.5m×2m',
-      bedCount: 2,
-      breakfastInfo: '免费成人早餐4份、儿童早餐2份',
-      roomTags: '有浴缸，家庭套房，可加床',
-      hasWindow: true,
-      nonSmoking: true,
-      petsAllowed: true,
-      facilities: {
-        roomFacilities: ['空调', '冰箱', '地暖', '阳台', '遮光帘', '空气净化器', 'WIFI'],
-        roomLayout: ['沙发', '休闲椅', '茶几', '书桌', '餐桌', '衣柜', '花园/庭院'],
-        bathroom: ['独立卫浴', '24小时热水', '智能马桶', '吹风机', '浴缸', '淋浴和浴缸', '毛巾', '浴巾', '拖鞋'],
-        toiletries: ['牙具', '梳子', '浴帽', '洗发水', '护发素', '沐浴露', '润肤露', '香皂'],
-        bedding: ['备选枕头', '备用毯子', '备用床具'],
-        convenience: ['保险箱', '衣架', '雨伞', '户外桌椅'],
-        mediaTech: ['电视', '音响', '投影仪'],
-        foodDrink: ['水果', '瓶装水', '软饮', '电热水壶', '咖啡壶/茶壶', '茶叶', '小食']
+      roomLayout: {
+        livingRooms: 1,
+        bathrooms: 1,
+        bedrooms: 2,
+        bedroomConfigs: [
+          {
+            bedroomIndex: 1,
+            bedCount: 1,
+            beds: [
+              {
+                bedIndex: 1,
+                width: '1.8',
+                length: '2.0'
+              }
+            ]
+          },
+          {
+            bedroomIndex: 2,
+            bedCount: 1,
+            beds: [
+              {
+                bedIndex: 1,
+                width: '1.5',
+                length: '2.0'
+              }
+            ]
+          }
+        ]
       },
-      description: '超大家庭套房，两室一厅设计，独立花园，适合家庭出行；可携带宠物（需提前告知）；客厅沙发可加床；包含4份成人早餐和2份儿童早餐。',
       images: [
         'https://example.com/images/room3_1.jpg',
         'https://example.com/images/room3_2.jpg',
