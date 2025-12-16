@@ -74,6 +74,7 @@
         <!-- Tab 1-6: 表单内容 -->
         <div class="tab-content">
           <store-deployment-form
+            ref="formRef"
             :active-tab="activeTab"
             :submitted-tabs="submittedTabs"
             :editing-tabs="editingTabs"
@@ -106,6 +107,7 @@ export default defineComponent({
     const isSticky = ref(false)
     const autoSaveStatus = ref(AutoSaveStatus.IDLE)
     const lastSaveTime = ref('')
+    const formRef = ref(null)
 
     // Tab提交状态（记录哪些Tab已提交）
     const submittedTabs = reactive({
@@ -175,11 +177,15 @@ export default defineComponent({
 
     // 提交本页
     const handleSubmitTab = async () => {
+      // 调用表单验证
+      if (formRef.value && formRef.value.validateCurrentTab) {
+        const isValid = await formRef.value.validateCurrentTab()
+        if (!isValid) {
+          return
+        }
+      }
 
-      // TODO: 调用StoreDeploymentForm的验证方法
-      // 这里需要通过ref或事件与子组件通信，触发验证
-
-      // 模拟验证和提交
+      // 验证通过，提交
       try {
         root.$message.loading({ content: '正在提交...', key: 'submit', duration: 0 })
 
@@ -247,6 +253,7 @@ export default defineComponent({
       editingTabs,
       tabProgress,
       steps,
+      formRef,
       isStepCompleted,
       handleSaveDraft,
       handleSubmitTab,

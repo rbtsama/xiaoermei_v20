@@ -207,6 +207,55 @@ export default defineComponent({
       }
     )
 
+    // 验证当前Tab
+    const validateCurrentTab = async () => {
+      const currentTab = props.activeTab
+
+      // Tab1验证
+      if (currentTab === 'tab1') {
+        // 检查门店亮点是否至少选择3项
+        const highlights = formData.storeDisplay?.highlights || []
+        if (highlights.length < 3) {
+          root.$message.error('门店亮点至少需要选择3项')
+          return false
+        }
+
+        // 检查其他必填项
+        if (!formData.accountInfo?.mainAccount) {
+          root.$message.error('请填写主账号')
+          return false
+        }
+        if (!formData.accountInfo?.bookingPhone) {
+          root.$message.error('请填写预订电话')
+          return false
+        }
+        if (!formData.storeBasicInfo?.storeName) {
+          root.$message.error('请填写门店名称')
+          return false
+        }
+        if (!formData.storeBasicInfo?.storeAddress) {
+          root.$message.error('请填写详细地址')
+          return false
+        }
+        if (!formData.storeBasicInfo?.roomCount) {
+          root.$message.error('请填写房间数量')
+          return false
+        }
+        if (!formData.storeBasicInfo?.openingYear) {
+          root.$message.error('请填写开业时间')
+          return false
+        }
+        if (!formData.storeBasicInfo?.storeDescription || formData.storeBasicInfo.storeDescription.length < 200) {
+          root.$message.error('门店介绍至少需要200字')
+          return false
+        }
+      }
+
+      // TODO: 添加Tab2-6的验证逻辑
+
+      return true
+    }
+
     onMounted(() => {
       loadDraft()
       updateProgress()
@@ -220,7 +269,8 @@ export default defineComponent({
 
     return {
       formData,
-      handleFormUpdate
+      handleFormUpdate,
+      validateCurrentTab
     }
   }
 })
