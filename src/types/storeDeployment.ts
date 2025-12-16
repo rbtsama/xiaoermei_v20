@@ -227,26 +227,51 @@ export interface RoomFacilities {
 }
 
 /**
+ * 床型配置
+ */
+export interface BedConfig {
+  bedIndex: number              // 床编号
+  width: string                 // 宽度（米）0.8-2.4
+  length: string                // 长度（米）1.6-2.4
+}
+
+/**
+ * 卧室配置
+ */
+export interface BedroomConfig {
+  bedroomIndex: number          // 卧室编号
+  bedCount: number              // 床数量
+  beds: BedConfig[]             // 床配置数组
+}
+
+/**
+ * 房间布局
+ */
+export interface RoomLayout {
+  livingRooms: number           // 客厅数量
+  bathrooms: number             // 卫生间数量
+  bedrooms: number              // 卧室数量
+  bedroomConfigs: BedroomConfig[] // 卧室配置数组
+}
+
+/**
  * 房型信息
  */
 export interface RoomType {
   id: string                    // 房型ID
-  roomTypeName: string          // 房型名称
+  roomTypeName: string          // 房型名称（最多20字）
+  roomDescription?: string      // 房型说明
   roomCount: number             // 该房型数量
-  floor?: string                // 楼层
-  capacity: number              // 可住人数
-  allowExtraGuest: AllowExtraGuest // 是否允许加客
-  maxExtraGuests?: number       // 最多可加人数
-  extraGuestFee?: number        // 加客费用（元/人）
-  area?: number                 // 面积（平方米）
-  layout?: string               // 空间布局
-  bedType?: string              // 床型
-  bedCount?: number             // 床数量
-  breakfastInfo?: string        // 早餐数量
-  roomTags?: string             // 房型标签
+  floors: string[]              // 楼层（多选1-10）
+  area: number                  // 面积（平方米）
   hasWindow: boolean            // 是否有窗
   nonSmoking: boolean           // 是否禁烟
-  petsAllowed: boolean          // 是否可携带宠物
+  petsAllowed: boolean          // 携带宠物
+  capacity: number              // 可住人数
+  allowExtraGuest: AllowExtraGuest // 允许加客
+  maxExtraGuests?: number       // 最多可加人数
+  extraGuestFee?: number        // 加客费用（元/人）
+  roomLayout: RoomLayout        // 房间布局（新增）
   facilities: RoomFacilities    // 房型设施
   description?: string          // 相关说明
   images: string[]              // 房型图片（最多10张）
