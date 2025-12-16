@@ -1,27 +1,18 @@
 <template>
   <div class="image-upload-container">
-    <!-- 上传区域 -->
-    <div
-      v-if="!multiple || images.length < maxCount"
-      @click="handleClickUpload"
-      @dragover.prevent="isDragging = true"
-      @dragleave="isDragging = false"
-      @drop.prevent="handleDrop"
-      :class="['upload-area', { dragging: isDragging, compact: compact }]"
-    >
+    <!-- 上传按钮 -->
+    <div v-if="!multiple || images.length < maxCount" class="upload-button-area">
       <input
         ref="fileInput"
         type="file"
-        accept="image/jpeg,image/png,image/webp"
+        accept="image/jpeg,image/png"
         :multiple="multiple"
         @change="handleFileChange"
         style="display: none"
       />
-      <a-icon type="cloud-upload" class="upload-icon" />
-      <p class="upload-text">{{ uploadText }}</p>
-      <p class="upload-hint">{{ hintText }}</p>
-      <a-button type="primary" size="small" class="upload-btn" ghost>
-        选择图片
+      <a-button @click="handleClickUpload" :disabled="disabled">
+        <a-icon type="upload" />
+        上传图片
       </a-button>
     </div>
 
@@ -143,7 +134,6 @@ export default defineComponent({
   },
   setup(props, { emit, root }) {
     const fileInput = ref(null)
-    const isDragging = ref(false)
     const previewVisible = ref(false)
     const previewImage = ref('')
 
@@ -204,16 +194,6 @@ export default defineComponent({
       event.target.value = ''
     }
 
-    // 拖拽上传
-    const handleDrop = (event) => {
-      isDragging.value = false
-      const files = Array.from(event.dataTransfer.files).filter(file =>
-        file.type.startsWith('image/')
-      )
-      if (files.length > 0) {
-        handleFiles(files)
-      }
-    }
 
     // 处理文件上传
     const handleFiles = async (files) => {
@@ -315,14 +295,11 @@ export default defineComponent({
 
     return {
       fileInput,
-      isDragging,
       images,
-      hintText,
       previewVisible,
       previewImage,
       handleClickUpload,
       handleFileChange,
-      handleDrop,
       handleDelete,
       handlePreview,
       handleSortEnd
@@ -338,73 +315,8 @@ export default defineComponent({
   width: 100%;
 }
 
-.upload-area {
-  padding: 40px 20px;
-  border: 2px dashed @border-primary;
-  border-radius: @border-radius-lg;
-  text-align: center;
-  background: @bg-primary;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &.compact {
-    padding: 24px 20px;
-
-    .upload-icon {
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
-
-    .upload-text {
-      font-size: @font-size-sm;
-    }
-
-    .upload-hint {
-      font-size: @font-size-xs;
-      margin-bottom: 12px;
-    }
-
-    .upload-btn {
-      height: 28px;
-      padding: 0 16px;
-      font-size: @font-size-xs;
-    }
-  }
-
-  &:hover {
-    border-color: @brand-primary;
-    background: rgba(59, 130, 246, 0.05);
-  }
-
-  &.dragging {
-    border-color: @brand-primary;
-    background: @brand-primary-light;
-  }
-}
-
-.upload-icon {
-  font-size: 48px;
-  color: @border-primary;
+.upload-button-area {
   margin-bottom: 12px;
-}
-
-.upload-text {
-  font-size: @font-size-base;
-  color: @text-primary;
-  margin: 0 0 4px 0;
-}
-
-.upload-hint {
-  font-size: @font-size-xs;
-  color: @text-secondary;
-  margin: 0 0 16px 0;
-}
-
-.upload-btn {
-  height: 32px;
-  padding: 0 24px;
-  font-size: @font-size-sm;
-  border-radius: @border-radius-base;
 }
 
 .image-preview-list {
