@@ -320,29 +320,19 @@ export default defineComponent({
 }
 
 .image-preview-list {
-  margin-top: 20px;
-
-  &.single-mode {
-    .draggable-list {
-      display: block;
-    }
-
-    .image-preview-item {
-      width: 200px;
-      height: 200px;
-    }
-  }
+  margin-top: 12px;
 }
 
 .draggable-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
 .image-preview-item {
   position: relative;
-  aspect-ratio: 1;
+  width: 150px;
+  height: 150px;
   border-radius: @border-radius-base;
   overflow: hidden;
   background: @bg-secondary;

@@ -445,8 +445,8 @@ export default defineComponent({
 }
 
 .auto-generated-preview {
-  width: 200px;
-  height: 160px;
+  width: 150px;
+  height: 150px;
   border-radius: @border-radius-base;
   overflow: hidden;
   border: 1px solid @border-primary;
