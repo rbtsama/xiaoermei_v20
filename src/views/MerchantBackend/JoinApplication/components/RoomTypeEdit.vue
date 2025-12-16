@@ -29,25 +29,24 @@
             </a-col>
 
             <a-col :span="12">
-              <a-form-model-item label="该房型数量" required>
-                <a-input-number
-                  v-model="localData.roomCount"
-                  :min="1"
-                  :max="100"
-                  :precision="0"
-                  placeholder="2"
-                  style="width: 100%"
+              <a-form-model-item label="房型说明">
+                <a-input
+                  v-model="localData.roomDescription"
+                  placeholder="介绍房型特色、优势等"
+                  :maxLength="200"
                 />
               </a-form-model-item>
             </a-col>
           </a-row>
 
-          <a-form-model-item label="房型说明">
-            <a-textarea
-              v-model="localData.roomDescription"
-              placeholder="介绍房型特色、优势等"
-              :rows="3"
-              :maxLength="200"
+          <a-form-model-item label="该房型数量" required>
+            <a-input-number
+              v-model="localData.roomCount"
+              :min="1"
+              :max="100"
+              :precision="0"
+              placeholder="2"
+              style="width: 200px"
             />
           </a-form-model-item>
         </div>
