@@ -9,11 +9,7 @@
     class="room-edit-modal"
   >
     <div class="form-container">
-      <a-form-model
-        :model="localData"
-        :label-col="{ span: 5 }"
-        :wrapper-col="{ span: 19 }"
-      >
+      <a-form-model :model="localData">
         <!-- 房型名称 -->
         <a-row :gutter="24">
           <a-col :span="12">
@@ -567,7 +563,8 @@ export default defineComponent({
 .bedroom-config {
   padding: 16px;
   margin-bottom: 16px;
-  background: @bg-secondary;
+  margin-left: 24px;
+  background: #f0f2f5;
   border-radius: @border-radius-base;
   border: 1px solid @border-primary;
 }
@@ -588,6 +585,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 8px;
+  margin-left: 24px;
 }
 
 .bed-item {
@@ -644,5 +642,19 @@ export default defineComponent({
 
 :deep(.ant-form-item) {
   margin-bottom: 20px;
+
+  .ant-form-item-label {
+    text-align: left;
+    padding-bottom: 8px;
+
+    label {
+      font-weight: @font-weight-medium;
+      color: @text-primary;
+
+      &::after {
+        content: '';
+      }
+    }
+  }
 }
 </style>
