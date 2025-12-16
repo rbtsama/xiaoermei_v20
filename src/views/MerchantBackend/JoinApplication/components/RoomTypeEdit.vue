@@ -11,8 +11,8 @@
     <div class="form-container">
       <a-form-model
         :model="localData"
-        :label-col="{ span: 6 }"
-        :wrapper-col="{ span: 14 }"
+        :label-col="{ span: 5 }"
+        :wrapper-col="{ span: 18 }"
       >
         <!-- 基础信息分类 -->
         <div class="section-title">基础信息</div>
@@ -48,7 +48,6 @@
             <a-checkbox value="可加床">可加床</a-checkbox>
             <a-checkbox value="可拆分为双床">可拆分为双床</a-checkbox>
           </a-checkbox-group>
-          <div class="field-hint">选择房型的特殊功能</div>
         </a-form-model-item>
 
         <!-- 房型说明 -->
