@@ -255,6 +255,20 @@ export interface RoomLayout {
 }
 
 /**
+ * 房型设施
+ */
+export interface RoomFacilities {
+  roomFacilities: string[]      // 客房设施
+  roomLayout: string[]          // 客房布局和家具
+  bathroom: string[]            // 卫浴设施
+  toiletries: string[]          // 洗浴用品
+  bedding: string[]             // 床上用品
+  convenience: string[]         // 便利设施
+  mediaTech: string[]           // 媒体科技
+  foodDrink: string[]           // 食品饮品
+}
+
+/**
  * 房型信息
  */
 export interface RoomType {
@@ -272,6 +286,7 @@ export interface RoomType {
   maxExtraGuests?: number       // 最多可加人数
   extraGuestFee?: number        // 加客费用（元/人）
   roomLayout: RoomLayout        // 房间布局
+  facilities: RoomFacilities    // 房型设施
   images: string[]              // 房型图片（最多10张）
 }
 

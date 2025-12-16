@@ -339,6 +339,16 @@ export const mockCompleteData: StoreDeploymentForm = {
           }
         ]
       },
+      facilities: {
+        roomFacilities: ['空调', '冰箱', '地暖', '阳台', 'WIFI'],
+        roomLayout: ['沙发', '休闲椅', '茶几', '书桌', '衣柜'],
+        bathroom: ['独立卫浴', '24小时热水', '智能马桶', '吹风机', '淋浴'],
+        toiletries: ['牙具', '梳子', '洗发水', '护发素', '沐浴露'],
+        bedding: ['备选枕头', '备用毯子'],
+        convenience: ['衣架', '雨伞', '插座'],
+        mediaTech: ['电视', '智能锁'],
+        foodDrink: ['瓶装水', '电热水壶', '茶叶']
+      },
       images: [
         'https://example.com/images/room1_1.jpg',
         'https://example.com/images/room1_2.jpg',
@@ -379,6 +389,16 @@ export const mockCompleteData: StoreDeploymentForm = {
             ]
           }
         ]
+      },
+      facilities: {
+        roomFacilities: ['空调', 'WIFI', '暖气', '遮光帘'],
+        roomLayout: ['书桌', '衣柜', '休闲椅'],
+        bathroom: ['独立卫浴', '24小时热水', '吹风机', '淋浴', '毛巾'],
+        toiletries: ['牙具', '洗发水', '沐浴露', '香皂'],
+        bedding: ['备选枕头'],
+        convenience: ['保险箱', '衣架', '雨伞'],
+        mediaTech: ['电视'],
+        foodDrink: ['瓶装水', '电热水壶']
       },
       images: [
         'https://example.com/images/room2_1.jpg',
@@ -428,6 +448,16 @@ export const mockCompleteData: StoreDeploymentForm = {
             ]
           }
         ]
+      },
+      facilities: {
+        roomFacilities: ['空调', '冰箱', '地暖', '阳台', '露台', 'WIFI'],
+        roomLayout: ['沙发', '私人花园', '休闲椅', '茶几', '书桌', '餐桌', '衣柜'],
+        bathroom: ['独立卫浴', '24小时热水', '智能马桶', '吹风机', '化妆镜', '淋浴', '浴缸'],
+        toiletries: ['牙具', '梳子', '浴帽', '洗发水', '护发素', '沐浴露', '润肤露'],
+        bedding: ['备选枕头', '备用毯子', '备用床具'],
+        convenience: ['保险箱', '针线包', '衣架', '雨伞', '户外桌椅', '电子秤'],
+        mediaTech: ['电视', '音响', '智能锁', '投影仪'],
+        foodDrink: ['水果', '瓶装水', '软饮', '电热水壶', '咖啡壶/茶壶', '茶叶', '小食']
       },
       images: [
         'https://example.com/images/room3_1.jpg',
