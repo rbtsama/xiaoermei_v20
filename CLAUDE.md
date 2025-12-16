@@ -513,6 +513,426 @@ pagination: {
 
 ---
 
+## 表单填写规范 ⭐
+
+**基于基本信息Tab（Tab1AccountStoreInfo）的标准交互规范**
+
+### 1. 表单布局（左右布局）
+
+```vue
+<a-form-model
+  :model="formData"
+  :label-col="{ span: 6 }"
+  :wrapper-col="{ span: 14 }"
+>
+  <!-- 字段标签占25%，输入区域占58% -->
+</a-form-model>
+```
+
+**要点**：
+- label-col: `span: 6` (25%)
+- wrapper-col: `span: 14` (58%)
+- 标签在左侧，输入框在右侧
+- 标签文字左对齐
+- 字段间距：`24px`
+
+### 2. 必填标记
+
+**方式一**：使用 `required` 属性（推荐）
+```vue
+<a-form-model-item label="门店名称" required>
+  <a-input v-model="formData.storeName" />
+  <div class="field-hint">门店对外展示的名称</div>
+</a-form-model-item>
+```
+
+**方式二**：使用红色星号
+```vue
+<a-form-model-item label="门店名称">
+  <span class="required-mark">*</span>
+  <a-input v-model="formData.storeName" />
+  <div class="field-hint">门店对外展示的名称</div>
+</a-form-model-item>
+```
+
+**样式**：
+```less
+.required-mark {
+  color: @error-color;
+  font-size: @font-size-base;
+  margin-right: 4px;
+  font-weight: @font-weight-semibold;
+}
+```
+
+### 3. 字段说明（field-hint）
+
+**位置**：输入框下方
+
+```vue
+<a-form-model-item label="主账号" required>
+  <a-input v-model="formData.mainAccount" placeholder="13575481983" />
+  <div class="field-hint">系统最高权限者，用于登录</div>
+</a-form-model-item>
+```
+
+**样式**：
+```less
+.field-hint {
+  font-size: @font-size-xs;     // 12px
+  color: @text-secondary;        // #666666
+  margin-top: 4px;
+  line-height: 1.4;
+}
+```
+
+### 4. 错误提示（error-hint）
+
+**位置**：输入框下方（替代field-hint）
+
+```vue
+<a-form-model-item label="预订电话" required>
+  <a-input v-model="formData.bookingPhone" @blur="validatePhone" />
+  <div v-if="phoneError" class="error-hint">{{ phoneError }}</div>
+  <div v-else class="field-hint">客人预订时的联系电话</div>
+</a-form-model-item>
+```
+
+**样式**：
+```less
+.error-hint {
+  font-size: @font-size-xs;     // 12px
+  color: @error-color;           // #ef4444 红色
+  margin-top: 4px;
+  line-height: 1.4;
+}
+```
+
+### 5. 文本域字符计数
+
+**位置**：文本域下方右对齐
+
+```vue
+<div class="textarea-container">
+  <a-textarea
+    v-model="formData.description"
+    :rows="12"
+    :maxLength="1000"
+    class="description-textarea"
+  />
+  <div class="char-count" :class="{ warning: description.length > 1000 }">
+    {{ description.length }}/1000 字
+    <span v-if="description.length < 200" class="hint-text">（至少200字）</span>
+  </div>
+</div>
+```
+
+**样式**：
+```less
+.char-count {
+  text-align: right;
+  font-size: @font-size-xs;      // 12px
+  color: @text-secondary;         // #666666
+  margin-top: 8px;
+
+  &.warning {
+    color: @error-color;          // 超限时红色
+  }
+
+  .hint-text {
+    color: @warning-color;        // 橙色提示
+    margin-left: 8px;
+  }
+}
+```
+
+### 6. 多选框布局（卡片样式）
+
+**一行5列**（门店亮点）：
+```vue
+<a-checkbox-group v-model="formData.highlights" class="checkbox-grid-5col">
+  <a-checkbox value="老建筑">老建筑</a-checkbox>
+  <a-checkbox value="特色民居">特色民居</a-checkbox>
+  <!-- ... -->
+</a-checkbox-group>
+```
+
+**一行4列**（房型设施）：
+```vue
+<a-checkbox-group v-model="formData.facilities" class="checkbox-grid">
+  <!-- ... -->
+</a-checkbox-group>
+```
+
+**一行2列**（房型特色）：
+```vue
+<a-checkbox-group v-model="formData.features" class="checkbox-grid-2col">
+  <!-- ... -->
+</a-checkbox-group>
+```
+
+**样式**（以5列为例）：
+```less
+.checkbox-grid-5col {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px 16px;              // 行间距12px，列间距16px
+  align-items: stretch;
+
+  :deep(.ant-checkbox-wrapper) {
+    margin: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 10px 12px;
+    border: 1px solid @border-primary;
+    border-radius: @border-radius-base;  // 6px
+    background: @bg-primary;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: @font-size-sm;    // 13px
+    color: @text-primary;
+
+    &:hover {
+      border-color: @brand-primary;
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    &.ant-checkbox-wrapper-checked {
+      border-color: @brand-primary;
+      background: rgba(59, 130, 246, 0.08);
+    }
+
+    .ant-checkbox {
+      top: 0;
+    }
+  }
+}
+```
+
+### 7. 卡片结构
+
+```vue
+<a-card :bordered="false" class="form-section-card">
+  <template slot="title">
+    <span class="section-title">账号信息</span>
+  </template>
+
+  <a-form-model :label-col="{ span: 6 }" :wrapper-col="{ span: 14 }">
+    <!-- 表单字段 -->
+  </a-form-model>
+</a-card>
+```
+
+**样式**：
+```less
+.form-section-card {
+  border-radius: @border-radius-lg;   // 8px
+  border: 1px solid @border-primary;
+  box-shadow: @shadow-sm;
+
+  :deep(.ant-card-head) {
+    border-bottom: 1px solid @border-primary;
+    padding: 16px 24px;
+  }
+
+  :deep(.ant-card-body) {
+    padding: 32px 24px;
+  }
+}
+
+.section-title {
+  font-size: @font-size-lg;           // 16px
+  font-weight: @font-weight-semibold; // 600
+  color: @text-primary;
+}
+```
+
+**卡片间距**：
+```less
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;                          // 卡片之间24px间距
+}
+```
+
+### 8. 输入框样式
+
+```less
+:deep(.ant-input),
+:deep(.ant-input-number),
+:deep(.ant-select-selector),
+:deep(.ant-picker) {
+  border-radius: @border-radius-base;  // 6px
+  border-color: @border-primary;
+
+  &:hover {
+    border-color: @brand-primary-hover;
+  }
+
+  &:focus,
+  &-focused {
+    border-color: @brand-primary;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  }
+}
+
+:deep(.ant-input-number) {
+  width: 100%;
+}
+```
+
+### 9. 输入框图标前缀
+
+```vue
+<a-input v-model="formData.phone" placeholder="13575481983">
+  <a-icon slot="prefix" type="phone" />
+</a-input>
+```
+
+### 10. 分类标题（可选）
+
+用于卡片内的二级分类：
+
+```vue
+<div class="highlight-category">
+  <div class="category-title">建筑与景观类</div>
+  <a-checkbox-group v-model="formData.highlights">
+    <!-- ... -->
+  </a-checkbox-group>
+</div>
+```
+
+**样式**：
+```less
+.category-title {
+  font-size: @font-size-base;         // 14px
+  font-weight: @font-weight-semibold; // 600
+  color: @text-primary;
+  margin-bottom: 16px;
+}
+```
+
+### 11. 完整示例
+
+```vue
+<template>
+  <div class="page-container">
+    <a-card :bordered="false" class="form-section-card">
+      <template slot="title">
+        <span class="section-title">基本信息</span>
+      </template>
+
+      <a-form-model
+        :model="formData"
+        :label-col="{ span: 6 }"
+        :wrapper-col="{ span: 14 }"
+      >
+        <!-- 普通输入框 + 必填 + 说明 -->
+        <a-form-model-item label="门店名称" required>
+          <a-input
+            v-model="formData.storeName"
+            placeholder="原乡芦茨"
+            :maxLength="50"
+          />
+          <div class="field-hint">门店对外展示的名称</div>
+        </a-form-model-item>
+
+        <!-- 数字输入框 -->
+        <a-form-model-item label="房间数量" required>
+          <a-input-number
+            v-model="formData.roomCount"
+            :min="1"
+            :max="500"
+            placeholder="21"
+            style="width: 100%"
+          />
+          <div class="field-hint">门店客房总数</div>
+        </a-form-model-item>
+
+        <!-- 带图标的输入框 + 错误提示 -->
+        <a-form-model-item label="联系电话" required>
+          <a-input
+            v-model="formData.phone"
+            placeholder="13575481983"
+            @blur="validatePhone"
+          >
+            <a-icon slot="prefix" type="phone" />
+          </a-input>
+          <div v-if="phoneError" class="error-hint">{{ phoneError }}</div>
+          <div v-else class="field-hint">客人预订时的联系电话</div>
+        </a-form-model-item>
+
+        <!-- 多选框（5列） -->
+        <a-form-model-item label="门店亮点" required>
+          <a-checkbox-group v-model="formData.highlights" class="checkbox-grid-5col">
+            <a-checkbox value="老建筑">老建筑</a-checkbox>
+            <a-checkbox value="特色民居">特色民居</a-checkbox>
+            <a-checkbox value="大师设计">大师设计</a-checkbox>
+            <!-- ... -->
+          </a-checkbox-group>
+          <div class="field-hint">至少选择3项</div>
+        </a-form-model-item>
+
+        <!-- 文本域 + 字符计数 -->
+        <a-form-model-item label="门店介绍" required>
+          <div class="textarea-container">
+            <a-textarea
+              v-model="formData.description"
+              :rows="12"
+              :maxLength="1000"
+              placeholder="详细介绍门店..."
+              class="description-textarea"
+            />
+            <div class="char-count" :class="{ warning: descriptionLength > 1000 }">
+              {{ descriptionLength }}/1000 字
+              <span v-if="descriptionLength < 200" class="hint-text">（至少200字）</span>
+            </div>
+          </div>
+        </a-form-model-item>
+      </a-form-model>
+    </a-card>
+  </div>
+</template>
+
+<style scoped lang="less">
+@import '@/styles/variables.less';
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-section-card { /* 见上面的样式定义 */ }
+.section-title { /* 见上面的样式定义 */ }
+.field-hint { /* 见上面的样式定义 */ }
+.error-hint { /* 见上面的样式定义 */ }
+.char-count { /* 见上面的样式定义 */ }
+.checkbox-grid-5col { /* 见上面的样式定义 */ }
+</style>
+```
+
+### 12. 检查清单
+
+表单填写页面开发时，必须检查：
+
+- [ ] 使用左右布局（label-col: 6, wrapper-col: 14）
+- [ ] 必填字段标记 `required` 或红色星号
+- [ ] 所有输入框下方添加 `field-hint` 说明
+- [ ] 错误提示使用 `error-hint` 类
+- [ ] 文本域配置字符计数
+- [ ] 多选框使用卡片样式（checkbox-grid-*col）
+- [ ] 卡片间距 24px
+- [ ] 字段间距 24px
+- [ ] 输入框圆角 6px
+- [ ] 卡片圆角 8px
+- [ ] 引入 `@import '@/styles/variables.less'`
+
+---
+
 ## 开发检查清单
 
 ### 新建页面时
@@ -603,5 +1023,5 @@ lsof -ti:3000 | xargs kill -9
 
 ---
 
-**最后更新**: 2025-12-08
+**最后更新**: 2025-12-17
 **项目**: 小而美 Home Stay 民宿管理系统
