@@ -211,8 +211,7 @@
         <!-- 客房设施 -->
         <div class="facility-category">
           <div class="category-header">
-            <span class="category-title">客房设施</span>
-            <a-tag color="red" size="small">必填</a-tag>
+            <span class="category-title">客房设施<span class="required">*</span></span>
           </div>
           <a-checkbox-group v-model="localData.facilities.roomFacilities" class="checkbox-grid">
             <a-checkbox v-for="item in ROOM_FACILITIES" :key="item" :value="item">
@@ -226,8 +225,7 @@
         <!-- 客房布局和家具 -->
         <div class="facility-category">
           <div class="category-header">
-            <span class="category-title">客房布局和家具</span>
-            <a-tag color="red" size="small">必填</a-tag>
+            <span class="category-title">客房布局和家具<span class="required">*</span></span>
           </div>
           <a-checkbox-group v-model="localData.facilities.roomLayout" class="checkbox-grid">
             <a-checkbox v-for="item in ROOM_LAYOUT_FURNITURE" :key="item" :value="item">
@@ -241,8 +239,7 @@
         <!-- 卫浴设施 -->
         <div class="facility-category">
           <div class="category-header">
-            <span class="category-title">卫浴设施</span>
-            <a-tag color="red" size="small">必填</a-tag>
+            <span class="category-title">卫浴设施<span class="required">*</span></span>
           </div>
           <a-checkbox-group v-model="localData.facilities.bathroom" class="checkbox-grid">
             <a-checkbox v-for="item in BATHROOM_FACILITIES" :key="item" :value="item">
@@ -256,8 +253,7 @@
         <!-- 洗浴用品 -->
         <div class="facility-category">
           <div class="category-header">
-            <span class="category-title">洗浴用品</span>
-            <a-tag color="red" size="small">必填</a-tag>
+            <span class="category-title">洗浴用品<span class="required">*</span></span>
           </div>
           <a-checkbox-group v-model="localData.facilities.toiletries" class="checkbox-grid">
             <a-checkbox v-for="item in TOILETRIES" :key="item" :value="item">
@@ -272,7 +268,6 @@
         <div class="facility-category">
           <div class="category-header">
             <span class="category-title">床上用品</span>
-            <a-tag color="blue" size="small">选填</a-tag>
           </div>
           <a-checkbox-group v-model="localData.facilities.bedding" class="checkbox-grid">
             <a-checkbox v-for="item in BEDDING" :key="item" :value="item">
@@ -287,7 +282,6 @@
         <div class="facility-category">
           <div class="category-header">
             <span class="category-title">便利设施</span>
-            <a-tag color="blue" size="small">选填</a-tag>
           </div>
           <a-checkbox-group v-model="localData.facilities.convenience" class="checkbox-grid">
             <a-checkbox v-for="item in CONVENIENCE_FACILITIES" :key="item" :value="item">
@@ -302,7 +296,6 @@
         <div class="facility-category">
           <div class="category-header">
             <span class="category-title">媒体科技</span>
-            <a-tag color="blue" size="small">选填</a-tag>
           </div>
           <a-checkbox-group v-model="localData.facilities.mediaTech" class="checkbox-grid">
             <a-checkbox v-for="item in MEDIA_TECH" :key="item" :value="item">
@@ -317,7 +310,6 @@
         <div class="facility-category">
           <div class="category-header">
             <span class="category-title">食品饮品</span>
-            <a-tag color="blue" size="small">选填</a-tag>
           </div>
           <a-checkbox-group v-model="localData.facilities.foodDrink" class="checkbox-grid">
             <a-checkbox v-for="item in FOOD_DRINK" :key="item" :value="item">
@@ -686,6 +678,11 @@ export default defineComponent({
   font-size: @font-size-sm;
   font-weight: @font-weight-medium;
   color: @text-primary;
+}
+
+.required {
+  color: #ef4444;
+  margin-left: 4px;
 }
 
 .checkbox-grid {
