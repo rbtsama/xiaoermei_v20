@@ -38,6 +38,7 @@
                 placeholder="入住日14:30"
                 style="width: 100%"
                 :disabled="isLocked"
+                @change="handleChange"
               />
               <div class="field-hint">入住日当天的最晚预订时间</div>
             </div>
@@ -52,6 +53,7 @@
                 placeholder="入住日14:30"
                 style="width: 100%"
                 :disabled="isLocked"
+                @change="handleChange"
               />
               <div class="field-hint">开始办理入住的时间</div>
             </div>
@@ -66,6 +68,7 @@
                 placeholder="离店日12:00"
                 style="width: 100%"
                 :disabled="isLocked"
+                @change="handleChange"
               />
               <div class="field-hint">最晚退房的时间</div>
             </div>
@@ -86,6 +89,7 @@
                 placeholder="1"
                 style="width: 100%"
                 :disabled="isLocked"
+                @change="handleChange"
               />
             </a-col>
             <a-col flex="none">
@@ -99,6 +103,7 @@
                 placeholder="18:00"
                 style="width: 100%"
                 :disabled="isLocked"
+                @change="handleChange"
               />
             </a-col>
             <a-col flex="auto">
@@ -119,7 +124,7 @@
           <label class="form-label">成人年龄限制</label>
           <a-row :gutter="12" type="flex" align="middle">
             <a-col flex="none">
-              <a-radio-group v-model="formValues.adultAgeRestriction" :disabled="isLocked">
+              <a-radio-group v-model="formValues.adultAgeRestriction" :disabled="isLocked" @change="handleChange">
                 <a-radio value="none">不限制</a-radio>
                 <a-radio value="restricted">限制</a-radio>
               </a-radio-group>
@@ -136,6 +141,7 @@
                 placeholder="18"
                 style="width: 100%"
                 :disabled="isLocked"
+                @change="handleChange"
               />
             </a-col>
             <a-col v-if="formValues.adultAgeRestriction === 'restricted'" flex="none">
@@ -147,7 +153,7 @@
         <!-- 儿童限制 -->
         <div class="form-item">
           <label class="form-label">儿童限制</label>
-          <a-radio-group v-model="formValues.childRestriction" :disabled="isLocked">
+          <a-radio-group v-model="formValues.childRestriction" :disabled="isLocked" @change="handleChange">
             <a-radio value="not_accept">不接待儿童</a-radio>
             <a-radio value="accept">接待儿童</a-radio>
           </a-radio-group>
@@ -158,7 +164,7 @@
           <label class="form-label">儿童年龄限制</label>
           <a-row :gutter="12" type="flex" align="middle">
             <a-col flex="none">
-              <a-radio-group v-model="formValues.childAgeRestriction" :disabled="isLocked">
+              <a-radio-group v-model="formValues.childAgeRestriction" :disabled="isLocked" @change="handleChange">
                 <a-radio value="none">不限制</a-radio>
                 <a-radio value="restricted">限制</a-radio>
               </a-radio-group>
@@ -175,6 +181,7 @@
                 placeholder="3"
                 style="width: 100%"
                 :disabled="isLocked"
+                @change="handleChange"
               />
             </a-col>
             <a-col v-if="formValues.childAgeRestriction === 'restricted'" flex="none">
@@ -188,7 +195,7 @@
           <label class="form-label">入住押金</label>
           <a-row :gutter="12" type="flex" align="middle">
             <a-col flex="none">
-              <a-radio-group v-model="formValues.depositRequired" :disabled="isLocked">
+              <a-radio-group v-model="formValues.depositRequired" :disabled="isLocked" @change="handleChange">
                 <a-radio value="no">不收取</a-radio>
                 <a-radio value="yes">收取</a-radio>
               </a-radio-group>
@@ -204,6 +211,7 @@
                 placeholder="1000"
                 style="width: 100%"
                 :disabled="isLocked"
+                @change="handleChange"
               >
                 <template slot="addonAfter">元</template>
               </a-input-number>
@@ -214,7 +222,7 @@
         <!-- 前台可用支付方式 -->
         <div class="form-item">
           <label class="form-label">前台可用支付方式</label>
-          <a-checkbox-group v-model="formValues.paymentMethods" :disabled="isLocked" class="payment-grid">
+          <a-checkbox-group v-model="formValues.paymentMethods" :disabled="isLocked" class="payment-grid" @change="handleChange">
             <a-checkbox value="unionpay">银联</a-checkbox>
             <a-checkbox value="visa">VISA</a-checkbox>
             <a-checkbox value="mastercard">Mastercard</a-checkbox>
@@ -234,7 +242,7 @@
 
         <div class="form-item">
           <label class="form-label">提供早餐</label>
-          <a-radio-group v-model="formValues.breakfastProvision" :disabled="isLocked">
+          <a-radio-group v-model="formValues.breakfastProvision" :disabled="isLocked" @change="handleChange">
             <a-radio value="not_provided">不提供</a-radio>
             <a-radio value="free">免费早餐</a-radio>
             <a-radio value="charged">收费早餐</a-radio>
@@ -255,6 +263,7 @@
                   placeholder="07:30"
                   style="width: 100%"
                   :disabled="isLocked"
+                  @change="handleChange"
                 />
               </a-col>
               <a-col flex="none">
@@ -268,6 +277,7 @@
                   placeholder="09:30"
                   style="width: 100%"
                   :disabled="isLocked"
+                  @change="handleChange"
                 />
               </a-col>
             </a-row>
@@ -276,7 +286,7 @@
           <!-- 早餐类型 -->
           <div class="form-item">
             <label class="form-label">早餐类型</label>
-            <a-checkbox-group v-model="formValues.breakfastTypes" :disabled="isLocked">
+            <a-checkbox-group v-model="formValues.breakfastTypes" :disabled="isLocked" @change="handleChange">
               <a-checkbox value="chinese">中式</a-checkbox>
               <a-checkbox value="western">西式</a-checkbox>
             </a-checkbox-group>
@@ -285,7 +295,7 @@
           <!-- 供应形式 -->
           <div class="form-item">
             <label class="form-label">供应形式</label>
-            <a-radio-group v-model="formValues.servingStyle" :disabled="isLocked">
+            <a-radio-group v-model="formValues.servingStyle" :disabled="isLocked" @change="handleChange">
               <a-radio value="set_meal">套餐</a-radio>
               <a-radio value="buffet">自助餐</a-radio>
               <a-radio value="a_la_carte">单点</a-radio>
@@ -302,6 +312,7 @@
               placeholder="0"
               style="width: 200px"
               :disabled="isLocked"
+              @change="handleChange"
             >
               <template slot="addonAfter">元</template>
             </a-input-number>
@@ -311,7 +322,7 @@
           <!-- 儿童早餐政策 -->
           <div class="form-item">
             <label class="form-label">儿童早餐政策</label>
-            <a-radio-group v-model="formValues.childBreakfastPolicy" :disabled="isLocked">
+            <a-radio-group v-model="formValues.childBreakfastPolicy" :disabled="isLocked" @change="handleChange">
               <a-radio value="free">免费</a-radio>
               <a-radio value="age_based">超年龄按成人收费</a-radio>
               <a-radio value="height_based">超身高按成人收费</a-radio>
@@ -334,6 +345,7 @@
                   placeholder="12"
                   style="width: 100%"
                   :disabled="isLocked"
+                  @change="handleChange"
                 />
               </a-col>
               <a-col flex="none">
@@ -355,6 +367,7 @@
                   placeholder="请选择"
                   style="width: 100%"
                   :disabled="isLocked"
+                  @change="handleChange"
                 >
                   <a-select-option value="0.8">0.8米</a-select-option>
                   <a-select-option value="0.9">0.9米</a-select-option>
