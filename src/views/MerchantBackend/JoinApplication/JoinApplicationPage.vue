@@ -75,6 +75,8 @@
         <div class="tab-content">
           <store-deployment-form
             :active-tab="activeTab"
+            :submitted-tabs="submittedTabs"
+            :editing-tabs="editingTabs"
             @progress-update="handleProgressUpdate"
             @save-success="handleSaveSuccess"
             @save-error="handleSaveError"

@@ -23,6 +23,7 @@
             :maxSize="5"
             ratio="1:1"
             compact
+            :disabled="isLocked"
             @change="handleChange"
           />
         </div>
@@ -44,6 +45,7 @@
             :maxSize="10"
             ratio="2:3"
             compact
+            :disabled="isLocked"
             @change="handleChange"
           />
         </div>
@@ -64,6 +66,7 @@
             :maxSize="10"
             ratio="4:3"
             compact
+            :disabled="isLocked"
             @change="handleChange"
           />
         </div>
@@ -85,6 +88,7 @@
             :maxSize="10"
             ratio="3:2"
             compact
+            :disabled="isLocked"
             @change="handleChange"
           />
         </div>
@@ -104,6 +108,7 @@
             :multiple="false"
             :maxSize="10"
             compact
+            :disabled="isLocked"
             @change="handleChange"
           />
         </div>
@@ -133,9 +138,10 @@
               :file-list="videoFileList"
               :before-upload="handleVideoUpload"
               :remove="handleVideoRemove"
+              :disabled="isLocked"
               accept="video/mp4,video/quicktime,video/x-msvideo"
             >
-              <a-button v-if="!localData.videos.video">
+              <a-button v-if="!localData.videos.video" :disabled="isLocked">
                 <a-icon type="upload" /> 上传视频
               </a-button>
             </a-upload>
@@ -157,6 +163,7 @@
             :multiple="false"
             :maxSize="5"
             ratio="16:9"
+            :disabled="isLocked"
             @change="handleChange"
           />
         </div>
@@ -175,6 +182,7 @@
             v-model="localData.videos.latestNews"
             :multiple="false"
             :maxSize="10"
+            :disabled="isLocked"
             @change="handleChange"
           />
         </div>
@@ -208,6 +216,10 @@ export default defineComponent({
     formData: {
       type: Object,
       required: true
+    },
+    isLocked: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props, { emit, root }) {

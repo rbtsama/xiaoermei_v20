@@ -12,7 +12,7 @@
           <span class="category-title">交通服务</span>
           <a-tag color="red" size="small">必填</a-tag>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.transportation" @change="handleChange" class="checkbox-grid">
+        <a-checkbox-group v-model="localData.storeFacilities.transportation" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in TRANSPORTATION_FACILITIES" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -27,7 +27,7 @@
           <span class="category-title">清洁服务</span>
           <a-tag color="red" size="small">必填</a-tag>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.cleaning" @change="handleChange" class="checkbox-grid">
+        <a-checkbox-group v-model="localData.storeFacilities.cleaning" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in CLEANING_FACILITIES" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -42,7 +42,7 @@
           <span class="category-title">安全安保</span>
           <a-tag color="red" size="small">必填</a-tag>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.security" @change="handleChange" class="checkbox-grid">
+        <a-checkbox-group v-model="localData.storeFacilities.security" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in SECURITY_FACILITIES" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -57,7 +57,7 @@
           <span class="category-title">公共区域</span>
           <a-tag color="red" size="small">必填</a-tag>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.publicArea" @change="handleChange" class="checkbox-grid">
+        <a-checkbox-group v-model="localData.storeFacilities.publicArea" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in PUBLIC_AREA_FACILITIES" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -72,7 +72,7 @@
           <span class="category-title">前台服务</span>
           <a-tag color="red" size="small">必填</a-tag>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.frontDesk" @change="handleChange" class="checkbox-grid">
+        <a-checkbox-group v-model="localData.storeFacilities.frontDesk" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in FRONT_DESK_FACILITIES" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -87,7 +87,7 @@
           <span class="category-title">娱乐设施</span>
           <a-tag color="blue" size="small">选填</a-tag>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.entertainment" @change="handleChange" class="checkbox-grid">
+        <a-checkbox-group v-model="localData.storeFacilities.entertainment" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in ENTERTAINMENT_FACILITIES" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -102,7 +102,7 @@
           <span class="category-title">餐饮服务</span>
           <a-tag color="blue" size="small">选填</a-tag>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.catering" @change="handleChange" class="checkbox-grid">
+        <a-checkbox-group v-model="localData.storeFacilities.catering" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in CATERING_FACILITIES" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -117,7 +117,7 @@
           <span class="category-title">商务服务</span>
           <a-tag color="blue" size="small">选填</a-tag>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.business" @change="handleChange" class="checkbox-grid">
+        <a-checkbox-group v-model="localData.storeFacilities.business" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in BUSINESS_FACILITIES" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -132,7 +132,7 @@
           <span class="category-title">儿童设施</span>
           <a-tag color="blue" size="small">选填</a-tag>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.children" @change="handleChange" class="checkbox-grid">
+        <a-checkbox-group v-model="localData.storeFacilities.children" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in CHILDREN_FACILITIES" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -147,7 +147,7 @@
           <span class="category-title">运动设施</span>
           <a-tag color="blue" size="small">选填</a-tag>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.sports" @change="handleChange" class="checkbox-grid">
+        <a-checkbox-group v-model="localData.storeFacilities.sports" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in SPORTS_FACILITIES" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -162,7 +162,7 @@
           <span class="category-title">康体设施</span>
           <a-tag color="blue" size="small">选填</a-tag>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.wellness" @change="handleChange" class="checkbox-grid">
+        <a-checkbox-group v-model="localData.storeFacilities.wellness" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in WELLNESS_FACILITIES" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -177,7 +177,7 @@
           <span class="category-title">无障碍设施</span>
           <a-tag color="blue" size="small">选填</a-tag>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.accessibility" @change="handleChange" class="checkbox-grid">
+        <a-checkbox-group v-model="localData.storeFacilities.accessibility" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in ACCESSIBILITY_FACILITIES" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -197,7 +197,7 @@
           <span class="category-title">交通</span>
           <a-tag color="red" size="small">必填</a-tag>
           <span class="category-hint">（必须选择1条作为标志信息）</span>
-          <a-button type="dashed" size="small" @click="addSurroundingItem('transportation')" class="add-btn">
+          <a-button type="dashed" size="small" :disabled="isLocked" @click="addSurroundingItem('transportation')" class="add-btn">
             <a-icon type="plus" />添加交通信息
           </a-button>
         </div>
@@ -211,7 +211,7 @@
             <a-row :gutter="12" type="flex" align="middle">
               <a-col :span="6">
                 <div class="field-label">地点名称</div>
-                <a-input v-model="item.locationName" placeholder="桐庐站" @change="handleChange" />
+                <a-input v-model="item.locationName" placeholder="桐庐站" :disabled="isLocked" @change="handleChange" />
               </a-col>
               <a-col :span="5">
                 <div class="field-label">距离约</div>
@@ -221,6 +221,7 @@
                   :min="0"
                   :precision="1"
                   style="width: 100%"
+                  :disabled="isLocked"
                   @change="handleChange"
                 >
                   <template slot="addonAfter">公里</template>
@@ -234,6 +235,7 @@
                   :min="0"
                   :precision="0"
                   style="width: 100%"
+                  :disabled="isLocked"
                   @change="handleChange"
                 >
                   <template slot="addonAfter">分钟</template>
@@ -243,6 +245,7 @@
                 <div class="field-label">&nbsp;</div>
                 <a-radio
                   :checked="item.featured"
+                  :disabled="isLocked"
                   @change="handleFeaturedChange('transportation', index)"
                 >
                   标志信息
@@ -254,6 +257,7 @@
                   v-if="index !== 0"
                   type="link"
                   danger
+                  :disabled="isLocked"
                   @click="removeSurroundingItem('transportation', index)"
                 >
                   <a-icon type="delete" />删除
@@ -272,7 +276,7 @@
           <span class="category-title">景点</span>
           <a-tag color="red" size="small">必填</a-tag>
           <span class="category-hint">（必须选择1条作为标志信息）</span>
-          <a-button type="dashed" size="small" @click="addSurroundingItem('attractions')" class="add-btn">
+          <a-button type="dashed" size="small" :disabled="isLocked" @click="addSurroundingItem('attractions')" class="add-btn">
             <a-icon type="plus" />添加景点信息
           </a-button>
         </div>
@@ -286,7 +290,7 @@
             <a-row :gutter="12" type="flex" align="middle">
               <a-col :span="6">
                 <div class="field-label">地点名称</div>
-                <a-input v-model="item.locationName" placeholder="富春江镇" @change="handleChange" />
+                <a-input v-model="item.locationName" placeholder="富春江镇" :disabled="isLocked" @change="handleChange" />
               </a-col>
               <a-col :span="5">
                 <div class="field-label">距离约</div>
@@ -296,6 +300,7 @@
                   :min="0"
                   :precision="1"
                   style="width: 100%"
+                  :disabled="isLocked"
                   @change="handleChange"
                 >
                   <template slot="addonAfter">公里</template>
@@ -309,6 +314,7 @@
                   :min="0"
                   :precision="0"
                   style="width: 100%"
+                  :disabled="isLocked"
                   @change="handleChange"
                 >
                   <template slot="addonAfter">分钟</template>
@@ -318,6 +324,7 @@
                 <div class="field-label">&nbsp;</div>
                 <a-radio
                   :checked="item.featured"
+                  :disabled="isLocked"
                   @change="handleFeaturedChange('attractions', index)"
                 >
                   标志信息
@@ -329,6 +336,7 @@
                   v-if="index !== 0"
                   type="link"
                   danger
+                  :disabled="isLocked"
                   @click="removeSurroundingItem('attractions', index)"
                 >
                   <a-icon type="delete" />删除
@@ -346,7 +354,7 @@
         <div class="category-header">
           <span class="category-title">逛吃</span>
           <a-tag color="blue" size="small">选填</a-tag>
-          <a-button type="dashed" size="small" @click="addSurroundingItem('food')" class="add-btn">
+          <a-button type="dashed" size="small" :disabled="isLocked" @click="addSurroundingItem('food')" class="add-btn">
             <a-icon type="plus" />添加逛吃信息
           </a-button>
         </div>
@@ -364,7 +372,7 @@
             <a-row :gutter="12" type="flex" align="middle">
               <a-col :span="6">
                 <div class="field-label">地点名称</div>
-                <a-input v-model="item.locationName" placeholder="芦茨村" @change="handleChange" />
+                <a-input v-model="item.locationName" placeholder="芦茨村" :disabled="isLocked" @change="handleChange" />
               </a-col>
               <a-col :span="5">
                 <div class="field-label">距离约</div>
@@ -374,6 +382,7 @@
                   :min="0"
                   :precision="1"
                   style="width: 100%"
+                  :disabled="isLocked"
                   @change="handleChange"
                 >
                   <template slot="addonAfter">公里</template>
@@ -387,6 +396,7 @@
                   :min="0"
                   :precision="0"
                   style="width: 100%"
+                  :disabled="isLocked"
                   @change="handleChange"
                 >
                   <template slot="addonAfter">分钟</template>
@@ -394,7 +404,7 @@
               </a-col>
               <a-col :span="8">
                 <div class="field-label">&nbsp;</div>
-                <a-button type="link" danger @click="removeSurroundingItem('food', index)">
+                <a-button type="link" danger :disabled="isLocked" @click="removeSurroundingItem('food', index)">
                   <a-icon type="delete" />删除
                 </a-button>
               </a-col>
@@ -429,6 +439,10 @@ export default defineComponent({
     formData: {
       type: Object,
       required: true
+    },
+    isLocked: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props, { emit }) {

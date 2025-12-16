@@ -16,6 +16,7 @@
             v-model="localData.accountInfo.mainAccount"
             placeholder="13575481983"
             :maxLength="11"
+            :disabled="isLocked"
             @change="handleChange"
             @blur="validatePhone('mainAccount')"
           >
@@ -29,6 +30,7 @@
           <a-input
             v-model="localData.accountInfo.bookingPhone"
             placeholder="13575481983"
+            :disabled="isLocked"
             @change="handleChange"
             @blur="validatePhone('bookingPhone')"
           >
@@ -43,6 +45,7 @@
             v-model="localData.accountInfo.bookingWechat"
             placeholder="13575481983"
             :maxLength="50"
+            :disabled="isLocked"
             @change="handleChange"
           >
             <a-icon slot="prefix" type="wechat" />
@@ -55,6 +58,7 @@
             v-model="localData.accountInfo.pmsSystem"
             placeholder="订单来了"
             :maxLength="50"
+            :disabled="isLocked"
             @change="handleChange"
           />
           <div class="field-hint">如使用PMS系统，请填写系统名称</div>
@@ -68,6 +72,7 @@
             v-model="localData.accountInfo.pmsStoreCode"
             placeholder="69808093"
             :maxLength="50"
+            :disabled="isLocked"
             @change="handleChange"
           />
           <div class="field-hint">PMS系统中的门店编号</div>
@@ -91,6 +96,7 @@
             v-model="localData.storeBasicInfo.storeName"
             placeholder="原乡芦茨"
             :maxLength="50"
+            :disabled="isLocked"
             @change="handleChange"
           />
           <div class="field-hint">门店对外展示的名称</div>
@@ -101,6 +107,7 @@
             v-model="localData.storeBasicInfo.storeAddress"
             placeholder="XX省XX市XX区XX街道XX号"
             :maxLength="200"
+            :disabled="isLocked"
             @change="handleChange"
           />
           <div class="field-hint">门店完整地址</div>
@@ -113,6 +120,7 @@
             :max="500"
             placeholder="21"
             style="width: 100%"
+            :disabled="isLocked"
             @change="handleChange"
           />
           <div class="field-hint">门店客房总数，此数字会影响后续房型配置提示</div>
@@ -123,6 +131,7 @@
             v-model="localData.storeBasicInfo.openingYear"
             placeholder="2016"
             :maxLength="20"
+            :disabled="isLocked"
             @change="handleChange"
           />
           <div class="field-hint">门店开业年份</div>
@@ -133,6 +142,7 @@
             v-model="localData.storeBasicInfo.slogan"
             placeholder="闭门深山，无计好眠。"
             :maxLength="50"
+            :disabled="isLocked"
             @change="handleChange"
           />
           <div class="field-hint">一句话介绍门店特色</div>
@@ -149,7 +159,7 @@
       <!-- 建筑与景观类 -->
       <div class="highlight-category">
         <div class="category-title">建筑与景观类</div>
-        <a-checkbox-group v-model="localData.highlights" @change="handleChange" class="checkbox-grid-5col">
+        <a-checkbox-group v-model="localData.highlights" :disabled="isLocked" @change="handleChange" class="checkbox-grid-5col">
           <a-checkbox v-for="item in HIGHLIGHTS_ARCHITECTURE" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -161,7 +171,7 @@
       <!-- 服务与设施类 -->
       <div class="highlight-category">
         <div class="category-title">服务与设施类</div>
-        <a-checkbox-group v-model="localData.highlights" @change="handleChange" class="checkbox-grid-5col">
+        <a-checkbox-group v-model="localData.highlights" :disabled="isLocked" @change="handleChange" class="checkbox-grid-5col">
           <a-checkbox v-for="item in HIGHLIGHTS_SERVICES" :key="item" :value="item">
             {{ item }}
           </a-checkbox>
@@ -192,6 +202,7 @@ XXXX位于富春江畔毗邻芦茨湾，几幢青瓦白墙小楼依次坐落在�
 设有餐厅、咖啡馆、茶空间和猫猫杂货铺，暖身暖胃，食住无忧。"
           :rows="12"
           :maxLength="1000"
+          :disabled="isLocked"
           @change="handleChange"
           class="description-textarea"
         />
@@ -217,6 +228,10 @@ export default defineComponent({
     formData: {
       type: Object,
       required: true
+    },
+    isLocked: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props, { emit }) {
