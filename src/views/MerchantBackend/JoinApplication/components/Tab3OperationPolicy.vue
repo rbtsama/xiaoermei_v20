@@ -16,6 +16,7 @@
             :rows="3"
             :maxLength="500"
             :disabled="isLocked"
+            @change="handleChange"
           />
         </div>
       </div>
@@ -375,8 +376,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, watch } from '@vue/composition-api'
-import moment from 'moment'
+import { defineComponent, reactive, watch, ref } from '@vue/composition-api'
 
 export default defineComponent({
   name: 'Tab3OperationPolicy',
@@ -391,17 +391,17 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    // 扁平化的表单数据
+    // 扁平化的表单数据 - 使用字符串而不是moment对象
     const formValues = reactive({
       // 重要通知
       importantNotice: '',
 
       // 预订与取消
-      latestBookingTime: moment('14:30', 'HH:mm'),
-      checkInTime: moment('14:30', 'HH:mm'),
-      checkOutTime: moment('12:00', 'HH:mm'),
+      latestBookingTime: '14:30',
+      checkInTime: '14:30',
+      checkOutTime: '12:00',
       cancelDaysBeforeCheckIn: 1,
-      cancelTimeBeforeCheckIn: moment('18:00', 'HH:mm'),
+      cancelTimeBeforeCheckIn: '18:00',
 
       // 入住政策
       adultAgeRestriction: 'none',
@@ -415,8 +415,8 @@ export default defineComponent({
 
       // 早餐政策
       breakfastProvision: 'not_provided',
-      breakfastStartTime: moment('07:30', 'HH:mm'),
-      breakfastEndTime: moment('09:30', 'HH:mm'),
+      breakfastStartTime: '07:30',
+      breakfastEndTime: '09:30',
       breakfastTypes: [],
       servingStyle: 'set_meal',
       breakfastFee: 0,
@@ -428,49 +428,46 @@ export default defineComponent({
     // 初始化数据
     // TODO: 从props.formData中初始化
 
-    // 监听变化并转换为嵌套结构emit
-    watch(
-      formValues,
-      () => {
-        emit('update', {
-          operationPolicy: {
-            importantNotice: formValues.importantNotice,
-            booking: {
-              latestBookingTime: formValues.latestBookingTime?.format('HH:mm') || '',
-              checkInTime: formValues.checkInTime?.format('HH:mm') || '',
-              checkOutTime: formValues.checkOutTime?.format('HH:mm') || '',
-              cancelDaysBeforeCheckIn: formValues.cancelDaysBeforeCheckIn,
-              cancelTimeBeforeCheckIn: formValues.cancelTimeBeforeCheckIn?.format('HH:mm') || ''
-            },
-            checkInPolicy: {
-              adultAgeRestriction: formValues.adultAgeRestriction,
-              adultMinAge: formValues.adultMinAge,
-              childRestriction: formValues.childRestriction,
-              childAgeRestriction: formValues.childAgeRestriction,
-              childMinAge: formValues.childMinAge,
-              depositRequired: formValues.depositRequired,
-              depositAmount: formValues.depositAmount,
-              paymentMethods: formValues.paymentMethods
-            },
-            breakfastPolicy: {
-              provision: formValues.breakfastProvision,
-              startTime: formValues.breakfastStartTime?.format('HH:mm') || '',
-              endTime: formValues.breakfastEndTime?.format('HH:mm') || '',
-              types: formValues.breakfastTypes,
-              servingStyle: formValues.servingStyle,
-              fee: formValues.breakfastFee,
-              childPolicy: formValues.childBreakfastPolicy,
-              childAgeLimit: formValues.childBreakfastAgeLimit,
-              childHeightLimit: formValues.childBreakfastHeightLimit
-            }
+    // 数据变化处理 - 不使用watch，改用手动调用
+    const handleChange = () => {
+      emit('update', {
+        operationPolicy: {
+          importantNotice: formValues.importantNotice,
+          booking: {
+            latestBookingTime: formValues.latestBookingTime || '',
+            checkInTime: formValues.checkInTime || '',
+            checkOutTime: formValues.checkOutTime || '',
+            cancelDaysBeforeCheckIn: formValues.cancelDaysBeforeCheckIn,
+            cancelTimeBeforeCheckIn: formValues.cancelTimeBeforeCheckIn || ''
+          },
+          checkInPolicy: {
+            adultAgeRestriction: formValues.adultAgeRestriction,
+            adultMinAge: formValues.adultMinAge,
+            childRestriction: formValues.childRestriction,
+            childAgeRestriction: formValues.childAgeRestriction,
+            childMinAge: formValues.childMinAge,
+            depositRequired: formValues.depositRequired,
+            depositAmount: formValues.depositAmount,
+            paymentMethods: formValues.paymentMethods
+          },
+          breakfastPolicy: {
+            provision: formValues.breakfastProvision,
+            startTime: formValues.breakfastStartTime || '',
+            endTime: formValues.breakfastEndTime || '',
+            types: formValues.breakfastTypes,
+            servingStyle: formValues.servingStyle,
+            fee: formValues.breakfastFee,
+            childPolicy: formValues.childBreakfastPolicy,
+            childAgeLimit: formValues.childBreakfastAgeLimit,
+            childHeightLimit: formValues.childBreakfastHeightLimit
           }
-        })
-      },
-      { deep: true }
-    )
+        }
+      })
+    }
 
     return {
-      formValues
+      formValues,
+      handleChange
     }
   }
 })
