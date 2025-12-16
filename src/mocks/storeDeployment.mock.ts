@@ -339,6 +339,7 @@ export const mockCompleteData: StoreDeploymentForm = {
           }
         ]
       },
+      roomFeatures: ['有浴缸'],
       facilities: {
         roomFacilities: ['空调', '冰箱', '地暖', '阳台', 'WIFI'],
         roomLayout: ['沙发', '休闲椅', '茶几', '书桌', '衣柜'],
@@ -390,6 +391,7 @@ export const mockCompleteData: StoreDeploymentForm = {
           }
         ]
       },
+      roomFeatures: ['可拆分为双床'],
       facilities: {
         roomFacilities: ['空调', 'WIFI', '暖气', '遮光帘'],
         roomLayout: ['书桌', '衣柜', '休闲椅'],
@@ -449,6 +451,7 @@ export const mockCompleteData: StoreDeploymentForm = {
           }
         ]
       },
+      roomFeatures: ['有浴缸', '有家庭套房', '可加床'],
       facilities: {
         roomFacilities: ['空调', '冰箱', '地暖', '阳台', '露台', 'WIFI'],
         roomLayout: ['沙发', '私人花园', '休闲椅', '茶几', '书桌', '餐桌', '衣柜'],

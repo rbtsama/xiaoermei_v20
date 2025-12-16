@@ -9,298 +9,300 @@
     class="room-edit-modal"
   >
     <div class="room-edit-container">
-      <!-- 折叠面板 -->
-      <a-collapse v-model="activeKeys" :bordered="false" class="form-collapse">
-        <!-- 面板1：基本信息 -->
-        <a-collapse-panel key="1" header="基本信息">
-          <a-form-model
-            :model="localData"
-            :label-col="{ span: 5 }"
-            :wrapper-col="{ span: 19 }"
-          >
-            <a-row :gutter="24">
-              <a-col :span="12">
-                <a-form-model-item label="房型名称" required>
-                  <a-input
-                    v-model="localData.roomTypeName"
-                    placeholder="山景大床房"
-                    :maxLength="20"
-                  />
-                </a-form-model-item>
+      <a-form-model
+        :model="localData"
+        :label-col="{ span: 6 }"
+        :wrapper-col="{ span: 18 }"
+      >
+        <!-- Section 1: 基本信息 -->
+        <div class="form-section">
+          <h3 class="section-title">基本信息</h3>
+          <a-row :gutter="24">
+            <a-col :span="12">
+              <a-form-model-item label="房型名称" required>
+                <a-input
+                  v-model="localData.roomTypeName"
+                  placeholder="山景大床房"
+                  :maxLength="20"
+                />
+              </a-form-model-item>
+            </a-col>
+
+            <a-col :span="12">
+              <a-form-model-item label="该房型数量" required>
+                <a-input-number
+                  v-model="localData.roomCount"
+                  :min="1"
+                  :max="100"
+                  :precision="0"
+                  placeholder="2"
+                  style="width: 100%"
+                />
+              </a-form-model-item>
+            </a-col>
+          </a-row>
+
+          <a-form-model-item label="房型说明">
+            <a-textarea
+              v-model="localData.roomDescription"
+              placeholder="介绍房型特色、优势等"
+              :rows="3"
+              :maxLength="200"
+            />
+          </a-form-model-item>
+        </div>
+
+        <!-- Section 2: 空间配置 -->
+        <div class="form-section">
+          <h3 class="section-title">空间配置</h3>
+
+          <a-row :gutter="24">
+            <a-col :span="12">
+              <a-form-model-item label="楼层" required>
+                <a-input
+                  v-model="localData.floor"
+                  placeholder="1,2,3"
+                  allow-clear
+                />
+                <div class="field-hint">多个楼层用逗号分隔，例如：1,2,3</div>
+              </a-form-model-item>
+            </a-col>
+
+            <a-col :span="12">
+              <a-form-model-item label="房间面积（㎡）" required>
+                <a-input-number
+                  v-model="localData.area"
+                  :min="1"
+                  :max="500"
+                  :precision="0"
+                  placeholder="35"
+                  style="width: 100%"
+                />
+              </a-form-model-item>
+            </a-col>
+          </a-row>
+
+          <!-- 房间布局 -->
+          <a-form-model-item label="房间布局" required>
+            <a-row :gutter="12" type="flex" align="middle">
+              <a-col flex="none">
+                <span>客厅</span>
               </a-col>
-
-              <a-col :span="12">
-                <a-form-model-item label="该房型数量" required>
-                  <a-input-number
-                    v-model="localData.roomCount"
-                    :min="1"
-                    :max="100"
-                    :precision="0"
-                    placeholder="2"
-                    style="width: 100%"
-                  />
-                </a-form-model-item>
+              <a-col flex="100px">
+                <a-input-number
+                  v-model="localData.roomLayout.livingRooms"
+                  :min="0"
+                  :precision="0"
+                  placeholder="0"
+                  style="width: 100%"
+                />
               </a-col>
-            </a-row>
-
-            <a-form-model-item label="房型说明">
-              <a-textarea
-                v-model="localData.roomDescription"
-                placeholder="介绍房型特色、优势等"
-                :rows="3"
-                :maxLength="200"
-              />
-            </a-form-model-item>
-
-            <a-row :gutter="24">
-              <a-col :span="12">
-                <a-form-model-item label="楼层" required>
-                  <a-input
-                    v-model="localData.floor"
-                    placeholder="1,2,3"
-                    allow-clear
-                  />
-                  <div class="field-hint">多个楼层用逗号分隔，例如：1,2,3</div>
-                </a-form-model-item>
+              <a-col flex="none">
+                <span>间，卫生间</span>
               </a-col>
-
-              <a-col :span="12">
-                <a-form-model-item label="房间面积（㎡）" required>
-                  <a-input-number
-                    v-model="localData.area"
-                    :min="1"
-                    :max="500"
-                    :precision="0"
-                    placeholder="35"
-                    style="width: 100%"
-                  />
-                </a-form-model-item>
+              <a-col flex="100px">
+                <a-input-number
+                  v-model="localData.roomLayout.bathrooms"
+                  :min="0"
+                  :precision="0"
+                  placeholder="1"
+                  style="width: 100%"
+                />
               </a-col>
-            </a-row>
-
-            <a-row :gutter="24">
-              <a-col :span="8">
-                <a-form-model-item label="是否有窗" required>
-                  <a-radio-group v-model="localData.hasWindow">
-                    <a-radio :value="true">是</a-radio>
-                    <a-radio :value="false">否</a-radio>
-                  </a-radio-group>
-                </a-form-model-item>
+              <a-col flex="none">
+                <span>间，卧室</span>
               </a-col>
-
-              <a-col :span="8">
-                <a-form-model-item label="是否禁烟" required>
-                  <a-radio-group v-model="localData.nonSmoking">
-                    <a-radio :value="true">是</a-radio>
-                    <a-radio :value="false">否</a-radio>
-                  </a-radio-group>
-                </a-form-model-item>
+              <a-col flex="100px">
+                <a-input-number
+                  v-model="localData.roomLayout.bedrooms"
+                  :min="1"
+                  :precision="0"
+                  placeholder="1"
+                  style="width: 100%"
+                  @change="handleBedroomsChange"
+                />
               </a-col>
-
-              <a-col :span="8">
-                <a-form-model-item label="携带宠物" required>
-                  <a-radio-group v-model="localData.petsAllowed">
-                    <a-radio :value="false">不允许</a-radio>
-                    <a-radio :value="true">允许</a-radio>
-                  </a-radio-group>
-                </a-form-model-item>
-              </a-col>
-            </a-row>
-
-            <a-row :gutter="24">
-              <a-col :span="12">
-                <a-form-model-item label="可住人数" required>
-                  <a-input-number
-                    v-model="localData.capacity"
-                    :min="1"
-                    :max="20"
-                    :precision="0"
-                    placeholder="2"
-                    style="width: 100%"
-                  />
-                </a-form-model-item>
-              </a-col>
-            </a-row>
-
-            <a-form-model-item label="允许加客">
-              <a-radio-group v-model="localData.allowExtraGuest">
-                <a-radio :value="AllowExtraGuest.NOT_ALLOWED">不允许</a-radio>
-                <a-radio :value="AllowExtraGuest.ALLOWED">允许</a-radio>
-              </a-radio-group>
-            </a-form-model-item>
-
-            <a-row v-if="localData.allowExtraGuest === AllowExtraGuest.ALLOWED" :gutter="24">
-              <a-col :span="12">
-                <a-form-model-item label="最多可加人数" required>
-                  <a-input-number
-                    v-model="localData.maxExtraGuests"
-                    :min="1"
-                    :max="10"
-                    placeholder="1"
-                    style="width: 100%"
-                  />
-                </a-form-model-item>
-              </a-col>
-
-              <a-col :span="12">
-                <a-form-model-item label="加客费用（元/人）" required>
-                  <a-input-number
-                    v-model="localData.extraGuestFee"
-                    :min="0"
-                    :precision="2"
-                    placeholder="200"
-                    style="width: 100%"
-                  />
-                </a-form-model-item>
+              <a-col flex="none">
+                <span>间</span>
               </a-col>
             </a-row>
+          </a-form-model-item>
 
-            <!-- 房型图片 -->
-            <a-form-model-item label="房型图片" required>
-              <p class="field-hint">展示房间内部的照片，包括床、卫浴、窗景等角度，建议比例3:2，最多10张，最少1张</p>
-              <image-upload
-                v-model="localData.images"
-                :multiple="true"
-                :maxCount="10"
-                :maxSize="10"
-                ratio="3:2"
-              />
-            </a-form-model-item>
-          </a-form-model>
-        </a-collapse-panel>
+          <!-- 床型配置 -->
+          <a-form-model-item v-if="localData.roomLayout.bedrooms > 0" label="床型配置" required>
+            <div class="bedroom-configs">
+              <div
+                v-for="(bedroom, idx) in localData.roomLayout.bedroomConfigs"
+                :key="idx"
+                class="bedroom-config-item"
+              >
+                <div class="bedroom-header">
+                  <span class="bedroom-title">卧室{{ idx + 1 }}</span>
+                  <a-row :gutter="12" type="flex" align="middle">
+                    <a-col flex="none">
+                      <span>床数量：</span>
+                    </a-col>
+                    <a-col flex="100px">
+                      <a-input-number
+                        v-model="bedroom.bedCount"
+                        :min="1"
+                        :precision="0"
+                        placeholder="1"
+                        style="width: 100%"
+                        @change="handleBedCountChange(idx)"
+                      />
+                    </a-col>
+                    <a-col flex="none">
+                      <span>张</span>
+                    </a-col>
+                  </a-row>
+                </div>
 
-        <!-- 面板2：房间布局 -->
-        <a-collapse-panel key="2" header="房间布局">
-          <a-form-model
-            :model="localData"
-            :label-col="{ span: 5 }"
-            :wrapper-col="{ span: 19 }"
-          >
-            <!-- 房间布局 -->
-            <a-form-model-item label="房间布局" required>
-              <a-row :gutter="12" type="flex" align="middle">
-                <a-col flex="none">
-                  <span>客厅</span>
-                </a-col>
-                <a-col flex="100px">
-                  <a-input-number
-                    v-model="localData.roomLayout.livingRooms"
-                    :min="0"
-                    :precision="0"
-                    placeholder="0"
-                    style="width: 100%"
-                  />
-                </a-col>
-                <a-col flex="none">
-                  <span>间，卫生间</span>
-                </a-col>
-                <a-col flex="100px">
-                  <a-input-number
-                    v-model="localData.roomLayout.bathrooms"
-                    :min="0"
-                    :precision="0"
-                    placeholder="1"
-                    style="width: 100%"
-                  />
-                </a-col>
-                <a-col flex="none">
-                  <span>间，卧室</span>
-                </a-col>
-                <a-col flex="100px">
-                  <a-input-number
-                    v-model="localData.roomLayout.bedrooms"
-                    :min="1"
-                    :precision="0"
-                    placeholder="1"
-                    style="width: 100%"
-                    @change="handleBedroomsChange"
-                  />
-                </a-col>
-                <a-col flex="none">
-                  <span>间</span>
-                </a-col>
-              </a-row>
-            </a-form-model-item>
-
-            <!-- 床型配置 -->
-            <a-form-model-item v-if="localData.roomLayout.bedrooms > 0" label="床型配置" required>
-              <div class="bedroom-configs">
-                <div
-                  v-for="(bedroom, idx) in localData.roomLayout.bedroomConfigs"
-                  :key="idx"
-                  class="bedroom-config-item"
-                >
-                  <div class="bedroom-header">
-                    <span class="bedroom-title">卧室{{ idx + 1 }}</span>
+                <div class="beds-config">
+                  <div
+                    v-for="(bed, bedIdx) in bedroom.beds"
+                    :key="bedIdx"
+                    class="bed-config-item"
+                  >
                     <a-row :gutter="12" type="flex" align="middle">
-                      <a-col flex="none">
-                        <span>床数量：</span>
+                      <a-col flex="80px">
+                        <span class="bed-label">床{{ bedIdx + 1 }}:</span>
                       </a-col>
-                      <a-col flex="100px">
-                        <a-input-number
-                          v-model="bedroom.bedCount"
-                          :min="1"
-                          :precision="0"
-                          placeholder="1"
+                      <a-col flex="none">
+                        <span>宽</span>
+                      </a-col>
+                      <a-col flex="120px">
+                        <a-select
+                          v-model="bed.width"
+                          placeholder="1.8"
                           style="width: 100%"
-                          @change="handleBedCountChange(idx)"
-                        />
+                        >
+                          <a-select-option v-for="w in bedWidthOptions" :key="w" :value="w">
+                            {{ w }}m
+                          </a-select-option>
+                        </a-select>
                       </a-col>
                       <a-col flex="none">
-                        <span>张</span>
+                        <span>× 长</span>
+                      </a-col>
+                      <a-col flex="120px">
+                        <a-select
+                          v-model="bed.length"
+                          placeholder="2.0"
+                          style="width: 100%"
+                        >
+                          <a-select-option v-for="l in bedLengthOptions" :key="l" :value="l">
+                            {{ l }}m
+                          </a-select-option>
+                        </a-select>
                       </a-col>
                     </a-row>
                   </div>
-
-                  <div class="beds-config">
-                    <div
-                      v-for="(bed, bedIdx) in bedroom.beds"
-                      :key="bedIdx"
-                      class="bed-config-item"
-                    >
-                      <a-row :gutter="12" type="flex" align="middle">
-                        <a-col flex="80px">
-                          <span class="bed-label">床{{ bedIdx + 1 }}:</span>
-                        </a-col>
-                        <a-col flex="none">
-                          <span>宽</span>
-                        </a-col>
-                        <a-col flex="120px">
-                          <a-select
-                            v-model="bed.width"
-                            placeholder="1.8"
-                            style="width: 100%"
-                          >
-                            <a-select-option v-for="w in bedWidthOptions" :key="w" :value="w">
-                              {{ w }}m
-                            </a-select-option>
-                          </a-select>
-                        </a-col>
-                        <a-col flex="none">
-                          <span>× 长</span>
-                        </a-col>
-                        <a-col flex="120px">
-                          <a-select
-                            v-model="bed.length"
-                            placeholder="2.0"
-                            style="width: 100%"
-                          >
-                            <a-select-option v-for="l in bedLengthOptions" :key="l" :value="l">
-                              {{ l }}m
-                            </a-select-option>
-                          </a-select>
-                        </a-col>
-                      </a-row>
-                    </div>
-                  </div>
                 </div>
               </div>
-            </a-form-model-item>
-          </a-form-model>
-        </a-collapse-panel>
+            </div>
+          </a-form-model-item>
+        </div>
 
-        <!-- 面板3：房型设施 -->
-        <a-collapse-panel key="3" header="房型设施">
+        <!-- Section 3: 入住政策 -->
+        <div class="form-section">
+          <h3 class="section-title">入住政策</h3>
+
+          <a-row :gutter="24">
+            <a-col :span="8">
+              <a-form-model-item label="是否有窗" required :label-col="{ span: 12 }" :wrapper-col="{ span: 12 }">
+                <a-radio-group v-model="localData.hasWindow">
+                  <a-radio :value="true">是</a-radio>
+                  <a-radio :value="false">否</a-radio>
+                </a-radio-group>
+              </a-form-model-item>
+            </a-col>
+
+            <a-col :span="8">
+              <a-form-model-item label="是否禁烟" required :label-col="{ span: 12 }" :wrapper-col="{ span: 12 }">
+                <a-radio-group v-model="localData.nonSmoking">
+                  <a-radio :value="true">是</a-radio>
+                  <a-radio :value="false">否</a-radio>
+                </a-radio-group>
+              </a-form-model-item>
+            </a-col>
+
+            <a-col :span="8">
+              <a-form-model-item label="携带宠物" required :label-col="{ span: 12 }" :wrapper-col="{ span: 12 }">
+                <a-radio-group v-model="localData.petsAllowed">
+                  <a-radio :value="false">不允许</a-radio>
+                  <a-radio :value="true">允许</a-radio>
+                </a-radio-group>
+              </a-form-model-item>
+            </a-col>
+          </a-row>
+
+          <a-row :gutter="24">
+            <a-col :span="12">
+              <a-form-model-item label="可住人数" required>
+                <a-input-number
+                  v-model="localData.capacity"
+                  :min="1"
+                  :max="20"
+                  :precision="0"
+                  placeholder="2"
+                  style="width: 100%"
+                />
+              </a-form-model-item>
+            </a-col>
+          </a-row>
+
+          <a-form-model-item label="允许加客">
+            <a-radio-group v-model="localData.allowExtraGuest">
+              <a-radio :value="AllowExtraGuest.NOT_ALLOWED">不允许</a-radio>
+              <a-radio :value="AllowExtraGuest.ALLOWED">允许</a-radio>
+            </a-radio-group>
+          </a-form-model-item>
+
+          <a-row v-if="localData.allowExtraGuest === AllowExtraGuest.ALLOWED" :gutter="24">
+            <a-col :span="12">
+              <a-form-model-item label="最多可加人数" required>
+                <a-input-number
+                  v-model="localData.maxExtraGuests"
+                  :min="1"
+                  :max="10"
+                  placeholder="1"
+                  style="width: 100%"
+                />
+              </a-form-model-item>
+            </a-col>
+
+            <a-col :span="12">
+              <a-form-model-item label="加客费用（元/人）" required>
+                <a-input-number
+                  v-model="localData.extraGuestFee"
+                  :min="0"
+                  :precision="2"
+                  placeholder="200"
+                  style="width: 100%"
+                />
+              </a-form-model-item>
+            </a-col>
+          </a-row>
+        </div>
+
+        <!-- Section 4: 房型特色 -->
+        <div class="form-section">
+          <h3 class="section-title">房型特色</h3>
+
+          <a-form-model-item label="特色标签" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+            <a-checkbox-group v-model="localData.roomFeatures" class="features-grid">
+              <a-checkbox value="有浴缸">有浴缸</a-checkbox>
+              <a-checkbox value="有家庭套房">有家庭套房</a-checkbox>
+              <a-checkbox value="可加床">可加床</a-checkbox>
+              <a-checkbox value="可拆分为双床">可拆分为双床</a-checkbox>
+            </a-checkbox-group>
+          </a-form-model-item>
+        </div>
+
+        <!-- Section 5: 房型设施 -->
+        <div class="form-section">
+          <h3 class="section-title">房型设施</h3>
           <p class="section-hint">请勾选此房型配备的设施，已选 {{ totalFacilitiesCount }} 项</p>
 
           <!-- 客房设施 -->
@@ -412,8 +414,24 @@
               </a-checkbox>
             </a-checkbox-group>
           </div>
-        </a-collapse-panel>
-      </a-collapse>
+        </div>
+
+        <!-- Section 6: 房型图片 -->
+        <div class="form-section">
+          <h3 class="section-title">房型图片</h3>
+
+          <a-form-model-item label="房型图片" required>
+            <p class="field-hint">展示房间内部的照片，包括床、卫浴、窗景等角度，建议比例3:2，最多10张，最少1张</p>
+            <image-upload
+              v-model="localData.images"
+              :multiple="true"
+              :maxCount="10"
+              :maxSize="10"
+              ratio="3:2"
+            />
+          </a-form-model-item>
+        </div>
+      </a-form-model>
 
       <!-- 操作按钮 -->
       <div class="modal-footer">
@@ -462,9 +480,6 @@ export default defineComponent({
     }
   },
   setup(props, { emit, root }) {
-    // 默认展开所有面板
-    const activeKeys = ref(['1', '2', '3'])
-
     // 床宽度选项（0.8-2.4m，步长0.1）
     const bedWidthOptions = []
     for (let i = 8; i <= 24; i++) {
@@ -510,6 +525,7 @@ export default defineComponent({
           }
         ]
       },
+      roomFeatures: [],
       facilities: {
         roomFacilities: [],
         roomLayout: [],
@@ -616,6 +632,7 @@ export default defineComponent({
           }
         ]
       }
+      localData.roomFeatures = []
       localData.facilities = {
         roomFacilities: [],
         roomLayout: [],
@@ -635,6 +652,10 @@ export default defineComponent({
       (newRoomType) => {
         if (newRoomType) {
           Object.assign(localData, newRoomType)
+          // 确保roomFeatures存在
+          if (!localData.roomFeatures) {
+            localData.roomFeatures = []
+          }
         } else {
           // 重置为空
           resetLocalData()
@@ -778,7 +799,6 @@ export default defineComponent({
     }
 
     return {
-      activeKeys,
       localData,
       title,
       totalFacilitiesCount,
@@ -818,43 +838,27 @@ export default defineComponent({
   padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
 }
 
-.form-collapse {
-  background: @bg-primary;
+// 表单分区样式
+.form-section {
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid @border-primary;
 
-  :deep(.ant-collapse-item) {
-    border: 1px solid @border-primary;
-    border-radius: @border-radius-lg;
-    margin-bottom: 16px;
-    overflow: hidden;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
+  &:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
   }
+}
 
-  :deep(.ant-collapse-header) {
-    background: @bg-secondary;
-    padding: 16px 24px;
-    font-size: @font-size-base;
-    font-weight: @font-weight-semibold;
-    color: @text-primary;
-    border-bottom: 1px solid @border-primary;
-
-    .ant-collapse-arrow {
-      font-size: 12px;
-    }
-  }
-
-  :deep(.ant-collapse-content) {
-    border-top: none;
-  }
-
-  :deep(.ant-collapse-content-box) {
-    padding: 24px;
-  }
+.section-title {
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
 }
 
 .section-hint {
@@ -871,6 +875,7 @@ export default defineComponent({
   line-height: 1.5;
 }
 
+// 卧室配置样式
 .bedroom-configs {
   display: flex;
   flex-direction: column;
@@ -904,7 +909,7 @@ export default defineComponent({
 }
 
 .bed-config-item {
-  padding: 8px;
+  padding: 12px;
   background: @bg-primary;
   border-radius: @border-radius-sm;
 }
@@ -914,6 +919,40 @@ export default defineComponent({
   color: @text-secondary;
 }
 
+// 房型特色样式
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+
+  :deep(.ant-checkbox-wrapper) {
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid @border-primary;
+    border-radius: @border-radius-base;
+    background: @bg-primary;
+    transition: @transition-base;
+    font-size: @font-size-sm;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      border-color: @brand-primary;
+      background: @bg-hover;
+    }
+
+    .ant-checkbox {
+      top: 0;
+    }
+
+    .ant-checkbox-checked .ant-checkbox-inner {
+      background-color: @brand-primary;
+      border-color: @brand-primary;
+    }
+  }
+}
+
+// 设施分类样式
 .facility-category {
   margin-bottom: 20px;
 
@@ -936,10 +975,11 @@ export default defineComponent({
 }
 
 .required {
-  color: #ef4444;
+  color: @error-color;
   margin-left: 4px;
 }
 
+// 设施复选框网格
 .checkbox-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -951,7 +991,7 @@ export default defineComponent({
     border: 1px solid @border-primary;
     border-radius: @border-radius-base;
     background: @bg-primary;
-    transition: all 0.2s;
+    transition: @transition-base;
     font-size: @font-size-sm;
     display: flex;
     align-items: center;

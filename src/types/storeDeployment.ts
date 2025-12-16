@@ -286,6 +286,7 @@ export interface RoomType {
   maxExtraGuests?: number       // 最多可加人数
   extraGuestFee?: number        // 加客费用（元/人）
   roomLayout: RoomLayout        // 房间布局
+  roomFeatures: string[]        // 房型特色（有浴缸、有家庭套房、可加床、可拆分为双床）
   facilities: RoomFacilities    // 房型设施
   images: string[]              // 房型图片（最多10张）
 }
