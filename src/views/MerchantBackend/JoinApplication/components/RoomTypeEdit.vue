@@ -11,12 +11,9 @@
     <div class="room-edit-container">
       <a-form-model
         :model="localData"
-        :label-col="{ span: 6 }"
-        :wrapper-col="{ span: 18 }"
+        :label-col="{ span: 4 }"
+        :wrapper-col="{ span: 20 }"
       >
-        <!-- Section 1: 基本信息 -->
-        <div class="form-section">
-          <h3 class="section-title">基本信息</h3>
           <a-row :gutter="24">
             <a-col :span="12">
               <a-form-model-item label="房型名称" required>
@@ -49,11 +46,25 @@
               style="width: 200px"
             />
           </a-form-model-item>
-        </div>
 
-        <!-- Section 2: 空间配置 -->
-        <div class="form-section">
-          <h3 class="section-title">空间配置</h3>
+          <a-form-model-item label="房型特色">
+            <a-checkbox-group v-model="localData.roomFeatures">
+              <a-checkbox value="有浴缸">有浴缸</a-checkbox>
+              <a-checkbox value="有家庭套房">有家庭套房</a-checkbox>
+              <a-checkbox value="可加床">可加床</a-checkbox>
+              <a-checkbox value="可拆分为双床">可拆分为双床</a-checkbox>
+            </a-checkbox-group>
+          </a-form-model-item>
+
+          <a-form-model-item label="房型图片" required>
+            <p class="upload-hint">展示房间内部照片，包括床、卫浴、窗景等，建议比例3:2，最多10张，最少1张，支持jpg、png格式</p>
+            <image-upload
+              v-model="localData.images"
+              :multiple="true"
+              :maxCount="10"
+              :maxSize="10"
+            />
+          </a-form-model-item>
 
           <a-row :gutter="24">
             <a-col :span="12">
