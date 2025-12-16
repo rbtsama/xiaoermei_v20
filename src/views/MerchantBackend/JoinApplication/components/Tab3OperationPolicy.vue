@@ -216,9 +216,10 @@
                 style="width: 100%"
                 :disabled="isLocked"
                 @change="handleChange"
-              >
-                <template slot="addonAfter">元</template>
-              </a-input-number>
+              />
+            </a-col>
+            <a-col flex="none">
+              <span>元</span>
             </a-col>
           </a-row>
         </div>
