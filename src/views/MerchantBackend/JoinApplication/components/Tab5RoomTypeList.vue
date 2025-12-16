@@ -1,16 +1,23 @@
 <template>
   <div class="tab5-container">
-    <!-- 配置进度提示 -->
-    <a-alert
-      :message="progressMessage"
-      :type="progressType"
-      class="progress-alert"
-    >
-      <template slot="icon">
-        <a-icon v-if="progressType === 'success'" type="check-circle" theme="filled" />
-        <a-icon v-else type="exclamation-circle" theme="filled" />
-      </template>
-    </a-alert>
+    <!-- 顶部：配置进度 + 添加按钮 -->
+    <div class="top-bar">
+      <a-alert
+        :message="progressMessage"
+        :type="progressType"
+        class="progress-alert"
+      >
+        <template slot="icon">
+          <a-icon v-if="progressType === 'success'" type="check-circle" theme="filled" class="status-icon" />
+          <a-icon v-else type="exclamation-circle" theme="filled" class="status-icon" />
+        </template>
+      </a-alert>
+
+      <a-button type="primary" @click="handleAdd" size="large" class="add-btn-top">
+        <a-icon type="plus" />
+        添加房型
+      </a-button>
+    </div>
 
     <!-- 房型列表 -->
     <div v-if="localData.length > 0" class="room-type-list">
@@ -76,12 +83,6 @@
       </a-button>
     </a-empty>
 
-    <!-- 添加房型按钮 -->
-    <div v-if="localData.length > 0" class="add-room-btn-container">
-      <a-button type="dashed" size="large" block @click="handleAdd" class="add-room-btn">
-        <a-icon type="plus" />添加房型
-      </a-button>
-    </div>
 
     <!-- 房型编辑弹窗 -->
     <room-type-edit
@@ -246,14 +247,31 @@ export default defineComponent({
   gap: 24px;
 }
 
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .progress-alert {
+  flex: 1;
   border-radius: @border-radius-base;
-  margin-bottom: 8px;
+  margin-bottom: 0;
 
   :deep(.ant-alert-message) {
     font-size: @font-size-base;
     font-weight: @font-weight-medium;
   }
+}
+
+.status-icon {
+  font-size: 16px;
+}
+
+.add-btn-top {
+  flex-shrink: 0;
+  height: 40px;
+  padding: 0 24px;
 }
 
 .room-type-list {
