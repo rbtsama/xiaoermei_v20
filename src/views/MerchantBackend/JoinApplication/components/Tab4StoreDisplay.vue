@@ -6,16 +6,17 @@
         <span class="section-title">门店展示</span>
       </template>
 
-      <div class="images-grid-3">
+      <div class="upload-items-list">
         <!-- 门店logo -->
-        <div class="image-upload-item">
-          <div class="upload-label">
-            <span class="label-text">门店logo <span class="required">*</span></span>
+        <div class="upload-item">
+          <div class="item-header">
+            <span class="item-label">门店logo <span class="required">*</span></span>
             <a-button type="link" size="small" @click="handlePreviewExample('/examples/门店logo.jpg')" class="example-link">
               <a-icon type="picture" />
               图片实例
             </a-button>
           </div>
+          <p class="item-hint">建议尺寸1:1，支持jpg、png格式</p>
           <image-upload
             v-model="localData.images.logo"
             :multiple="false"
@@ -23,18 +24,18 @@
             :disabled="isLocked"
             @change="handleChange"
           />
-          <p class="upload-hint">建议尺寸1:1，支持jpg、png格式</p>
         </div>
 
         <!-- 门店主页首图 -->
-        <div class="image-upload-item">
-          <div class="upload-label">
-            <span class="label-text">门店主页首图 <span class="required">*</span></span>
+        <div class="upload-item">
+          <div class="item-header">
+            <span class="item-label">门店主页首图 <span class="required">*</span></span>
             <a-button type="link" size="small" @click="handlePreviewExample('/examples/门店主页首图.png')" class="example-link">
               <a-icon type="picture" />
               图片实例
             </a-button>
           </div>
+          <p class="item-hint">建议比例2:3，最多5张，支持jpg、png格式</p>
           <image-upload
             v-model="localData.images.homePageImages"
             :multiple="true"
@@ -43,18 +44,18 @@
             :disabled="isLocked"
             @change="handleChange"
           />
-          <p class="upload-hint">建议比例2:3，最多5张，支持jpg、png格式</p>
         </div>
 
         <!-- 列表页封面 -->
-        <div class="image-upload-item">
-          <div class="upload-label">
-            <span class="label-text">列表页封面 <span class="required">*</span></span>
+        <div class="upload-item">
+          <div class="item-header">
+            <span class="item-label">列表页封面 <span class="required">*</span></span>
             <a-button type="link" size="small" @click="handlePreviewExample('/examples/列表封面.jpg')" class="example-link">
               <a-icon type="picture" />
               图片实例
             </a-button>
           </div>
+          <p class="item-hint">建议比例4:3，宽度>1000px，支持jpg、png格式</p>
           <image-upload
             v-model="localData.images.listCover"
             :multiple="false"
@@ -62,18 +63,18 @@
             :disabled="isLocked"
             @change="handleChange"
           />
-          <p class="upload-hint">建议比例4:3，宽度>1000px，支持jpg、png格式</p>
         </div>
 
         <!-- 房型图 -->
-        <div class="image-upload-item">
-          <div class="upload-label">
-            <span class="label-text">房型图 <span class="required">*</span></span>
+        <div class="upload-item">
+          <div class="item-header">
+            <span class="item-label">房型图 <span class="required">*</span></span>
             <a-button type="link" size="small" @click="handlePreviewExample('/examples/房型图.jpg')" class="example-link">
               <a-icon type="picture" />
               图片实例
             </a-button>
           </div>
+          <p class="item-hint">建议比例3:2，最多10张，支持jpg、png格式</p>
           <image-upload
             v-model="localData.images.roomImages"
             :multiple="true"
@@ -82,18 +83,18 @@
             :disabled="isLocked"
             @change="handleChange"
           />
-          <p class="upload-hint">建议比例3:2，最多10张，支持jpg、png格式</p>
         </div>
 
         <!-- 旅游交通图 -->
-        <div class="image-upload-item">
-          <div class="upload-label">
-            <span class="label-text">旅游交通图 <span class="required">*</span></span>
+        <div class="upload-item">
+          <div class="item-header">
+            <span class="item-label">旅游交通图 <span class="required">*</span></span>
             <a-button type="link" size="small" @click="handlePreviewExample('/examples/旅游交通图.jpg')" class="example-link">
               <a-icon type="picture" />
               图片实例
             </a-button>
           </div>
+          <p class="item-hint">标注门店位置及周边交通、景点，支持jpg、png格式</p>
           <image-upload
             v-model="localData.images.travelMap"
             :multiple="false"
@@ -101,26 +102,63 @@
             :disabled="isLocked"
             @change="handleChange"
           />
-          <p class="upload-hint">标注门店位置及周边交通、景点，支持jpg、png格式</p>
         </div>
 
         <!-- 小程序分享图 -->
-        <div class="image-upload-item">
-          <div class="upload-label">
-            <span class="label-text">小程序分享图（自动生成）</span>
+        <div v-if="localData.images.listCover" class="upload-item">
+          <div class="item-header">
+            <span class="item-label">小程序分享图（自动生成）</span>
           </div>
-          <div v-if="localData.images.listCover" class="auto-generated-preview">
+          <p class="item-hint">由列表页封面自动生成，比例5:4</p>
+          <div class="auto-generated-preview">
             <img :src="localData.images.listCover" alt="预览" />
           </div>
-          <div v-else class="empty-preview">请先上传列表页封面</div>
-          <p class="upload-hint">由列表页封面自动生成，比例5:4</p>
+        </div>
+
+        <!-- 视频封面 -->
+        <div class="upload-item">
+          <div class="item-header">
+            <span class="item-label">视频封面</span>
+            <a-button type="link" size="small" @click="handlePreviewExample('/examples/视频封面.jpg')" class="example-link">
+              <a-icon type="picture" />
+              图片实例
+            </a-button>
+          </div>
+          <p class="item-hint">建议比例16:9，支持jpg、png格式</p>
+          <image-upload
+            v-model="localData.videos.videoCover"
+            :multiple="false"
+            :maxSize="5"
+            :disabled="isLocked"
+            @change="handleChange"
+          />
+        </div>
+
+        <!-- 最新情报 -->
+        <div class="upload-item">
+          <div class="item-header">
+            <span class="item-label">最新情报</span>
+            <a-button type="link" size="small" @click="handlePreviewExample('/examples/最新情报.jpg')" class="example-link">
+              <a-icon type="picture" />
+              图片实例
+            </a-button>
+          </div>
+          <p class="item-hint">建议竖版长图，宽度750px左右，支持jpg、png格式</p>
+          <image-upload
+            v-model="localData.videos.latestNews"
+            :multiple="false"
+            :maxSize="10"
+            :disabled="isLocked"
+            @change="handleChange"
+          />
         </div>
 
         <!-- 门店视频 -->
-        <div class="image-upload-item">
-          <div class="upload-label">
-            <span class="label-text">门店视频</span>
+        <div class="upload-item">
+          <div class="item-header">
+            <span class="item-label">门店视频</span>
           </div>
+          <p class="item-hint">建议比例16:9，大小不超过100MB，支持mp4、mov、avi格式</p>
           <div class="video-upload-area">
             <a-upload
               :file-list="videoFileList"
@@ -134,45 +172,6 @@
               </a-button>
             </a-upload>
           </div>
-          <p class="upload-hint">建议比例16:9，大小不超过100MB，支持mp4、mov、avi格式</p>
-        </div>
-
-        <!-- 视频封面 -->
-        <div class="image-upload-item">
-          <div class="upload-label">
-            <span class="label-text">视频封面</span>
-            <a-button type="link" size="small" @click="handlePreviewExample('/examples/视频封面.jpg')" class="example-link">
-              <a-icon type="picture" />
-              图片实例
-            </a-button>
-          </div>
-          <image-upload
-            v-model="localData.videos.videoCover"
-            :multiple="false"
-            :maxSize="5"
-            :disabled="isLocked"
-            @change="handleChange"
-          />
-          <p class="upload-hint">建议比例16:9，支持jpg、png格式</p>
-        </div>
-
-        <!-- 最新情报 -->
-        <div class="image-upload-item">
-          <div class="upload-label">
-            <span class="label-text">最新情报</span>
-            <a-button type="link" size="small" @click="handlePreviewExample('/examples/最新情报.jpg')" class="example-link">
-              <a-icon type="picture" />
-              图片实例
-            </a-button>
-          </div>
-          <image-upload
-            v-model="localData.videos.latestNews"
-            :multiple="false"
-            :maxSize="10"
-            :disabled="isLocked"
-            @change="handleChange"
-          />
-          <p class="upload-hint">建议竖版长图，宽度750px左右，支持jpg、png格式</p>
         </div>
       </div>
     </a-card>
@@ -388,39 +387,40 @@ export default defineComponent({
   }
 }
 
-.images-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.upload-items-list {
+  display: flex;
+  flex-direction: column;
   gap: 24px;
-  margin-bottom: 24px;
 }
 
-.subsection-title {
-  font-size: @font-size-base;
-  font-weight: @font-weight-semibold;
-  color: @text-primary;
-  margin-bottom: 20px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid @bg-secondary;
-}
-
-.image-upload-item {
-  // 每个上传项的容器
-}
-
-.image-upload-section {
-  margin-bottom: 16px;
+.upload-item {
+  padding-bottom: 24px;
+  border-bottom: 1px solid @border-primary;
 
   &:last-child {
-    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
   }
 }
 
-.upload-label {
+.item-header {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 8px;
+}
+
+.item-label {
+  font-size: @font-size-base;
+  font-weight: @font-weight-medium;
+  color: @text-primary;
+}
+
+.item-hint {
+  font-size: @font-size-xs;
+  color: @text-secondary;
+  margin-bottom: 12px;
+  line-height: 1.6;
 }
 
 .example-link {
@@ -458,12 +458,13 @@ export default defineComponent({
 }
 
 .auto-generated-preview {
-  width: 100%;
-  height: 150px;
+  width: 200px;
+  height: 160px;
   border-radius: @border-radius-base;
   overflow: hidden;
   border: 1px solid @border-primary;
   background: @bg-secondary;
+  margin-top: 8px;
 
   img {
     width: 100%;
@@ -471,18 +472,6 @@ export default defineComponent({
     display: block;
     object-fit: cover;
   }
-}
-
-.empty-preview {
-  height: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: @text-secondary;
-  background: @bg-secondary;
-  border-radius: @border-radius-base;
-  border: 1px dashed @border-primary;
-  font-size: @font-size-sm;
 }
 
 .video-upload-area {
