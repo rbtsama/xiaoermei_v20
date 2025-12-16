@@ -156,68 +156,125 @@
             </a-col>
           </a-row>
 
-          <a-row :gutter="24">
-            <a-col :span="12">
-              <a-form-model-item label="面积（平方米）">
+          <!-- 房间布局 -->
+          <a-form-model-item label="房间布局" required>
+            <a-row :gutter="12" type="flex" align="middle">
+              <a-col flex="none">
+                <span>客厅</span>
+              </a-col>
+              <a-col flex="100px">
                 <a-input-number
-                  v-model="localData.area"
+                  v-model="localData.roomLayout.livingRooms"
                   :min="0"
-                  :precision="1"
-                  placeholder="35"
+                  :precision="0"
+                  placeholder="0"
                   style="width: 100%"
                 />
-              </a-form-model-item>
-            </a-col>
-
-            <a-col :span="12">
-              <a-form-model-item label="空间布局">
-                <a-input
-                  v-model="localData.layout"
-                  placeholder="卧室1 客厅1 卫生间1"
-                  :maxLength="100"
-                />
-              </a-form-model-item>
-            </a-col>
-          </a-row>
-
-          <a-row :gutter="24">
-            <a-col :span="12">
-              <a-form-model-item label="床型">
-                <a-input
-                  v-model="localData.bedType"
-                  placeholder="1.8m×2m"
-                  :maxLength="50"
-                />
-              </a-form-model-item>
-            </a-col>
-
-            <a-col :span="12">
-              <a-form-model-item label="床数量">
+              </a-col>
+              <a-col flex="none">
+                <span>间，卫生间</span>
+              </a-col>
+              <a-col flex="100px">
                 <a-input-number
-                  v-model="localData.bedCount"
-                  :min="1"
-                  :max="20"
+                  v-model="localData.roomLayout.bathrooms"
+                  :min="0"
+                  :precision="0"
                   placeholder="1"
                   style="width: 100%"
                 />
-              </a-form-model-item>
-            </a-col>
-          </a-row>
-
-          <a-form-model-item label="早餐数量">
-            <a-input
-              v-model="localData.breakfastInfo"
-              placeholder="免费成人早餐2份、儿童早餐1份"
-              :maxLength="200"
-            />
+              </a-col>
+              <a-col flex="none">
+                <span>间，卧室</span>
+              </a-col>
+              <a-col flex="100px">
+                <a-input-number
+                  v-model="localData.roomLayout.bedrooms"
+                  :min="1"
+                  :precision="0"
+                  placeholder="1"
+                  style="width: 100%"
+                  @change="handleBedroomsChange"
+                />
+              </a-col>
+              <a-col flex="none">
+                <span>间</span>
+              </a-col>
+            </a-row>
           </a-form-model-item>
 
-          <a-form-model-item label="房型标签">
-            <a-input
-              v-model="localData.roomTags"
-              placeholder="有浴缸，有家庭套房，可加床，可拆分为双床"
-              :maxLength="200"
-            />
+          <!-- 床型配置 -->
+          <a-form-model-item v-if="localData.roomLayout.bedrooms > 0" label="床型配置" required>
+            <div class="bedroom-configs">
+              <div
+                v-for="(bedroom, idx) in localData.roomLayout.bedroomConfigs"
+                :key="idx"
+                class="bedroom-config-item"
+              >
+                <div class="bedroom-header">
+                  <span class="bedroom-title">卧室{{ idx + 1 }}</span>
+                  <a-row :gutter="12" type="flex" align="middle">
+                    <a-col flex="none">
+                      <span>床数量：</span>
+                    </a-col>
+                    <a-col flex="100px">
+                      <a-input-number
+                        v-model="bedroom.bedCount"
+                        :min="1"
+                        :precision="0"
+                        placeholder="1"
+                        style="width: 100%"
+                        @change="handleBedCountChange(idx)"
+                      />
+                    </a-col>
+                    <a-col flex="none">
+                      <span>张</span>
+                    </a-col>
+                  </a-row>
+                </div>
+
+                <div class="beds-config">
+                  <div
+                    v-for="(bed, bedIdx) in bedroom.beds"
+                    :key="bedIdx"
+                    class="bed-config-item"
+                  >
+                    <a-row :gutter="12" type="flex" align="middle">
+                      <a-col flex="80px">
+                        <span class="bed-label">床{{ bedIdx + 1 }}:</span>
+                      </a-col>
+                      <a-col flex="none">
+                        <span>宽</span>
+                      </a-col>
+                      <a-col flex="120px">
+                        <a-select
+                          v-model="bed.width"
+                          placeholder="1.8"
+                          style="width: 100%"
+                        >
+                          <a-select-option v-for="w in bedWidthOptions" :key="w" :value="w">
+                            {{ w }}m
+                          </a-select-option>
+                        </a-select>
+                      </a-col>
+                      <a-col flex="none">
+                        <span>× 长</span>
+                      </a-col>
+                      <a-col flex="120px">
+                        <a-select
+                          v-model="bed.length"
+                          placeholder="2.0"
+                          style="width: 100%"
+                        >
+                          <a-select-option v-for="l in bedLengthOptions" :key="l" :value="l">
+                            {{ l }}m
+                          </a-select-option>
+                        </a-select>
+                      </a-col>
+                    </a-row>
+                  </div>
+                </div>
+              </div>
+            </div>
           </a-form-model-item>
 
           <a-row :gutter="24">
@@ -455,6 +512,18 @@ export default defineComponent({
     }
   },
   setup(props, { emit, root }) {
+    // 床宽度选项（0.8-2.4m，步长0.1）
+    const bedWidthOptions = []
+    for (let i = 8; i <= 24; i++) {
+      bedWidthOptions.push((i / 10).toFixed(1))
+    }
+
+    // 床长度选项（1.6-2.4m，步长0.1）
+    const bedLengthOptions = []
+    for (let i = 16; i <= 24; i++) {
+      bedLengthOptions.push((i / 10).toFixed(1))
+    }
+
     // 本地数据
     const localData = reactive({
       id: '',
@@ -470,11 +539,24 @@ export default defineComponent({
       allowExtraGuest: AllowExtraGuest.NOT_ALLOWED,
       maxExtraGuests: 0,
       extraGuestFee: 0,
-      layout: '',
-      bedType: '',
-      bedCount: 1,
-      breakfastInfo: '',
-      roomTags: '',
+      roomLayout: {
+        livingRooms: 0,
+        bathrooms: 1,
+        bedrooms: 1,
+        bedroomConfigs: [
+          {
+            bedroomIndex: 1,
+            bedCount: 1,
+            beds: [
+              {
+                bedIndex: 1,
+                width: '1.8',
+                length: '2.0'
+              }
+            ]
+          }
+        ]
+      },
       facilities: {
         roomFacilities: [],
         roomLayout: [],
@@ -502,25 +584,86 @@ export default defineComponent({
       )
     })
 
+    // 处理卧室数量变化
+    const handleBedroomsChange = () => {
+      const bedroomCount = localData.roomLayout.bedrooms
+      const currentCount = localData.roomLayout.bedroomConfigs.length
+
+      if (bedroomCount > currentCount) {
+        // 增加卧室
+        for (let i = currentCount; i < bedroomCount; i++) {
+          localData.roomLayout.bedroomConfigs.push({
+            bedroomIndex: i + 1,
+            bedCount: 1,
+            beds: [
+              {
+                bedIndex: 1,
+                width: '1.8',
+                length: '2.0'
+              }
+            ]
+          })
+        }
+      } else if (bedroomCount < currentCount) {
+        // 减少卧室
+        localData.roomLayout.bedroomConfigs.splice(bedroomCount)
+      }
+    }
+
+    // 处理床数量变化
+    const handleBedCountChange = (bedroomIdx) => {
+      const bedroom = localData.roomLayout.bedroomConfigs[bedroomIdx]
+      const bedCount = bedroom.bedCount
+      const currentCount = bedroom.beds.length
+
+      if (bedCount > currentCount) {
+        // 增加床
+        for (let i = currentCount; i < bedCount; i++) {
+          bedroom.beds.push({
+            bedIndex: i + 1,
+            width: '1.8',
+            length: '2.0'
+          })
+        }
+      } else if (bedCount < currentCount) {
+        // 减少床
+        bedroom.beds.splice(bedCount)
+      }
+    }
+
     // 重置数据（定义在watch之前）
     const resetLocalData = () => {
       localData.id = `room_${Date.now()}`
       localData.roomTypeName = ''
+      localData.roomDescription = ''
       localData.roomCount = 1
-      localData.floor = ''
+      localData.floors = []
+      localData.area = 0
+      localData.hasWindow = true
+      localData.nonSmoking = true
+      localData.petsAllowed = false
       localData.capacity = 2
       localData.allowExtraGuest = AllowExtraGuest.NOT_ALLOWED
       localData.maxExtraGuests = 0
       localData.extraGuestFee = 0
-      localData.area = 0
-      localData.layout = ''
-      localData.bedType = ''
-      localData.bedCount = 1
-      localData.breakfastInfo = ''
-      localData.roomTags = ''
-      localData.hasWindow = true
-      localData.nonSmoking = true
-      localData.petsAllowed = false
+      localData.roomLayout = {
+        livingRooms: 0,
+        bathrooms: 1,
+        bedrooms: 1,
+        bedroomConfigs: [
+          {
+            bedroomIndex: 1,
+            bedCount: 1,
+            beds: [
+              {
+                bedIndex: 1,
+                width: '1.8',
+                length: '2.0'
+              }
+            ]
+          }
+        ]
+      }
       localData.facilities = {
         roomFacilities: [],
         roomLayout: [],
@@ -633,6 +776,10 @@ export default defineComponent({
       localData,
       title,
       totalFacilitiesCount,
+      bedWidthOptions,
+      bedLengthOptions,
+      handleBedroomsChange,
+      handleBedCountChange,
       AllowExtraGuest,
       ROOM_FACILITIES,
       ROOM_LAYOUT_FURNITURE,
@@ -738,6 +885,59 @@ export default defineComponent({
 .required {
   color: #ef4444;
   margin-left: 4px;
+}
+
+.floor-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+
+  :deep(.ant-checkbox-wrapper) {
+    margin: 0;
+  }
+}
+
+.bedroom-configs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bedroom-config-item {
+  padding: 16px;
+  background: @bg-secondary;
+  border-radius: @border-radius-base;
+  border: 1px solid @border-primary;
+}
+
+.bedroom-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.bedroom-title {
+  font-size: @font-size-base;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+}
+
+.beds-config {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bed-config-item {
+  padding: 8px;
+  background: @bg-primary;
+  border-radius: @border-radius-sm;
+}
+
+.bed-label {
+  font-size: @font-size-sm;
+  color: @text-secondary;
 }
 
 .checkbox-grid {
