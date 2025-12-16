@@ -1,7 +1,5 @@
 <template>
   <div class="tab6-container">
-    <!-- 有限责任公司表单 -->
-    <template v-if="localData.entityType === EntityType.COMPANY">
       <!-- 营业主体信息 -->
       <a-card :bordered="false" class="form-section-card">
         <template slot="title">
@@ -382,61 +380,6 @@
           </div>
         </div>
       </a-card>
-    </template>
-
-    <!-- 个体工商户表单（结构类似，字段略有不同） -->
-    <template v-else>
-      <a-card :bordered="false" class="form-section-card">
-        <template slot="title">
-          <span class="section-title">营业主体信息</span>
-        </template>
-
-        <a-form-model
-          :model="individualData"
-          :label-col="{ span: 6 }"
-          :wrapper-col="{ span: 14 }"
-        >
-          <a-form-model-item label="注册账号" required>
-            <a-input
-              v-model="individualData.registerAccount"
-              placeholder="商户手机号或邮箱"
-              @change="handleChange"
-            />
-          </a-form-model-item>
-
-          <a-form-model-item label="营业主体" required>
-            <a-input
-              v-model="individualData.ownerName"
-              placeholder="营业执照上的经营者姓名"
-              @change="handleChange"
-            />
-          </a-form-model-item>
-
-          <a-form-model-item label="统一社会信用代码" required>
-            <a-input
-              v-model="individualData.creditCode"
-              placeholder="示例：91330108MAEN56Q88T"
-              :maxLength="18"
-              @change="handleChange"
-            />
-          </a-form-model-item>
-
-          <a-form-model-item label="营业执照有效期" required>
-            <a-radio-group v-model="individualData.licenseValidityType" @change="handleChange">
-              <a-radio :value="LicenseValidityType.DATE">日期选择</a-radio>
-              <a-radio :value="LicenseValidityType.PERMANENT">永久有效</a-radio>
-            </a-radio-group>
-          </a-form-model-item>
-        </a-form-model>
-      </a-card>
-
-      <!-- 更多字段... -->
-      <a-card :bordered="false" class="form-section-card">
-        <p style="text-align: center; padding: 40px; color: #999;">
-          个体工商户表单（待完善...）
-        </p>
-      </a-card>
-    </template>
   </div>
 </template>
 
@@ -543,14 +486,6 @@ export default defineComponent({
       }
     ])
 
-    // 个体工商户数据
-    const individualData = reactive({
-      registerAccount: '',
-      ownerName: '',
-      creditCode: '',
-      licenseValidityType: LicenseValidityType.DATE
-    })
-
     // 日期选择器的值
     const licenseDateValue = ref(null)
     const idCardDateValue = ref(null)
@@ -586,8 +521,7 @@ export default defineComponent({
       emit('update', {
         paymentSettlement: {
           entityType: localData.entityType,
-          companyInfo: localData.entityType === EntityType.COMPANY ? companyData : undefined,
-          individualInfo: localData.entityType === EntityType.INDIVIDUAL ? individualData : undefined
+          companyInfo: companyData
         }
       })
     }
@@ -595,7 +529,6 @@ export default defineComponent({
     return {
       localData,
       companyData,
-      individualData,
       licenseDateValue,
       idCardDateValue,
       regionOptions,
