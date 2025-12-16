@@ -1,22 +1,15 @@
 <template>
   <div class="tab5-container">
-    <!-- 顶部：配置进度 + 添加按钮 -->
+    <!-- 顶部：添加按钮 + 配置进度 -->
     <div class="top-bar">
-      <a-alert
-        :message="progressMessage"
-        :type="progressType"
-        class="progress-alert"
-      >
-        <template slot="icon">
-          <a-icon v-if="progressType === 'success'" type="check-circle" theme="filled" class="status-icon" />
-          <a-icon v-else type="exclamation-circle" theme="filled" class="status-icon" />
-        </template>
-      </a-alert>
-
-      <a-button type="primary" @click="handleAdd" size="large" class="add-btn-top">
+      <a-button type="primary" @click="handleAdd" size="large" class="add-btn">
         <a-icon type="plus" />
         添加房型
       </a-button>
+
+      <span :class="['progress-text', progressType === 'success' ? 'completed' : 'pending']">
+        {{ progressMessage }}
+      </span>
     </div>
 
     <!-- 房型列表 -->
@@ -251,27 +244,25 @@ export default defineComponent({
   display: flex;
   align-items: center;
   gap: 16px;
+  margin-bottom: 24px;
 }
 
-.progress-alert {
-  flex: 1;
-  border-radius: @border-radius-base;
-  margin-bottom: 0;
-
-  :deep(.ant-alert-message) {
-    font-size: @font-size-base;
-    font-weight: @font-weight-medium;
-  }
-}
-
-.status-icon {
-  font-size: 16px;
-}
-
-.add-btn-top {
-  flex-shrink: 0;
+.add-btn {
   height: 40px;
   padding: 0 24px;
+}
+
+.progress-text {
+  font-size: @font-size-base;
+  font-weight: @font-weight-medium;
+
+  &.pending {
+    color: @warning-color;
+  }
+
+  &.completed {
+    color: @text-secondary;
+  }
 }
 
 .room-type-list {
