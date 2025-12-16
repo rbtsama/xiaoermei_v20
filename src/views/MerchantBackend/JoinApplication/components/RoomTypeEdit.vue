@@ -10,6 +10,9 @@
   >
     <div class="form-container">
       <a-form-model :model="localData">
+        <!-- 基础信息分类 -->
+        <div class="section-title">基础信息</div>
+
         <!-- 房型名称 -->
         <a-row :gutter="24">
           <a-col :span="12">
@@ -224,8 +227,11 @@
           </div>
         </template>
 
+        <!-- 房型设施分类 -->
+        <div class="section-title section-spacing">房型设施</div>
+
         <!-- 房型设施 -->
-        <a-form-model-item label="房型设施" required>
+        <a-form-model-item>
           <div class="facilities-grid">
             <div class="facility-item">
               <div class="facility-label">客房设施 <span class="required">*</span></div>
@@ -551,6 +557,19 @@ export default defineComponent({
 
 .form-container {
   padding: 24px;
+}
+
+.section-title {
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid @border-primary;
+
+  &.section-spacing {
+    margin-top: 32px;
+  }
 }
 
 .field-hint {
