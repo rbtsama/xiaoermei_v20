@@ -162,11 +162,12 @@ export const deleteVideo = async (url: string): Promise<void> => {
  */
 export const duplicateRoomType = async (roomType: RoomType): Promise<RoomType> => {
   await delay(300)
-  // 创建副本
+  // 创建副本，深拷贝images数组
   const duplicate: RoomType = {
     ...roomType,
     id: `room_${Date.now()}`,
-    roomTypeName: `${roomType.roomTypeName}-副本`
+    roomTypeName: `${roomType.roomTypeName}-副本`,
+    images: [...(roomType.images || [])]  // 深拷贝图片数组
   }
   return duplicate
 }
