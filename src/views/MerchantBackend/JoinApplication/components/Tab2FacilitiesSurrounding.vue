@@ -9,8 +9,7 @@
       <!-- 交通服务 -->
       <div class="facility-category">
         <div class="category-header">
-          <span class="category-title">交通服务</span>
-          <a-tag color="red" size="small">必填</a-tag>
+          <span class="category-title">交通服务 <span class="required">*</span></span>
         </div>
         <a-checkbox-group v-model="localData.storeFacilities.transportation" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in TRANSPORTATION_FACILITIES" :key="item" :value="item">
@@ -24,8 +23,7 @@
       <!-- 清洁服务 -->
       <div class="facility-category">
         <div class="category-header">
-          <span class="category-title">清洁服务</span>
-          <a-tag color="red" size="small">必填</a-tag>
+          <span class="category-title">清洁服务 <span class="required">*</span></span>
         </div>
         <a-checkbox-group v-model="localData.storeFacilities.cleaning" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in CLEANING_FACILITIES" :key="item" :value="item">
@@ -39,8 +37,7 @@
       <!-- 安全安保 -->
       <div class="facility-category">
         <div class="category-header">
-          <span class="category-title">安全安保</span>
-          <a-tag color="red" size="small">必填</a-tag>
+          <span class="category-title">安全安保 <span class="required">*</span></span>
         </div>
         <a-checkbox-group v-model="localData.storeFacilities.security" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in SECURITY_FACILITIES" :key="item" :value="item">
@@ -54,8 +51,7 @@
       <!-- 公共区域 -->
       <div class="facility-category">
         <div class="category-header">
-          <span class="category-title">公共区域</span>
-          <a-tag color="red" size="small">必填</a-tag>
+          <span class="category-title">公共区域 <span class="required">*</span></span>
         </div>
         <a-checkbox-group v-model="localData.storeFacilities.publicArea" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in PUBLIC_AREA_FACILITIES" :key="item" :value="item">
@@ -69,8 +65,7 @@
       <!-- 前台服务 -->
       <div class="facility-category">
         <div class="category-header">
-          <span class="category-title">前台服务</span>
-          <a-tag color="red" size="small">必填</a-tag>
+          <span class="category-title">前台服务 <span class="required">*</span></span>
         </div>
         <a-checkbox-group v-model="localData.storeFacilities.frontDesk" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
           <a-checkbox v-for="item in FRONT_DESK_FACILITIES" :key="item" :value="item">
