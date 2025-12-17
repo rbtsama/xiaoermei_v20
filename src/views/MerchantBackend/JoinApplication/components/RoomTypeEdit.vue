@@ -771,7 +771,7 @@ export default defineComponent({
 
   .ant-form-item-label {
     text-align: left;
-    font-weight: @font-weight-medium;
+    font-weight: @font-weight-semibold;  // 600 加粗
     color: @text-primary;
 
     label {

@@ -660,7 +660,7 @@ export default defineComponent({
 }
 
 :deep(.ant-form-item-label) {
-  font-weight: @font-weight-medium;
+  font-weight: @font-weight-semibold;  // 600 加粗
   color: @text-primary;
 
   label::after {
