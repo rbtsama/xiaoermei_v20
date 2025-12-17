@@ -256,7 +256,7 @@
                 <a-input v-model="item.locationName" placeholder="桐庐站" :disabled="isLocked" @change="handleChange" />
               </a-col>
               <a-col :span="4">
-                <div class="field-label">距离约</div>
+                <div class="field-label">距离住宿地（公里）</div>
                 <a-input-number
                   v-model="item.distance"
                   placeholder="24"
@@ -270,7 +270,7 @@
                 </a-input-number>
               </a-col>
               <a-col :span="4">
-                <div class="field-label">驾驶约</div>
+                <div class="field-label">驾驶时间（分钟）</div>
                 <a-input-number
                   v-model="item.drivingTime"
                   placeholder="25"
@@ -334,7 +334,7 @@
                 <a-input v-model="item.locationName" placeholder="富春江镇" :disabled="isLocked" @change="handleChange" />
               </a-col>
               <a-col :span="4">
-                <div class="field-label">距离约</div>
+                <div class="field-label">距离住宿地（公里）</div>
                 <a-input-number
                   v-model="item.distance"
                   placeholder="12"
@@ -348,7 +348,7 @@
                 </a-input-number>
               </a-col>
               <a-col :span="4">
-                <div class="field-label">驾驶约</div>
+                <div class="field-label">驾驶时间（分钟）</div>
                 <a-input-number
                   v-model="item.drivingTime"
                   placeholder="15"
@@ -416,7 +416,7 @@
                 <a-input v-model="item.locationName" placeholder="芦茨村" :disabled="isLocked" @change="handleChange" />
               </a-col>
               <a-col :span="4">
-                <div class="field-label">距离约</div>
+                <div class="field-label">距离住宿地（公里）</div>
                 <a-input-number
                   v-model="item.distance"
                   placeholder="2"
@@ -430,7 +430,7 @@
                 </a-input-number>
               </a-col>
               <a-col :span="4">
-                <div class="field-label">驾驶约</div>
+                <div class="field-label">驾驶时间（分钟）</div>
                 <a-input-number
                   v-model="item.drivingTime"
                   placeholder="10"
