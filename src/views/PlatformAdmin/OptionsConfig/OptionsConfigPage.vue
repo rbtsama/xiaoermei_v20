@@ -64,34 +64,34 @@
           <span class="card-desc">配置商户端可选择的门店设施选项（12个分类）</span>
         </div>
 
-        <a-collapse :bordered="false" :default-active-key="['transportation']">
-          <!-- 交通服务 -->
-          <a-collapse-panel key="transportation" header="交通服务">
-            <div class="category-header">
-              <a-button type="primary" size="small" @click="handleAdd('transportation')">
-                <a-icon type="plus" />添加选项
-              </a-button>
-            </div>
-            <draggable v-model="transportationOptions" handle=".drag-handle" @end="handleSortChange('transportation')">
-              <div v-for="(item, index) in transportationOptions" :key="item.id" class="option-item">
-                <a-icon type="menu" class="drag-handle" />
-                <span class="option-label">{{ item.label }}</span>
-                <div class="option-actions">
-                  <a-button size="small" @click="handleEdit(item, 'transportation')">
-                    <a-icon type="edit" />编辑
-                  </a-button>
-                  <a-button size="small" danger @click="handleDelete(item, index, 'transportation')">
-                    <a-icon type="delete" />删除
-                  </a-button>
-                </div>
+        <!-- 交通服务 -->
+        <div class="option-category">
+          <div class="category-header">
+            <span class="category-title">交通服务</span>
+            <a-button type="primary" size="small" @click="handleAdd('transportation')">
+              <a-icon type="plus" />添加选项
+            </a-button>
+          </div>
+          <draggable v-model="transportationOptions" handle=".drag-handle" @end="handleSortChange('transportation')">
+            <div v-for="(item, index) in transportationOptions" :key="item.id" class="option-item">
+              <a-icon type="menu" class="drag-handle" />
+              <span class="option-label">{{ item.label }}</span>
+              <div class="option-actions">
+                <a-button size="small" @click="handleEdit(item, 'transportation')">
+                  <a-icon type="edit" />编辑
+                </a-button>
+                <a-button size="small" danger @click="handleDelete(item, index, 'transportation')">
+                  <a-icon type="delete" />删除
+                </a-button>
               </div>
-            </draggable>
-          </a-collapse-panel>
+            </div>
+          </draggable>
+        </div>
 
-          <a-collapse-panel key="hint" header="其他11个分类" disabled>
-            <p style="text-align: center; color: #999;">清洁服务、安全安保、公共区域等11个分类待完善...</p>
-          </a-collapse-panel>
-        </a-collapse>
+        <!-- 其他11个分类提示 -->
+        <div class="hint-section">
+          <p>清洁服务、安全安保、公共区域等11个分类待完善...</p>
+        </div>
       </a-card>
 
       <!-- 编辑弹窗 -->
@@ -334,28 +334,17 @@ export default defineComponent({
   line-height: 1.4;
 }
 
-:deep(.ant-collapse) {
-  background: transparent;
-  border: none;
-}
+.hint-section {
+  margin-top: 32px;
+  padding: 24px;
+  background: @bg-secondary;
+  border-radius: @border-radius-base;
+  text-align: center;
 
-:deep(.ant-collapse-item) {
-  border-bottom: 1px solid @border-primary;
-  margin-bottom: 16px;
-
-  &:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
+  p {
+    margin: 0;
+    font-size: @font-size-sm;
+    color: @text-secondary;
   }
-}
-
-:deep(.ant-collapse-header) {
-  padding: 12px 16px !important;
-  font-weight: @font-weight-semibold;
-  color: @text-primary;
-}
-
-:deep(.ant-collapse-content-box) {
-  padding: 16px !important;
 }
 </style>
