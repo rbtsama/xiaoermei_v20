@@ -244,7 +244,7 @@
                 >
                   <span class="bed-label">床{{ bedIdx + 1 }}：</span>
                   <span>床型</span>
-                  <a-select v-model="bed.type" style="width: 160px; margin: 0 8px;">
+                  <a-select v-model="bed.type" placeholder="常规大床/单人床" style="width: 160px; margin: 0 8px;">
                     <a-select-option v-for="t in bedTypeOptions" :key="t" :value="t">{{ t }}</a-select-option>
                   </a-select>
                   <span>，床宽</span>
