@@ -183,7 +183,7 @@ XXXX位于富春江畔毗邻芦茨湾，几幢青瓦白墙小楼依次坐落在�
         <div class="category-title">建筑与景观</div>
         <a-checkbox-group v-model="localData.highlights" :disabled="isLocked" @change="handleChange" style="width: 100%">
           <a-row :gutter="[16, 12]">
-            <a-col :span="4" :offset="0" v-for="item in HIGHLIGHTS_ARCHITECTURE" :key="item">
+            <a-col :span="6" v-for="item in HIGHLIGHTS_ARCHITECTURE" :key="item">
               <a-checkbox :value="item" class="grid-checkbox">
                 {{ item }}
               </a-checkbox>
@@ -197,7 +197,7 @@ XXXX位于富春江畔毗邻芦茨湾，几幢青瓦白墙小楼依次坐落在�
         <div class="category-title">服务与设施</div>
         <a-checkbox-group v-model="localData.highlights" :disabled="isLocked" @change="handleChange" style="width: 100%">
           <a-row :gutter="[16, 12]">
-            <a-col :span="4" :offset="0" v-for="item in HIGHLIGHTS_SERVICES" :key="item">
+            <a-col :span="6" v-for="item in HIGHLIGHTS_SERVICES" :key="item">
               <a-checkbox :value="item" class="grid-checkbox">
                 {{ item }}
               </a-checkbox>
