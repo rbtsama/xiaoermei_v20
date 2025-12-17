@@ -165,13 +165,7 @@
             :data-source="rewardServices"
             :pagination="false"
             row-key="id"
-            :customRow="customRow"
-            :components="tableComponents"
           >
-            <template slot="drag" slot-scope="text">
-              <a-icon type="menu" class="drag-handle" />
-            </template>
-
             <template slot="order" slot-scope="text, record, index">
               <span>{{ index + 1 }}</span>
             </template>
@@ -184,11 +178,28 @@
               <span class="text-green-600 font-semibold">+{{ pointsReward }}</span>
             </template>
 
-            <template slot="action" slot-scope="text, record">
+            <template slot="action" slot-scope="text, record, index">
               <div class="action-buttons">
+                <a-button
+                  size="small"
+                  :disabled="index === 0"
+                  @click="handleMoveReward(index, 'up')"
+                >
+                  <a-icon type="up" />
+                </a-button>
+
+                <a-button
+                  size="small"
+                  :disabled="index === rewardServices.length - 1"
+                  @click="handleMoveReward(index, 'down')"
+                >
+                  <a-icon type="down" />
+                </a-button>
+
                 <a-button size="small" @click="handleEditReward(record)">
                   <a-icon type="edit" />编辑
                 </a-button>
+
                 <a-button size="small" class="btn-delete" @click="handleDeleteReward(record.id)">
                   <a-icon type="delete" />删除
                 </a-button>
@@ -315,11 +326,10 @@ export default defineComponent({
 
     // ========== 表格配置 ==========
     const rewardColumns = [
-      { title: '', width: 50, scopedSlots: { customRender: 'drag' } },
       { title: '序号', width: 80, scopedSlots: { customRender: 'order' } },
       { title: '服务内容', dataIndex: 'serviceName', scopedSlots: { customRender: 'serviceName' } },
       { title: '奖励积分', dataIndex: 'pointsReward', width: 120, scopedSlots: { customRender: 'pointsReward' } },
-      { title: '操作', width: 180, align: 'center', scopedSlots: { customRender: 'action' } }
+      { title: '操作', width: 280, align: 'center', scopedSlots: { customRender: 'action' } }
     ]
 
     const exchangeColumns = [
