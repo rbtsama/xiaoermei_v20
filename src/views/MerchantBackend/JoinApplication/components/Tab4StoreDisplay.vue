@@ -413,7 +413,7 @@ export default defineComponent({
 
 .upload-label {
   font-size: @font-size-base;
-  font-weight: @font-weight-medium;
+  font-weight: @font-weight-semibold;  // 600 加粗
   color: @text-primary;
 }
 
