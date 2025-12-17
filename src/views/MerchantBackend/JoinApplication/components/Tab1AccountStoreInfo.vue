@@ -65,22 +65,8 @@
         </a-form-model-item>
 
         <a-form-model-item
-          v-if="localData.accountInfo.pmsSystem === '其他'"
-          label="PMS系统名称"
-        >
-          <a-input
-            v-model="localData.accountInfo.pmsSystemOther"
-            placeholder="请输入PMS系统名称"
-            :maxLength="50"
-            :disabled="isLocked"
-            @change="handleChange"
-          />
-          <div class="field-hint">请填写具体的PMS系统名称</div>
-        </a-form-model-item>
-
-        <a-form-model-item
-          v-if="localData.accountInfo.pmsSystem && localData.accountInfo.pmsSystem !== ''"
-          label="PMS系统门店编号"
+          v-if="localData.accountInfo.pmsSystem === '订单来了'"
+          label="订单来了门店编号"
         >
           <a-input
             v-model="localData.accountInfo.pmsStoreCode"
@@ -89,7 +75,6 @@
             :disabled="isLocked"
             @change="handleChange"
           />
-          <div class="field-hint">PMS系统中的门店编号</div>
         </a-form-model-item>
       </a-form-model>
     </a-card>
