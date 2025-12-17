@@ -80,9 +80,10 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, computed } from '@vue/composition-api'
+import { defineComponent, ref, reactive, computed, onMounted } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import draggable from 'vuedraggable'
+import { saveCategoryOptions, initializeOptions } from '@/api/optionsConfig'
 import {
   HIGHLIGHTS_ARCHITECTURE,
   HIGHLIGHTS_SERVICES,
@@ -200,9 +201,23 @@ export default defineComponent({
       })
     }
 
-    const handleSortChange = () => {
+    const handleSortChange = async () => {
+      // 保存到后端，触发联动
+      await saveCategoryOptions(currentCategory.value, currentOptions.value)
       root.$message.success('排序已更新')
     }
+
+    // 初始化选项配置
+    onMounted(async () => {
+      const initialData = {}
+      highlightCategories.value.forEach(cat => {
+        initialData[cat.key] = cat.options
+      })
+      facilityCategories.value.forEach(cat => {
+        initialData[cat.key] = cat.options
+      })
+      await initializeOptions(initialData)
+    })
 
     return {
       currentCategory,
