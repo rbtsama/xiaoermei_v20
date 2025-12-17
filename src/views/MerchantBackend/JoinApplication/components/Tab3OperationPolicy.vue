@@ -540,7 +540,7 @@ export default defineComponent({
 
   .required {
     color: @error-color;
-    margin-left: 4px;
+    margin-left: 2px;
   }
 }
 

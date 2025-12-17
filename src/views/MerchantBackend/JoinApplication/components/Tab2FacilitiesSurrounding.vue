@@ -708,4 +708,9 @@ export default defineComponent({
 :deep(.ant-divider) {
   margin: 24px 0;
 }
+
+.required {
+  color: @error-color;
+  margin-left: 2px;
+}
 </style>
