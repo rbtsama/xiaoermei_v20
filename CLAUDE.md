@@ -1151,6 +1151,14 @@ Placeholder     14px    (继承输入框)         正常400  浅灰#b1b1b1
 - [ ] 卡片圆角 8px
 - [ ] 引入 `@import '@/styles/variables.less'`
 
+**完整规范详见**：`表单填写设计规范.md`
+
+**规范符合度检查**：
+- 提示文字：12px #666 margin-top:4px line-height:1.4
+- 字段标签：14px 400 rgba(0,0,0,0.9)
+- 字段间距：24px
+- 卡片padding：头部16px 24px，内容32px 24px
+
 ---
 
 ## 开发检查清单
