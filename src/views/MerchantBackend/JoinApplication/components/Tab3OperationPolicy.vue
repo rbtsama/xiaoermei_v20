@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <a-divider />
+      
 
       <!-- 2. 预订与取消 -->
       <div class="policy-section">
@@ -117,7 +117,7 @@
         </div>
       </div>
 
-      <a-divider />
+      
 
       <!-- 3. 入住政策 -->
       <div class="policy-section">
@@ -238,7 +238,7 @@
         </div>
       </div>
 
-      <a-divider />
+      
 
       <!-- 4. 早餐政策 -->
       <div class="policy-section">
@@ -523,7 +523,12 @@ export default defineComponent({
 }
 
 .policy-section {
+  margin-top: 32px;      // 分类之间用间距替代分割线
   margin-bottom: 32px;
+
+  &:first-child {
+    margin-top: 0;
+  }
 
   &:last-child {
     margin-bottom: 0;
@@ -565,8 +570,8 @@ export default defineComponent({
 .form-label {
   display: block;
   font-size: @font-size-base;          // 14px
-  font-weight: @font-weight-semibold;  // 600 加粗
-  color: @text-primary;
+  font-weight: 400;                    // 正常字重，不加粗
+  color: #2563eb;                      // 深蓝色，建立层次感
   margin-bottom: 8px;
 
   .required {

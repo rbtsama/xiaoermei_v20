@@ -833,8 +833,8 @@ export default defineComponent({
 
   .ant-form-item-label {
     text-align: left;
-    font-weight: @font-weight-semibold;  // 600 加粗
-    color: @text-primary;
+    font-weight: 400;           // 正常字重，不加粗
+    color: #2563eb;             // 深蓝色，建立层次感
 
     label {
       &::after {

@@ -18,7 +18,7 @@
         </a-checkbox-group>
       </div>
 
-      <a-divider />
+      
 
       <!-- 清洁服务 -->
       <div class="facility-category">
@@ -32,7 +32,7 @@
         </a-checkbox-group>
       </div>
 
-      <a-divider />
+      
 
       <!-- 安全安保 -->
       <div class="facility-category">
@@ -46,7 +46,7 @@
         </a-checkbox-group>
       </div>
 
-      <a-divider />
+      
 
       <!-- 公共区域 -->
       <div class="facility-category">
@@ -60,7 +60,7 @@
         </a-checkbox-group>
       </div>
 
-      <a-divider />
+      
 
       <!-- 前台服务 -->
       <div class="facility-category">
@@ -74,7 +74,7 @@
         </a-checkbox-group>
       </div>
 
-      <a-divider />
+      
 
       <!-- 娱乐设施 -->
       <div class="facility-category">
@@ -89,7 +89,7 @@
         </a-checkbox-group>
       </div>
 
-      <a-divider />
+      
 
       <!-- 餐饮服务 -->
       <div class="facility-category">
@@ -104,7 +104,7 @@
         </a-checkbox-group>
       </div>
 
-      <a-divider />
+      
 
       <!-- 商务服务 -->
       <div class="facility-category">
@@ -119,7 +119,7 @@
         </a-checkbox-group>
       </div>
 
-      <a-divider />
+      
 
       <!-- 儿童设施 -->
       <div class="facility-category">
@@ -134,7 +134,7 @@
         </a-checkbox-group>
       </div>
 
-      <a-divider />
+      
 
       <!-- 运动设施 -->
       <div class="facility-category">
@@ -149,7 +149,7 @@
         </a-checkbox-group>
       </div>
 
-      <a-divider />
+      
 
       <!-- 康体设施 -->
       <div class="facility-category">
@@ -164,7 +164,7 @@
         </a-checkbox-group>
       </div>
 
-      <a-divider />
+      
 
       <!-- 无障碍设施 -->
       <div class="facility-category">
@@ -262,7 +262,7 @@
         </div>
       </div>
 
-      <a-divider />
+      
 
       <!-- 景点分类 -->
       <div class="surrounding-category">
@@ -340,7 +340,7 @@
         </div>
       </div>
 
-      <a-divider />
+      
 
       <!-- 逛吃分类 -->
       <div class="surrounding-category">
@@ -597,7 +597,12 @@ export default defineComponent({
 
 .facility-category,
 .surrounding-category {
+  margin-top: 32px;       // 分类之间用间距替代分割线
   margin-bottom: 24px;
+
+  &:first-child {
+    margin-top: 0;
+  }
 
   &:last-child {
     margin-bottom: 0;
@@ -613,7 +618,7 @@ export default defineComponent({
 
 .category-title {
   font-size: @font-size-base;
-  font-weight: @font-weight-semibold;  // 600 加粗
+  font-weight: @font-weight-semibold;  // 600 加粗（分类标题保持加粗）
   color: @text-primary;
 }
 
