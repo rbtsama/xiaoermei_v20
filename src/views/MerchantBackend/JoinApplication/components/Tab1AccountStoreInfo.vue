@@ -146,6 +146,29 @@
           />
           <div class="field-hint">一句话介绍门店特色</div>
         </a-form-model-item>
+
+        <a-form-model-item label="门店介绍">
+          <div class="textarea-container">
+            <a-textarea
+              v-model="localData.storeBasicInfo.storeDescription"
+              placeholder="详细介绍门店位置、建筑特色、房型分布、配套设施、周边环境等。请分段描述，让客人全面了解您的门店。
+
+示例：
+XXXX位于富春江畔毗邻芦茨湾，几幢青瓦白墙小楼依次坐落在芦茨湾边上，推门望江水，开窗见青山。
+
+目前分为4栋，分别为1号院、2号院、3号院、5号院，共计21间客房。大大落地窗，独户一露台，足不出户坐看闲云。
+
+设有餐厅、咖啡馆、茶空间和猫猫杂货铺，暖身暖胃，食住无忧。"
+              :rows="12"
+              :disabled="isLocked"
+              @change="handleChange"
+              class="description-textarea"
+            />
+            <div class="char-count">
+              已输入 {{ descriptionLength }} 字
+            </div>
+          </div>
+        </a-form-model-item>
       </a-form-model>
     </a-card>
 
@@ -178,35 +201,6 @@
       <div class="field-hint" style="margin-top: 4px;">
         请至少选择3项门店亮点，已选择 <span :class="{ 'warning-text': localData.highlights.length < 3 }">{{ localData.highlights.length }}</span> 项
       </div>
-    </a-card>
-
-    <!-- 门店介绍 -->
-    <a-card :bordered="false" class="form-section-card">
-      <template slot="title">
-        <span class="section-title">门店介绍</span>
-      </template>
-
-      <div class="textarea-container">
-        <a-textarea
-          v-model="localData.storeBasicInfo.storeDescription"
-          placeholder="详细介绍门店位置、建筑特色、房型分布、配套设施、周边环境等。请分段描述，让客人全面了解您的门店。
-
-示例：
-XXXX位于富春江畔毗邻芦茨湾，几幢青瓦白墙小楼依次坐落在芦茨湾边上，推门望江水，开窗见青山。
-
-目前分为4栋，分别为1号院、2号院、3号院、5号院，共计21间客房。大大落地窗，独户一露台，足不出户坐看闲云。
-
-设有餐厅、咖啡馆、茶空间和猫猫杂货铺，暖身暖胃，食住无忧。"
-          :rows="12"
-          :disabled="isLocked"
-          @change="handleChange"
-          class="description-textarea"
-        />
-        <div class="char-count">
-          已输入 {{ descriptionLength }} 字
-        </div>
-      </div>
-    </a-card>
   </div>
 </template>
 
