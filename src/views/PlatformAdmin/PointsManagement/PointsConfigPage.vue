@@ -151,62 +151,30 @@
 
       <!-- Card 2: 积分奖励服务 -->
       <a-card class="card-style" :bordered="false">
-        <div slot="title" class="flex items-center justify-between">
+        <div slot="title" class="card-header">
           <span class="card-title">积分奖励服务</span>
-          <a-button type="primary" class="btn-style" @click="isRewardCreateDialogOpen = true">
-            <a-icon type="plus" />
-            新增
+          <a-button type="primary" size="small" @click="isRewardCreateDialogOpen = true">
+            <a-icon type="plus" />新增
           </a-button>
         </div>
 
-        <div class="table-wrapper">
-          <a-table
-            :columns="rewardColumns"
-            :data-source="rewardServices"
-            :pagination="false"
-            row-key="id"
-          >
-            <template slot="order" slot-scope="text, record, index">
-              <span>{{ index + 1 }}</span>
-            </template>
-
-            <template slot="serviceName" slot-scope="serviceName">
-              <span class="font-medium">{{ serviceName }}</span>
-            </template>
-
-            <template slot="pointsReward" slot-scope="pointsReward">
-              <span class="text-green-600 font-semibold">+{{ pointsReward }}</span>
-            </template>
-
-            <template slot="action" slot-scope="text, record, index">
-              <div class="action-buttons">
-                <a-button
-                  size="small"
-                  :disabled="index === 0"
-                  @click="handleMoveReward(index, 'up')"
-                >
-                  <a-icon type="up" />
-                </a-button>
-
-                <a-button
-                  size="small"
-                  :disabled="index === rewardServices.length - 1"
-                  @click="handleMoveReward(index, 'down')"
-                >
-                  <a-icon type="down" />
-                </a-button>
-
-                <a-button size="small" @click="handleEditReward(record)">
-                  <a-icon type="edit" />编辑
-                </a-button>
-
-                <a-button size="small" class="btn-delete" @click="handleDeleteReward(record.id)">
-                  <a-icon type="delete" />删除
-                </a-button>
-              </div>
-            </template>
-          </a-table>
-        </div>
+        <draggable v-model="rewardServices" handle=".drag-handle" @end="handleRewardSortChange">
+          <div v-for="(item, index) in rewardServices" :key="item.id" class="service-item">
+            <a-icon type="menu" class="drag-handle" />
+            <div class="service-info">
+              <span class="service-name">{{ item.serviceName }}</span>
+              <span class="service-points reward">+{{ item.pointsReward }}积分</span>
+            </div>
+            <div class="service-actions">
+              <a-button size="small" @click="handleEditReward(item)">
+                <a-icon type="edit" />编辑
+              </a-button>
+              <a-button size="small" danger @click="handleDeleteReward(item.id)">
+                <a-icon type="delete" />删除
+              </a-button>
+            </div>
+          </div>
+        </draggable>
       </a-card>
 
       <!-- Card 3: 积分换购服务 -->
