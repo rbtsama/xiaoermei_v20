@@ -591,10 +591,13 @@ export default defineComponent({
     display: contents;
   }
 
-  :deep(.ant-checkbox-wrapper) {
+  :deep(.ant-checkbox-wrapper),
+  :deep(.ant-checkbox-wrapper + .ant-checkbox-wrapper) {
     margin: 0 !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
     padding: 10px 12px;
     border: 1px solid @border-primary;
     border-radius: @border-radius-base;
