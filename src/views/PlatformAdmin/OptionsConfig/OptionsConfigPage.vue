@@ -101,6 +101,19 @@ import {
   ACCESSIBILITY_FACILITIES
 } from '@/types/storeDeployment'
 
+/**
+ * 选项配置管理页面
+ *
+ * 设计：左右分栏布局
+ * - 左侧：14个分类导航（门店亮点2个、门店设施12个）
+ * - 右侧：当前分类的选项网格（4列）
+ *
+ * 功能：
+ * - 拖拽排序（拖动☰图标）
+ * - 双击编辑选项文本
+ * - 点×删除选项
+ * - 实时联动到商户端
+ */
 export default defineComponent({
   name: 'OptionsConfigPage',
   components: { Sidebar, draggable },

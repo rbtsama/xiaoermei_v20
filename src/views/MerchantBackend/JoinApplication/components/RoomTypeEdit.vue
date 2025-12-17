@@ -383,6 +383,15 @@ import {
   FOOD_DRINK
 } from '@/types/storeDeployment'
 
+/**
+ * 房型编辑弹窗
+ *
+ * 功能：
+ * - 添加/编辑房型信息
+ * - 分为基础信息和房型设施两个分类
+ * - 支持多层嵌套配置（房间布局→卧室→床型）
+ * - 房型特色使用动态标签（可增删，最多7字）
+ */
 export default defineComponent({
   name: 'RoomTypeEdit',
   components: {
