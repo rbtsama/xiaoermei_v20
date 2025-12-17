@@ -258,7 +258,6 @@
                 </div>
               </div>
             </div>
-            <div class="field-hint">根据卧室数量配置每间卧室的床型</div>
           </a-form-model-item>
         </template>
 
