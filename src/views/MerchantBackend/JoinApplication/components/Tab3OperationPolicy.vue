@@ -78,7 +78,7 @@
           </a-col>
         </a-row>
 
-        <div class="form-item">
+        <div class="form-item form-item-spacing">
           <label class="form-label">最晚取消时间</label>
           <a-row :gutter="12" type="flex" align="middle">
             <a-col flex="none">
@@ -556,6 +556,10 @@ export default defineComponent({
     margin-left: 24px;
     padding-left: 24px;
     border-left: 3px solid @bg-secondary;
+  }
+
+  &.form-item-spacing {
+    margin-top: 32px;
   }
 }
 
