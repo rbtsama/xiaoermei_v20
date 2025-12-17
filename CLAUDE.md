@@ -617,7 +617,7 @@ pagination: {
 ```less
 :deep(.ant-form-item-label) {
   font-weight: 400;                   // 正常字重，不加粗
-  color: #2563eb;                     // 深蓝色，建立层次感
+  color: rgba(0,0,0,0.9);            // 黑色
   text-align: left;                   // 左对齐
 
   label::after {
@@ -628,7 +628,7 @@ pagination: {
 
 - **字号**：14px（继承基础字号 @font-size-base）
 - **字重**：400（正常，不加粗，避免与标题冲突）
-- **颜色**：#2563eb（深蓝色，建立层次感，传达可交互语义）
+- **颜色**：rgba(0,0,0,0.9)（黑色，简洁统一）
 
 ### 4. 必填标记（红色星号）
 
@@ -914,7 +914,7 @@ pagination: {
 ```
 卡片标题        16px    (@font-size-lg)      加粗600
 分类标题        14px    (@font-size-base)    加粗600  黑色
-字段标签        14px    (@font-size-base)    正常400  深蓝色#2563eb
+字段标签        14px    (@font-size-base)    正常400  黑色
 输入内容        14px    (@font-size-base)    正常400  黑色
 字段说明        12px    (@font-size-xs)      正常400  灰色#666
 错误提示        12px    (@font-size-xs)      正常400  红色#ef4444
