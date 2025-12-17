@@ -76,10 +76,10 @@
         <a-form-model-item label="楼层">
           <a-input
             v-model="localData.floor"
-            placeholder="多个楼层用逗号分隔，如2,3,4"
+            placeholder="多个楼层用逗号分隔，如2,3,4；地下室用负数，如-1,-2"
             :maxLength="50"
           />
-          <div class="field-hint">房型所在楼层，多个楼层用逗号分隔</div>
+          <div class="field-hint">房型所在楼层，多个楼层用逗号分隔；地下室用负数表示（-1为地下一层）</div>
         </a-form-model-item>
 
         <!-- 房间面积 -->
