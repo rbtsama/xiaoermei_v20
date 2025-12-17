@@ -458,21 +458,8 @@
 </template>
 
 <script>
-import { defineComponent, reactive, computed, watch } from '@vue/composition-api'
-import {
-  TRANSPORTATION_FACILITIES,
-  CLEANING_FACILITIES,
-  SECURITY_FACILITIES,
-  ENTERTAINMENT_FACILITIES,
-  PUBLIC_AREA_FACILITIES,
-  FRONT_DESK_FACILITIES,
-  CATERING_FACILITIES,
-  BUSINESS_FACILITIES,
-  CHILDREN_FACILITIES,
-  SPORTS_FACILITIES,
-  WELLNESS_FACILITIES,
-  ACCESSIBILITY_FACILITIES
-} from '@/types/storeDeployment'
+import { defineComponent, reactive, computed, watch, ref, onMounted, onBeforeUnmount } from '@vue/composition-api'
+import { getCategoryOptions } from '@/api/optionsConfig'
 
 export default defineComponent({
   name: 'Tab2FacilitiesSurrounding',
