@@ -70,7 +70,6 @@
           </a-form-model-item>
 
           <a-form-model-item label="营业执照照片" required>
-            <div class="field-hint">请保持营业照片的主体和门店主体一致。照片需要面清晰，文字可辨认。</div>
             <image-upload
               v-model="companyData.businessLicensePhoto"
               :multiple="false"
@@ -78,6 +77,7 @@
               compact
               @change="handleChange"
             />
+            <div class="field-hint">请保持营业照片的主体和门店主体一致。照片需要面清晰，文字可辨认。</div>
           </a-form-model-item>
         </a-form-model>
       </a-card>
@@ -612,6 +612,7 @@ export default defineComponent({
   font-size: @font-size-xs;
   color: @text-secondary;
   margin-top: 4px;
+  line-height: 1.4;
 }
 
 .upload-hint-text {

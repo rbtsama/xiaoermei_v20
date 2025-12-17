@@ -584,6 +584,7 @@ export default defineComponent({
   font-size: @font-size-xs;
   color: @text-secondary;
   margin-top: 4px;
+  line-height: 1.4;
 }
 
 .payment-grid {
