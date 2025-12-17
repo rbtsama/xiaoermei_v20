@@ -210,11 +210,8 @@ XXXX位于富春江畔毗邻芦茨湾，几幢青瓦白墙小楼依次坐落在�
 </template>
 
 <script>
-import { defineComponent, reactive, computed, watch } from '@vue/composition-api'
-import {
-  HIGHLIGHTS_ARCHITECTURE,
-  HIGHLIGHTS_SERVICES
-} from '@/types/storeDeployment'
+import { defineComponent, reactive, computed, watch, ref, onMounted, onBeforeUnmount } from '@vue/composition-api'
+import { getCategoryOptions } from '@/api/optionsConfig'
 
 export default defineComponent({
   name: 'Tab1AccountStoreInfo',
@@ -229,11 +226,44 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    // 门店亮点选项（从API动态加载）
+    const HIGHLIGHTS_ARCHITECTURE = ref([])
+    const HIGHLIGHTS_SERVICES = ref([])
+
     // 本地数据（用于双向绑定）
     const localData = reactive({
       accountInfo: { ...props.formData.accountInfo },
       storeBasicInfo: { ...props.formData.storeBasicInfo },
       highlights: [...(props.formData.storeDisplay?.highlights || [])]
+    })
+
+    // 加载门店亮点选项
+    const loadHighlightOptions = async () => {
+      try {
+        const arch = await getCategoryOptions('architecture')
+        const serv = await getCategoryOptions('services')
+        HIGHLIGHTS_ARCHITECTURE.value = arch.map(o => o.label)
+        HIGHLIGHTS_SERVICES.value = serv.map(o => o.label)
+      } catch (error) {
+        console.error('加载门店亮点选项失败:', error)
+      }
+    }
+
+    // 监听选项配置更新
+    const handleOptionsUpdate = (event) => {
+      const { category } = event.detail
+      if (category === 'architecture' || category === 'services') {
+        loadHighlightOptions()
+      }
+    }
+
+    onMounted(() => {
+      loadHighlightOptions()
+      window.addEventListener('optionsConfigUpdated', handleOptionsUpdate)
+    })
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('optionsConfigUpdated', handleOptionsUpdate)
     })
 
     // 手机号校验错误
