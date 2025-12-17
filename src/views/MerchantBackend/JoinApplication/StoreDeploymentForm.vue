@@ -262,8 +262,21 @@ export default defineComponent({
         }
 
         if (configuredCount !== totalRoomCount) {
-          root.$message.error(`房间数量不匹配：酒店共${totalRoomCount}间，已配置${configuredCount}间`)
-          return false
+          // 弹窗确认而不是强制禁止提交
+          return new Promise((resolve) => {
+            root.$confirm({
+              title: '房间数量不足',
+              content: `酒店共${totalRoomCount}间，已配置${configuredCount}间，是否确定提交？`,
+              okText: '确定提交',
+              cancelText: '取消',
+              onOk: () => {
+                resolve(true)
+              },
+              onCancel: () => {
+                resolve(false)
+              }
+            })
+          })
         }
       }
 
