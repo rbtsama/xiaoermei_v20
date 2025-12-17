@@ -126,6 +126,11 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    // 禁用状态
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     // 已有图片列表（v-model）
     value: {
       type: [String, Array],
