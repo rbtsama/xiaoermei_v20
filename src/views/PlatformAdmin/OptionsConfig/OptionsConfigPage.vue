@@ -1,135 +1,97 @@
 <template>
   <sidebar>
     <div class="page-container">
-      <div class="page-header">
-        <h1 class="page-title">选项配置</h1>
-        <p class="page-desc">管理门店亮点和设施的枚举选项，商户端会根据此配置显示可选项</p>
-      </div>
-
       <!-- 门店亮点配置 -->
-      <a-card :bordered="false" class="config-card">
+      <a-card class="card-style" :bordered="false">
         <div slot="title" class="card-header">
           <span class="card-title">门店亮点</span>
+          <span class="card-desc">配置商户端可选择的门店亮点选项</span>
         </div>
 
         <!-- 建筑与景观 -->
-        <div class="option-section">
-          <div class="section-header">
-            <span class="section-title">建筑与景观</span>
-            <a-button type="primary" size="small" @click="handleAdd('highlights_architecture')">
+        <div class="option-category">
+          <div class="category-header">
+            <span class="category-title">建筑与景观</span>
+            <a-button type="primary" size="small" @click="handleAdd('architecture')">
               <a-icon type="plus" />添加选项
             </a-button>
           </div>
-          <a-table
-            :columns="columns"
-            :data-source="highlightsArchitectureData"
-            :pagination="false"
-            rowKey="id"
-            size="small"
-            class="options-table"
-          >
-            <template slot="label" slot-scope="text">
-              <a-tag color="blue">{{ text }}</a-tag>
-            </template>
-            <template slot="enabled" slot-scope="enabled">
-              <a-tag :color="enabled ? 'green' : 'red'">
-                {{ enabled ? '启用' : '停用' }}
-              </a-tag>
-            </template>
-            <template slot="action" slot-scope="text, record">
-              <div class="action-btns">
-                <a-button size="small" @click="handleEdit(record)">编辑</a-button>
-                <a-button size="small" :type="record.enabled ? 'danger' : 'primary'" @click="handleToggle(record)">
-                  {{ record.enabled ? '停用' : '启用' }}
+          <draggable v-model="architectureOptions" handle=".drag-handle" @end="handleSortChange('architecture')">
+            <div v-for="(item, index) in architectureOptions" :key="item.id" class="option-item">
+              <a-icon type="menu" class="drag-handle" />
+              <span class="option-label">{{ item.label }}</span>
+              <div class="option-actions">
+                <a-button size="small" @click="handleEdit(item, 'architecture')">
+                  <a-icon type="edit" />编辑
                 </a-button>
-                <a-button size="small" danger @click="handleDelete(record)">删除</a-button>
+                <a-button size="small" danger @click="handleDelete(item, index, 'architecture')">
+                  <a-icon type="delete" />删除
+                </a-button>
               </div>
-            </template>
-          </a-table>
+            </div>
+          </draggable>
         </div>
 
         <!-- 服务与设施 -->
-        <div class="option-section">
-          <div class="section-header">
-            <span class="section-title">服务与设施</span>
-            <a-button type="primary" size="small" @click="handleAdd('highlights_services')">
+        <div class="option-category">
+          <div class="category-header">
+            <span class="category-title">服务与设施</span>
+            <a-button type="primary" size="small" @click="handleAdd('services')">
               <a-icon type="plus" />添加选项
             </a-button>
           </div>
-          <a-table
-            :columns="columns"
-            :data-source="highlightsServicesData"
-            :pagination="false"
-            rowKey="id"
-            size="small"
-            class="options-table"
-          >
-            <template slot="label" slot-scope="text">
-              <a-tag color="blue">{{ text }}</a-tag>
-            </template>
-            <template slot="enabled" slot-scope="enabled">
-              <a-tag :color="enabled ? 'green' : 'red'">
-                {{ enabled ? '启用' : '停用' }}
-              </a-tag>
-            </template>
-            <template slot="action" slot-scope="text, record">
-              <div class="action-btns">
-                <a-button size="small" @click="handleEdit(record)">编辑</a-button>
-                <a-button size="small" :type="record.enabled ? 'danger' : 'primary'" @click="handleToggle(record)">
-                  {{ record.enabled ? '停用' : '启用' }}
+          <draggable v-model="servicesOptions" handle=".drag-handle" @end="handleSortChange('services')">
+            <div v-for="(item, index) in servicesOptions" :key="item.id" class="option-item">
+              <a-icon type="menu" class="drag-handle" />
+              <span class="option-label">{{ item.label }}</span>
+              <div class="option-actions">
+                <a-button size="small" @click="handleEdit(item, 'services')">
+                  <a-icon type="edit" />编辑
                 </a-button>
-                <a-button size="small" danger @click="handleDelete(record)">删除</a-button>
+                <a-button size="small" danger @click="handleDelete(item, index, 'services')">
+                  <a-icon type="delete" />删除
+                </a-button>
               </div>
-            </template>
-          </a-table>
+            </div>
+          </draggable>
         </div>
       </a-card>
 
       <!-- 门店设施配置 -->
-      <a-card :bordered="false" class="config-card">
+      <a-card class="card-style" :bordered="false">
         <div slot="title" class="card-header">
           <span class="card-title">门店设施</span>
-          <span class="card-desc">包含交通服务、清洁服务、安全安保等12个分类</span>
+          <span class="card-desc">配置商户端可选择的门店设施选项（12个分类）</span>
         </div>
 
-        <div class="facility-sections">
-          <a-collapse :bordered="false" expand-icon-position="right">
-            <a-collapse-panel key="transportation" header="交通服务">
-              <div class="section-header">
-                <a-button type="primary" size="small" @click="handleAdd('transportation')">
-                  <a-icon type="plus" />添加选项
-                </a-button>
+        <a-collapse :bordered="false" :default-active-key="['transportation']">
+          <!-- 交通服务 -->
+          <a-collapse-panel key="transportation" header="交通服务">
+            <div class="category-header">
+              <a-button type="primary" size="small" @click="handleAdd('transportation')">
+                <a-icon type="plus" />添加选项
+              </a-button>
+            </div>
+            <draggable v-model="transportationOptions" handle=".drag-handle" @end="handleSortChange('transportation')">
+              <div v-for="(item, index) in transportationOptions" :key="item.id" class="option-item">
+                <a-icon type="menu" class="drag-handle" />
+                <span class="option-label">{{ item.label }}</span>
+                <div class="option-actions">
+                  <a-button size="small" @click="handleEdit(item, 'transportation')">
+                    <a-icon type="edit" />编辑
+                  </a-button>
+                  <a-button size="small" danger @click="handleDelete(item, index, 'transportation')">
+                    <a-icon type="delete" />删除
+                  </a-button>
+                </div>
               </div>
-              <a-table
-                :columns="columns"
-                :data-source="transportationData"
-                :pagination="false"
-                rowKey="id"
-                size="small"
-                class="options-table"
-              >
-                <template slot="label" slot-scope="text">
-                  <a-tag color="blue">{{ text }}</a-tag>
-                </template>
-                <template slot="enabled" slot-scope="enabled">
-                  <a-tag :color="enabled ? 'green' : 'red'">
-                    {{ enabled ? '启用' : '停用' }}
-                  </a-tag>
-                </template>
-                <template slot="action" slot-scope="text, record">
-                  <div class="action-btns">
-                    <a-button size="small" @click="handleEdit(record)">编辑</a-button>
-                    <a-button size="small" :type="record.enabled ? 'danger' : 'primary'" @click="handleToggle(record)">
-                      {{ record.enabled ? '停用' : '启用' }}
-                    </a-button>
-                    <a-button size="small" danger @click="handleDelete(record)">删除</a-button>
-                  </div>
-                </template>
-              </a-table>
-            </a-collapse-panel>
-          </a-collapse>
-          <p class="collapse-hint">点击展开查看其他11个门店设施分类（清洁服务、安全安保、公共区域...）</p>
-        </div>
+            </draggable>
+          </a-collapse-panel>
+
+          <a-collapse-panel key="hint" header="其他11个分类" disabled>
+            <p style="text-align: center; color: #999;">清洁服务、安全安保、公共区域等11个分类待完善...</p>
+          </a-collapse-panel>
+        </a-collapse>
       </a-card>
 
       <!-- 编辑弹窗 -->
@@ -138,21 +100,12 @@
         :title="editingItem ? '编辑选项' : '添加选项'"
         @ok="handleSave"
         @cancel="editVisible = false"
+        width="500px"
       >
         <a-form-model :model="editForm" :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
           <a-form-model-item label="选项文本" required>
             <a-input v-model="editForm.label" placeholder="请输入选项文本" :maxLength="20" />
-            <div class="field-hint">最多20个字</div>
-          </a-form-model-item>
-          <a-form-model-item label="排序" required>
-            <a-input-number v-model="editForm.sort" :min="1" style="width: 100%" />
-            <div class="field-hint">数字越小越靠前</div>
-          </a-form-model-item>
-          <a-form-model-item label="状态" required>
-            <a-radio-group v-model="editForm.enabled">
-              <a-radio :value="true">启用</a-radio>
-              <a-radio :value="false">停用</a-radio>
-            </a-radio-group>
+            <div class="field-hint">最多20个字，商户端将显示此文本</div>
           </a-form-model-item>
         </a-form-model>
       </a-modal>
@@ -163,87 +116,107 @@
 <script>
 import { defineComponent, ref, reactive } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
+import draggable from 'vuedraggable'
 import { mockHighlightsArchitecture, mockHighlightsServices, mockTransportationFacilities } from '@/mocks/optionsConfig.mock'
 
 export default defineComponent({
   name: 'OptionsConfigPage',
-  components: { Sidebar },
+  components: { Sidebar, draggable },
   setup(props, { root }) {
-    const highlightsArchitectureData = ref([...mockHighlightsArchitecture])
-    const highlightsServicesData = ref([...mockHighlightsServices])
-    const transportationData = ref([...mockTransportationFacilities])
-
-    const columns = [
-      { title: '选项', dataIndex: 'label', width: 200, scopedSlots: { customRender: 'label' } },
-      { title: '排序', dataIndex: 'sort', width: 80 },
-      { title: '状态', dataIndex: 'enabled', width: 80, scopedSlots: { customRender: 'enabled' } },
-      { title: '更新时间', dataIndex: 'updatedAt', width: 160 },
-      { title: '操作', width: 200, scopedSlots: { customRender: 'action' } }
-    ]
+    const architectureOptions = ref([...mockHighlightsArchitecture])
+    const servicesOptions = ref([...mockHighlightsServices])
+    const transportationOptions = ref([...mockTransportationFacilities])
 
     const editVisible = ref(false)
     const editingItem = ref(null)
     const editingCategory = ref('')
     const editForm = reactive({
-      label: '',
-      sort: 1,
-      enabled: true
+      label: ''
     })
 
     const handleAdd = (category) => {
       editingItem.value = null
       editingCategory.value = category
       editForm.label = ''
-      editForm.sort = 1
-      editForm.enabled = true
       editVisible.value = true
     }
 
-    const handleEdit = (item) => {
+    const handleEdit = (item, category) => {
       editingItem.value = item
+      editingCategory.value = category
       editForm.label = item.label
-      editForm.sort = item.sort
-      editForm.enabled = item.enabled
       editVisible.value = true
     }
 
     const handleSave = () => {
-      if (!editForm.label) {
+      if (!editForm.label.trim()) {
         root.$message.error('请输入选项文本')
         return
       }
-      root.$message.success('保存成功')
+
+      if (editingItem.value) {
+        // 编辑
+        editingItem.value.label = editForm.label
+        root.$message.success('编辑成功')
+      } else {
+        // 新增
+        const newItem = {
+          id: `new_${Date.now()}`,
+          label: editForm.label,
+          sort: getMaxSort(editingCategory.value) + 1
+        }
+        getOptionsArray(editingCategory.value).push(newItem)
+        root.$message.success('添加成功')
+      }
       editVisible.value = false
     }
 
-    const handleToggle = (item) => {
-      item.enabled = !item.enabled
-      root.$message.success(item.enabled ? '已启用' : '已停用')
-    }
-
-    const handleDelete = (item) => {
+    const handleDelete = (item, index, category) => {
       root.$confirm({
         title: '确认删除',
-        content: `确定要删除选项"${item.label}"吗？`,
+        content: `确定要删除选项"${item.label}"吗？删除后商户端将不再显示此选项。`,
         onOk: () => {
+          getOptionsArray(category).splice(index, 1)
           root.$message.success('删除成功')
         }
       })
     }
 
+    const handleSortChange = (category) => {
+      // 更新排序号
+      const options = getOptionsArray(category)
+      options.forEach((item, index) => {
+        item.sort = index + 1
+      })
+      root.$message.success('排序已更新')
+    }
+
+    const getOptionsArray = (category) => {
+      const map = {
+        architecture: architectureOptions.value,
+        services: servicesOptions.value,
+        transportation: transportationOptions.value
+      }
+      return map[category] || []
+    }
+
+    const getMaxSort = (category) => {
+      const options = getOptionsArray(category)
+      return options.length > 0 ? Math.max(...options.map(o => o.sort || 0)) : 0
+    }
+
     return {
-      highlightsArchitectureData,
-      highlightsServicesData,
-      transportationData,
-      columns,
+      architectureOptions,
+      servicesOptions,
+      transportationOptions,
       editVisible,
       editingItem,
       editForm,
       handleAdd,
       handleEdit,
       handleSave,
-      handleToggle,
-      handleDelete
+      handleDelete,
+      handleSortChange
     }
   }
 })
@@ -254,28 +227,11 @@ export default defineComponent({
 
 .page-container {
   padding: 24px;
-  max-width: 1600px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
-.page-header {
-  margin-bottom: 24px;
-}
-
-.page-title {
-  font-size: 24px;
-  font-weight: 600;
-  color: @text-primary;
-  margin-bottom: 8px;
-}
-
-.page-desc {
-  font-size: @font-size-sm;
-  color: @text-secondary;
-  margin: 0;
-}
-
-.config-card {
+.card-style {
   margin-bottom: 24px;
   border-radius: @border-radius-lg;
   border: 1px solid @border-primary;
@@ -287,7 +243,7 @@ export default defineComponent({
   }
 
   :deep(.ant-card-body) {
-    padding: 24px;
+    padding: 32px 24px;
   }
 }
 
@@ -308,7 +264,7 @@ export default defineComponent({
   color: @text-secondary;
 }
 
-.option-section {
+.option-category {
   margin-bottom: 32px;
 
   &:last-child {
@@ -316,36 +272,59 @@ export default defineComponent({
   }
 }
 
-.section-header {
+.category-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
 }
 
-.section-title {
+.category-title {
   font-size: @font-size-base;
   font-weight: @font-weight-semibold;
   color: @text-primary;
 }
 
-.options-table {
-  :deep(.ant-table-thead > tr > th) {
-    background: @bg-secondary;
-    font-weight: @font-weight-semibold;
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  background: @bg-primary;
+  border: 1px solid @border-primary;
+  border-radius: @border-radius-base;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: @brand-primary;
+    box-shadow: @shadow-md;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
   }
 }
 
-.action-btns {
-  display: flex;
-  gap: 8px;
+.drag-handle {
+  font-size: 16px;
+  color: @text-secondary;
+  cursor: move;
+
+  &:hover {
+    color: @brand-primary;
+  }
 }
 
-.collapse-hint {
-  margin-top: 16px;
-  font-size: @font-size-sm;
-  color: @text-secondary;
-  text-align: center;
+.option-label {
+  flex: 1;
+  font-size: @font-size-base;
+  color: @text-primary;
+}
+
+.option-actions {
+  display: flex;
+  gap: 8px;
 }
 
 .field-hint {
@@ -353,5 +332,30 @@ export default defineComponent({
   color: @text-secondary;
   margin-top: 4px;
   line-height: 1.4;
+}
+
+:deep(.ant-collapse) {
+  background: transparent;
+  border: none;
+}
+
+:deep(.ant-collapse-item) {
+  border-bottom: 1px solid @border-primary;
+  margin-bottom: 16px;
+
+  &:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+}
+
+:deep(.ant-collapse-header) {
+  padding: 12px 16px !important;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+}
+
+:deep(.ant-collapse-content-box) {
+  padding: 16px !important;
 }
 </style>
