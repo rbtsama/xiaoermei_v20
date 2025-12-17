@@ -37,7 +37,7 @@
 
           <!-- 图片预览 -->
           <img
-            v-else
+            v-else-if="img.url"
             :src="img.url"
             :alt="`图片${index + 1}`"
             class="preview-image"
