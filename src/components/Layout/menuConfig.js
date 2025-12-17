@@ -37,6 +37,11 @@ export const menuConfig = [
         title: '短信配置',
         key: 'sms-config',
         path: '/platform-admin/sms-config'
+      },
+      {
+        title: '选项配置',
+        key: 'options-config',
+        path: '/platform-admin/options-config'
       }
     ]
   },
