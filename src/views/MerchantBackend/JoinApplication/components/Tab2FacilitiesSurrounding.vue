@@ -11,10 +11,14 @@
         <div class="category-header">
           <span class="category-title">交通服务 <span class="required">*</span></span>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.transportation" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in TRANSPORTATION_FACILITIES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.storeFacilities.transportation" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+          <a-col :span="6" :offset="0" v-for="item in TRANSPORTATION_FACILITIES" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+              {{ item }}
+              </a-checkbox>
+            </a-col>
+        </a-row>
         </a-checkbox-group>
       </div>
 
@@ -25,10 +29,14 @@
         <div class="category-header">
           <span class="category-title">清洁服务 <span class="required">*</span></span>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.cleaning" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in CLEANING_FACILITIES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.storeFacilities.cleaning" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+          <a-col :span="6" :offset="0" v-for="item in CLEANING_FACILITIES" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+              {{ item }}
+              </a-checkbox>
+            </a-col>
+        </a-row>
         </a-checkbox-group>
       </div>
 
@@ -39,10 +47,14 @@
         <div class="category-header">
           <span class="category-title">安全安保 <span class="required">*</span></span>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.security" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in SECURITY_FACILITIES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.storeFacilities.security" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+          <a-col :span="6" :offset="0" v-for="item in SECURITY_FACILITIES" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+              {{ item }}
+              </a-checkbox>
+            </a-col>
+        </a-row>
         </a-checkbox-group>
       </div>
 
@@ -53,10 +65,14 @@
         <div class="category-header">
           <span class="category-title">公共区域 <span class="required">*</span></span>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.publicArea" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in PUBLIC_AREA_FACILITIES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.storeFacilities.publicArea" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+          <a-col :span="6" :offset="0" v-for="item in PUBLIC_AREA_FACILITIES" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+              {{ item }}
+              </a-checkbox>
+            </a-col>
+        </a-row>
         </a-checkbox-group>
       </div>
 
@@ -67,10 +83,14 @@
         <div class="category-header">
           <span class="category-title">前台服务 <span class="required">*</span></span>
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.frontDesk" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in FRONT_DESK_FACILITIES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.storeFacilities.frontDesk" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+          <a-col :span="6" :offset="0" v-for="item in FRONT_DESK_FACILITIES" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+              {{ item }}
+              </a-checkbox>
+            </a-col>
+        </a-row>
         </a-checkbox-group>
       </div>
 
@@ -82,10 +102,14 @@
           <span class="category-title">娱乐设施</span>
           
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.entertainment" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in ENTERTAINMENT_FACILITIES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.storeFacilities.entertainment" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+          <a-col :span="6" :offset="0" v-for="item in ENTERTAINMENT_FACILITIES" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+              {{ item }}
+              </a-checkbox>
+            </a-col>
+        </a-row>
         </a-checkbox-group>
       </div>
 
@@ -97,10 +121,14 @@
           <span class="category-title">餐饮服务</span>
           
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.catering" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in CATERING_FACILITIES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.storeFacilities.catering" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+          <a-col :span="6" :offset="0" v-for="item in CATERING_FACILITIES" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+              {{ item }}
+              </a-checkbox>
+            </a-col>
+        </a-row>
         </a-checkbox-group>
       </div>
 
@@ -112,10 +140,14 @@
           <span class="category-title">商务服务</span>
           
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.business" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in BUSINESS_FACILITIES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.storeFacilities.business" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+          <a-col :span="6" :offset="0" v-for="item in BUSINESS_FACILITIES" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+              {{ item }}
+              </a-checkbox>
+            </a-col>
+        </a-row>
         </a-checkbox-group>
       </div>
 
@@ -127,10 +159,14 @@
           <span class="category-title">儿童设施</span>
           
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.children" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in CHILDREN_FACILITIES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.storeFacilities.children" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+          <a-col :span="6" :offset="0" v-for="item in CHILDREN_FACILITIES" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+              {{ item }}
+              </a-checkbox>
+            </a-col>
+        </a-row>
         </a-checkbox-group>
       </div>
 
@@ -142,10 +178,14 @@
           <span class="category-title">运动设施</span>
           
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.sports" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in SPORTS_FACILITIES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.storeFacilities.sports" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+          <a-col :span="6" :offset="0" v-for="item in SPORTS_FACILITIES" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+              {{ item }}
+              </a-checkbox>
+            </a-col>
+        </a-row>
         </a-checkbox-group>
       </div>
 
@@ -157,10 +197,14 @@
           <span class="category-title">康体设施</span>
           
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.wellness" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in WELLNESS_FACILITIES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.storeFacilities.wellness" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+          <a-col :span="6" :offset="0" v-for="item in WELLNESS_FACILITIES" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+              {{ item }}
+              </a-checkbox>
+            </a-col>
+        </a-row>
         </a-checkbox-group>
       </div>
 
@@ -172,10 +216,14 @@
           <span class="category-title">无障碍设施</span>
           
         </div>
-        <a-checkbox-group v-model="localData.storeFacilities.accessibility" :disabled="isLocked" @change="handleChange" class="checkbox-grid">
-          <a-checkbox v-for="item in ACCESSIBILITY_FACILITIES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.storeFacilities.accessibility" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+          <a-col :span="6" :offset="0" v-for="item in ACCESSIBILITY_FACILITIES" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+              {{ item }}
+              </a-checkbox>
+            </a-col>
+        </a-row>
         </a-checkbox-group>
       </div>
     </a-card>
