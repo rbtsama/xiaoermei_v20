@@ -431,6 +431,10 @@ export default defineComponent({
       })
     }
 
+    const handleExchangeSortChange = () => {
+      console.log('积分换购排序已更新')
+    }
+
     const handleMoveExchange = async (index: number, direction: 'up' | 'down') => {
       if (direction === 'up' && index === 0) return
       if (direction === 'down' && index === exchangeServices.value.length - 1) return
