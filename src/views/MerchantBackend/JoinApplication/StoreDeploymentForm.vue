@@ -245,10 +245,7 @@ export default defineComponent({
           root.$message.error('请填写开业时间')
           return false
         }
-        if (!formData.storeBasicInfo?.storeDescription || formData.storeBasicInfo.storeDescription.length < 200) {
-          root.$message.error('门店介绍至少需要200字')
-          return false
-        }
+        // 门店介绍为选填，不做字数限制
       }
 
       // Tab5验证（房型设置）

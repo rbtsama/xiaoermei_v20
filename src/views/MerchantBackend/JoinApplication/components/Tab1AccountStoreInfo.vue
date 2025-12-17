@@ -155,9 +155,9 @@
         <span class="section-title">门店亮点（至少选择3项）<span class="required">*</span></span>
       </template>
 
-      <!-- 建筑与景观类 -->
+      <!-- 建筑与景观 -->
       <div class="highlight-category">
-        <div class="category-title">建筑与景观类</div>
+        <div class="category-title">建筑与景观</div>
         <a-checkbox-group v-model="localData.highlights" :disabled="isLocked" @change="handleChange" class="checkbox-grid-5col">
           <a-checkbox v-for="item in HIGHLIGHTS_ARCHITECTURE" :key="item" :value="item">
             {{ item }}
@@ -165,9 +165,9 @@
         </a-checkbox-group>
       </div>
 
-      <!-- 服务与设施类 -->
+      <!-- 服务与设施 -->
       <div class="highlight-category">
-        <div class="category-title">服务与设施类</div>
+        <div class="category-title">服务与设施</div>
         <a-checkbox-group v-model="localData.highlights" :disabled="isLocked" @change="handleChange" class="checkbox-grid-5col">
           <a-checkbox v-for="item in HIGHLIGHTS_SERVICES" :key="item" :value="item">
             {{ item }}
@@ -198,14 +198,12 @@ XXXX位于富春江畔毗邻芦茨湾，几幢青瓦白墙小楼依次坐落在�
 
 设有餐厅、咖啡馆、茶空间和猫猫杂货铺，暖身暖胃，食住无忧。"
           :rows="12"
-          :maxLength="1000"
           :disabled="isLocked"
           @change="handleChange"
           class="description-textarea"
         />
-        <div class="char-count" :class="{ warning: descriptionLength > 1000 }">
-          {{ descriptionLength }}/1000 字
-          <span v-if="descriptionLength < 200" class="hint-text">（至少200字）</span>
+        <div class="char-count">
+          已输入 {{ descriptionLength }} 字
         </div>
       </div>
     </a-card>
@@ -427,6 +425,12 @@ export default defineComponent({
 
 // 门店亮点样式
 .highlight-category {
+  margin-top: 24px;  // 分类之间增加间距
+
+  &:first-child {
+    margin-top: 0;
+  }
+
   .category-title {
     font-size: @font-size-base;
     font-weight: @font-weight-semibold;
