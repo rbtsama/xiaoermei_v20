@@ -177,7 +177,7 @@
         </a-checkbox-group>
       </div>
 
-      <div class="field-hint" style="margin-top: 16px;">
+      <div class="field-hint" style="margin-top: 4px;">
         请至少选择3项门店亮点，已选择 <span :class="{ 'warning-text': localData.highlights.length < 3 }">{{ localData.highlights.length }}</span> 项
       </div>
     </a-card>

@@ -649,8 +649,9 @@ export default defineComponent({
 }
 
 .upload-hint {
-  font-size: @font-size-sm;
+  font-size: @font-size-xs;
   color: @text-secondary;
+  margin-top: 4px;
   margin-bottom: 12px;
   line-height: 1.6;
 }
@@ -689,6 +690,7 @@ export default defineComponent({
     .upload-hint {
       font-size: @font-size-xs;
       color: @text-secondary;
+      margin-top: 4px;
       margin-bottom: 12px;
       line-height: 1.6;
     }
