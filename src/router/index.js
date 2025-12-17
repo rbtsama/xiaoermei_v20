@@ -80,12 +80,12 @@ const routes = [
     meta: { title: '短信配置' }
   },
 
-  // 商户端 - 入驻申请
+  // 商户端 - 门店信息
   {
     path: '/merchant-backend/join-application/apply',
     name: 'JoinApplication',
     component: () => import('@/views/MerchantBackend/JoinApplication/JoinApplicationPage.vue'),
-    meta: { title: '入驻申请' }
+    meta: { title: '门店信息' }
   },
 
   // 商户端 - 订单管理

@@ -62,7 +62,6 @@
             <a-radio value="订单来了">订单来了</a-radio>
             <a-radio value="其他">其他</a-radio>
           </a-radio-group>
-          <div class="field-hint">选择使用的PMS系统</div>
         </a-form-model-item>
 
         <a-form-model-item
