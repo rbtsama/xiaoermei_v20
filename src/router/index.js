@@ -93,7 +93,7 @@ const routes = [
     path: '/hotel-backend/order-list',
     name: 'HotelOrderList',
     component: () => import('@/views/MerchantBackend/OrderManagement/OrderListPage.vue'),
-    meta: { title: '订单列表' }
+    meta: { title: '订单列表（未完成）' }
   },
 
   // 商户端 - 会员服务
@@ -101,25 +101,25 @@ const routes = [
     path: '/merchant-backend/points-service/config',
     name: 'PointsServiceConfig',
     component: () => import('@/views/MerchantBackend/MemberService/PointsServiceConfigPage.vue'),
-    meta: { title: '积分服务配置' }
+    meta: { title: '积分服务配置（未完成）' }
   },
   {
     path: '/merchant-backend/vip-discount/config',
     name: 'VIPDiscountConfig',
     component: () => import('@/views/MerchantBackend/MemberService/VIPDiscountConfigPage.vue'),
-    meta: { title: 'VIP折扣配置' }
+    meta: { title: 'VIP折扣配置（未完成）' }
   },
   {
     path: '/merchant-backend/agent-order/create',
     name: 'AgentOrderCreate',
     component: () => import('@/views/MerchantBackend/MemberService/AgentOrderCreatePage.vue'),
-    meta: { title: '代客下单' }
+    meta: { title: '代客下单（未完成）' }
   },
   {
     path: '/merchant-backend/old-customer/invite-member',
     name: 'InviteMember',
     component: () => import('@/views/MerchantBackend/MemberService/InviteMemberPage.vue'),
-    meta: { title: '邀请会员' }
+    meta: { title: '邀请会员（未完成）' }
   }
 ]
 
