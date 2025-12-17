@@ -108,7 +108,7 @@ export default defineComponent({
       }
       autoSaveTimer = setTimeout(async () => {
         await performSave()
-      }, 30000) // 30秒后自动保存
+      }, 600000) // 10分钟后自动保存
     }
 
     // 执行保存
