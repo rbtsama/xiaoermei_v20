@@ -226,14 +226,16 @@
         <!-- 前台可用支付方式 -->
         <div class="form-item">
           <label class="form-label">前台可用支付方式</label>
-          <a-checkbox-group v-model="formValues.paymentMethods" :disabled="isLocked" class="payment-grid" @change="handleChange">
-            <a-checkbox value="unionpay">银联</a-checkbox>
-            <a-checkbox value="visa">VISA</a-checkbox>
-            <a-checkbox value="mastercard">Mastercard</a-checkbox>
-            <a-checkbox value="wechat">微信</a-checkbox>
-            <a-checkbox value="alipay">支付宝</a-checkbox>
-            <a-checkbox value="apple_pay">Apple Pay</a-checkbox>
-            <a-checkbox value="cash">现金</a-checkbox>
+          <a-checkbox-group v-model="formValues.paymentMethods" :disabled="isLocked" @change="handleChange" style="width: 100%">
+            <a-row :gutter="[16, 12]">
+              <a-col :span="6"><a-checkbox value="unionpay" class="grid-checkbox">银联</a-checkbox></a-col>
+              <a-col :span="6"><a-checkbox value="visa" class="grid-checkbox">VISA</a-checkbox></a-col>
+              <a-col :span="6"><a-checkbox value="mastercard" class="grid-checkbox">Mastercard</a-checkbox></a-col>
+              <a-col :span="6"><a-checkbox value="wechat" class="grid-checkbox">微信</a-checkbox></a-col>
+              <a-col :span="6"><a-checkbox value="alipay" class="grid-checkbox">支付宝</a-checkbox></a-col>
+              <a-col :span="6"><a-checkbox value="apple_pay" class="grid-checkbox">Apple Pay</a-checkbox></a-col>
+              <a-col :span="6"><a-checkbox value="cash" class="grid-checkbox">现金</a-checkbox></a-col>
+            </a-row>
           </a-checkbox-group>
         </div>
       </div>
@@ -587,47 +589,34 @@ export default defineComponent({
   line-height: 1.4;
 }
 
-.payment-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px 16px;
-  align-items: stretch;
+// 使用Row/Col布局的checkbox样式
+:deep(.grid-checkbox) {
+  margin: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 10px 12px;
+  border: 1px solid @border-primary;
+  border-radius: @border-radius-base;
+  background: @bg-primary;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: @font-size-sm;
+  color: @text-primary;
 
-  :deep(.ant-checkbox-group) {
-    display: contents;
+  &:hover {
+    border-color: @brand-primary;
+    background: rgba(59, 130, 246, 0.05);
   }
 
-  :deep(.ant-checkbox-wrapper),
-  :deep(.ant-checkbox-wrapper + .ant-checkbox-wrapper) {
-    margin: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding: 10px 12px;
-    border: 1px solid @border-primary;
-    border-radius: @border-radius-base;
-    background: @bg-primary;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: @font-size-sm;
-    color: @text-primary;
+  &.ant-checkbox-wrapper-checked {
+    border-color: @brand-primary;
+    background: rgba(59, 130, 246, 0.08);
+  }
 
-    &:hover {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.05);
-    }
-
-    &.ant-checkbox-wrapper-checked {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.08);
-    }
-
-    .ant-checkbox {
-      top: 0;
-    }
+  .ant-checkbox {
+    top: 0;
   }
 }
 
