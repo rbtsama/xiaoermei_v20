@@ -571,7 +571,7 @@ export default defineComponent({
   display: block;
   font-size: @font-size-base;          // 14px
   font-weight: 400;                    // 正常字重，不加粗
-  color: #2563eb;                      // 深蓝色，建立层次感
+  color: rgba(0,0,0,0.9);             // 黑色
   margin-bottom: 8px;
 
   .required {
