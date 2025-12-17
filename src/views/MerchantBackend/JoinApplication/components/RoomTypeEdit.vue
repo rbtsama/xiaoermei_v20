@@ -671,6 +671,10 @@ export default defineComponent({
   gap: 12px 16px;
   align-items: stretch;
 
+  :deep(.ant-checkbox-group) {
+    display: contents;
+  }
+
   :deep(.ant-checkbox-wrapper) {
     margin: 0 !important;
     margin-left: 0 !important;
@@ -707,6 +711,10 @@ export default defineComponent({
   grid-template-columns: repeat(2, 1fr);
   gap: 12px 16px;
   align-items: stretch;
+
+  :deep(.ant-checkbox-group) {
+    display: contents;
+  }
 
   :deep(.ant-checkbox-wrapper) {
     margin: 0 !important;

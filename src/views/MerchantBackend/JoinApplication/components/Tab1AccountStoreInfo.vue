@@ -443,6 +443,10 @@ export default defineComponent({
   gap: 12px 16px;
   align-items: stretch;
 
+  :deep(.ant-checkbox-group) {
+    display: contents;
+  }
+
   :deep(.ant-checkbox-wrapper) {
     margin: 0 !important;
     margin-left: 0 !important;
