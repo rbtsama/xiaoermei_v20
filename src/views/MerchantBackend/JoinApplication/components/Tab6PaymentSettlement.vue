@@ -134,7 +134,7 @@
             <div class="id-card-uploads">
               <div class="upload-item">
                 <div class="upload-label">正面照</div>
-                <div class="upload-hint">请上传最新有效身份证件，身份证请勿遮挡，保持帧数90度拍摄，照片需要面清晰，文字可辨认。</div>
+                <div class="upload-hint">请上传最新有效身份证件，身份证请勿遮挡，保持俯视90度拍摄，照片需要画面清晰，文字可辨认。</div>
                 <image-upload
                   v-model="companyData.legalPersonIdPhotoFront"
                   :multiple="false"
@@ -145,7 +145,7 @@
               </div>
               <div class="upload-item">
                 <div class="upload-label">国徽面照</div>
-                <div class="upload-hint">请上传最新有效身份证件，身份证请勿遮挡，保持帧数90度拍摄，照片需要面清晰，文字可辨认。</div>
+                <div class="upload-hint">请上传最新有效身份证件，身份证请勿遮挡，保持俯视90度拍摄，照片需要画面清晰，文字可辨认。</div>
                 <image-upload
                   v-model="companyData.legalPersonIdPhotoBack"
                   :multiple="false"
