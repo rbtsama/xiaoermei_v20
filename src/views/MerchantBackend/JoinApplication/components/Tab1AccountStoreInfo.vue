@@ -181,20 +181,28 @@ XXXX位于富春江畔毗邻芦茨湾，几幢青瓦白墙小楼依次坐落在�
       <!-- 建筑与景观 -->
       <div class="highlight-category">
         <div class="category-title">建筑与景观</div>
-        <a-checkbox-group v-model="localData.highlights" :disabled="isLocked" @change="handleChange" class="checkbox-grid-5col">
-          <a-checkbox v-for="item in HIGHLIGHTS_ARCHITECTURE" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.highlights" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+            <a-col :span="4" :offset="0" v-for="item in HIGHLIGHTS_ARCHITECTURE" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+                {{ item }}
+              </a-checkbox>
+            </a-col>
+          </a-row>
         </a-checkbox-group>
       </div>
 
       <!-- 服务与设施 -->
       <div class="highlight-category">
         <div class="category-title">服务与设施</div>
-        <a-checkbox-group v-model="localData.highlights" :disabled="isLocked" @change="handleChange" class="checkbox-grid-5col">
-          <a-checkbox v-for="item in HIGHLIGHTS_SERVICES" :key="item" :value="item">
-            {{ item }}
-          </a-checkbox>
+        <a-checkbox-group v-model="localData.highlights" :disabled="isLocked" @change="handleChange" style="width: 100%">
+          <a-row :gutter="[16, 12]">
+            <a-col :span="4" :offset="0" v-for="item in HIGHLIGHTS_SERVICES" :key="item">
+              <a-checkbox :value="item" class="grid-checkbox">
+                {{ item }}
+              </a-checkbox>
+            </a-col>
+          </a-row>
         </a-checkbox-group>
       </div>
     </a-card>
@@ -430,47 +438,34 @@ export default defineComponent({
   }
 }
 
-.checkbox-grid-5col {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px 16px;
-  align-items: stretch;
+// 使用Row/Col布局的checkbox样式
+:deep(.grid-checkbox) {
+  margin: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 10px 12px;
+  border: 1px solid @border-primary;
+  border-radius: @border-radius-base;
+  background: @bg-primary;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: @font-size-sm;
+  color: @text-primary;
 
-  :deep(.ant-checkbox-group) {
-    display: contents;
+  &:hover {
+    border-color: @brand-primary;
+    background: rgba(59, 130, 246, 0.05);
   }
 
-  :deep(.ant-checkbox-wrapper),
-  :deep(.ant-checkbox-wrapper + .ant-checkbox-wrapper) {
-    margin: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding: 10px 12px;
-    border: 1px solid @border-primary;
-    border-radius: @border-radius-base;
-    background: @bg-primary;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: @font-size-sm;
-    color: @text-primary;
+  &.ant-checkbox-wrapper-checked {
+    border-color: @brand-primary;
+    background: rgba(59, 130, 246, 0.08);
+  }
 
-    &:hover {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.05);
-    }
-
-    &.ant-checkbox-wrapper-checked {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.08);
-    }
-
-    .ant-checkbox {
-      top: 0;
-    }
+  .ant-checkbox {
+    top: 0;
   }
 }
 
