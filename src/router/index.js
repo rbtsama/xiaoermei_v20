@@ -85,6 +85,12 @@ const routes = [
     component: () => import('@/views/PlatformAdmin/OptionsConfig/OptionsConfigPage.vue'),
     meta: { title: '选项配置' }
   },
+  {
+    path: '/platform-admin/merchant-approval',
+    name: 'MerchantApproval',
+    component: () => import('@/views/PlatformAdmin/MerchantApproval/MerchantApprovalListPage.vue'),
+    meta: { title: '商户上架' }
+  },
 
   // 商户端 - 门店信息
   {

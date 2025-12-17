@@ -42,6 +42,11 @@ export const menuConfig = [
         title: '选项配置',
         key: 'options-config',
         path: '/platform-admin/options-config'
+      },
+      {
+        title: '商户上架',
+        key: 'merchant-approval',
+        path: '/platform-admin/merchant-approval'
       }
     ]
   },
