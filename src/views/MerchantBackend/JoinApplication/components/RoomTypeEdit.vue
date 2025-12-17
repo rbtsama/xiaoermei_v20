@@ -270,57 +270,89 @@
           <div class="facilities-grid">
             <div class="facility-item">
               <div class="facility-label">客房设施 <span class="required">*</span></div>
-              <a-checkbox-group v-model="localData.facilities.roomFacilities" class="checkbox-grid">
-                <a-checkbox v-for="item in ROOM_FACILITIES" :key="item" :value="item">{{ item }}</a-checkbox>
+              <a-checkbox-group v-model="localData.facilities.roomFacilities" style="width: 100%">
+                <a-row :gutter="[16, 12]">
+                <a-col :span="6" v-for="item in ROOM_FACILITIES" :key="item">
+                    <a-checkbox :value="item" class="grid-checkbox">{{ item }}</a-checkbox>
+                  </a-col>
+              </a-row>
               </a-checkbox-group>
             </div>
 
             <div class="facility-item">
               <div class="facility-label">客房布局和家具 <span class="required">*</span></div>
-              <a-checkbox-group v-model="localData.facilities.roomLayout" class="checkbox-grid">
-                <a-checkbox v-for="item in ROOM_LAYOUT_FURNITURE" :key="item" :value="item">{{ item }}</a-checkbox>
+              <a-checkbox-group v-model="localData.facilities.roomLayout" style="width: 100%">
+                <a-row :gutter="[16, 12]">
+                <a-col :span="6" v-for="item in ROOM_LAYOUT_FURNITURE" :key="item">
+                    <a-checkbox :value="item" class="grid-checkbox">{{ item }}</a-checkbox>
+                  </a-col>
+              </a-row>
               </a-checkbox-group>
             </div>
 
             <div class="facility-item">
               <div class="facility-label">卫浴设施 <span class="required">*</span></div>
-              <a-checkbox-group v-model="localData.facilities.bathroom" class="checkbox-grid">
-                <a-checkbox v-for="item in BATHROOM_FACILITIES" :key="item" :value="item">{{ item }}</a-checkbox>
+              <a-checkbox-group v-model="localData.facilities.bathroom" style="width: 100%">
+                <a-row :gutter="[16, 12]">
+                <a-col :span="6" v-for="item in BATHROOM_FACILITIES" :key="item">
+                    <a-checkbox :value="item" class="grid-checkbox">{{ item }}</a-checkbox>
+                  </a-col>
+              </a-row>
               </a-checkbox-group>
             </div>
 
             <div class="facility-item">
               <div class="facility-label">洗浴用品 <span class="required">*</span></div>
-              <a-checkbox-group v-model="localData.facilities.toiletries" class="checkbox-grid">
-                <a-checkbox v-for="item in TOILETRIES" :key="item" :value="item">{{ item }}</a-checkbox>
+              <a-checkbox-group v-model="localData.facilities.toiletries" style="width: 100%">
+                <a-row :gutter="[16, 12]">
+                <a-col :span="6" v-for="item in TOILETRIES" :key="item">
+                    <a-checkbox :value="item" class="grid-checkbox">{{ item }}</a-checkbox>
+                  </a-col>
+              </a-row>
               </a-checkbox-group>
             </div>
 
             <div class="facility-item">
               <div class="facility-label">床上用品</div>
-              <a-checkbox-group v-model="localData.facilities.bedding" class="checkbox-grid">
-                <a-checkbox v-for="item in BEDDING" :key="item" :value="item">{{ item }}</a-checkbox>
+              <a-checkbox-group v-model="localData.facilities.bedding" style="width: 100%">
+                <a-row :gutter="[16, 12]">
+                <a-col :span="6" v-for="item in BEDDING" :key="item">
+                    <a-checkbox :value="item" class="grid-checkbox">{{ item }}</a-checkbox>
+                  </a-col>
+              </a-row>
               </a-checkbox-group>
             </div>
 
             <div class="facility-item">
               <div class="facility-label">便利设施</div>
-              <a-checkbox-group v-model="localData.facilities.convenience" class="checkbox-grid">
-                <a-checkbox v-for="item in CONVENIENCE_FACILITIES" :key="item" :value="item">{{ item }}</a-checkbox>
+              <a-checkbox-group v-model="localData.facilities.convenience" style="width: 100%">
+                <a-row :gutter="[16, 12]">
+                <a-col :span="6" v-for="item in CONVENIENCE_FACILITIES" :key="item">
+                    <a-checkbox :value="item" class="grid-checkbox">{{ item }}</a-checkbox>
+                  </a-col>
+              </a-row>
               </a-checkbox-group>
             </div>
 
             <div class="facility-item">
               <div class="facility-label">媒体科技</div>
-              <a-checkbox-group v-model="localData.facilities.mediaTech" class="checkbox-grid">
-                <a-checkbox v-for="item in MEDIA_TECH" :key="item" :value="item">{{ item }}</a-checkbox>
+              <a-checkbox-group v-model="localData.facilities.mediaTech" style="width: 100%">
+                <a-row :gutter="[16, 12]">
+                <a-col :span="6" v-for="item in MEDIA_TECH" :key="item">
+                    <a-checkbox :value="item" class="grid-checkbox">{{ item }}</a-checkbox>
+                  </a-col>
+              </a-row>
               </a-checkbox-group>
             </div>
 
             <div class="facility-item">
               <div class="facility-label">食品饮品</div>
-              <a-checkbox-group v-model="localData.facilities.foodDrink" class="checkbox-grid">
-                <a-checkbox v-for="item in FOOD_DRINK" :key="item" :value="item">{{ item }}</a-checkbox>
+              <a-checkbox-group v-model="localData.facilities.foodDrink" style="width: 100%">
+                <a-row :gutter="[16, 12]">
+                <a-col :span="6" v-for="item in FOOD_DRINK" :key="item">
+                    <a-checkbox :value="item" class="grid-checkbox">{{ item }}</a-checkbox>
+                  </a-col>
+              </a-row>
               </a-checkbox-group>
             </div>
           </div>
@@ -727,91 +759,34 @@ export default defineComponent({
   }
 }
 
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px 16px;
-  align-items: stretch;
+// 使用Row/Col布局的checkbox样式
+:deep(.grid-checkbox) {
+  margin: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 10px 12px;
+  border: 1px solid @border-primary;
+  border-radius: @border-radius-base;
+  background: @bg-primary;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: @font-size-sm;
+  color: @text-primary;
 
-  :deep(.ant-checkbox-group) {
-    display: contents;
+  &:hover {
+    border-color: @brand-primary;
+    background: rgba(59, 130, 246, 0.05);
   }
 
-  :deep(.ant-checkbox-wrapper),
-  :deep(.ant-checkbox-wrapper + .ant-checkbox-wrapper) {
-    margin: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding: 10px 12px;
-    border: 1px solid @border-primary;
-    border-radius: @border-radius-base;
-    background: @bg-primary;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: @font-size-sm;
-    color: @text-primary;
-
-    &:hover {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.05);
-    }
-
-    &.ant-checkbox-wrapper-checked {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.08);
-    }
-
-    .ant-checkbox {
-      top: 0;
-    }
-  }
-}
-
-.checkbox-grid-2col {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px 16px;
-  align-items: stretch;
-
-  :deep(.ant-checkbox-group) {
-    display: contents;
+  &.ant-checkbox-wrapper-checked {
+    border-color: @brand-primary;
+    background: rgba(59, 130, 246, 0.08);
   }
 
-  :deep(.ant-checkbox-wrapper),
-  :deep(.ant-checkbox-wrapper + .ant-checkbox-wrapper) {
-    margin: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding: 10px 12px;
-    border: 1px solid @border-primary;
-    border-radius: @border-radius-base;
-    background: @bg-primary;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: @font-size-sm;
-    color: @text-primary;
-
-    &:hover {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.05);
-    }
-
-    &.ant-checkbox-wrapper-checked {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.08);
-    }
-
-    .ant-checkbox {
-      top: 0;
-    }
+  .ant-checkbox {
+    top: 0;
   }
 }
 
