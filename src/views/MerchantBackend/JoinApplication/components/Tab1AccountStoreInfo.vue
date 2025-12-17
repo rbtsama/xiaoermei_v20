@@ -402,6 +402,15 @@ export default defineComponent({
     border-color: @brand-primary;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
   }
+
+  // 禁用状态不置灰，保持可读性
+  &:disabled,
+  &[disabled] {
+    color: rgba(0,0,0,0.9);
+    background-color: @bg-primary;
+    cursor: not-allowed;
+    opacity: 1;
+  }
 }
 
 :deep(.ant-input-number) {
