@@ -199,15 +199,14 @@
           <label class="form-label">入住押金</label>
           <a-row :gutter="12" type="flex" align="middle">
             <a-col flex="none">
-              <a-radio-group v-model="formValues.depositRequired" :disabled="isLocked" @change="handleChange">
-                <a-radio value="no">不收取</a-radio>
-                <a-radio value="yes">收取</a-radio>
+              <a-radio-group v-model="formValues.depositType" :disabled="isLocked" @change="handleChange">
+                <a-radio value="none">不收取</a-radio>
+                <a-radio value="once">一次性收取</a-radio>
+                <a-radio value="daily">按天收取</a-radio>
+                <a-radio value="room">按间收取</a-radio>
               </a-radio-group>
             </a-col>
-            <a-col v-if="formValues.depositRequired === 'yes'" flex="none">
-              <span>，押金</span>
-            </a-col>
-            <a-col v-if="formValues.depositRequired === 'yes'" flex="150px">
+            <a-col v-if="formValues.depositType !== 'none'" flex="150px">
               <a-input-number
                 v-model="formValues.depositAmount"
                 :min="0"
@@ -218,7 +217,7 @@
                 @change="handleChange"
               />
             </a-col>
-            <a-col v-if="formValues.depositRequired === 'yes'" flex="none">
+            <a-col v-if="formValues.depositType !== 'none'" flex="none">
               <span>元</span>
             </a-col>
           </a-row>
@@ -429,7 +428,7 @@ export default defineComponent({
       childRestriction: 'not_accept',
       childAgeRestriction: 'none',
       childMinAge: 3,
-      depositRequired: 'no',
+      depositType: 'none',  // none: 不收取, once: 一次性收取, daily: 按天收取, room: 按间收取
       depositAmount: 1000,
       paymentMethods: [],
 
@@ -466,7 +465,7 @@ export default defineComponent({
             childRestriction: formValues.childRestriction,
             childAgeRestriction: formValues.childAgeRestriction,
             childMinAge: formValues.childMinAge,
-            depositRequired: formValues.depositRequired,
+            depositType: formValues.depositType,
             depositAmount: formValues.depositAmount,
             paymentMethods: formValues.paymentMethods
           },
