@@ -190,7 +190,7 @@
       <div class="surrounding-category">
         <div class="category-header">
           <span class="category-title">交通 <span class="required">*</span></span>
-          <span class="category-hint">（必须选择1条作为标志信息）</span>
+          <span class="category-hint">（必须选择1条展示在酒店列表）</span>
           <a-button type="dashed" size="small" :disabled="isLocked" @click="addSurroundingItem('transportation')" class="add-btn">
             <a-icon type="plus" />添加交通信息
           </a-button>
@@ -202,12 +202,12 @@
             :key="item.id"
             class="surrounding-item"
           >
-            <a-row :gutter="12" type="flex" align="middle">
-              <a-col :span="6">
+            <a-row :gutter="16" type="flex" align="middle">
+              <a-col :span="8">
                 <div class="field-label">地点名称</div>
                 <a-input v-model="item.locationName" placeholder="桐庐站" :disabled="isLocked" @change="handleChange" />
               </a-col>
-              <a-col :span="5">
+              <a-col :span="4">
                 <div class="field-label">距离约</div>
                 <a-input-number
                   v-model="item.distance"
@@ -221,7 +221,7 @@
                   <template slot="addonAfter">公里</template>
                 </a-input-number>
               </a-col>
-              <a-col :span="5">
+              <a-col :span="4">
                 <div class="field-label">驾驶约</div>
                 <a-input-number
                   v-model="item.drivingTime"
@@ -235,14 +235,14 @@
                   <template slot="addonAfter">分钟</template>
                 </a-input-number>
               </a-col>
-              <a-col :span="5">
+              <a-col :span="4">
                 <div class="field-label">&nbsp;</div>
                 <a-radio
                   :checked="item.featured"
                   :disabled="isLocked"
                   @change="handleFeaturedChange('transportation', index)"
                 >
-                  标志信息
+                  展示在酒店列表
                 </a-radio>
               </a-col>
               <a-col :span="3">
@@ -268,7 +268,7 @@
       <div class="surrounding-category">
         <div class="category-header">
           <span class="category-title">景点 <span class="required">*</span></span>
-          <span class="category-hint">（必须选择1条作为标志信息）</span>
+          <span class="category-hint">（必须选择1条展示在酒店列表）</span>
           <a-button type="dashed" size="small" :disabled="isLocked" @click="addSurroundingItem('attractions')" class="add-btn">
             <a-icon type="plus" />添加景点信息
           </a-button>
@@ -280,12 +280,12 @@
             :key="item.id"
             class="surrounding-item"
           >
-            <a-row :gutter="12" type="flex" align="middle">
-              <a-col :span="6">
+            <a-row :gutter="16" type="flex" align="middle">
+              <a-col :span="8">
                 <div class="field-label">地点名称</div>
                 <a-input v-model="item.locationName" placeholder="富春江镇" :disabled="isLocked" @change="handleChange" />
               </a-col>
-              <a-col :span="5">
+              <a-col :span="4">
                 <div class="field-label">距离约</div>
                 <a-input-number
                   v-model="item.distance"
@@ -299,7 +299,7 @@
                   <template slot="addonAfter">公里</template>
                 </a-input-number>
               </a-col>
-              <a-col :span="5">
+              <a-col :span="4">
                 <div class="field-label">驾驶约</div>
                 <a-input-number
                   v-model="item.drivingTime"
@@ -313,14 +313,14 @@
                   <template slot="addonAfter">分钟</template>
                 </a-input-number>
               </a-col>
-              <a-col :span="5">
+              <a-col :span="4">
                 <div class="field-label">&nbsp;</div>
                 <a-radio
                   :checked="item.featured"
                   :disabled="isLocked"
                   @change="handleFeaturedChange('attractions', index)"
                 >
-                  标志信息
+                  展示在酒店列表
                 </a-radio>
               </a-col>
               <a-col :span="3">
@@ -362,12 +362,12 @@
             :key="item.id"
             class="surrounding-item"
           >
-            <a-row :gutter="12" type="flex" align="middle">
-              <a-col :span="6">
+            <a-row :gutter="16" type="flex" align="middle">
+              <a-col :span="8">
                 <div class="field-label">地点名称</div>
                 <a-input v-model="item.locationName" placeholder="芦茨村" :disabled="isLocked" @change="handleChange" />
               </a-col>
-              <a-col :span="5">
+              <a-col :span="4">
                 <div class="field-label">距离约</div>
                 <a-input-number
                   v-model="item.distance"
@@ -381,7 +381,7 @@
                   <template slot="addonAfter">公里</template>
                 </a-input-number>
               </a-col>
-              <a-col :span="5">
+              <a-col :span="4">
                 <div class="field-label">驾驶约</div>
                 <a-input-number
                   v-model="item.drivingTime"
