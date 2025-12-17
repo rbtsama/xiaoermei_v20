@@ -61,7 +61,6 @@
       <a-card class="card-style" :bordered="false">
         <div slot="title" class="card-header">
           <span class="card-title">门店设施</span>
-          <span class="card-desc">配置商户端可选择的门店设施选项（12个分类）</span>
         </div>
 
         <!-- 12个门店设施分类 -->
