@@ -27,9 +27,10 @@
               <a-button size="small" @click="handleView(record)">
                 <a-icon type="eye" />查看门店信息
               </a-button>
-              <a-button size="small" type="primary" @click="handleApprove(record)">
+              <a-button v-if="record.status === 'pending'" size="small" @click="handleApprove(record)">
                 <a-icon type="check" />准许上架
               </a-button>
+              <a-tag v-else color="green">已上架</a-tag>
             </div>
           </template>
         </a-table>
@@ -85,6 +86,7 @@ export default defineComponent({
         title: '准许上架',
         content: `确定准许"${record.storeName}"上架吗？`,
         onOk: () => {
+          record.status = 'approved'
           root.$message.success('上架成功')
         }
       })
