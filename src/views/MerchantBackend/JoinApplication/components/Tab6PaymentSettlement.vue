@@ -653,8 +653,7 @@ export default defineComponent({
   font-size: @font-size-xs;
   color: @text-secondary;
   margin-top: 4px;
-  margin-bottom: 12px;
-  line-height: 1.6;
+  line-height: 1.4;  // 与field-hint统一
 }
 
 :deep(.ant-form-item) {
@@ -693,8 +692,7 @@ export default defineComponent({
       font-size: @font-size-xs;
       color: @text-secondary;
       margin-top: 4px;
-      margin-bottom: 12px;
-      line-height: 1.6;
+      line-height: 1.4;  // 与field-hint统一
     }
   }
 }
