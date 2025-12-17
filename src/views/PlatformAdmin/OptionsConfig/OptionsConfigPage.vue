@@ -64,33 +64,28 @@
           <span class="card-desc">配置商户端可选择的门店设施选项（12个分类）</span>
         </div>
 
-        <!-- 交通服务 -->
-        <div class="option-category">
+        <!-- 12个门店设施分类 -->
+        <div v-for="(category, idx) in facilityCategories" :key="category.key" class="option-category">
           <div class="category-header">
-            <span class="category-title">交通服务</span>
-            <a-button type="primary" size="small" @click="handleAdd('transportation')">
+            <span class="category-title">{{ category.title }}</span>
+            <a-button type="primary" size="small" @click="handleAdd(category.key)">
               <a-icon type="plus" />添加选项
             </a-button>
           </div>
-          <draggable v-model="transportationOptions" handle=".drag-handle" @end="handleSortChange('transportation')">
-            <div v-for="(item, index) in transportationOptions" :key="item.id" class="option-item">
+          <draggable v-model="category.options" handle=".drag-handle" @end="handleSortChange(category.key)">
+            <div v-for="(item, index) in category.options" :key="item.id" class="option-item">
               <a-icon type="menu" class="drag-handle" />
               <span class="option-label">{{ item.label }}</span>
               <div class="option-actions">
-                <a-button size="small" @click="handleEdit(item, 'transportation')">
+                <a-button size="small" @click="handleEdit(item, category.key)">
                   <a-icon type="edit" />编辑
                 </a-button>
-                <a-button size="small" danger @click="handleDelete(item, index, 'transportation')">
+                <a-button size="small" danger @click="handleDelete(item, index, category.key)">
                   <a-icon type="delete" />删除
                 </a-button>
               </div>
             </div>
           </draggable>
-        </div>
-
-        <!-- 其他11个分类提示 -->
-        <div class="hint-section">
-          <p>清洁服务、安全安保、公共区域等11个分类待完善...</p>
         </div>
       </a-card>
 
@@ -118,6 +113,20 @@ import { defineComponent, ref, reactive } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import draggable from 'vuedraggable'
 import { mockHighlightsArchitecture, mockHighlightsServices, mockTransportationFacilities } from '@/mocks/optionsConfig.mock'
+import {
+  TRANSPORTATION_FACILITIES,
+  CLEANING_FACILITIES,
+  SECURITY_FACILITIES,
+  PUBLIC_AREA_FACILITIES,
+  FRONT_DESK_FACILITIES,
+  ENTERTAINMENT_FACILITIES,
+  CATERING_FACILITIES,
+  BUSINESS_FACILITIES,
+  CHILDREN_FACILITIES,
+  SPORTS_FACILITIES,
+  WELLNESS_FACILITIES,
+  ACCESSIBILITY_FACILITIES
+} from '@/types/storeDeployment'
 
 export default defineComponent({
   name: 'OptionsConfigPage',
@@ -125,7 +134,22 @@ export default defineComponent({
   setup(props, { root }) {
     const architectureOptions = ref([...mockHighlightsArchitecture])
     const servicesOptions = ref([...mockHighlightsServices])
-    const transportationOptions = ref([...mockTransportationFacilities])
+
+    // 12个门店设施分类
+    const facilityCategories = ref([
+      { key: 'transportation', title: '交通服务', options: TRANSPORTATION_FACILITIES.map((v, i) => ({ id: `t${i}`, label: v, sort: i+1 })) },
+      { key: 'cleaning', title: '清洁服务', options: CLEANING_FACILITIES.map((v, i) => ({ id: `c${i}`, label: v, sort: i+1 })) },
+      { key: 'security', title: '安全安保', options: SECURITY_FACILITIES.map((v, i) => ({ id: `s${i}`, label: v, sort: i+1 })) },
+      { key: 'publicArea', title: '公共区域', options: PUBLIC_AREA_FACILITIES.map((v, i) => ({ id: `p${i}`, label: v, sort: i+1 })) },
+      { key: 'frontDesk', title: '前台服务', options: FRONT_DESK_FACILITIES.map((v, i) => ({ id: `f${i}`, label: v, sort: i+1 })) },
+      { key: 'entertainment', title: '娱乐设施', options: ENTERTAINMENT_FACILITIES.map((v, i) => ({ id: `e${i}`, label: v, sort: i+1 })) },
+      { key: 'catering', title: '餐饮服务', options: CATERING_FACILITIES.map((v, i) => ({ id: `ca${i}`, label: v, sort: i+1 })) },
+      { key: 'business', title: '商务设施', options: BUSINESS_FACILITIES.map((v, i) => ({ id: `b${i}`, label: v, sort: i+1 })) },
+      { key: 'children', title: '儿童设施', options: CHILDREN_FACILITIES.map((v, i) => ({ id: `ch${i}`, label: v, sort: i+1 })) },
+      { key: 'sports', title: '运动设施', options: SPORTS_FACILITIES.map((v, i) => ({ id: `sp${i}`, label: v, sort: i+1 })) },
+      { key: 'wellness', title: '康养设施', options: WELLNESS_FACILITIES.map((v, i) => ({ id: `w${i}`, label: v, sort: i+1 })) },
+      { key: 'accessibility', title: '无障碍设施', options: ACCESSIBILITY_FACILITIES.map((v, i) => ({ id: `a${i}`, label: v, sort: i+1 })) }
+    ])
 
     const editVisible = ref(false)
     const editingItem = ref(null)
@@ -208,7 +232,7 @@ export default defineComponent({
     return {
       architectureOptions,
       servicesOptions,
-      transportationOptions,
+      facilityCategories,
       editVisible,
       editingItem,
       editForm,
