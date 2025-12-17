@@ -151,58 +151,126 @@
 
       <!-- Card 2: 积分奖励服务 -->
       <a-card class="card-style" :bordered="false">
-        <div slot="title" class="card-header">
+        <div slot="title" class="flex items-center justify-between">
           <span class="card-title">积分奖励服务</span>
-          <a-button type="primary" size="small" @click="isRewardCreateDialogOpen = true">
-            <a-icon type="plus" />新增
+          <a-button type="primary" class="btn-style" @click="isRewardCreateDialogOpen = true">
+            <a-icon type="plus" />
+            新增
           </a-button>
         </div>
 
-        <draggable v-model="rewardServices" handle=".drag-handle" @end="handleRewardSortChange">
-          <div v-for="(item, index) in rewardServices" :key="item.id" class="service-item">
-            <a-icon type="menu" class="drag-handle" />
-            <div class="service-info">
-              <span class="service-name">{{ item.serviceName }}</span>
-              <span class="service-points reward">+{{ item.pointsReward }}积分</span>
-            </div>
-            <div class="service-actions">
-              <a-button size="small" @click="handleEditReward(item)">
-                <a-icon type="edit" />编辑
-              </a-button>
-              <a-button size="small" danger @click="handleDeleteReward(item.id)">
-                <a-icon type="delete" />删除
-              </a-button>
-            </div>
-          </div>
-        </draggable>
+        <div class="table-wrapper">
+          <a-table
+            :columns="rewardColumns"
+            :data-source="rewardServices"
+            :pagination="false"
+            row-key="id"
+          >
+            <template slot="order" slot-scope="text, record">
+              <span>{{ record.序号 }}</span>
+            </template>
+
+            <template slot="serviceName" slot-scope="serviceName">
+              <span class="font-medium">{{ serviceName }}</span>
+            </template>
+
+            <template slot="pointsReward" slot-scope="pointsReward">
+              <span class="text-green-600 font-semibold">+{{ pointsReward }}</span>
+            </template>
+
+            <template slot="action" slot-scope="text, record, index">
+              <div class="action-buttons">
+                <a-button
+                  size="small"
+                  :disabled="index === 0"
+                  @click="handleMoveReward(index, 'up')"
+                >
+                  <a-icon type="up" />
+                </a-button>
+
+                <a-button
+                  size="small"
+                  :disabled="index === rewardServices.length - 1"
+                  @click="handleMoveReward(index, 'down')"
+                >
+                  <a-icon type="down" />
+                </a-button>
+
+                <a-button size="small" @click="handleEditReward(record)">
+                  <a-icon type="edit" />
+                  编辑
+                </a-button>
+
+                <a-button size="small" class="btn-delete" @click="handleDeleteReward(record.id)">
+                  <a-icon type="delete" />
+                  删除
+                </a-button>
+              </div>
+            </template>
+          </a-table>
+        </div>
       </a-card>
 
       <!-- Card 3: 积分换购服务 -->
       <a-card class="card-style" :bordered="false">
-        <div slot="title" class="card-header">
+        <div slot="title" class="flex items-center justify-between">
           <span class="card-title">积分换购服务</span>
-          <a-button type="primary" size="small" @click="isExchangeCreateDialogOpen = true">
-            <a-icon type="plus" />新增
+          <a-button type="primary" class="btn-style" @click="isExchangeCreateDialogOpen = true">
+            <a-icon type="plus" />
+            新增
           </a-button>
         </div>
 
-        <draggable v-model="exchangeServices" handle=".drag-handle" @end="handleExchangeSortChange">
-          <div v-for="(item, index) in exchangeServices" :key="item.id" class="service-item">
-            <a-icon type="menu" class="drag-handle" />
-            <div class="service-info">
-              <span class="service-name">{{ item.serviceName }}</span>
-              <span class="service-points exchange">-{{ Math.abs(item.pointsCost) }}积分</span>
-            </div>
-            <div class="service-actions">
-              <a-button size="small" @click="handleEditExchange(item)">
-                <a-icon type="edit" />编辑
-              </a-button>
-              <a-button size="small" danger @click="handleDeleteExchange(item.id)">
-                <a-icon type="delete" />删除
-              </a-button>
-            </div>
-          </div>
-        </draggable>
+        <div class="table-wrapper">
+          <a-table
+            :columns="exchangeColumns"
+            :data-source="exchangeServices"
+            :pagination="false"
+            row-key="id"
+          >
+            <template slot="order" slot-scope="text, record">
+              <span>{{ record.序号 }}</span>
+            </template>
+
+            <template slot="serviceName" slot-scope="serviceName">
+              <span class="font-medium">{{ serviceName }}</span>
+            </template>
+
+            <template slot="pointsCost" slot-scope="pointsCost">
+              <span class="text-red-600 font-semibold">-{{ Math.abs(pointsCost) }}</span>
+            </template>
+
+            <template slot="action" slot-scope="text, record, index">
+              <div class="action-buttons">
+                <a-button
+                  size="small"
+                  :disabled="index === 0"
+                  @click="handleMoveExchange(index, 'up')"
+                >
+                  <a-icon type="up" />
+                </a-button>
+
+                <a-button
+                  size="small"
+                  :disabled="index === exchangeServices.length - 1"
+                  @click="handleMoveExchange(index, 'down')"
+                >
+                  <a-icon type="down" />
+                </a-button>
+
+                <a-button size="small" @click="handleEditExchange(record)">
+                  <a-icon type="edit" />
+                  编辑
+                </a-button>
+
+                <a-button size="small" class="btn-delete" @click="handleDeleteExchange(record.id)">
+                  <a-icon type="delete" />
+                  删除
+                </a-button>
+              </div>
+            </template>
+          </a-table>
+        </div>
       </a-card>
     </div>
   </sidebar>
@@ -213,7 +281,6 @@ import { defineComponent, ref, reactive, onMounted } from '@vue/composition-api'
 import { Modal } from 'ant-design-vue'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import ServiceItemDialog from './components/ServiceItemDialog.vue'
-import draggable from 'vuedraggable'
 import ValueAddedServiceService from './services/valueAddedService.service'
 import type { PointsBaseRule, PointsRewardItem, PointsExchangeItem } from './types/valueAddedService.types'
 
@@ -221,8 +288,7 @@ export default defineComponent({
   name: 'PointsConfigPage',
   components: {
     Sidebar,
-    ServiceItemDialog,
-    draggable
+    ServiceItemDialog
   },
 
   setup() {
@@ -431,10 +497,6 @@ export default defineComponent({
       })
     }
 
-    const handleExchangeSortChange = () => {
-      console.log('积分换购排序已更新')
-    }
-
     const handleMoveExchange = async (index: number, direction: 'up' | 'down') => {
       if (direction === 'up' && index === 0) return
       if (direction === 'down' && index === exchangeServices.value.length - 1) return
@@ -490,10 +552,10 @@ export default defineComponent({
       // 方法
       handleEditReward,
       handleDeleteReward,
-      handleRewardSortChange,
+      handleMoveReward,
       handleEditExchange,
       handleDeleteExchange,
-      handleExchangeSortChange,
+      handleMoveExchange,
       handleDialogSuccess
     }
   }
@@ -748,66 +810,3 @@ export default defineComponent({
   color: @text-primary;
 }
 </style>
-
-// 服务列表项样式
-.service-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  margin-bottom: 8px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: #3b82f6;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-.drag-handle {
-  font-size: 16px;
-  color: #666666;
-  cursor: move;
-
-  &:hover {
-    color: #3b82f6;
-  }
-}
-
-.service-info {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.service-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: rgba(0,0,0,0.9);
-}
-
-.service-points {
-  font-size: 14px;
-  font-weight: 600;
-
-  &.reward {
-    color: #10b981;
-  }
-
-  &.exchange {
-    color: #ef4444;
-  }
-}
-
-.service-actions {
-  display: flex;
-  gap: 8px;
-}
