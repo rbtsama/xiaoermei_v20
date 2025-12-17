@@ -1,5 +1,15 @@
 /**
  * 选项配置 API
+ *
+ * 核心功能：
+ * 1. 管理门店亮点和设施的枚举选项
+ * 2. 提供选项的增删改查接口
+ * 3. 实现平台配置→商户端实时联动
+ *
+ * 联动机制：
+ * - 平台修改选项后，通过CustomEvent通知商户端
+ * - 商户端监听事件，自动重新加载选项
+ * - 使用localStorage作为临时存储（生产环境应使用后端API）
  */
 
 import { OptionCategory } from '@/types/optionsConfig'

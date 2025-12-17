@@ -14,7 +14,14 @@ import {
  */
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms))
 
-// 清理无效的blob URL
+/**
+ * 清理无效的blob URL
+ *
+ * 问题：模拟上传返回的blob URL被保存到localStorage后，
+ * 页面刷新时blob URL失效，导致ERR_FILE_NOT_FOUND错误
+ *
+ * 解决：递归清理所有blob:开头的URL
+ */
 const cleanBlobUrls = (obj: any): any => {
   if (!obj) return obj
   if (typeof obj === 'string') {
