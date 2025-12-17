@@ -676,47 +676,34 @@ export default defineComponent({
   margin-left: 4px;
 }
 
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px 16px;
-  align-items: stretch;
+// 使用Row/Col布局的checkbox样式
+:deep(.grid-checkbox) {
+  margin: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 10px 12px;
+  border: 1px solid @border-primary;
+  border-radius: @border-radius-base;
+  background: @bg-primary;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: @font-size-sm;
+  color: @text-primary;
 
-  :deep(.ant-checkbox-group) {
-    display: contents;
+  &:hover {
+    border-color: @brand-primary;
+    background: rgba(59, 130, 246, 0.05);
   }
 
-  :deep(.ant-checkbox-wrapper),
-  :deep(.ant-checkbox-wrapper + .ant-checkbox-wrapper) {
-    margin: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding: 10px 12px;
-    border: 1px solid @border-primary;
-    border-radius: @border-radius-base;
-    background: @bg-primary;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: @font-size-sm;
-    color: @text-primary;
+  &.ant-checkbox-wrapper-checked {
+    border-color: @brand-primary;
+    background: rgba(59, 130, 246, 0.08);
+  }
 
-    &:hover {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.05);
-    }
-
-    &.ant-checkbox-wrapper-checked {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.08);
-    }
-
-    .ant-checkbox {
-      top: 0;
-    }
+  .ant-checkbox {
+    top: 0;
   }
 }
 
