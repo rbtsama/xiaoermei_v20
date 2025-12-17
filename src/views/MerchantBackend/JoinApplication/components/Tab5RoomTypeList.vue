@@ -182,20 +182,23 @@ export default defineComponent({
     }
 
     // 复制房型
-    const handleDuplicate = async (room) => {
-      try {
-        const duplicate = await duplicateRoomType(room)
-        localData.push(duplicate)
-        handleChange()
-        root.$message.success('房型复制成功')
-
-        // 自动打开编辑弹窗
-        editingRoom.value = { ...duplicate }
-        editVisible.value = true
-      } catch (error) {
-        root.$message.error('复制失败')
-        console.error(error)
+    const handleDuplicate = (room) => {
+      // 复制房型，但排除图片和特色
+      const duplicate = {
+        ...room,
+        id: `room_${Date.now()}`,
+        roomTypeName: `${room.roomTypeName} - 副本`,
+        images: [],              // 不复制图片
+        roomFeatures: []         // 不复制房型特色
       }
+
+      localData.push(duplicate)
+      handleChange()
+      root.$message.success('房型复制成功（不含图片和特色）')
+
+      // 自动打开编辑弹窗
+      editingRoom.value = { ...duplicate }
+      editVisible.value = true
     }
 
     // 保存房型
