@@ -210,12 +210,22 @@
             <div class="field-hint">结算账户的名称</div>
           </a-form-model-item>
 
-          <a-form-model-item label="对公账户银行账号" required>
+          <!-- 有限责任公司：对公账户银行账号 -->
+          <a-form-model-item v-if="localData.entityType === EntityType.COMPANY" label="对公账户银行账号" required>
             <a-input
               v-model="companyData.bankAccountNumber"
               @change="handleChange"
             />
             <div class="field-hint">公司对公银行账号</div>
+          </a-form-model-item>
+
+          <!-- 个体工商户：银行账号 -->
+          <a-form-model-item v-else label="银行账号" required>
+            <a-input
+              v-model="companyData.personalBankAccountNumber"
+              @change="handleChange"
+            />
+            <div class="field-hint">个人银行账号</div>
           </a-form-model-item>
 
           <a-form-model-item label="开户银行" required>
@@ -243,13 +253,25 @@
             <div class="field-hint">需要精确到支行</div>
           </a-form-model-item>
 
-          <a-form-model-item label="开户证明" required>
+          <!-- 有限责任公司：开户证明 -->
+          <a-form-model-item v-if="localData.entityType === EntityType.COMPANY" label="开户证明" required>
             <div class="upload-hint-text">
               有效凭证包括（任选其中一种即可）：
               1.开户许可证；2.银行回执；3.银行打印纸质结算账户（盖章）；4.基本存款账户信息单；5.汇款凭证
             </div>
             <image-upload
               v-model="companyData.openingProof"
+              :multiple="false"
+              :maxSize="10"
+              compact
+              @change="handleChange"
+            />
+          </a-form-model-item>
+
+          <!-- 个体工商户：法人银行卡照片 -->
+          <a-form-model-item v-else label="法人银行卡照片" required>
+            <image-upload
+              v-model="companyData.legalPersonBankCardPhoto"
               :multiple="false"
               :maxSize="10"
               compact
@@ -426,11 +448,13 @@ export default defineComponent({
       storeRegion: '', // 省市区字符串
       storeDetailAddress: '',
       accountName: '',
-      bankAccountNumber: '',
+      bankAccountNumber: '',              // 对公账户银行账号（有限责任公司）
+      personalBankAccountNumber: '',      // 银行账号（个体工商户）
       openingBank: '',
       openingLocation: '',
       openingBankFullName: '',
-      openingProof: '',
+      openingProof: '',                   // 开户证明（有限责任公司）
+      legalPersonBankCardPhoto: '',       // 法人银行卡照片（个体工商户）
       merchantName: '',
       merchantShortName: '',
       contactName: '',
