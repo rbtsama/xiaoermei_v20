@@ -305,10 +305,12 @@
           <!-- 供应形式 -->
           <div class="form-item">
             <label class="form-label">供应形式</label>
-            <a-checkbox-group v-model="formValues.servingStyles" :disabled="isLocked" @change="handleChange">
-              <a-checkbox value="set_meal">套餐</a-checkbox>
-              <a-checkbox value="buffet">自助餐</a-checkbox>
-              <a-checkbox value="a_la_carte">单点</a-checkbox>
+            <a-checkbox-group v-model="formValues.servingStyles" :disabled="isLocked" @change="handleChange" style="width: 100%">
+              <a-row :gutter="[16, 12]">
+                <a-col :span="8"><a-checkbox value="set_meal" class="grid-checkbox">套餐</a-checkbox></a-col>
+                <a-col :span="8"><a-checkbox value="buffet" class="grid-checkbox">自助餐</a-checkbox></a-col>
+                <a-col :span="8"><a-checkbox value="a_la_carte" class="grid-checkbox">单点</a-checkbox></a-col>
+              </a-row>
             </a-checkbox-group>
           </div>
 
