@@ -71,18 +71,11 @@
               <a-icon type="plus" />添加选项
             </a-button>
           </div>
-          <draggable v-model="category.options" handle=".drag-handle" @end="handleSortChange(category.key)">
-            <div v-for="(item, index) in category.options" :key="item.id" class="option-item">
+          <draggable v-model="category.options" handle=".drag-handle" @end="handleSortChange(category.key)" class="options-grid">
+            <div v-for="(item, index) in category.options" :key="item.id" class="option-tag">
               <a-icon type="menu" class="drag-handle" />
-              <span class="option-label">{{ item.label }}</span>
-              <div class="option-actions">
-                <a-button size="small" @click="handleEdit(item, category.key)">
-                  <a-icon type="edit" />编辑
-                </a-button>
-                <a-button size="small" danger @click="handleDelete(item, index, category.key)">
-                  <a-icon type="delete" />删除
-                </a-button>
-              </div>
+              <span class="tag-text" @dblclick="handleEdit(item, category.key)">{{ item.label }}</span>
+              <a-icon type="close" class="close-icon" @click="handleDelete(item, index, category.key)" />
             </div>
           </draggable>
         </div>
@@ -308,46 +301,58 @@ export default defineComponent({
   color: @text-primary;
 }
 
-.option-item {
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px 16px;
+}
+
+.option-tag {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  margin-bottom: 8px;
-  background: @bg-primary;
+  gap: 6px;
+  padding: 8px 12px;
+  background: @bg-secondary;
   border: 1px solid @border-primary;
   border-radius: @border-radius-base;
   transition: all 0.2s;
+  cursor: pointer;
 
   &:hover {
     border-color: @brand-primary;
-    box-shadow: @shadow-md;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
+    background: rgba(59, 130, 246, 0.05);
   }
 }
 
 .drag-handle {
-  font-size: 16px;
+  font-size: 14px;
   color: @text-secondary;
   cursor: move;
+  flex-shrink: 0;
 
   &:hover {
     color: @brand-primary;
   }
 }
 
-.option-label {
+.tag-text {
   flex: 1;
-  font-size: @font-size-base;
+  font-size: @font-size-sm;
   color: @text-primary;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.option-actions {
-  display: flex;
-  gap: 8px;
+.close-icon {
+  font-size: 12px;
+  color: @text-secondary;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &:hover {
+    color: @error-color;
+  }
 }
 
 .field-hint {
