@@ -197,10 +197,6 @@ XXXX位于富春江畔毗邻芦茨湾，几幢青瓦白墙小楼依次坐落在�
           </a-checkbox>
         </a-checkbox-group>
       </div>
-
-      <div class="field-hint" style="margin-top: 4px;">
-        请至少选择3项门店亮点，已选择 <span :class="{ 'warning-text': localData.highlights.length < 3 }">{{ localData.highlights.length }}</span> 项
-      </div>
     </a-card>
   </div>
 </template>
@@ -481,5 +477,10 @@ export default defineComponent({
 .warning-text {
   color: @error-color;
   font-weight: @font-weight-semibold;
+}
+
+.required {
+  color: @error-color;
+  margin-left: 2px;
 }
 </style>
