@@ -564,8 +564,8 @@ export default defineComponent({
 
 .form-label {
   display: block;
-  font-size: @font-size-sm;
-  font-weight: @font-weight-medium;
+  font-size: @font-size-base;          // 14px
+  font-weight: @font-weight-semibold;  // 600 加粗
   color: @text-primary;
   margin-bottom: 8px;
 
