@@ -218,7 +218,7 @@
                 @change="handleChange"
               />
             </a-col>
-            <a-col flex="none">
+            <a-col v-if="formValues.depositRequired === 'yes'" flex="none">
               <span>元</span>
             </a-col>
           </a-row>
