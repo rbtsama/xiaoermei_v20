@@ -387,7 +387,7 @@ export default defineComponent({
   display: flex;
   align-items: flex-start;
   gap: 24px;
-  padding-bottom: 20px;
+  padding-bottom: 24px;  // 统一为24px
   border-bottom: 1px solid @border-primary;
 
   &:last-child {
