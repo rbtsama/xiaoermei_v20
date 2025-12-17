@@ -659,7 +659,7 @@ export default defineComponent({
 .facility-item {
   .facility-label {
     font-size: @font-size-sm;
-    font-weight: @font-weight-medium;
+    font-weight: @font-weight-semibold;  // 600 加粗
     color: @text-primary;
     margin-bottom: 12px;
   }
