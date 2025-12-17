@@ -79,6 +79,12 @@ const routes = [
     component: () => import('@/views/PlatformAdmin/SmsConfig/SmsConfigPage.vue'),
     meta: { title: '短信配置' }
   },
+  {
+    path: '/platform-admin/options-config',
+    name: 'OptionsConfig',
+    component: () => import('@/views/PlatformAdmin/OptionsConfig/OptionsConfigPage.vue'),
+    meta: { title: '选项配置' }
+  },
 
   // 商户端 - 门店信息
   {
