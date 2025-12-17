@@ -213,6 +213,7 @@ import { defineComponent, ref, reactive, onMounted } from '@vue/composition-api'
 import { Modal } from 'ant-design-vue'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import ServiceItemDialog from './components/ServiceItemDialog.vue'
+import draggable from 'vuedraggable'
 import ValueAddedServiceService from './services/valueAddedService.service'
 import type { PointsBaseRule, PointsRewardItem, PointsExchangeItem } from './types/valueAddedService.types'
 
