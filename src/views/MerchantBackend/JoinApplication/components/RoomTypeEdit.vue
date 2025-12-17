@@ -218,11 +218,15 @@
                   class="bed-item"
                 >
                   <span class="bed-label">床{{ bedIdx + 1 }}：</span>
-                  <span>宽</span>
+                  <span>床型</span>
+                  <a-select v-model="bed.type" style="width: 160px; margin: 0 8px;">
+                    <a-select-option v-for="t in bedTypeOptions" :key="t" :value="t">{{ t }}</a-select-option>
+                  </a-select>
+                  <span>，床宽</span>
                   <a-select v-model="bed.width" style="width: 100px; margin: 0 8px;">
                     <a-select-option v-for="w in bedWidthOptions" :key="w" :value="w">{{ w }}m</a-select-option>
                   </a-select>
-                  <span>× 长</span>
+                  <span>× 床长</span>
                   <a-select v-model="bed.length" style="width: 100px; margin: 0 8px;">
                     <a-select-option v-for="l in bedLengthOptions" :key="l" :value="l">{{ l }}m</a-select-option>
                   </a-select>
@@ -339,6 +343,15 @@ export default defineComponent({
     }
   },
   setup(props, { emit, root }) {
+    // 床型选项
+    const bedTypeOptions = [
+      '常规大床/单人床',
+      '圆床',
+      '榻榻米',
+      '上下铺',
+      '其他'
+    ]
+
     // 床宽度选项
     const bedWidthOptions = []
     for (let i = 8; i <= 24; i++) {
@@ -376,7 +389,7 @@ export default defineComponent({
           {
             bedroomIndex: 1,
             bedCount: 1,
-            beds: [{ bedIndex: 1, width: '1.8', length: '2.0' }]
+            beds: [{ bedIndex: 1, type: '常规大床/单人床', width: '1.8', length: '2.0' }]
           }
         ]
       },
@@ -406,7 +419,7 @@ export default defineComponent({
           localData.roomLayout.bedroomConfigs.push({
             bedroomIndex: i + 1,
             bedCount: 1,
-            beds: [{ bedIndex: 1, width: '1.8', length: '2.0' }]
+            beds: [{ bedIndex: 1, type: '常规大床/单人床', width: '1.8', length: '2.0' }]
           })
         }
       } else if (bedroomCount < currentCount) {
@@ -422,7 +435,7 @@ export default defineComponent({
 
       if (bedCount > currentCount) {
         for (let i = currentCount; i < bedCount; i++) {
-          bedroom.beds.push({ bedIndex: i + 1, width: '1.8', length: '2.0' })
+          bedroom.beds.push({ bedIndex: i + 1, type: '常规大床/单人床', width: '1.8', length: '2.0' })
         }
       } else if (bedCount < currentCount) {
         bedroom.beds.splice(bedCount)
@@ -529,6 +542,7 @@ export default defineComponent({
     return {
       localData,
       title,
+      bedTypeOptions,
       bedWidthOptions,
       bedLengthOptions,
       handleBedroomsChange,
