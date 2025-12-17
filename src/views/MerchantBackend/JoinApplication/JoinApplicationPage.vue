@@ -13,12 +13,8 @@
               :class="['tab-item', { active: activeTab === step.key, submitted: submittedTabs[step.key] }]"
             >
               <span class="tab-title">{{ step.title }}</span>
-              <!-- 已提交：绿色勾选 -->
-              <template v-if="submittedTabs[step.key]">
-                <a-icon type="check-circle" theme="filled" class="submitted-icon" />
-              </template>
               <!-- 未提交：红色感叹号 -->
-              <a-icon v-else type="exclamation-circle" theme="filled" class="pending-icon" />
+              <a-icon v-if="!submittedTabs[step.key]" type="exclamation-circle" theme="filled" class="pending-icon" />
             </div>
           </div>
 
