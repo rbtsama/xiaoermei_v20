@@ -474,6 +474,56 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    // 门店设施选项（从API动态加载）
+    const TRANSPORTATION_FACILITIES = ref([])
+    const CLEANING_FACILITIES = ref([])
+    const SECURITY_FACILITIES = ref([])
+    const PUBLIC_AREA_FACILITIES = ref([])
+    const FRONT_DESK_FACILITIES = ref([])
+    const ENTERTAINMENT_FACILITIES = ref([])
+    const CATERING_FACILITIES = ref([])
+    const BUSINESS_FACILITIES = ref([])
+    const CHILDREN_FACILITIES = ref([])
+    const SPORTS_FACILITIES = ref([])
+    const WELLNESS_FACILITIES = ref([])
+    const ACCESSIBILITY_FACILITIES = ref([])
+
+    // 加载所有门店设施选项
+    const loadFacilityOptions = async () => {
+      const mapping = {
+        transportation: TRANSPORTATION_FACILITIES,
+        cleaning: CLEANING_FACILITIES,
+        security: SECURITY_FACILITIES,
+        publicArea: PUBLIC_AREA_FACILITIES,
+        frontDesk: FRONT_DESK_FACILITIES,
+        entertainment: ENTERTAINMENT_FACILITIES,
+        catering: CATERING_FACILITIES,
+        business: BUSINESS_FACILITIES,
+        children: CHILDREN_FACILITIES,
+        sports: SPORTS_FACILITIES,
+        wellness: WELLNESS_FACILITIES,
+        accessibility: ACCESSIBILITY_FACILITIES
+      }
+
+      for (const [key, refVar] of Object.entries(mapping)) {
+        try {
+          const options = await getCategoryOptions(key)
+          refVar.value = options.map(o => o.label)
+        } catch (error) {
+          console.error(`加载${key}选项失败:`, error)
+        }
+      }
+    }
+
+    onMounted(() => {
+      loadFacilityOptions()
+      window.addEventListener('optionsConfigUpdated', loadFacilityOptions)
+    })
+
+    onBeforeUnmount(() => {
+      window.removeEventListener('optionsConfigUpdated', loadFacilityOptions)
+    })
+
     // 初始化周边信息数据（如果为空则添加默认项）
     const initSurroundingInfo = (data) => {
       const transportation = data.transportation?.length > 0
