@@ -42,12 +42,37 @@
 
         <!-- 房型特色 -->
         <a-form-model-item label="房型特色">
-          <a-checkbox-group v-model="localData.roomFeatures" class="checkbox-grid-2col">
-            <a-checkbox value="有浴缸">有浴缸</a-checkbox>
-            <a-checkbox value="有家庭套房">有家庭套房</a-checkbox>
-            <a-checkbox value="可加床">可加床</a-checkbox>
-            <a-checkbox value="可拆分为双床">可拆分为双床</a-checkbox>
-          </a-checkbox-group>
+          <div class="feature-tags">
+            <a-tag
+              v-for="(feature, index) in localData.roomFeatures"
+              :key="index"
+              closable
+              @close="handleRemoveFeature(index)"
+              class="feature-tag"
+            >
+              {{ feature }}
+            </a-tag>
+            <a-input
+              v-if="featureInputVisible"
+              ref="featureInput"
+              v-model="featureInputValue"
+              type="text"
+              size="small"
+              :maxLength="7"
+              placeholder="最多7个字"
+              @blur="handleFeatureInputConfirm"
+              @keyup.enter="handleFeatureInputConfirm"
+              class="feature-input"
+            />
+            <a-tag
+              v-else
+              @click="showFeatureInput"
+              class="add-feature-tag"
+            >
+              <a-icon type="plus" /> 添加特色
+            </a-tag>
+          </div>
+          <div class="field-hint">点击添加房型特色标签，最多7个字</div>
         </a-form-model-item>
 
         <!-- 房型说明 -->
@@ -409,6 +434,37 @@ export default defineComponent({
       return props.roomType ? `编辑房型：${props.roomType.roomTypeName}` : '添加房型'
     })
 
+    // 房型特色标签管理
+    const featureInputVisible = ref(false)
+    const featureInputValue = ref('')
+    const featureInput = ref(null)
+
+    const showFeatureInput = () => {
+      featureInputVisible.value = true
+      root.$nextTick(() => {
+        featureInput.value?.$el?.focus()
+      })
+    }
+
+    const handleFeatureInputConfirm = () => {
+      const inputValue = featureInputValue.value.trim()
+      if (inputValue && inputValue.length <= 7) {
+        if (!localData.roomFeatures.includes(inputValue)) {
+          localData.roomFeatures.push(inputValue)
+        } else {
+          root.$message.warning('该特色已存在')
+        }
+      } else if (inputValue.length > 7) {
+        root.$message.error('特色标签最多7个字')
+      }
+      featureInputVisible.value = false
+      featureInputValue.value = ''
+    }
+
+    const handleRemoveFeature = (index) => {
+      localData.roomFeatures.splice(index, 1)
+    }
+
     // 处理卧室数量变化
     const handleBedroomsChange = () => {
       const bedroomCount = localData.roomLayout.bedrooms
@@ -542,6 +598,12 @@ export default defineComponent({
     return {
       localData,
       title,
+      featureInputVisible,
+      featureInputValue,
+      featureInput,
+      showFeatureInput,
+      handleFeatureInputConfirm,
+      handleRemoveFeature,
       bedTypeOptions,
       bedWidthOptions,
       bedLengthOptions,
@@ -802,5 +864,40 @@ export default defineComponent({
 
 :deep(.ant-input-number) {
   width: 100%;
+}
+
+.feature-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.feature-tag {
+  font-size: @font-size-sm;
+  padding: 4px 10px;
+  margin: 0;
+  border-radius: @border-radius-sm;
+  cursor: default;
+}
+
+.add-feature-tag {
+  font-size: @font-size-sm;
+  padding: 4px 10px;
+  margin: 0;
+  border: 1px dashed @border-primary;
+  background: @bg-secondary;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: @brand-primary;
+    color: @brand-primary;
+  }
+}
+
+.feature-input {
+  width: 120px;
+  height: 28px;
 }
 </style>
