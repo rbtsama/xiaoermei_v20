@@ -14,6 +14,25 @@ import {
  */
 const delay = (ms: number = 300) => new Promise(resolve => setTimeout(resolve, ms))
 
+// 清理无效的blob URL
+const cleanBlobUrls = (obj: any): any => {
+  if (!obj) return obj
+  if (typeof obj === 'string') {
+    return obj.startsWith('blob:') ? '' : obj
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(cleanBlobUrls).filter(item => item !== '')
+  }
+  if (typeof obj === 'object') {
+    const cleaned: any = {}
+    for (const key in obj) {
+      cleaned[key] = cleanBlobUrls(obj[key])
+    }
+    return cleaned
+  }
+  return obj
+}
+
 /**
  * 获取草稿数据
  */
@@ -23,7 +42,9 @@ export const getDraftData = async (): Promise<StoreDeploymentForm | null> => {
   const draftStr = localStorage.getItem('store_deployment_draft')
   if (draftStr) {
     try {
-      return JSON.parse(draftStr)
+      const draft = JSON.parse(draftStr)
+      // 清理无效的blob URL
+      return cleanBlobUrls(draft)
     } catch (e) {
       console.error('Failed to parse draft data:', e)
       return null
