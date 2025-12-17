@@ -613,7 +613,7 @@ export default defineComponent({
 
 .category-title {
   font-size: @font-size-base;
-  font-weight: @font-weight-medium;
+  font-weight: @font-weight-semibold;  // 600 加粗
   color: @text-primary;
 }
 
@@ -709,7 +709,7 @@ export default defineComponent({
   font-size: @font-size-xs;
   color: @text-secondary;
   margin-bottom: 6px;
-  font-weight: @font-weight-medium;
+  font-weight: @font-weight-semibold;  // 600 加粗
 }
 
 :deep(.ant-divider) {
