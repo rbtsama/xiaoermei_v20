@@ -505,6 +505,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 24px;
+  padding-bottom: 24px;  // 底部留白，避免滚动抖动
 }
 
 .form-section-card {
