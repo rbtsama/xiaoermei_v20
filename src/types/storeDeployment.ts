@@ -491,13 +491,13 @@ export const CHILD_HEIGHT_STANDARD_OPTIONS = [
  * 前台支付方式选项
  */
 export const PAYMENT_METHOD_OPTIONS = [
+  { label: '现金', value: 'cash' },
+  { label: '微信', value: 'wechat' },
+  { label: '支付宝', value: 'alipay' },
   { label: '银联', value: 'unionpay' },
   { label: 'VISA', value: 'visa' },
   { label: 'Mastercard', value: 'mastercard' },
-  { label: '微信', value: 'wechat' },
-  { label: '支付宝', value: 'alipay' },
-  { label: 'Apple Pay', value: 'apple_pay' },
-  { label: '现金', value: 'cash' }
+  { label: 'Apple Pay', value: 'apple_pay' }
 ]
 
 /**

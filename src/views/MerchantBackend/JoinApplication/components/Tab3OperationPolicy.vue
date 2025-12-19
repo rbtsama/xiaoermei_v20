@@ -228,13 +228,13 @@
           <label class="form-label">前台可用支付方式</label>
           <a-checkbox-group v-model="formValues.paymentMethods" :disabled="isLocked" @change="handleChange" style="width: 100%">
             <a-row :gutter="[16, 12]">
+              <a-col :span="6"><a-checkbox value="cash" class="grid-checkbox">现金</a-checkbox></a-col>
+              <a-col :span="6"><a-checkbox value="wechat" class="grid-checkbox">微信</a-checkbox></a-col>
+              <a-col :span="6"><a-checkbox value="alipay" class="grid-checkbox">支付宝</a-checkbox></a-col>
               <a-col :span="6"><a-checkbox value="unionpay" class="grid-checkbox">银联</a-checkbox></a-col>
               <a-col :span="6"><a-checkbox value="visa" class="grid-checkbox">VISA</a-checkbox></a-col>
               <a-col :span="6"><a-checkbox value="mastercard" class="grid-checkbox">Mastercard</a-checkbox></a-col>
-              <a-col :span="6"><a-checkbox value="wechat" class="grid-checkbox">微信</a-checkbox></a-col>
-              <a-col :span="6"><a-checkbox value="alipay" class="grid-checkbox">支付宝</a-checkbox></a-col>
               <a-col :span="6"><a-checkbox value="apple_pay" class="grid-checkbox">Apple Pay</a-checkbox></a-col>
-              <a-col :span="6"><a-checkbox value="cash" class="grid-checkbox">现金</a-checkbox></a-col>
             </a-row>
           </a-checkbox-group>
         </div>
