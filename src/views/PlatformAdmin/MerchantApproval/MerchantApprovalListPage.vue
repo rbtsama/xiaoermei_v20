@@ -67,7 +67,7 @@ export default defineComponent({
     const columns = [
       { title: '提交时间', dataIndex: 'submitTime', width: 160, scopedSlots: { customRender: 'submitTime' } },
       { title: '门店名称', dataIndex: 'storeName', width: 200 },
-      { title: '操作', width: 300, scopedSlots: { customRender: 'action' } }
+      { title: '操作', width: 300, fixed: 'right', scopedSlots: { customRender: 'action' } }
     ]
 
     const formatDate = (dt) => dt ? dayjs(dt).format('YYYY-MM-DD') : '-'
@@ -174,6 +174,17 @@ export default defineComponent({
 .action-btns {
   display: flex;
   gap: 8px;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
+
+  .ant-btn-sm {
+    height: 28px;
+    padding: 0 12px;
+    font-size: @font-size-sm;
+  }
+
+  :deep(.ant-tag) {
+    margin: 0;
+  }
 }
 </style>
