@@ -197,11 +197,11 @@
             <a-cascader
               v-model="companyData.storeRegionArray"
               :options="regionOptions"
-              placeholder="请选择省市区"
+              placeholder="请选择省市区（县）"
               @change="handleRegionChange"
               style="width: 100%"
             />
-            <div class="field-hint">请选择门店所在的省市区</div>
+            <div class="field-hint">请选择门店所在的省市区（县）</div>
           </a-form-model-item>
 
           <a-form-model-item label="门店详细地址" required>
@@ -472,8 +472,8 @@ export default defineComponent({
       legalPersonIdValidityType: LicenseValidityType.DATE,
       legalPersonIdValidityStartDate: '',
       legalPersonIdValidityEndDate: '',
-      storeRegionArray: [], // 省市区数组
-      storeRegion: '', // 省市区字符串
+      storeRegionArray: [], // 省市区（县）数组
+      storeRegion: '', // 省市区（县）字符串
       storeDetailAddress: '',
       accountName: '',
       bankAccountNumber: '',              // 对公账户银行账号（有限责任公司）
@@ -497,7 +497,7 @@ export default defineComponent({
       storeInteriorPhoto: ''
     })
 
-    // 省市区数据（简化版，实际应使用完整的地区数据）
+    // 省市区（县）数据（简化版，实际应使用完整的地区数据）
     const regionOptions = ref([
       {
         value: '浙江省',

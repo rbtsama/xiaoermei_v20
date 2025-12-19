@@ -105,7 +105,7 @@
           <a-cascader
             v-model="localData.storeBasicInfo.storeRegionArray"
             :options="regionOptions"
-            placeholder="请选择省市区"
+            placeholder="请选择省市区（县）"
             @change="handleRegionChange"
             style="width: 100%; margin-bottom: 8px"
             :disabled="isLocked"
@@ -117,7 +117,7 @@
             :disabled="isLocked"
             @change="handleChange"
           />
-          <div class="field-hint">先选择省市区，再填写街道门牌号</div>
+          <div class="field-hint">先选择省市区（县），再填写街道门牌号</div>
         </a-form-model-item>
 
         <a-form-model-item label="房间数量" required>
@@ -238,7 +238,7 @@ export default defineComponent({
     const HIGHLIGHTS_ARCHITECTURE = ref([])
     const HIGHLIGHTS_SERVICES = ref([])
 
-    // 省市区数据（简化版，实际应使用完整的地区数据）
+    // 省市区（县）数据（简化版，实际应使用完整的地区数据）
     const regionOptions = ref([
       {
         value: '浙江省',
