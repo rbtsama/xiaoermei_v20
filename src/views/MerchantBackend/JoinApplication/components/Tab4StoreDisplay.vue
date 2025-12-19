@@ -139,29 +139,6 @@
           </div>
         </div>
 
-        <!-- 视频封面 -->
-        <div class="upload-row">
-          <div class="upload-info">
-            <div class="upload-header">
-              <span class="upload-label">视频封面</span>
-              <a-button type="link" size="small" @click="handlePreviewExample('/examples/视频封面.jpg')" class="example-link">
-                <a-icon type="picture" />
-                图片实例
-              </a-button>
-            </div>
-            <div class="upload-hint">建议比例16:9，支持jpg、png格式</div>
-          </div>
-          <div class="upload-action">
-            <image-upload
-              v-model="localData.videos.videoCover"
-              :multiple="false"
-              :maxSize="5"
-              :disabled="isLocked"
-              @change="handleChange"
-            />
-          </div>
-        </div>
-
         <!-- 最新情报 -->
         <div class="upload-row">
           <div class="upload-info">
@@ -191,7 +168,7 @@
             <div class="upload-header">
               <span class="upload-label">门店视频</span>
             </div>
-            <div class="upload-hint">建议比例16:9，大小不超过100MB，支持mp4、mov、avi格式</div>
+            <div class="upload-hint">建议比例16:9，大小不超过300MB，支持mp4、mov、avi格式</div>
           </div>
           <div class="upload-action">
             <div class="video-upload-area">
@@ -209,6 +186,29 @@
             </div>
           </div>
         </div>
+
+        <!-- 视频封面 -->
+        <div v-if="localData.videos.video" class="upload-row">
+          <div class="upload-info">
+            <div class="upload-header">
+              <span class="upload-label">视频封面</span>
+              <a-button type="link" size="small" @click="handlePreviewExample('/examples/视频封面.jpg')" class="example-link">
+                <a-icon type="picture" />
+                图片实例
+              </a-button>
+            </div>
+            <div class="upload-hint">建议比例16:9，支持jpg、png格式（需先上传门店视频）</div>
+          </div>
+          <div class="upload-action">
+            <image-upload
+              v-model="localData.videos.videoCover"
+              :multiple="false"
+              :maxSize="5"
+              :disabled="isLocked"
+              @change="handleChange"
+            />
+          </div>
+        </div>
       </div>
     </a-card>
 
@@ -221,6 +221,22 @@
       centered
     >
       <img :src="previewImage" style="width: 100%" alt="示例图片" />
+    </a-modal>
+
+    <!-- 视频上传进度弹窗 -->
+    <a-modal
+      :visible="uploadProgressVisible"
+      :footer="null"
+      :closable="false"
+      :maskClosable="false"
+      width="400px"
+      centered
+    >
+      <div class="upload-progress-content">
+        <div class="progress-title">正在上传视频...</div>
+        <a-progress :percent="uploadProgress" status="active" />
+        <div class="progress-hint">{{ uploadProgressText }}</div>
+      </div>
     </a-modal>
   </div>
 </template>
@@ -259,6 +275,21 @@ export default defineComponent({
     const previewVisible = ref(false)
     const previewImage = ref('')
 
+    // 视频上传进度
+    const uploadProgressVisible = ref(false)
+    const uploadProgress = ref(0)
+    const uploadProgressText = computed(() => {
+      if (uploadProgress.value < 30) {
+        return '正在准备上传...'
+      } else if (uploadProgress.value < 70) {
+        return '正在上传中...'
+      } else if (uploadProgress.value < 100) {
+        return '即将完成...'
+      } else {
+        return '上传完成！'
+      }
+    })
+
     // 视频文件列表
     const videoFileList = computed(() => {
       if (localData.videos.video) {
@@ -290,18 +321,40 @@ export default defineComponent({
         return false
       }
 
-      const isLt100M = file.size / 1024 / 1024 < 100
-      if (!isLt100M) {
-        root.$message.error('视频大小不能超过100MB！')
+      const isLt300M = file.size / 1024 / 1024 < 300
+      if (!isLt300M) {
+        root.$message.error('视频大小不能超过300MB！')
         return false
       }
 
+      // 显示上传进度弹窗
+      uploadProgressVisible.value = true
+      uploadProgress.value = 0
+
       try {
+        // 模拟上传进度（实际项目中应该从uploadVideo的回调中获取真实进度）
+        const progressInterval = setInterval(() => {
+          if (uploadProgress.value < 95) {
+            uploadProgress.value += Math.random() * 15
+          }
+        }, 500)
+
         const result = await uploadVideo(file)
-        localData.videos.video = result.url
-        handleChange()
-        root.$message.success('视频上传成功')
+
+        // 完成上传
+        clearInterval(progressInterval)
+        uploadProgress.value = 100
+
+        setTimeout(() => {
+          localData.videos.video = result.url
+          handleChange()
+          uploadProgressVisible.value = false
+          uploadProgress.value = 0
+          root.$message.success('视频上传成功')
+        }, 500)
       } catch (error) {
+        uploadProgressVisible.value = false
+        uploadProgress.value = 0
         root.$message.error('视频上传失败')
         console.error(error)
       }
@@ -338,6 +391,9 @@ export default defineComponent({
       videoFileList,
       previewVisible,
       previewImage,
+      uploadProgressVisible,
+      uploadProgress,
+      uploadProgressText,
       handleVideoUpload,
       handleVideoRemove,
       handleChange,
@@ -469,5 +525,23 @@ export default defineComponent({
 
 :deep(.ant-divider) {
   margin: 24px 0;
+}
+
+.upload-progress-content {
+  text-align: center;
+  padding: 24px 0;
+
+  .progress-title {
+    font-size: @font-size-lg;
+    font-weight: @font-weight-semibold;
+    color: @text-primary;
+    margin-bottom: 24px;
+  }
+
+  .progress-hint {
+    font-size: @font-size-sm;
+    color: @text-secondary;
+    margin-top: 12px;
+  }
 }
 </style>
