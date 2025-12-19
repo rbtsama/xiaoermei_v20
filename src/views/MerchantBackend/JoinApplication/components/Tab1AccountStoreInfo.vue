@@ -16,20 +16,20 @@
             v-model="localData.accountInfo.mainAccount"
             placeholder="13575481983"
             :maxLength="11"
-            :disabled="isLocked"
+            :disabled="true"
             @change="handleChange"
             @blur="validatePhone('mainAccount')"
           >
             <a-icon slot="prefix" type="phone" />
           </a-input>
           <div v-if="phoneErrors.mainAccount" class="error-hint">{{ phoneErrors.mainAccount }}</div>
-          <div v-else class="field-hint">系统最高权限者，用于登录</div>
+          <div v-else class="field-hint">系统分配的登录账号，无法修改</div>
         </a-form-model-item>
 
         <a-form-model-item label="预订电话" required>
           <a-input
             v-model="localData.accountInfo.bookingPhone"
-            placeholder="13575481983"
+            :placeholder="localData.accountInfo.mainAccount || '13575481983'"
             :disabled="isLocked"
             @change="handleChange"
             @blur="validatePhone('bookingPhone')"
