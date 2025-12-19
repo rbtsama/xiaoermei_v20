@@ -126,7 +126,7 @@ export default defineComponent({
 
     const progressMessage = computed(() => {
       if (totalRoomCount.value === 0) {
-        return '请先在Tab1中填写门店总房间数'
+        return '请先在基本信息中填写门店总房间数'
       }
       if (configuredCount.value === totalRoomCount.value) {
         return `酒店房间数共${totalRoomCount.value}间，已配置${configuredCount.value}间`
