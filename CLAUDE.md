@@ -537,627 +537,117 @@ pagination: {
 
 ## 表单填写设计规范 ⭐
 
-**完整标准规范（基于Tab1AccountStoreInfo）**
+**📄 完整规范详见**：根目录 `表单填写设计规范.md`
+**⚠️ 修改表单规范时必须同步更新两个文件**：`CLAUDE.md` + `表单填写设计规范.md`
 
-**📄 独立文档**：根目录 `表单填写设计规范.md`
+### 核心规范速查
 
-**⚠️ 重要**：修改表单规范时，必须同时更新两个文件：
-1. `CLAUDE.md`（本文件）
-2. `表单填写设计规范.md`（独立规范文档）
+#### 1. 卡片结构
+| 元素 | 样式 |
+|-----|------|
+| 卡片圆角 | 8px (@border-radius-lg) |
+| 卡片边框 | 1px solid #e2e8f0 |
+| 卡片阴影 | @shadow-sm |
+| 卡片头部padding | 16px 24px |
+| 卡片内容padding | 32px 24px |
+| 卡片间距 | 24px |
 
-### 1. 卡片结构规范
+#### 2. 表单布局
+| 元素 | 配置 |
+|-----|------|
+| 标签区域 | label-col: { span: 6 } 占25% |
+| 输入区域 | wrapper-col: { span: 14 } 占58% |
+| 右侧留白 | 17% |
+| 字段间距 | 24px (ant-form-item margin-bottom) |
 
-#### **卡片基础样式**
+#### 3. 文字样式
+| 元素 | 字号 | 字重 | 颜色 |
+|-----|-----|-----|------|
+| 卡片标题 | 16px | 600 | rgba(0,0,0,0.9) |
+| 分类标题 | 14px | 600 | rgba(0,0,0,0.9) |
+| 字段标签 | 14px | 400 | rgba(0,0,0,0.9) |
+| 字段说明 | 12px | 400 | #666666 |
+| 错误提示 | 12px | 400 | #ef4444 |
+| Placeholder | 14px | 400 | #b1b1b1 |
+
+#### 4. 关键样式类
+
 ```less
-.form-section-card {
-  border-radius: 8px;              // 卡片圆角
-  border: 1px solid #e2e8f0;       // 边框颜色 @border-primary
-  box-shadow: 0 1px 2px rgba(0,0,0,0.03); // 阴影 @shadow-sm
-}
-```
+// 卡片
+.form-section-card { border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: @shadow-sm; }
+.section-title { font-size: 16px; font-weight: 600; color: @text-primary; }
 
-#### **卡片头部（标题区域）**
-```less
-:deep(.ant-card-head) {
-  border-bottom: 1px solid #e2e8f0;  // 底部分割线
-  padding: 16px 24px;                 // 上下16px，左右24px
-}
+// 提示文字
+.field-hint { font-size: 12px; color: #666; margin-top: 4px; line-height: 1.4; }
+.error-hint { font-size: 12px; color: #ef4444; margin-top: 4px; line-height: 1.4; }
 
-.section-title {
-  font-size: 16px;                    // @font-size-lg
-  font-weight: 600;                   // @font-weight-semibold
-  color: rgba(0,0,0,0.9);            // @text-primary
-}
-```
+// 分类标题
+.category-title { font-size: 14px; font-weight: 600; color: @text-primary; margin-bottom: 16px; }
 
-#### **卡片内容区域**
-```less
-:deep(.ant-card-body) {
-  padding: 32px 24px;                 // 上下32px，左右24px
-}
-```
+// 字符计数
+.char-count { text-align: right; font-size: 12px; color: #666; margin-top: 8px; }
 
-#### **卡片间距**
-```less
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;                          // 卡片之间间距24px
-}
-```
-
-### 2. 表单布局（左右布局）
-
-#### **布局比例**
-```vue
-<a-form-model
-  :model="formData"
-  :label-col="{ span: 6 }"           // 标签区域占25%
-  :wrapper-col="{ span: 14 }"        // 输入区域占58%
->
-  <!-- 剩余17%为右侧留白 -->
-</a-form-model>
-```
-
-#### **字段间距**
-```less
-:deep(.ant-form-item) {
-  margin-bottom: 24px;                // 字段之间间距24px
-}
-```
-
-### 3. 字段标签规范
-
-#### **标签位置和对齐**
-- 位置：输入框**左侧**
-- 对齐方式：**左对齐**
-- 占比：25%（span: 6）
-
-#### **标签文字样式**
-```less
-:deep(.ant-form-item-label) {
-  font-weight: 400;                   // 正常字重，不加粗
-  color: rgba(0,0,0,0.9);            // 黑色
-  text-align: left;                   // 左对齐
-
-  label::after {
-    content: '';                      // 去除默认冒号
-  }
-}
-```
-
-- **字号**：14px（继承基础字号 @font-size-base）
-- **字重**：400（正常，不加粗，避免与标题冲突）
-- **颜色**：rgba(0,0,0,0.9)（黑色，简洁统一）
-
-**设计理念**：通过位置、字号、间距建立层次，不通过加粗或颜色
-
-### 4. 必填标记（红色星号）
-
-#### **位置**：字段标签的**左侧**
-
-#### **实现方式**：使用`required`属性（唯一标准方式）
-```vue
-<a-form-model-item label="门店名称" required>
-  <!-- Ant Design自动在label左侧显示红色星号 -->
-</a-form-model-item>
-```
-
-#### **特殊情况**：非form-model-item（如卡片标题、分类标题）
-```vue
-<!-- 仅用于非表单字段的标题 -->
-<span class="category-title">交通服务 <span class="required">*</span></span>
-```
-
-**⚠️ 注意**：表单字段必须使用`required`属性，不得使用自定义星号
-
-#### **样式定义**
-```less
-.required {
-  color: #ef4444;                     // @error-color 红色
-  margin-left: 2px;                   // 与文字间距2px
-}
-```
-
-- **颜色**：#ef4444（错误色/红色）
-- **位置**：紧跟在字段名称之后，左间距2px
-
-### 5. 输入框规范
-
-#### **位置**：字段标签的**右侧**
-#### **占比**：58%（span: 14）
-
-#### **输入框样式**
-```less
-:deep(.ant-input),
-:deep(.ant-input-number),
-:deep(.ant-select-selector),
-:deep(.ant-picker) {
-  border-radius: 6px;                 // @border-radius-base
-  border-color: #e2e8f0;             // @border-primary
-
-  &:hover {
-    border-color: #2563eb;            // @brand-primary-hover
-  }
-
-  &:focus,
-  &-focused {
-    border-color: #3b82f6;            // @brand-primary
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-  }
-}
-
-:deep(.ant-input-number) {
-  width: 100%;                        // 数字输入框宽度100%
-}
-```
-
-- **圆角**：6px
-- **边框颜色**：#e2e8f0（默认）
-- **Hover边框**：#2563eb（深蓝）
-- **Focus边框**：#3b82f6（品牌蓝）+ 蓝色阴影
-
-### 6. Placeholder（暗提示）
-
-#### **颜色和样式**
-```less
-:deep(input::placeholder),
-:deep(textarea::placeholder) {
-  color: #b1b1b1;                     // @text-tertiary
-  opacity: 1;
-}
-```
-
-- **字号**：继承输入框字号（14px）
-- **颜色**：#b1b1b1（暗提示文字色）
-- **示例**：`placeholder="原乡芦茨"`
-
-### 7. 字段说明（field-hint）
-
-#### **位置**：输入框**下方**
-#### **距离**：margin-top: **4px**
-
-```vue
-<a-form-model-item label="主账号" required>
-  <a-input v-model="formData.mainAccount" />
-  <div class="field-hint">系统最高权限者，用于登录</div>
-</a-form-model-item>
-```
-
-#### **样式定义**
-```less
-.field-hint {
-  font-size: 12px;                    // @font-size-xs
-  color: #666666;                     // @text-secondary
-  margin-top: 4px;                    // 与输入框距离4px
-  line-height: 1.4;                   // 行高1.4
-}
-```
-
-- **字号**：12px（小字）
-- **颜色**：#666666（辅助文字色）
-- **上边距**：4px
-- **行高**：1.4
-
-### 8. 错误提示（error-hint）
-
-#### **位置**：输入框**下方**（替代field-hint显示）
-#### **距离**：margin-top: **4px**
-
-```vue
-<a-form-model-item label="预订电话" required>
-  <a-input v-model="formData.bookingPhone" @blur="validatePhone" />
-  <div v-if="phoneError" class="error-hint">{{ phoneError }}</div>
-  <div v-else class="field-hint">客人预订时的联系电话</div>
-</a-form-model-item>
-```
-
-#### **样式定义**
-```less
-.error-hint {
-  font-size: 12px;                    // @font-size-xs
-  color: #ef4444;                     // @error-color 红色
-  margin-top: 4px;                    // 与输入框距离4px
-  line-height: 1.4;                   // 行高1.4
-}
-```
-
-- **字号**：12px（与field-hint相同）
-- **颜色**：#ef4444（红色，醒目）
-- **上边距**：4px
-- **行高**：1.4
-
-### 9. 间距规范总览
-
-#### **垂直间距**
-```
-卡片之间        24px    (.container gap)
-卡片标题下方    0px     (由卡片头部padding控制)
-字段之间        24px    (:deep(.ant-form-item) margin-bottom)
-输入框到说明    4px     (.field-hint margin-top)
-分类标题上方    32px    (.section-title.section-spacing margin-top)
-分类标题下方    20px    (.section-title margin-bottom)
-```
-
-#### **水平间距**
-```
-标签与输入框    自动    (由label-col和wrapper-col的gap控制)
-输入框组合间距  16px    (a-row gutter="16")
-多选框列间距    16px    (checkbox-grid gap: 12px 16px)
-多选框行间距    12px    (checkbox-grid gap: 12px 16px)
-```
-
-#### **内边距（Padding）**
-```
-卡片头部        16px 24px    (上下16px，左右24px)
-卡片内容        32px 24px    (上下32px，左右24px)
-输入框内部      4px 11px     (Ant Design默认)
-多选框卡片      10px 12px    (checkbox-wrapper padding)
-```
-
-### 10. 文本域字符计数
-
-**位置**：文本域下方右对齐
-
-```vue
-<div class="textarea-container">
-  <a-textarea
-    v-model="formData.description"
-    :rows="12"
-    :maxLength="1000"
-    class="description-textarea"
-  />
-  <div class="char-count" :class="{ warning: description.length > 1000 }">
-    {{ description.length }}/1000 字
-    <span v-if="description.length < 200" class="hint-text">（至少200字）</span>
-  </div>
-</div>
-```
-
-**样式**：
-```less
-.char-count {
-  text-align: right;
-  font-size: @font-size-xs;      // 12px
-  color: @text-secondary;         // #666666
-  margin-top: 8px;
-
-  &.warning {
-    color: @error-color;          // 超限时红色
-  }
-
-  .hint-text {
-    color: @warning-color;        // 橙色提示
-    margin-left: 8px;
-  }
-}
-```
-
-### 11. 多选框布局（卡片样式）
-
-**一行5列**（门店亮点）：
-```vue
-<a-checkbox-group v-model="formData.highlights" class="checkbox-grid-5col">
-  <a-checkbox value="老建筑">老建筑</a-checkbox>
-  <a-checkbox value="特色民居">特色民居</a-checkbox>
-  <!-- ... -->
-</a-checkbox-group>
-```
-
-**一行4列**（房型设施）：
-```vue
-<a-checkbox-group v-model="formData.facilities" class="checkbox-grid">
-  <!-- ... -->
-</a-checkbox-group>
-```
-
-**一行2列**（房型特色）：
-```vue
-<a-checkbox-group v-model="formData.features" class="checkbox-grid-2col">
-  <!-- ... -->
-</a-checkbox-group>
-```
-
-**样式**（以5列为例）：
-```less
+// 多选框网格（5列示例，另有checkbox-grid、checkbox-grid-2col）
 .checkbox-grid-5col {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 12px 16px;              // 行间距12px，列间距16px
-  align-items: stretch;
-
+  gap: 12px 16px;
   :deep(.ant-checkbox-wrapper) {
-    margin: 0 !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding: 10px 12px;
-    border: 1px solid @border-primary;
-    border-radius: @border-radius-base;  // 6px
-    background: @bg-primary;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: @font-size-sm;    // 13px
-    color: @text-primary;
-
-    &:hover {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.05);
-    }
-
-    &.ant-checkbox-wrapper-checked {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.08);
-    }
-
-    .ant-checkbox {
-      top: 0;
-    }
+    padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 6px;
+    &:hover { border-color: #3b82f6; background: rgba(59,130,246,0.05); }
   }
 }
 ```
 
-### 12. 完整视觉规范总结
-
-#### **颜色规范**
-```
-主文字色        rgba(0,0,0,0.9)     // 字段标签、输入内容
-辅助文字色      #666666              // 字段说明
-暗提示文字色    #b1b1b1              // placeholder
-错误文字色      #ef4444              // 必填星号、错误提示
-边框色          #e2e8f0              // 卡片边框、输入框边框
-品牌蓝          #3b82f6              // Focus状态、主按钮
-背景色          #ffffff              // 卡片背景
-次要背景色      #f8fafc              // 表头、禁用字段
-```
-
-#### **字号规范**
-```
-卡片标题        16px    (@font-size-lg)      加粗600
-分类标题        14px    (@font-size-base)    加粗600  黑色
-字段标签        14px    (@font-size-base)    正常400  黑色
-输入内容        14px    (@font-size-base)    正常400  黑色
-字段说明        12px    (@font-size-xs)      正常400  灰色#666
-错误提示        12px    (@font-size-xs)      正常400  红色#ef4444
-Placeholder     14px    (继承输入框)         正常400  浅灰#b1b1b1
-```
-
-#### **圆角规范**
-```
-卡片圆角        8px     (@border-radius-lg)
-输入框圆角      6px     (@border-radius-base)
-标签圆角        4px     (@border-radius-sm)
-按钮圆角        6px     (@border-radius-base)
-```
-
-### 13. 示例代码
+#### 5. 必填标记
 
 ```vue
-<a-card :bordered="false" class="form-section-card">
-  <template slot="title">
-    <span class="section-title">账号信息</span>
-  </template>
+<!-- 标准方式：使用required属性 -->
+<a-form-model-item label="门店名称" required>
+  <a-input v-model="formData.storeName" placeholder="原乡芦茨" />
+  <div class="field-hint">门店对外展示的名称</div>
+</a-form-model-item>
 
-  <a-form-model :label-col="{ span: 6 }" :wrapper-col="{ span: 14 }">
-    <!-- 表单字段 -->
-  </a-form-model>
-</a-card>
+<!-- 特殊情况：非表单字段 -->
+<span class="category-title">交通服务 <span class="required">*</span></span>
 ```
 
-**样式**：
-```less
-.form-section-card {
-  border-radius: @border-radius-lg;   // 8px
-  border: 1px solid @border-primary;
-  box-shadow: @shadow-sm;
+#### 6. 间距系统速查
 
-  :deep(.ant-card-head) {
-    border-bottom: 1px solid @border-primary;
-    padding: 16px 24px;
-  }
-
-  :deep(.ant-card-body) {
-    padding: 32px 24px;
-  }
-}
-
-.section-title {
-  font-size: @font-size-lg;           // 16px
-  font-weight: @font-weight-semibold; // 600
-  color: @text-primary;
-}
+```
+垂直间距：卡片间24px | 字段间24px | 输入框到说明4px | 分类标题上32px下20px
+水平间距：输入框组合16px | 多选框列16px行12px
+内边距：卡片头部16px 24px | 卡片内容32px 24px | 多选框卡片10px 12px
 ```
 
-**卡片间距**：
-```less
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;                          // 卡片之间24px间距
-}
-```
+#### 7. 开发检查清单
 
-### 14. 输入框图标前缀
+- [ ] 布局：label-col:6 wrapper-col:14
+- [ ] 必填：使用`required`属性
+- [ ] 说明：所有输入框下方添加`field-hint`
+- [ ] 错误：使用`error-hint`类
+- [ ] 文本域：配置字符计数
+- [ ] 多选框：使用`checkbox-grid-*col`
+- [ ] 圆角：卡片8px 输入框6px
+- [ ] 样式：引入`@import '@/styles/variables.less'`
 
-```less
-:deep(.ant-input),
-:deep(.ant-input-number),
-:deep(.ant-select-selector),
-:deep(.ant-picker) {
-  border-radius: @border-radius-base;  // 6px
-  border-color: @border-primary;
+#### 8. 完整示例代码
 
-  &:hover {
-    border-color: @brand-primary-hover;
-  }
-
-  &:focus,
-  &-focused {
-    border-color: @brand-primary;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-  }
-}
-
-:deep(.ant-input-number) {
-  width: 100%;
-}
-```
-
-### 15. 分类标题（可选）
-
-```vue
-<a-input v-model="formData.phone" placeholder="13575481983">
-  <a-icon slot="prefix" type="phone" />
-</a-input>
-```
-
-### 16. 检查清单
-
-用于卡片内的二级分类：
-
-```vue
-<div class="highlight-category">
-  <div class="category-title">建筑与景观类</div>
-  <a-checkbox-group v-model="formData.highlights">
-    <!-- ... -->
-  </a-checkbox-group>
-</div>
-```
-
-**样式**：
-```less
-.category-title {
-  font-size: @font-size-base;         // 14px
-  font-weight: @font-weight-semibold; // 600
-  color: @text-primary;
-  margin-bottom: 16px;
-}
-```
-
-### 13. 完整代码示例
+参考文件：`src/views/MerchantBackend/JoinApplication/components/Tab1AccountStoreInfo.vue`
 
 ```vue
 <template>
-  <div class="page-container">
-    <a-card :bordered="false" class="form-section-card">
-      <template slot="title">
-        <span class="section-title">基本信息</span>
-      </template>
-
-      <a-form-model
-        :model="formData"
-        :label-col="{ span: 6 }"
-        :wrapper-col="{ span: 14 }"
-      >
-        <!-- 普通输入框 + 必填 + 说明 -->
-        <a-form-model-item label="门店名称" required>
-          <a-input
-            v-model="formData.storeName"
-            placeholder="原乡芦茨"
-            :maxLength="50"
-          />
-          <div class="field-hint">门店对外展示的名称</div>
-        </a-form-model-item>
-
-        <!-- 数字输入框 -->
-        <a-form-model-item label="房间数量" required>
-          <a-input-number
-            v-model="formData.roomCount"
-            :min="1"
-            :max="500"
-            placeholder="21"
-            style="width: 100%"
-          />
-          <div class="field-hint">门店客房总数</div>
-        </a-form-model-item>
-
-        <!-- 带图标的输入框 + 错误提示 -->
-        <a-form-model-item label="联系电话" required>
-          <a-input
-            v-model="formData.phone"
-            placeholder="13575481983"
-            @blur="validatePhone"
-          >
-            <a-icon slot="prefix" type="phone" />
-          </a-input>
-          <div v-if="phoneError" class="error-hint">{{ phoneError }}</div>
-          <div v-else class="field-hint">客人预订时的联系电话</div>
-        </a-form-model-item>
-
-        <!-- 多选框（5列） -->
-        <a-form-model-item label="门店亮点" required>
-          <a-checkbox-group v-model="formData.highlights" class="checkbox-grid-5col">
-            <a-checkbox value="老建筑">老建筑</a-checkbox>
-            <a-checkbox value="特色民居">特色民居</a-checkbox>
-            <a-checkbox value="大师设计">大师设计</a-checkbox>
-            <!-- ... -->
-          </a-checkbox-group>
-          <div class="field-hint">至少选择3项</div>
-        </a-form-model-item>
-
-        <!-- 文本域 + 字符计数 -->
-        <a-form-model-item label="门店介绍" required>
-          <div class="textarea-container">
-            <a-textarea
-              v-model="formData.description"
-              :rows="12"
-              :maxLength="1000"
-              placeholder="详细介绍门店..."
-              class="description-textarea"
-            />
-            <div class="char-count" :class="{ warning: descriptionLength > 1000 }">
-              {{ descriptionLength }}/1000 字
-              <span v-if="descriptionLength < 200" class="hint-text">（至少200字）</span>
-            </div>
-          </div>
-        </a-form-model-item>
-      </a-form-model>
-    </a-card>
-  </div>
+  <a-card :bordered="false" class="form-section-card">
+    <template slot="title"><span class="section-title">基本信息</span></template>
+    <a-form-model :model="formData" :label-col="{ span: 6 }" :wrapper-col="{ span: 14 }">
+      <a-form-model-item label="门店名称" required>
+        <a-input v-model="formData.storeName" placeholder="原乡芦茨" :maxLength="50" />
+        <div class="field-hint">门店对外展示的名称</div>
+      </a-form-model-item>
+    </a-form-model>
+  </a-card>
 </template>
-
-<style scoped lang="less">
-@import '@/styles/variables.less';
-
-.page-container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.form-section-card { /* 见上面的样式定义 */ }
-.section-title { /* 见上面的样式定义 */ }
-.field-hint { /* 见上面的样式定义 */ }
-.error-hint { /* 见上面的样式定义 */ }
-.char-count { /* 见上面的样式定义 */ }
-.checkbox-grid-5col { /* 见上面的样式定义 */ }
-</style>
 ```
-
-### 17. 开发检查清单
-
-表单填写页面开发时，必须检查：
-
-- [ ] 使用左右布局（label-col: 6, wrapper-col: 14）
-- [ ] 必填字段标记 `required` 或红色星号
-- [ ] 所有输入框下方添加 `field-hint` 说明
-- [ ] 错误提示使用 `error-hint` 类
-- [ ] 文本域配置字符计数
-- [ ] 多选框使用卡片样式（checkbox-grid-*col）
-- [ ] 卡片间距 24px
-- [ ] 字段间距 24px
-- [ ] 输入框圆角 6px
-- [ ] 卡片圆角 8px
-- [ ] 引入 `@import '@/styles/variables.less'`
-
-**完整规范详见**：`表单填写设计规范.md`
-
-**规范符合度检查**：
-- 提示文字：12px #666 margin-top:4px line-height:1.4
-- 字段标签：14px 400 rgba(0,0,0,0.9)
-- 字段间距：24px
-- 卡片padding：头部16px 24px，内容32px 24px
 
 ---
 
