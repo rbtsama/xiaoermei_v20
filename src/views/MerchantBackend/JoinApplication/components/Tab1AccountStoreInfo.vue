@@ -12,18 +12,11 @@
         :wrapper-col="{ span: 14 }"
       >
         <a-form-model-item label="主账号" required>
-          <a-input
-            v-model="localData.accountInfo.mainAccount"
-            placeholder="13575481983"
-            :maxLength="11"
-            :disabled="true"
-            @change="handleChange"
-            @blur="validatePhone('mainAccount')"
-          >
-            <a-icon slot="prefix" type="phone" />
-          </a-input>
-          <div v-if="phoneErrors.mainAccount" class="error-hint">{{ phoneErrors.mainAccount }}</div>
-          <div v-else class="field-hint">系统分配的登录账号，无法修改</div>
+          <div class="readonly-input">
+            <a-icon type="phone" class="prefix-icon" />
+            <span class="readonly-value">{{ localData.accountInfo.mainAccount || '-' }}</span>
+          </div>
+          <div class="field-hint">系统分配的登录账号，无法修改</div>
         </a-form-model-item>
 
         <a-form-model-item label="预订电话" required>
@@ -576,6 +569,29 @@ export default defineComponent({
   &-focused {
     border-color: @brand-primary;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  }
+}
+
+// 只读文本输入框样式
+.readonly-input {
+  display: flex;
+  align-items: center;
+  padding: 4px 11px;
+  border: 1px solid @border-primary;
+  border-radius: @border-radius-base;
+  background: @bg-secondary;
+  min-height: 32px;
+
+  .prefix-icon {
+    color: @text-secondary;
+    margin-right: 8px;
+    font-size: @font-size-base;
+  }
+
+  .readonly-value {
+    color: @text-primary;
+    font-size: @font-size-base;
+    flex: 1;
   }
 }
 
