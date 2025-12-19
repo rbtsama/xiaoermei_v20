@@ -121,13 +121,36 @@
               <a-radio :value="LicenseValidityType.DATE">日期选择</a-radio>
               <a-radio :value="LicenseValidityType.PERMANENT">永久有效</a-radio>
             </a-radio-group>
-            <a-date-picker
-              v-if="companyData.legalPersonIdValidityType === LicenseValidityType.DATE"
-              v-model="idCardDateValue"
-              placeholder="选择有效期"
-              style="width: 100%; margin-top: 8px"
-              @change="handleIdCardDateChange"
-            />
+            <div v-if="companyData.legalPersonIdValidityType === LicenseValidityType.DATE" style="margin-top: 8px">
+              <a-row :gutter="12" type="flex" align="middle">
+                <a-col flex="200px">
+                  <a-date-picker
+                    v-model="idCardStartDateValue"
+                    placeholder="开始日期"
+                    style="width: 100%"
+                    @change="handleIdCardStartDateChange"
+                  />
+                </a-col>
+                <a-col flex="none">
+                  <span>至</span>
+                </a-col>
+                <a-col flex="200px">
+                  <a-date-picker
+                    v-model="idCardEndDateValue"
+                    placeholder="结束日期"
+                    style="width: 100%"
+                    @change="handleIdCardEndDateChange"
+                  />
+                </a-col>
+              </a-row>
+            </div>
+            <div v-else style="margin-top: 8px">
+              <a-row :gutter="12" type="flex" align="middle">
+                <a-col flex="200px">
+                  <span style="color: rgba(0,0,0,0.9)">永久</span>
+                </a-col>
+              </a-row>
+            </div>
           </a-form-model-item>
 
           <a-form-model-item label="法人身份证照片" required>
@@ -443,7 +466,8 @@ export default defineComponent({
       legalPersonIdCard: '',
       legalPersonAddress: '',
       legalPersonIdValidityType: LicenseValidityType.DATE,
-      legalPersonIdValidityDate: '',
+      legalPersonIdValidityStartDate: '',
+      legalPersonIdValidityEndDate: '',
       storeRegionArray: [], // 省市区数组
       storeRegion: '', // 省市区字符串
       storeDetailAddress: '',
@@ -512,7 +536,8 @@ export default defineComponent({
 
     // 日期选择器的值
     const licenseDateValue = ref(null)
-    const idCardDateValue = ref(null)
+    const idCardStartDateValue = ref(null)
+    const idCardEndDateValue = ref(null)
 
     // 主体类型切换
     const handleEntityTypeChange = () => {
@@ -525,8 +550,13 @@ export default defineComponent({
       handleChange()
     }
 
-    const handleIdCardDateChange = (date) => {
-      companyData.legalPersonIdValidityDate = date ? date.format('YYYY-MM-DD') : ''
+    const handleIdCardStartDateChange = (date) => {
+      companyData.legalPersonIdValidityStartDate = date ? date.format('YYYY-MM-DD') : ''
+      handleChange()
+    }
+
+    const handleIdCardEndDateChange = (date) => {
+      companyData.legalPersonIdValidityEndDate = date ? date.format('YYYY-MM-DD') : ''
       handleChange()
     }
 
@@ -554,13 +584,15 @@ export default defineComponent({
       localData,
       companyData,
       licenseDateValue,
-      idCardDateValue,
+      idCardStartDateValue,
+      idCardEndDateValue,
       regionOptions,
       EntityType,
       LicenseValidityType,
       handleEntityTypeChange,
       handleLicenseDateChange,
-      handleIdCardDateChange,
+      handleIdCardStartDateChange,
+      handleIdCardEndDateChange,
       handleRegionChange,
       handleChange
     }
