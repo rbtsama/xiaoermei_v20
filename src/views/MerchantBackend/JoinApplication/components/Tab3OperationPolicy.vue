@@ -296,8 +296,8 @@
             <label class="form-label">早餐类型</label>
             <a-checkbox-group v-model="formValues.breakfastTypes" :disabled="isLocked" @change="handleChange" style="width: 100%">
               <a-row :gutter="[16, 12]">
-                <a-col :span="12"><a-checkbox value="chinese" class="grid-checkbox">中式</a-checkbox></a-col>
-                <a-col :span="12"><a-checkbox value="western" class="grid-checkbox">西式</a-checkbox></a-col>
+                <a-col :span="6"><a-checkbox value="chinese" class="grid-checkbox">中式</a-checkbox></a-col>
+                <a-col :span="6"><a-checkbox value="western" class="grid-checkbox">西式</a-checkbox></a-col>
               </a-row>
             </a-checkbox-group>
           </div>
@@ -307,9 +307,9 @@
             <label class="form-label">供应形式</label>
             <a-checkbox-group v-model="formValues.servingStyles" :disabled="isLocked" @change="handleChange" style="width: 100%">
               <a-row :gutter="[16, 12]">
-                <a-col :span="8"><a-checkbox value="set_meal" class="grid-checkbox">套餐</a-checkbox></a-col>
-                <a-col :span="8"><a-checkbox value="buffet" class="grid-checkbox">自助餐</a-checkbox></a-col>
-                <a-col :span="8"><a-checkbox value="a_la_carte" class="grid-checkbox">单点</a-checkbox></a-col>
+                <a-col :span="6"><a-checkbox value="set_meal" class="grid-checkbox">套餐</a-checkbox></a-col>
+                <a-col :span="6"><a-checkbox value="buffet" class="grid-checkbox">自助餐</a-checkbox></a-col>
+                <a-col :span="6"><a-checkbox value="a_la_carte" class="grid-checkbox">单点</a-checkbox></a-col>
               </a-row>
             </a-checkbox-group>
           </div>
