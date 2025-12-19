@@ -293,6 +293,10 @@
 
           <!-- 个体工商户：法人银行卡照片 -->
           <a-form-model-item v-else label="法人银行卡照片" required>
+            <div class="upload-hint-text">
+              有效凭证包括（任选其中一种即可）：
+              1.银行卡照片；2.银行回执单；3.汇款凭证
+            </div>
             <image-upload
               v-model="companyData.legalPersonBankCardPhoto"
               :multiple="false"
