@@ -314,6 +314,23 @@
             </a-checkbox-group>
           </div>
 
+          <!-- 免费份数 -->
+          <div class="form-item">
+            <label class="form-label">免费份数</label>
+            <a-input-number
+              v-model="formValues.freeBreakfastCount"
+              :min="0"
+              :precision="0"
+              placeholder="2"
+              style="width: 200px"
+              :disabled="isLocked"
+              @change="handleChange"
+            >
+              <template slot="addonAfter">份</template>
+            </a-input-number>
+            <span class="field-hint" style="margin-left: 12px;">每间房免费提供的早餐份数</span>
+          </div>
+
           <!-- 加早费用 -->
           <div class="form-item">
             <label class="form-label">加早费用（元/份）</label>
@@ -328,7 +345,7 @@
             >
               <template slot="addonAfter">元</template>
             </a-input-number>
-            <span class="field-hint" style="margin-left: 12px;">默认为0，表示免费</span>
+            <span class="field-hint" style="margin-left: 12px;">超过免费份数后，每份早餐的费用</span>
           </div>
 
           <!-- 儿童早餐政策 -->
@@ -444,6 +461,7 @@ export default defineComponent({
       breakfastEndTime: '09:30',
       breakfastTypes: [],
       servingStyles: [],
+      freeBreakfastCount: 2,
       breakfastFee: 0,
       childBreakfastPolicy: 'free',
       childBreakfastAgeLimit: 12,
@@ -481,6 +499,7 @@ export default defineComponent({
             endTime: formValues.breakfastEndTime || '',
             types: formValues.breakfastTypes,
             servingStyles: formValues.servingStyles,
+            freeCount: formValues.freeBreakfastCount,
             fee: formValues.breakfastFee,
             childPolicy: formValues.childBreakfastPolicy,
             childAgeLimit: formValues.childBreakfastAgeLimit,
