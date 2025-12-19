@@ -188,7 +188,7 @@
         </div>
 
         <!-- 视频封面 -->
-        <div v-if="localData.videos.video" class="upload-row">
+        <div class="upload-row">
           <div class="upload-info">
             <div class="upload-header">
               <span class="upload-label">视频封面</span>
@@ -204,7 +204,7 @@
               v-model="localData.videos.videoCover"
               :multiple="false"
               :maxSize="5"
-              :disabled="isLocked"
+              :disabled="isLocked || !localData.videos.video"
               @change="handleChange"
             />
           </div>
