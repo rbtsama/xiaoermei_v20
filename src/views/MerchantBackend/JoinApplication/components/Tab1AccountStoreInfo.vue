@@ -101,15 +101,27 @@
           <div class="field-hint">门店对外展示的名称</div>
         </a-form-model-item>
 
+        <a-form-model-item label="门店所在地区" required>
+          <a-cascader
+            v-model="localData.storeBasicInfo.storeRegionArray"
+            :options="regionOptions"
+            placeholder="请选择省市区"
+            @change="handleRegionChange"
+            style="width: 100%"
+            :disabled="isLocked"
+          />
+          <div class="field-hint">请选择门店所在的省市区</div>
+        </a-form-model-item>
+
         <a-form-model-item label="详细地址" required>
           <a-input
             v-model="localData.storeBasicInfo.storeAddress"
-            placeholder="XX省XX市XX区XX街道XX号"
+            placeholder="请填写街道、门牌号等详细地址"
             :maxLength="200"
             :disabled="isLocked"
             @change="handleChange"
           />
-          <div class="field-hint">门店完整地址</div>
+          <div class="field-hint">门店详细地址（不含省市区）</div>
         </a-form-model-item>
 
         <a-form-model-item label="房间数量" required>
@@ -230,10 +242,99 @@ export default defineComponent({
     const HIGHLIGHTS_ARCHITECTURE = ref([])
     const HIGHLIGHTS_SERVICES = ref([])
 
+    // 省市区数据（简化版，实际应使用完整的地区数据）
+    const regionOptions = ref([
+      {
+        value: '浙江省',
+        label: '浙江省',
+        children: [
+          {
+            value: '杭州市',
+            label: '杭州市',
+            children: [
+              { value: '西湖区', label: '西湖区' },
+              { value: '滨江区', label: '滨江区' },
+              { value: '余杭区', label: '余杭区' },
+              { value: '富阳区', label: '富阳区' },
+              { value: '临安区', label: '临安区' },
+              { value: '桐庐县', label: '桐庐县' },
+              { value: '淳安县', label: '淳安县' },
+              { value: '建德市', label: '建德市' }
+            ]
+          },
+          {
+            value: '宁波市',
+            label: '宁波市',
+            children: [
+              { value: '海曙区', label: '海曙区' },
+              { value: '江北区', label: '江北区' },
+              { value: '镇海区', label: '镇海区' },
+              { value: '北仑区', label: '北仑区' }
+            ]
+          },
+          {
+            value: '温州市',
+            label: '温州市',
+            children: [
+              { value: '鹿城区', label: '鹿城区' },
+              { value: '龙湾区', label: '龙湾区' },
+              { value: '瓯海区', label: '瓯海区' }
+            ]
+          }
+        ]
+      },
+      {
+        value: '江苏省',
+        label: '江苏省',
+        children: [
+          {
+            value: '南京市',
+            label: '南京市',
+            children: [
+              { value: '鼓楼区', label: '鼓楼区' },
+              { value: '玄武区', label: '玄武区' },
+              { value: '建邺区', label: '建邺区' }
+            ]
+          },
+          {
+            value: '苏州市',
+            label: '苏州市',
+            children: [
+              { value: '姑苏区', label: '姑苏区' },
+              { value: '吴中区', label: '吴中区' },
+              { value: '相城区', label: '相城区' }
+            ]
+          }
+        ]
+      },
+      {
+        value: '上海市',
+        label: '上海市',
+        children: [
+          {
+            value: '上海市',
+            label: '上海市',
+            children: [
+              { value: '黄浦区', label: '黄浦区' },
+              { value: '徐汇区', label: '徐汇区' },
+              { value: '长宁区', label: '长宁区' },
+              { value: '静安区', label: '静安区' },
+              { value: '普陀区', label: '普陀区' },
+              { value: '虹口区', label: '虹口区' },
+              { value: '杨浦区', label: '杨浦区' }
+            ]
+          }
+        ]
+      }
+    ])
+
     // 本地数据（用于双向绑定）
     const localData = reactive({
       accountInfo: { ...props.formData.accountInfo },
-      storeBasicInfo: { ...props.formData.storeBasicInfo },
+      storeBasicInfo: {
+        ...props.formData.storeBasicInfo,
+        storeRegionArray: props.formData.storeBasicInfo?.storeRegionArray || []
+      },
       highlights: [...(props.formData.storeDisplay?.highlights || [])]
     })
 
@@ -296,11 +397,24 @@ export default defineComponent({
       () => props.formData,
       (newData) => {
         localData.accountInfo = { ...newData.accountInfo }
-        localData.storeBasicInfo = { ...newData.storeBasicInfo }
+        localData.storeBasicInfo = {
+          ...newData.storeBasicInfo,
+          storeRegionArray: newData.storeBasicInfo?.storeRegionArray || []
+        }
         localData.highlights = [...(newData.storeDisplay?.highlights || [])]
       },
       { deep: true }
     )
+
+    // 处理地区选择变化
+    const handleRegionChange = (value) => {
+      if (value && value.length === 3) {
+        localData.storeBasicInfo.storeRegion = value.join('')
+      } else {
+        localData.storeBasicInfo.storeRegion = ''
+      }
+      handleChange()
+    }
 
     // 处理数据变化
     const handleChange = () => {
@@ -320,6 +434,8 @@ export default defineComponent({
       descriptionLength,
       validatePhone,
       handleChange,
+      handleRegionChange,
+      regionOptions,
       HIGHLIGHTS_ARCHITECTURE,
       HIGHLIGHTS_SERVICES
     }
