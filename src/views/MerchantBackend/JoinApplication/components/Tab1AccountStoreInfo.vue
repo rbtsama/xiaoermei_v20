@@ -12,9 +12,9 @@
         :wrapper-col="{ span: 14 }"
       >
         <a-form-model-item label="主账号" required>
-          <div class="readonly-input">
-            <a-icon type="phone" class="prefix-icon" />
-            <span class="readonly-value">{{ localData.accountInfo.mainAccount || '-' }}</span>
+          <div class="readonly-text">
+            <a-icon type="phone" style="margin-right: 8px; color: #666666;" />
+            <span style="color: rgba(0,0,0,0.9); font-size: 14px;">{{ localData.accountInfo.mainAccount || '13575481983' }}</span>
           </div>
           <div class="field-hint">系统分配的登录账号，无法修改</div>
         </a-form-model-item>
@@ -572,27 +572,11 @@ export default defineComponent({
   }
 }
 
-// 只读文本输入框样式
-.readonly-input {
+// 只读文本样式
+.readonly-text {
   display: flex;
   align-items: center;
-  padding: 4px 11px;
-  border: 1px solid @border-primary;
-  border-radius: @border-radius-base;
-  background: @bg-secondary;
   min-height: 32px;
-
-  .prefix-icon {
-    color: @text-secondary;
-    margin-right: 8px;
-    font-size: @font-size-base;
-  }
-
-  .readonly-value {
-    color: @text-primary;
-    font-size: @font-size-base;
-    flex: 1;
-  }
 }
 
 // 门店亮点样式
