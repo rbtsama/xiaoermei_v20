@@ -151,7 +151,7 @@
           <a-form-model-item label="法人身份证照片" required>
             <div class="id-card-uploads">
               <div class="upload-item">
-                <div class="upload-label">正面照</div>
+                <div class="upload-label">正面</div>
                 <div class="upload-hint">请上传最新有效身份证件，身份证请勿遮挡，保持俯视90度拍摄，照片需要画面清晰，文字可辨认。</div>
                 <image-upload
                   v-model="companyData.legalPersonIdPhotoFront"
@@ -162,7 +162,7 @@
                 />
               </div>
               <div class="upload-item">
-                <div class="upload-label">国徽面照</div>
+                <div class="upload-label">国徽面</div>
                 <div class="upload-hint">请上传最新有效身份证件，身份证请勿遮挡，保持俯视90度拍摄，照片需要画面清晰，文字可辨认。</div>
                 <image-upload
                   v-model="companyData.legalPersonIdPhotoBack"
@@ -488,8 +488,8 @@ export default defineComponent({
       contactPhone: '',
       contactEmail: '',
       businessLicensePhoto: '', // 营业执照照片
-      legalPersonIdPhotoFront: '', // 法人身份证正面照
-      legalPersonIdPhotoBack: '', // 法人身份证国徽面照
+      legalPersonIdPhotoFront: '', // 法人身份证正面
+      legalPersonIdPhotoBack: '', // 法人身份证国徽面
       storeDoorPhoto: '',
       storeFrontDeskPhoto: '',
       storeInteriorPhoto: ''
