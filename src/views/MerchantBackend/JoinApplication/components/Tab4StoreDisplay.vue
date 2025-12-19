@@ -77,30 +77,6 @@
           </div>
         </div>
 
-        <!-- 房型图 -->
-        <div class="upload-row">
-          <div class="upload-info">
-            <div class="upload-header">
-              <span class="upload-label">房型图 <span class="required">*</span></span>
-              <a-button type="link" size="small" @click="handlePreviewExample('/examples/房型图.jpg')" class="example-link">
-                <a-icon type="picture" />
-                图片实例
-              </a-button>
-            </div>
-            <div class="upload-hint">建议比例3:2，最多10张，支持jpg、png格式</div>
-          </div>
-          <div class="upload-action">
-            <image-upload
-              v-model="localData.images.roomImages"
-              :multiple="true"
-              :maxCount="10"
-              :maxSize="10"
-              :disabled="isLocked"
-              @change="handleChange"
-            />
-          </div>
-        </div>
-
         <!-- 旅游交通图 -->
         <div class="upload-row">
           <div class="upload-info">
