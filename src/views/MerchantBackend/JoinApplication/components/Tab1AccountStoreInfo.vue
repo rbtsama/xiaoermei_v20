@@ -102,21 +102,27 @@
         </a-form-model-item>
 
         <a-form-model-item label="详细地址" required>
-          <a-cascader
-            v-model="localData.storeBasicInfo.storeRegionArray"
-            :options="regionOptions"
-            placeholder="请选择省市区（县）"
-            @change="handleRegionChange"
-            style="width: 100%; margin-bottom: 8px"
-            :disabled="isLocked"
-          />
-          <a-input
-            v-model="localData.storeBasicInfo.storeAddress"
-            placeholder="请填写街道、门牌号等详细地址"
-            :maxLength="200"
-            :disabled="isLocked"
-            @change="handleChange"
-          />
+          <a-row :gutter="12">
+            <a-col flex="30%">
+              <a-cascader
+                v-model="localData.storeBasicInfo.storeRegionArray"
+                :options="regionOptions"
+                placeholder="请选择省市区（县）"
+                @change="handleRegionChange"
+                style="width: 100%"
+                :disabled="isLocked"
+              />
+            </a-col>
+            <a-col flex="70%">
+              <a-input
+                v-model="localData.storeBasicInfo.storeAddress"
+                placeholder="请填写街道、门牌号等详细地址"
+                :maxLength="200"
+                :disabled="isLocked"
+                @change="handleChange"
+              />
+            </a-col>
+          </a-row>
           <div class="field-hint">先选择省市区（县），再填写街道门牌号</div>
         </a-form-model-item>
 
