@@ -121,7 +121,7 @@
               <a-radio :value="LicenseValidityType.DATE">日期选择</a-radio>
               <a-radio :value="LicenseValidityType.PERMANENT">永久有效</a-radio>
             </a-radio-group>
-            <div v-if="companyData.legalPersonIdValidityType === LicenseValidityType.DATE" style="margin-top: 8px">
+            <div style="margin-top: 8px">
               <a-row :gutter="12" type="flex" align="middle">
                 <a-col flex="200px">
                   <a-date-picker
@@ -136,18 +136,13 @@
                 </a-col>
                 <a-col flex="200px">
                   <a-date-picker
+                    v-if="companyData.legalPersonIdValidityType === LicenseValidityType.DATE"
                     v-model="idCardEndDateValue"
                     placeholder="结束日期"
                     style="width: 100%"
                     @change="handleIdCardEndDateChange"
                   />
-                </a-col>
-              </a-row>
-            </div>
-            <div v-else style="margin-top: 8px">
-              <a-row :gutter="12" type="flex" align="middle">
-                <a-col flex="200px">
-                  <span style="color: rgba(0,0,0,0.9)">永久</span>
+                  <span v-else style="color: rgba(0,0,0,0.9); line-height: 32px;">永久</span>
                 </a-col>
               </a-row>
             </div>
