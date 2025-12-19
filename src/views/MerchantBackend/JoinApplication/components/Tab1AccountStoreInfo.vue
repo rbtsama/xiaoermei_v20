@@ -13,10 +13,8 @@
       >
         <a-form-model-item label="主账号" required>
           <div class="readonly-text">
-            <a-icon type="phone" style="margin-right: 8px; color: #666666;" />
             <span style="color: rgba(0,0,0,0.9); font-size: 14px;">{{ localData.accountInfo.mainAccount || '13575481983' }}</span>
           </div>
-          <div class="field-hint">系统分配的登录账号，无法修改</div>
         </a-form-model-item>
 
         <a-form-model-item label="预订电话" required>
