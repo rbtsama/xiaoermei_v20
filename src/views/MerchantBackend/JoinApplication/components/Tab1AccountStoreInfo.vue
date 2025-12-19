@@ -101,19 +101,15 @@
           <div class="field-hint">门店对外展示的名称</div>
         </a-form-model-item>
 
-        <a-form-model-item label="门店所在地区" required>
+        <a-form-model-item label="详细地址" required>
           <a-cascader
             v-model="localData.storeBasicInfo.storeRegionArray"
             :options="regionOptions"
             placeholder="请选择省市区"
             @change="handleRegionChange"
-            style="width: 100%"
+            style="width: 100%; margin-bottom: 8px"
             :disabled="isLocked"
           />
-          <div class="field-hint">请选择门店所在的省市区</div>
-        </a-form-model-item>
-
-        <a-form-model-item label="详细地址" required>
           <a-input
             v-model="localData.storeBasicInfo.storeAddress"
             placeholder="请填写街道、门牌号等详细地址"
@@ -121,7 +117,7 @@
             :disabled="isLocked"
             @change="handleChange"
           />
-          <div class="field-hint">门店详细地址（不含省市区）</div>
+          <div class="field-hint">先选择省市区，再填写街道门牌号</div>
         </a-form-model-item>
 
         <a-form-model-item label="房间数量" required>
