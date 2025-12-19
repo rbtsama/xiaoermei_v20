@@ -193,23 +193,26 @@
           :label-col="{ span: 6 }"
           :wrapper-col="{ span: 14 }"
         >
-          <a-form-model-item label="门店所在地区" required>
-            <a-cascader
-              v-model="companyData.storeRegionArray"
-              :options="regionOptions"
-              placeholder="请选择省市区（县）"
-              @change="handleRegionChange"
-              style="width: 100%"
-            />
-            <div class="field-hint">请选择门店所在的省市区（县）</div>
-          </a-form-model-item>
-
           <a-form-model-item label="门店详细地址" required>
-            <a-input
-              v-model="companyData.storeDetailAddress"
-              placeholder="示例：富春江镇芦茨村芦茨乡芦茨"
-              @change="handleChange"
-            />
+            <a-row :gutter="12">
+              <a-col flex="30%">
+                <a-cascader
+                  v-model="companyData.storeRegionArray"
+                  :options="regionOptions"
+                  placeholder="请选择省市区（县）"
+                  @change="handleRegionChange"
+                  style="width: 100%"
+                />
+              </a-col>
+              <a-col flex="70%">
+                <a-input
+                  v-model="companyData.storeDetailAddress"
+                  placeholder="请填写街道、门牌号等详细地址"
+                  @change="handleChange"
+                />
+              </a-col>
+            </a-row>
+            <div class="field-hint">先选择省市区（县），再填写街道门牌号</div>
           </a-form-model-item>
         </a-form-model>
       </a-card>
