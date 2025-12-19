@@ -310,15 +310,6 @@
             />
             <div class="field-hint">用于支付完成页面向用户展示，建议和品牌名称一致</div>
           </a-form-model-item>
-
-          <a-form-model-item label="账户简称" required>
-            <a-input
-              v-model="companyData.merchantShortName"
-              placeholder="用于后台查看和管理账户"
-              @change="handleChange"
-            />
-            <div class="field-hint">用于后台查看和管理账户</div>
-          </a-form-model-item>
         </a-form-model>
       </a-card>
 
@@ -333,6 +324,15 @@
           :label-col="{ span: 6 }"
           :wrapper-col="{ span: 14 }"
         >
+          <a-form-model-item label="账户简称" required>
+            <a-input
+              v-model="companyData.merchantShortName"
+              placeholder="用于后台查看和管理账户"
+              @change="handleChange"
+            />
+            <div class="field-hint">用于后台查看和管理账户</div>
+          </a-form-model-item>
+
           <a-form-model-item label="联系人姓名" required>
             <a-input
               v-model="companyData.contactName"
