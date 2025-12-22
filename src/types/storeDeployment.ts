@@ -113,8 +113,9 @@ export interface StoreFacilities {
 export interface SurroundingItem {
   id: string                    // ID
   locationName: string          // 地点名称
+  travelMode: 'driving' | 'walking'  // 交通方式（驾车/步行）
   distance: number              // 距离（公里）
-  drivingTime: number           // 驾车时间（分钟）
+  travelTime: number            // 时间（分钟）
   featured?: boolean            // 是否重点展示
 }
 

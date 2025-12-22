@@ -251,9 +251,16 @@
             class="surrounding-item"
           >
             <a-row :gutter="16" type="flex" align="middle">
-              <a-col :span="8">
+              <a-col :span="7">
                 <div class="field-label">地点名称</div>
                 <a-input v-model="item.locationName" placeholder="桐庐站" :disabled="isLocked" @change="handleChange" />
+              </a-col>
+              <a-col :span="2">
+                <div class="field-label">方式</div>
+                <a-select v-model="item.travelMode" :disabled="isLocked" @change="handleChange" style="width: 100%">
+                  <a-select-option value="driving">驾车</a-select-option>
+                  <a-select-option value="walking">步行</a-select-option>
+                </a-select>
               </a-col>
               <a-col :span="4">
                 <div class="field-label">距离住宿地（公里）</div>
@@ -269,10 +276,10 @@
                   <template slot="addonAfter">公里</template>
                 </a-input-number>
               </a-col>
-              <a-col :span="4">
-                <div class="field-label">驾驶时间（分钟）</div>
+              <a-col :span="3">
+                <div class="field-label">时间（分钟）</div>
                 <a-input-number
-                  v-model="item.drivingTime"
+                  v-model="item.travelTime"
                   placeholder="25"
                   :min="0"
                   :precision="0"
@@ -283,7 +290,7 @@
                   <template slot="addonAfter">分钟</template>
                 </a-input-number>
               </a-col>
-              <a-col :span="4">
+              <a-col :span="5">
                 <div class="field-label">&nbsp;</div>
                 <a-radio
                   :checked="item.featured"
@@ -329,9 +336,16 @@
             class="surrounding-item"
           >
             <a-row :gutter="16" type="flex" align="middle">
-              <a-col :span="8">
+              <a-col :span="7">
                 <div class="field-label">地点名称</div>
                 <a-input v-model="item.locationName" placeholder="富春江镇" :disabled="isLocked" @change="handleChange" />
+              </a-col>
+              <a-col :span="2">
+                <div class="field-label">方式</div>
+                <a-select v-model="item.travelMode" :disabled="isLocked" @change="handleChange" style="width: 100%">
+                  <a-select-option value="driving">驾车</a-select-option>
+                  <a-select-option value="walking">步行</a-select-option>
+                </a-select>
               </a-col>
               <a-col :span="4">
                 <div class="field-label">距离住宿地（公里）</div>
@@ -347,10 +361,10 @@
                   <template slot="addonAfter">公里</template>
                 </a-input-number>
               </a-col>
-              <a-col :span="4">
-                <div class="field-label">驾驶时间（分钟）</div>
+              <a-col :span="3">
+                <div class="field-label">时间（分钟）</div>
                 <a-input-number
-                  v-model="item.drivingTime"
+                  v-model="item.travelTime"
                   placeholder="15"
                   :min="0"
                   :precision="0"
@@ -361,7 +375,7 @@
                   <template slot="addonAfter">分钟</template>
                 </a-input-number>
               </a-col>
-              <a-col :span="4">
+              <a-col :span="5">
                 <div class="field-label">&nbsp;</div>
                 <a-radio
                   :checked="item.featured"
@@ -411,9 +425,16 @@
             class="surrounding-item"
           >
             <a-row :gutter="16" type="flex" align="middle">
-              <a-col :span="8">
+              <a-col :span="7">
                 <div class="field-label">地点名称</div>
                 <a-input v-model="item.locationName" placeholder="芦茨村" :disabled="isLocked" @change="handleChange" />
+              </a-col>
+              <a-col :span="2">
+                <div class="field-label">方式</div>
+                <a-select v-model="item.travelMode" :disabled="isLocked" @change="handleChange" style="width: 100%">
+                  <a-select-option value="driving">驾车</a-select-option>
+                  <a-select-option value="walking">步行</a-select-option>
+                </a-select>
               </a-col>
               <a-col :span="4">
                 <div class="field-label">距离住宿地（公里）</div>
@@ -429,10 +450,10 @@
                   <template slot="addonAfter">公里</template>
                 </a-input-number>
               </a-col>
-              <a-col :span="4">
-                <div class="field-label">驾驶时间（分钟）</div>
+              <a-col :span="3">
+                <div class="field-label">时间（分钟）</div>
                 <a-input-number
-                  v-model="item.drivingTime"
+                  v-model="item.travelTime"
                   placeholder="10"
                   :min="0"
                   :precision="0"
@@ -527,28 +548,42 @@ export default defineComponent({
     // 初始化周边信息数据（如果为空则添加默认项）
     const initSurroundingInfo = (data) => {
       const transportation = data.transportation?.length > 0
-        ? [...data.transportation]
+        ? data.transportation.map(item => ({
+            ...item,
+            travelMode: item.travelMode || 'driving',
+            travelTime: item.travelTime || item.drivingTime || 0
+          }))
         : [{
             id: `trans_${Date.now()}`,
             locationName: '',
+            travelMode: 'driving',
             distance: 0,
-            drivingTime: 0,
-            featured: true  // 默认勾选标志信息
+            travelTime: 0,
+            featured: true
           }]
 
       const attractions = data.attractions?.length > 0
-        ? [...data.attractions]
+        ? data.attractions.map(item => ({
+            ...item,
+            travelMode: item.travelMode || 'driving',
+            travelTime: item.travelTime || item.drivingTime || 0
+          }))
         : [{
             id: `attr_${Date.now()}`,
             locationName: '',
+            travelMode: 'driving',
             distance: 0,
-            drivingTime: 0,
-            featured: true  // 默认勾选标志信息
+            travelTime: 0,
+            featured: true
           }]
 
       const food = data.food?.length > 0
-        ? [...data.food]
-        : []  // 默认不添加
+        ? data.food.map(item => ({
+            ...item,
+            travelMode: item.travelMode || 'driving',
+            travelTime: item.travelTime || item.drivingTime || 0
+          }))
+        : []
 
       return { transportation, attractions, food }
     }
@@ -579,8 +614,9 @@ export default defineComponent({
       const newItem = {
         id: `${category}_${Date.now()}`,
         locationName: '',
+        travelMode: 'driving',
         distance: 0,
-        drivingTime: 0,
+        travelTime: 0,
         featured: false  // 新添加的默认不选中标志信息
       }
       localData.surroundingInfo[category].push(newItem)
