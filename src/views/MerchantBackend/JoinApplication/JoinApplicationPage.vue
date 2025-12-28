@@ -241,28 +241,19 @@ export default defineComponent({
       Object.assign(tabProgress, progress)
     }
 
-    // 检测是否首次填写（所有tab都未提交）
-    const isFirstTime = () => {
-      return Object.values(submittedTabs).every(status => status === false)
-    }
-
-    // 检查是否已显示过指导弹窗（使用 localStorage 记录）
-    const hasShownGuide = () => {
-      return localStorage.getItem('store_guide_shown') === 'true'
+    // 检测是否有未完成的tab（只要有任何一个tab未提交，就返回true）
+    const hasUnfinishedTabs = () => {
+      return Object.values(submittedTabs).some(status => status === false)
     }
 
     // 关闭指导弹窗
     const handleCloseGuide = () => {
       showGuideDialog.value = false
-      // 记录已显示过指导弹窗
-      localStorage.setItem('store_guide_shown', 'true')
     }
 
     // 开始填写
     const handleStartFilling = () => {
       showGuideDialog.value = false
-      // 记录已显示过指导弹窗
-      localStorage.setItem('store_guide_shown', 'true')
       root.$message.success('开始填写门店信息，祝您顺利！')
     }
 
@@ -270,8 +261,8 @@ export default defineComponent({
       window.addEventListener('scroll', handleScroll)
 
       // 检测是否需要显示首次填写指导弹窗
-      // 条件：1. 首次填写（所有tab未提交） 2. 未显示过指导弹窗
-      if (isFirstTime() && !hasShownGuide()) {
+      // 只要有任何tab未提交，就显示弹窗
+      if (hasUnfinishedTabs()) {
         // 延迟500ms显示，让页面先渲染完成
         setTimeout(() => {
           showGuideDialog.value = true
