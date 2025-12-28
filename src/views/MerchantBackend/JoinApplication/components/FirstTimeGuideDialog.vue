@@ -240,7 +240,7 @@ export default defineComponent({
       'room-images': {
         title: '房型图片示例',
         type: 'image',
-        url: '/examples/房型图片示例.jpg',
+        url: '/examples/房型图片示例.png',
         content: ''
       },
       'store-info': {
