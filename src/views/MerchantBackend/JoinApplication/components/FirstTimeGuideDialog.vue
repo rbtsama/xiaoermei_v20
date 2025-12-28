@@ -34,27 +34,24 @@
                 <span class="item-number">1</span>
                 <div class="item-content">
                   <span class="item-title">营业执照扫描件/照片</span>
-                  <a-button type="link" size="small" @click="handlePreviewExample('license')" class="example-btn">
-                    <a-icon type="picture" />查看示例
-                  </a-button>
                 </div>
               </div>
               <div class="material-item">
                 <span class="item-number">2</span>
                 <div class="item-content">
                   <span class="item-title">法人身份证正反面照片</span>
-                  <a-button type="link" size="small" @click="handlePreviewExample('id-card')" class="example-btn">
-                    <a-icon type="picture" />查看示例
-                  </a-button>
                 </div>
               </div>
               <div class="material-item">
                 <span class="item-number">3</span>
                 <div class="item-content">
                   <span class="item-title">特种行业许可证（如有）</span>
-                  <a-button type="link" size="small" @click="handlePreviewExample('special-license')" class="example-btn">
-                    <a-icon type="picture" />查看示例
-                  </a-button>
+                </div>
+              </div>
+              <div class="material-item">
+                <span class="item-number">4</span>
+                <div class="item-content">
+                  <span class="item-title">收款账户信息（银行卡号、开户行等）</span>
                 </div>
               </div>
             </div>
@@ -73,33 +70,12 @@
                 <span class="item-number">1</span>
                 <div class="item-content">
                   <span class="item-title">门店名称、详细地址、联系电话</span>
-                  <a-button type="link" size="small" @click="handlePreviewInfo('store-info')" class="example-btn">
-                    <a-icon type="info-circle" />查看示例
-                  </a-button>
                 </div>
               </div>
               <div class="material-item">
                 <span class="item-number">2</span>
                 <div class="item-content">
                   <span class="item-title">PMS系统信息（如：订单来了门店编号）</span>
-                  <a-button type="link" size="small" @click="handlePreviewInfo('pms-info')" class="example-btn">
-                    <a-icon type="info-circle" />说明
-                  </a-button>
-                </div>
-              </div>
-              <div class="material-item">
-                <span class="item-number">3</span>
-                <div class="item-content">
-                  <span class="item-title">门店设施清单（交通、清洁、安保、公共区域等）</span>
-                  <a-button type="link" size="small" @click="handlePreviewInfo('facilities')" class="example-btn">
-                    <a-icon type="info-circle" />查看分类
-                  </a-button>
-                </div>
-              </div>
-              <div class="material-item">
-                <span class="item-number">4</span>
-                <div class="item-content">
-                  <span class="item-title">周边信息（景点、餐厅、交通等）</span>
                 </div>
               </div>
             </div>
@@ -235,32 +211,6 @@
           </div>
         </div>
 
-        <!-- 6. 结算信息 -->
-        <div class="material-card">
-          <div class="card-header">
-            <a-icon type="transaction" class="header-icon payment-icon" />
-            <span class="card-title">支付结算信息</span>
-          </div>
-          <div class="card-content">
-            <div class="material-list">
-              <div class="material-item">
-                <span class="item-number">1</span>
-                <div class="item-content">
-                  <span class="item-title">收款账户信息（银行卡号、开户行等）</span>
-                  <a-button type="link" size="small" @click="handlePreviewInfo('payment-info')" class="example-btn">
-                    <a-icon type="info-circle" />查看说明
-                  </a-button>
-                </div>
-              </div>
-              <div class="material-item">
-                <span class="item-number">2</span>
-                <div class="item-content">
-                  <span class="item-title">结算周期、发票信息（如需）</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- 温馨提示 -->
@@ -392,7 +342,6 @@ export default defineComponent({
         type: 'text',
         url: '',
         content: `
-          <p style="margin-bottom: 12px;">PMS（Property Management System）是酒店房态管理系统。</p>
           <p style="margin-bottom: 12px;"><strong>订单来了：</strong>需要提供门店编号，例如：69808093</p>
           <p style="margin-bottom: 12px;"><strong>其他系统：</strong>请联系平台客服对接</p>
         `
