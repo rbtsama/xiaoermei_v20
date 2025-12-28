@@ -10,15 +10,11 @@
     <template slot="title">
       <div class="dialog-title">
         <a-icon type="file-text" class="title-icon" />
-        <span>门店信息填写指南</span>
+        <span>欢迎入驻平台！请提前准备以下材料后开始填写。</span>
       </div>
     </template>
 
     <div class="guide-content">
-      <!-- 欢迎语 -->
-      <div class="welcome-section">
-        <p class="welcome-text">欢迎入驻！为了帮助您更高效地完成门店信息配置，请提前准备以下材料。</p>
-      </div>
 
       <!-- 材料清单 -->
       <div class="materials-section">
@@ -213,25 +209,8 @@
 
       </div>
 
-      <!-- 温馨提示 -->
-      <div class="tips-section">
-        <a-icon type="bulb" class="tips-icon" />
-        <div class="tips-content">
-          <p class="tips-title">温馨提示</p>
-          <ul class="tips-list">
-            <li>请确保所有证件照片清晰可辨，避免反光或模糊</li>
-            <li>门店图片建议使用专业拍摄的高清图片，展示门店真实环境</li>
-            <li>填写过程中系统会自动保存，您可以随时返回继续填写</li>
-            <li>每个板块填写完成后请点击"提交本页"，以便我们进行审核</li>
-          </ul>
-        </div>
-      </div>
-
       <!-- 底部操作按钮 -->
       <div class="dialog-footer">
-        <a-button size="large" @click="handleClose" class="cancel-btn">
-          稍后准备
-        </a-button>
         <a-button type="primary" size="large" @click="handleStart" class="start-btn">
           <a-icon type="check-circle" />
           我准备好了，开始填写
@@ -501,21 +480,6 @@ export default defineComponent({
   padding: 24px;
 }
 
-.welcome-section {
-  margin-bottom: 24px;
-  padding: 16px 20px;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0.02) 100%);
-  border-left: 3px solid @brand-primary;
-  border-radius: @border-radius-base;
-
-  .welcome-text {
-    margin: 0;
-    font-size: @font-size-base;
-    color: @text-primary;
-    line-height: 1.6;
-  }
-}
-
 .materials-section {
   display: flex;
   flex-direction: column;
@@ -640,68 +604,18 @@ export default defineComponent({
   }
 }
 
-.tips-section {
-  display: flex;
-  gap: 12px;
-  padding: 16px 20px;
-  background: #fffbeb;
-  border: 1px solid #fde68a;
-  border-radius: @border-radius-base;
-  margin-bottom: 24px;
-
-  .tips-icon {
-    font-size: 18px;
-    color: #f59e0b;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  .tips-content {
-    flex: 1;
-
-    .tips-title {
-      margin: 0 0 8px 0;
-      font-size: @font-size-base;
-      font-weight: @font-weight-semibold;
-      color: #78350f;
-    }
-
-    .tips-list {
-      margin: 0;
-      padding-left: 20px;
-      list-style: disc;
-
-      li {
-        font-size: @font-size-sm;
-        color: #92400e;
-        line-height: 1.6;
-        margin-bottom: 4px;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
-    }
-  }
-}
-
 .dialog-footer {
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
+  justify-content: center;
   padding-top: 16px;
   border-top: 1px solid @border-primary;
 
-  .cancel-btn,
   .start-btn {
     height: 40px;
-    padding: 0 24px;
+    padding: 0 32px;
     font-size: @font-size-base;
     font-weight: @font-weight-medium;
     border-radius: @border-radius-base;
-  }
-
-  .start-btn {
     box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
 
     &:hover {
