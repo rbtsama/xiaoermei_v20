@@ -81,6 +81,12 @@
         </div>
       </div>
 
+      <!-- 首次填写指导弹窗 -->
+      <first-time-guide-dialog
+        :visible="showGuideDialog"
+        @close="handleCloseGuide"
+        @start="handleStartFilling"
+      />
     </div>
   </sidebar>
 </template>
@@ -89,6 +95,7 @@
 import { defineComponent, ref, reactive, computed, onMounted, onBeforeMount } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import StoreDeploymentForm from './StoreDeploymentForm.vue'
+import FirstTimeGuideDialog from './components/FirstTimeGuideDialog.vue'
 import { AutoSaveStatus } from '@/types/storeDeployment'
 import dayjs from 'dayjs'
 
@@ -96,7 +103,8 @@ export default defineComponent({
   name: 'StoreDeploymentPage',
   components: {
     Sidebar,
-    StoreDeploymentForm
+    StoreDeploymentForm,
+    FirstTimeGuideDialog
   },
   setup(props, { root }) {
     const activeTab = ref('tab1')
@@ -104,6 +112,7 @@ export default defineComponent({
     const autoSaveStatus = ref(AutoSaveStatus.IDLE)
     const lastSaveTime = ref('')
     const formRef = ref(null)
+    const showGuideDialog = ref(false)
 
     // Tab提交状态（记录哪些Tab已提交）
     const submittedTabs = reactive({
@@ -232,8 +241,42 @@ export default defineComponent({
       Object.assign(tabProgress, progress)
     }
 
+    // 检测是否首次填写（所有tab都未提交）
+    const isFirstTime = () => {
+      return Object.values(submittedTabs).every(status => status === false)
+    }
+
+    // 检查是否已显示过指导弹窗（使用 localStorage 记录）
+    const hasShownGuide = () => {
+      return localStorage.getItem('store_guide_shown') === 'true'
+    }
+
+    // 关闭指导弹窗
+    const handleCloseGuide = () => {
+      showGuideDialog.value = false
+      // 记录已显示过指导弹窗
+      localStorage.setItem('store_guide_shown', 'true')
+    }
+
+    // 开始填写
+    const handleStartFilling = () => {
+      showGuideDialog.value = false
+      // 记录已显示过指导弹窗
+      localStorage.setItem('store_guide_shown', 'true')
+      root.$message.success('开始填写门店信息，祝您顺利！')
+    }
+
     onMounted(() => {
       window.addEventListener('scroll', handleScroll)
+
+      // 检测是否需要显示首次填写指导弹窗
+      // 条件：1. 首次填写（所有tab未提交） 2. 未显示过指导弹窗
+      if (isFirstTime() && !hasShownGuide()) {
+        // 延迟500ms显示，让页面先渲染完成
+        setTimeout(() => {
+          showGuideDialog.value = true
+        }, 500)
+      }
     })
 
     onBeforeMount(() => {
@@ -250,6 +293,7 @@ export default defineComponent({
       tabProgress,
       steps,
       formRef,
+      showGuideDialog,
       isStepCompleted,
       handleSaveDraft,
       handleSubmitTab,
@@ -258,7 +302,9 @@ export default defineComponent({
       handleCancelEdit,
       handleProgressUpdate,
       handleSaveSuccess,
-      handleSaveError
+      handleSaveError,
+      handleCloseGuide,
+      handleStartFilling
     }
   }
 })
