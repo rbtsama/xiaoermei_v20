@@ -47,8 +47,18 @@
               <div class="material-item">
                 <span class="item-number">4</span>
                 <div class="item-content">
-                  <span class="item-title">收款账户信息（银行卡号、开户行等）</span>
+                  <div class="item-title-wrapper">
+                    <span class="item-title">收款账户信息</span>
+                  </div>
                 </div>
+              </div>
+              <div class="material-sub-item">
+                <div class="sub-item-label">公司：</div>
+                <div class="sub-item-content">对公账户信息（银行卡号、开户行、开户名）</div>
+              </div>
+              <div class="material-sub-item">
+                <div class="sub-item-label">个体工商户：</div>
+                <div class="sub-item-content">法人个人银行卡信息（银行卡号、开户行、开户名）</div>
               </div>
             </div>
           </div>
@@ -529,6 +539,30 @@ export default defineComponent({
         margin-right: 4px;
       }
     }
+  }
+}
+
+.material-sub-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-left: 32px;
+  margin-top: 8px;
+  padding-left: 12px;
+  border-left: 2px solid @border-primary;
+
+  .sub-item-label {
+    font-size: @font-size-sm;
+    font-weight: @font-weight-semibold;
+    color: @text-primary;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .sub-item-content {
+    font-size: @font-size-sm;
+    color: @text-secondary;
+    line-height: 1.6;
   }
 }
 
