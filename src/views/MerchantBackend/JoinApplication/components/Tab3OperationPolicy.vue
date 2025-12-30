@@ -419,29 +419,42 @@
         <div class="subsection-title">会员折扣 <span class="required">*</span></div>
         <div class="field-hint" style="margin-bottom: 20px;">设置本门店各会员等级的折扣，折扣范围仅允许在平台制定范围中设置</div>
 
-        <!-- VIP0-VIP6 一行展示 -->
-        <a-row :gutter="16">
-          <a-col :span="2" v-for="level in vipLevels" :key="level.level">
-            <div class="vip-discount-item">
-              <label class="vip-label">
-                {{ level.level }} <span class="vip-range-inline">({{ level.min }}-{{ level.max }}%)</span>
-              </label>
-              <div class="vip-input-wrapper">
-                <a-input-number
-                  v-model="formValues.vipDiscounts[level.level]"
-                  :precision="0"
-                  :disabled="isLocked"
-                  @change="() => validateVipDiscount(level.level, level.min, level.max)"
-                  style="width: 100%;"
-                />
-                <span class="percent-symbol">%</span>
-              </div>
-              <div v-if="vipDiscountErrors[level.level]" class="error-hint">
-                {{ vipDiscountErrors[level.level] }}
+        <!-- 会员折扣表格 -->
+        <a-table
+          :columns="vipDiscountColumns"
+          :data-source="vipLevels"
+          :pagination="false"
+          row-key="level"
+          class="vip-discount-table"
+        >
+          <!-- 等级列 -->
+          <template slot="level" slot-scope="text">
+            <span class="vip-level-text">{{ text }}</span>
+          </template>
+
+          <!-- 平台折扣范围列 -->
+          <template slot="range" slot-scope="text, record">
+            <span class="platform-range">{{ record.min }}% - {{ record.max }}%</span>
+          </template>
+
+          <!-- 本店折扣列 -->
+          <template slot="discount" slot-scope="text, record">
+            <div class="discount-input-wrapper">
+              <a-input-number
+                v-model="formValues.vipDiscounts[record.level]"
+                :precision="0"
+                :disabled="isLocked"
+                @change="() => validateVipDiscount(record.level, record.min, record.max)"
+                style="width: 100px;"
+                size="small"
+              />
+              <span class="percent-text">%</span>
+              <div v-if="vipDiscountErrors[record.level]" class="error-hint">
+                {{ vipDiscountErrors[record.level] }}
               </div>
             </div>
-          </a-col>
-        </a-row>
+          </template>
+        </a-table>
       </div>
     </a-card>
   </div>
@@ -472,6 +485,30 @@ export default defineComponent({
       { level: 'VIP4', min: 75, max: 80 },
       { level: 'VIP5', min: 70, max: 75 },
       { level: 'VIP6', min: 65, max: 70 }
+    ]
+
+    // 表格列配置
+    const vipDiscountColumns = [
+      {
+        title: '会员等级',
+        dataIndex: 'level',
+        key: 'level',
+        width: 120,
+        scopedSlots: { customRender: 'level' }
+      },
+      {
+        title: '平台折扣范围',
+        dataIndex: 'range',
+        key: 'range',
+        width: 150,
+        scopedSlots: { customRender: 'range' }
+      },
+      {
+        title: '本店折扣',
+        dataIndex: 'discount',
+        key: 'discount',
+        scopedSlots: { customRender: 'discount' }
+      }
     ]
 
     // VIP折扣错误提示
@@ -594,6 +631,7 @@ export default defineComponent({
     return {
       formValues,
       vipLevels,
+      vipDiscountColumns,
       vipDiscountErrors,
       validateVipDiscount,
       handleChange
@@ -752,43 +790,52 @@ export default defineComponent({
   width: 100%;
 }
 
-// 会员折扣样式
-.vip-discount-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  .vip-label {
-    font-size: @font-size-base;
-    font-weight: @font-weight-semibold;
+// 会员折扣表格样式
+.vip-discount-table {
+  :deep(.ant-table-thead > tr > th) {
+    background: @bg-secondary;
+    border-bottom: 1px solid @border-primary;
     color: @text-primary;
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    white-space: nowrap;
+    font-weight: @font-weight-semibold;
+    font-size: @font-size-base;
+    padding: 12px 16px;
+  }
 
-    .vip-range-inline {
-      font-size: @font-size-xs;
-      font-weight: @font-weight-normal;
-      color: @text-secondary;
+  :deep(.ant-table-tbody > tr) {
+    &:hover > td {
+      background: @bg-hover;
+    }
+
+    > td {
+      border-bottom: 1px solid @border-primary;
+      padding: 12px 16px;
+      color: @text-primary;
     }
   }
 
-  .vip-input-wrapper {
-    position: relative;
+  .vip-level-text {
+    font-weight: @font-weight-semibold;
+    color: @text-primary;
+  }
 
-    .percent-symbol {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
+  .platform-range {
+    font-size: @font-size-sm;
+    color: @text-secondary;
+  }
+
+  .discount-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .percent-text {
       font-size: @font-size-base;
       color: @text-secondary;
-      pointer-events: none;
     }
 
-    :deep(.ant-input-number) {
-      padding-right: 32px;
+    .error-hint {
+      margin-top: 0;
+      margin-left: 8px;
     }
   }
 }
