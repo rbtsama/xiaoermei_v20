@@ -417,7 +417,11 @@
       <!-- 7. 会员折扣 -->
       <div class="policy-section">
         <div class="subsection-title">会员折扣 <span class="required">*</span></div>
-        <div class="field-hint" style="margin-bottom: 20px;">设置本门店各会员等级的折扣，折扣范围仅允许在平台制定范围中设置</div>
+        <div class="field-hint" style="margin-bottom: 8px;">设置本门店各会员等级的折扣，折扣范围仅允许在平台制定范围中设置</div>
+        <ul class="vip-instruction-list">
+          <li>本店折扣：商户可针对每周7天 + 节假日分别设置更优惠的折扣（必须 ≤ 平台折扣）</li>
+          <li>节假日折扣优先级最高：当日期为节假日时，优先使用节假日折扣，否则使用对应星期的折扣</li>
+        </ul>
 
         <!-- 会员折扣表格 -->
         <a-table
@@ -842,6 +846,25 @@ export default defineComponent({
 
 :deep(.ant-time-picker) {
   width: 100%;
+}
+
+// 会员折扣说明列表
+.vip-instruction-list {
+  list-style: disc;
+  list-style-position: inside;
+  margin: 0 0 20px 8px;
+  padding: 0;
+  font-size: @font-size-sm;
+  color: @text-secondary;
+
+  li {
+    margin-bottom: 4px;
+    line-height: 1.6;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 // 会员折扣表格样式（与VIPDiscountConfigPage保持一致）
