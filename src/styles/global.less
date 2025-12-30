@@ -120,6 +120,16 @@ body {
   &::placeholder {
     color: @text-tertiary !important;
   }
+
+  // disabled状态不显示灰色，保持正常颜色
+  &[disabled],
+  &.ant-input-disabled,
+  &.ant-input-number-disabled {
+    background-color: @bg-primary !important;
+    color: @text-primary !important;
+    border-color: @border-secondary !important;
+    cursor: not-allowed;
+  }
 }
 
 .ant-input {
@@ -128,6 +138,12 @@ body {
 
 .ant-input-number {
   width: 100%;
+
+  // disabled状态的输入框内文字不显示灰色
+  &.ant-input-number-disabled .ant-input-number-input {
+    background-color: @bg-primary !important;
+    color: @text-primary !important;
+  }
 }
 
 // Textarea - 统一圆角6px
@@ -142,6 +158,53 @@ body {
   &:focus {
     border-color: @border-focus !important;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+  }
+
+  // disabled状态不显示灰色
+  &[disabled] {
+    background-color: @bg-primary !important;
+    color: @text-primary !important;
+    border-color: @border-secondary !important;
+    cursor: not-allowed;
+  }
+}
+
+// Select下拉框disabled状态
+.ant-select-disabled {
+  .ant-select-selector {
+    background-color: @bg-primary !important;
+    color: @text-primary !important;
+    border-color: @border-secondary !important;
+  }
+}
+
+// Cascader级联选择disabled状态
+.ant-cascader-picker-disabled {
+  .ant-cascader-input {
+    background-color: @bg-primary !important;
+    color: @text-primary !important;
+    border-color: @border-secondary !important;
+  }
+}
+
+// TimePicker时间选择disabled状态
+.ant-time-picker-input[disabled] {
+  background-color: @bg-primary !important;
+  color: @text-primary !important;
+  border-color: @border-secondary !important;
+}
+
+// Checkbox复选框disabled状态
+.ant-checkbox-wrapper-disabled {
+  .ant-checkbox-disabled + span {
+    color: @text-primary !important;
+  }
+}
+
+// Radio单选框disabled状态
+.ant-radio-wrapper-disabled {
+  .ant-radio-disabled + span {
+    color: @text-primary !important;
   }
 }
 
