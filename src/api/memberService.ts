@@ -4,11 +4,9 @@
 
 import type {
   PointsServiceConfig,
-  InviteRecord,
 } from '@/types/memberService'
 import {
   mockPointsServiceConfig,
-  mockInviteRecords,
 } from '@/mocks/memberService.mock'
 
 /**
@@ -18,30 +16,6 @@ export function getPointsServiceConfig(): Promise<PointsServiceConfig> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(mockPointsServiceConfig)
-    }, 300)
-  })
-}
-
-/**
- * 获取邀请记录列表
- */
-export function getInviteRecords(): Promise<InviteRecord[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(mockInviteRecords)
-    }, 300)
-  })
-}
-
-/**
- * 生成邀请会员二维码
- */
-export function generateInviteQRCode(): Promise<{ qrCodeUrl: string }> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        qrCodeUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
-      })
     }, 300)
   })
 }
