@@ -6,11 +6,11 @@
         <div class="filter-container">
           <a-input
             v-model="filters.merchantName"
-            placeholder="输入关联商户"
+            placeholder="输入邀请人"
             style="width: 200px"
             @pressEnter="handleSearch"
           >
-            <a-icon slot="prefix" type="shop" />
+            <a-icon slot="prefix" type="user" />
           </a-input>
 
           <a-select
@@ -107,7 +107,7 @@
             </a-tag>
           </template>
 
-          <!-- 关联商户 -->
+          <!-- 邀请人 -->
           <template slot="relatedMerchant" slot-scope="text">
             <span class="merchant-text">{{ text || '—' }}</span>
           </template>
@@ -230,7 +230,7 @@ export default defineComponent({
           scopedSlots: { customRender: 'formalObtainMethod' }
         },
         {
-          title: '关联商户',
+          title: '邀请人',
           dataIndex: 'relatedMerchant',
           key: 'relatedMerchant',
           width: 150,
