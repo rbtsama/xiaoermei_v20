@@ -437,19 +437,22 @@
             <span class="platform-range">{{ record.min }}% - {{ record.max }}%</span>
           </template>
 
-          <!-- 本店折扣列 -->
-          <template slot="discount" slot-scope="text, record">
-            <div class="discount-cell">
+          <!-- 周一到周日和节假日 - 动态生成 -->
+          <template
+            v-for="day in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'holiday']"
+            #[`${day}Discount`]="{ text, record }"
+          >
+            <div :key="day" class="discount-cell">
               <a-input-number
-                v-model="formValues.vipDiscounts[record.level]"
+                v-model="formValues.vipDiscounts[record.level][day]"
                 :precision="0"
                 :disabled="isLocked"
-                @change="() => validateVipDiscount(record.level, record.min, record.max)"
+                @change="() => validateVipDiscount(record.level, day, record.min, record.max)"
                 style="width: 70px;"
                 size="small"
               />
-              <div v-if="vipDiscountErrors[record.level]" class="error-text">
-                {{ vipDiscountErrors[record.level] }}
+              <div v-if="vipDiscountErrors[record.level] && vipDiscountErrors[record.level][day]" class="error-text">
+                {{ vipDiscountErrors[record.level][day] }}
               </div>
             </div>
           </template>
@@ -503,23 +506,74 @@ export default defineComponent({
         scopedSlots: { customRender: 'range' }
       },
       {
-        title: '本店折扣',
-        dataIndex: 'discount',
-        key: 'discount',
+        title: '周一',
+        dataIndex: 'mondayDiscount',
+        key: 'mondayDiscount',
         align: 'center',
-        scopedSlots: { customRender: 'discount' }
+        scopedSlots: { customRender: 'mondayDiscount' }
+      },
+      {
+        title: '周二',
+        dataIndex: 'tuesdayDiscount',
+        key: 'tuesdayDiscount',
+        align: 'center',
+        scopedSlots: { customRender: 'tuesdayDiscount' }
+      },
+      {
+        title: '周三',
+        dataIndex: 'wednesdayDiscount',
+        key: 'wednesdayDiscount',
+        align: 'center',
+        scopedSlots: { customRender: 'wednesdayDiscount' }
+      },
+      {
+        title: '周四',
+        dataIndex: 'thursdayDiscount',
+        key: 'thursdayDiscount',
+        align: 'center',
+        scopedSlots: { customRender: 'thursdayDiscount' }
+      },
+      {
+        title: '周五',
+        dataIndex: 'fridayDiscount',
+        key: 'fridayDiscount',
+        align: 'center',
+        scopedSlots: { customRender: 'fridayDiscount' }
+      },
+      {
+        title: '周六',
+        dataIndex: 'saturdayDiscount',
+        key: 'saturdayDiscount',
+        align: 'center',
+        scopedSlots: { customRender: 'saturdayDiscount' }
+      },
+      {
+        title: '周日',
+        dataIndex: 'sundayDiscount',
+        key: 'sundayDiscount',
+        align: 'center',
+        scopedSlots: { customRender: 'sundayDiscount' }
+      },
+      {
+        title: '节日(优先)',
+        dataIndex: 'holidayDiscount',
+        key: 'holidayDiscount',
+        align: 'center',
+        customHeaderCell: () => ({ style: { backgroundColor: '#dbeafe' } }),
+        customCell: () => ({ style: { backgroundColor: '#eff6ff' } }),
+        scopedSlots: { customRender: 'holidayDiscount' }
       }
     ]
 
-    // VIP折扣错误提示
+    // VIP折扣错误提示（每个等级每天都有独立的错误状态）
     const vipDiscountErrors = reactive({
-      'VIP0': '',
-      'VIP1': '',
-      'VIP2': '',
-      'VIP3': '',
-      'VIP4': '',
-      'VIP5': '',
-      'VIP6': ''
+      'VIP0': { monday: '', tuesday: '', wednesday: '', thursday: '', friday: '', saturday: '', sunday: '', holiday: '' },
+      'VIP1': { monday: '', tuesday: '', wednesday: '', thursday: '', friday: '', saturday: '', sunday: '', holiday: '' },
+      'VIP2': { monday: '', tuesday: '', wednesday: '', thursday: '', friday: '', saturday: '', sunday: '', holiday: '' },
+      'VIP3': { monday: '', tuesday: '', wednesday: '', thursday: '', friday: '', saturday: '', sunday: '', holiday: '' },
+      'VIP4': { monday: '', tuesday: '', wednesday: '', thursday: '', friday: '', saturday: '', sunday: '', holiday: '' },
+      'VIP5': { monday: '', tuesday: '', wednesday: '', thursday: '', friday: '', saturday: '', sunday: '', holiday: '' },
+      'VIP6': { monday: '', tuesday: '', wednesday: '', thursday: '', friday: '', saturday: '', sunday: '', holiday: '' }
     })
 
     // 扁平化的表单数据 - 使用字符串而不是moment对象
@@ -556,36 +610,36 @@ export default defineComponent({
       childBreakfastAgeLimit: 12,
       childBreakfastHeightLimit: '1.2',
 
-      // 会员折扣（默认值为各等级的最大百分比）
+      // 会员折扣（每个等级每天都可以设置不同折扣，默认为最大值）
       vipDiscounts: {
-        'VIP0': 100,
-        'VIP1': 95,
-        'VIP2': 90,
-        'VIP3': 85,
-        'VIP4': 80,
-        'VIP5': 75,
-        'VIP6': 70
+        'VIP0': { monday: 100, tuesday: 100, wednesday: 100, thursday: 100, friday: 100, saturday: 100, sunday: 100, holiday: 100 },
+        'VIP1': { monday: 95, tuesday: 95, wednesday: 95, thursday: 95, friday: 95, saturday: 95, sunday: 95, holiday: 95 },
+        'VIP2': { monday: 90, tuesday: 90, wednesday: 90, thursday: 90, friday: 90, saturday: 90, sunday: 90, holiday: 90 },
+        'VIP3': { monday: 85, tuesday: 85, wednesday: 85, thursday: 85, friday: 85, saturday: 85, sunday: 85, holiday: 85 },
+        'VIP4': { monday: 80, tuesday: 80, wednesday: 80, thursday: 80, friday: 80, saturday: 80, sunday: 80, holiday: 80 },
+        'VIP5': { monday: 75, tuesday: 75, wednesday: 75, thursday: 75, friday: 75, saturday: 75, sunday: 75, holiday: 75 },
+        'VIP6': { monday: 70, tuesday: 70, wednesday: 70, thursday: 70, friday: 70, saturday: 70, sunday: 70, holiday: 70 }
       }
     })
 
     // 初始化数据
     // TODO: 从props.formData中初始化
 
-    // VIP折扣验证函数
-    const validateVipDiscount = (level, min, max) => {
-      const value = formValues.vipDiscounts[level]
+    // VIP折扣验证函数（支持每天不同折扣）
+    const validateVipDiscount = (level, day, min, max) => {
+      const value = formValues.vipDiscounts[level][day]
 
       if (value === null || value === undefined || value === '') {
-        vipDiscountErrors[level] = '请输入折扣百分比'
+        vipDiscountErrors[level][day] = '请输入折扣'
         return false
       }
 
       if (value < min || value > max) {
-        vipDiscountErrors[level] = `折扣必须在${min}%-${max}%范围内`
+        vipDiscountErrors[level][day] = `须在${min}%-${max}%内`
         return false
       }
 
-      vipDiscountErrors[level] = ''
+      vipDiscountErrors[level][day] = ''
       handleChange()
       return true
     }
