@@ -31,7 +31,7 @@
               <a-textarea
                 v-model="phoneText"
                 :rows="12"
-                placeholder="每行输入一个手机号，支持批量粘贴&#10;13800138000&#10;13900139000&#10;13700137000"
+                placeholder="每行输入一个受邀手机号"
                 class="phone-textarea"
               />
               <div class="input-hint">
@@ -43,18 +43,10 @@
             <div class="vip-select-section">
               <label class="input-label">赠送会员等级</label>
               <a-radio-group v-model="selectedVipLevel" class="vip-radio-group">
-                <a-radio :value="0" class="vip-radio">
-                  <span class="vip-tag vip-0">VIP0</span>
-                </a-radio>
-                <a-radio :value="1" class="vip-radio">
-                  <span class="vip-tag vip-1">VIP1</span>
-                </a-radio>
-                <a-radio :value="2" class="vip-radio">
-                  <span class="vip-tag vip-2">VIP2</span>
-                </a-radio>
-                <a-radio :value="3" class="vip-radio">
-                  <span class="vip-tag vip-3">VIP3</span>
-                </a-radio>
+                <a-radio :value="0">VIP0</a-radio>
+                <a-radio :value="1">VIP1</a-radio>
+                <a-radio :value="2">VIP2</a-radio>
+                <a-radio :value="3">VIP3</a-radio>
               </a-radio-group>
             </div>
 
@@ -82,7 +74,10 @@
 
           <div class="qrcode-content">
             <div class="qrcode-wrapper">
-              <img src="/images/invite-qrcode.png" alt="邀请二维码" class="qrcode-image" />
+              <div class="qrcode-placeholder">
+                <a-icon type="qrcode" class="qr-icon" />
+                <p class="placeholder-text">邀请二维码</p>
+              </div>
             </div>
             <p class="qrcode-text">扫码即可成为会员并享受折扣</p>
             <p class="qrcode-hint">会员可在平台享受专属优惠价格</p>
@@ -302,56 +297,11 @@ export default defineComponent({
 
 .vip-radio-group {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
+  gap: 24px;
 
-  .vip-radio {
-    padding: 12px 16px;
-    border: 1px solid @border-primary;
-    border-radius: @border-radius-base;
-    margin: 0;
-    transition: all 0.2s;
-
-    &:hover {
-      border-color: @brand-primary;
-      background: rgba(59, 130, 246, 0.05);
-    }
-
-    :deep(.ant-radio-checked) ~ .vip-tag {
-      font-weight: @font-weight-semibold;
-    }
-  }
-}
-
-.vip-tag {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: @border-radius-sm;
-  font-size: @font-size-sm;
-  font-weight: @font-weight-medium;
-
-  &.vip-0 {
-    color: #64748b;
-    background: #f8fafc;
-    border: 1px solid #cbd5e1;
-  }
-
-  &.vip-1 {
-    color: #1d4ed8;
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-  }
-
-  &.vip-2 {
-    color: #7c3aed;
-    background: #f5f3ff;
-    border: 1px solid #ddd6fe;
-  }
-
-  &.vip-3 {
-    color: #c2410c;
-    background: #fff7ed;
-    border: 1px solid #fed7aa;
+  :deep(.ant-radio-wrapper) {
+    font-size: @font-size-base;
+    color: @text-primary;
   }
 }
 
@@ -387,6 +337,27 @@ export default defineComponent({
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+
+    .qrcode-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+
+      .qr-icon {
+        font-size: 80px;
+        color: @text-tertiary;
+        margin-bottom: 12px;
+      }
+
+      .placeholder-text {
+        margin: 0;
+        font-size: @font-size-sm;
+        color: @text-secondary;
+      }
+    }
 
     .qrcode-image {
       width: 100%;
