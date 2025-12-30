@@ -125,7 +125,19 @@ const routes = [
     path: '/merchant-backend/old-customer/invite-member',
     name: 'InviteMember',
     component: () => import('@/views/MerchantBackend/MemberService/InviteMemberPage.vue'),
-    meta: { title: '邀请会员（未完成）' }
+    meta: { title: '邀请会员' }
+  },
+  {
+    path: '/merchant-backend/invite-member/records',
+    name: 'InviteRecords',
+    component: () => import('@/views/MerchantBackend/MemberService/InviteRecordsPage.vue'),
+    meta: { title: '邀请记录' }
+  },
+  {
+    path: '/merchant-backend/invite-member/commission',
+    name: 'CommissionRewards',
+    component: () => import('@/views/MerchantBackend/MemberService/CommissionRewardsPage.vue'),
+    meta: { title: '分销奖励' }
   }
 ]
 

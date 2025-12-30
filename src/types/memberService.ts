@@ -64,27 +64,31 @@ export interface MerchantVIPDiscountConfig {
 }
 
 /**
- * 邀请状态
+ * 账号状态
  */
-export type InviteStatus = 'pending' | 'accepted' | 'rejected' | 'expired'
+export enum AccountStatus {
+  PRE_REGISTERED = 'pre_registered', // 预注册（已邀请未注册）
+  REGISTERED = 'registered'          // 已注册
+}
 
 /**
  * 邀请记录
  */
 export interface InviteRecord {
   id: string
+  inviteePhone: string        // 受邀会员手机号
+  invitedAt: string           // 邀请时间
+  accountStatus: AccountStatus // 账号状态
+  vipLevel: number            // 会员等级（0-3）
+}
 
-  // 赠送信息
-  inviteeId: string // 受邀人用户ID（6位数字格式）
-  giftedVipLevel: number // 赠送的VIP等级（1-3）
-  trialDays: number // 体验期限（天）
-
-  // 时间信息
-  invitedAt: string // 赠送时间
-  acceptedAt: string | null // 接受时间
-  effectiveAt: string | null // 生效时间（接受后次日0点）
-  expiresAt: string | null // 到期时间
-
-  // 状态
-  status: InviteStatus // 邀请状态
+/**
+ * 分销奖励记录
+ */
+export interface CommissionRecord {
+  id: string
+  orderNo: string         // 订单号
+  inviteePhone: string    // 受邀会员手机号
+  orderTime: string       // 下单时间
+  paymentAmount: number   // 支付金额（元）
 }

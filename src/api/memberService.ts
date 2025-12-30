@@ -4,9 +4,13 @@
 
 import type {
   PointsServiceConfig,
+  InviteRecord,
+  CommissionRecord,
 } from '@/types/memberService'
 import {
   mockPointsServiceConfig,
+  mockInviteRecords,
+  mockCommissionRecords,
 } from '@/mocks/memberService.mock'
 
 /**
@@ -16,6 +20,60 @@ export function getPointsServiceConfig(): Promise<PointsServiceConfig> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(mockPointsServiceConfig)
+    }, 300)
+  })
+}
+
+/**
+ * 批量邀请会员
+ * @param phones - 手机号数组
+ * @param vipLevel - 赠送的VIP等级（0-3）
+ */
+export function batchInviteMembers(phones: string[], vipLevel: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      // TODO: 接入真实API
+      resolve()
+    }, 500)
+  })
+}
+
+/**
+ * 获取邀请记录列表
+ * @param page - 页码
+ * @param pageSize - 每页数量
+ */
+export function getInviteRecords(page: number, pageSize: number): Promise<{ records: InviteRecord[], total: number }> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const start = (page - 1) * pageSize
+      const end = start + pageSize
+      resolve({
+        records: mockInviteRecords.slice(start, end),
+        total: mockInviteRecords.length
+      })
+    }, 300)
+  })
+}
+
+/**
+ * 获取分销奖励列表
+ * @param page - 页码
+ * @param pageSize - 每页数量
+ */
+export function getCommissionRecords(page: number, pageSize: number): Promise<{ records: CommissionRecord[], total: number }> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      // 按下单时间倒序排列
+      const sorted = [...mockCommissionRecords].sort((a, b) =>
+        new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime()
+      )
+      const start = (page - 1) * pageSize
+      const end = start + pageSize
+      resolve({
+        records: sorted.slice(start, end),
+        total: sorted.length
+      })
     }, 300)
   })
 }
