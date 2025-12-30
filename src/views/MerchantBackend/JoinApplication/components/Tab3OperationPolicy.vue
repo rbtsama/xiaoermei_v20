@@ -417,13 +417,15 @@
       <!-- 7. 会员折扣 -->
       <div class="policy-section">
         <div class="subsection-title">会员折扣 <span class="required">*</span></div>
-        <div class="field-hint" style="margin-bottom: 20px;">设置不同会员等级的折扣力度，等级越高折扣越大</div>
+        <div class="field-hint" style="margin-bottom: 20px;">设置本门店各会员等级的折扣，折扣范围仅允许在平台制定范围中设置</div>
 
-        <!-- VIP0-VIP3 -->
-        <a-row :gutter="24" style="margin-bottom: 16px;">
-          <a-col :span="6" v-for="level in vipLevels.slice(0, 4)" :key="level.level">
+        <!-- VIP0-VIP6 一行展示 -->
+        <a-row :gutter="16">
+          <a-col :span="2" v-for="level in vipLevels" :key="level.level">
             <div class="vip-discount-item">
-              <label class="vip-label">{{ level.level }}</label>
+              <label class="vip-label">
+                {{ level.level }} <span class="vip-range-inline">({{ level.min }}-{{ level.max }}%)</span>
+              </label>
               <div class="vip-input-wrapper">
                 <a-input-number
                   v-model="formValues.vipDiscounts[level.level]"
@@ -436,29 +438,6 @@
                 />
                 <span class="percent-symbol">%</span>
               </div>
-              <div class="vip-range">({{ level.min }}-{{ level.max }}%)</div>
-            </div>
-          </a-col>
-        </a-row>
-
-        <!-- VIP4-VIP6 -->
-        <a-row :gutter="24">
-          <a-col :span="6" v-for="level in vipLevels.slice(4, 7)" :key="level.level">
-            <div class="vip-discount-item">
-              <label class="vip-label">{{ level.level }}</label>
-              <div class="vip-input-wrapper">
-                <a-input-number
-                  v-model="formValues.vipDiscounts[level.level]"
-                  :min="level.min"
-                  :max="level.max"
-                  :precision="0"
-                  :disabled="isLocked"
-                  @change="handleChange"
-                  style="width: 100%;"
-                />
-                <span class="percent-symbol">%</span>
-              </div>
-              <div class="vip-range">({{ level.min }}-{{ level.max }}%)</div>
             </div>
           </a-col>
         </a-row>
@@ -743,6 +722,16 @@ export default defineComponent({
     font-size: @font-size-base;
     font-weight: @font-weight-semibold;
     color: @text-primary;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    white-space: nowrap;
+
+    .vip-range-inline {
+      font-size: @font-size-xs;
+      font-weight: @font-weight-normal;
+      color: @text-secondary;
+    }
   }
 
   .vip-input-wrapper {
@@ -761,12 +750,6 @@ export default defineComponent({
     :deep(.ant-input-number) {
       padding-right: 32px;
     }
-  }
-
-  .vip-range {
-    font-size: @font-size-xs;
-    color: @text-secondary;
-    text-align: center;
   }
 }
 </style>
