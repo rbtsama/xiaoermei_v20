@@ -130,10 +130,15 @@ export default defineComponent({
       updateProgress()
     }
 
-    // 计算进度
+    /**
+     * 计算并更新所有Tab的进度
+     * 进度格式：
+     * - "✓" 表示已完成
+     * - "3/10" 表示已完成3项，共10项
+     * - "0/10" 表示未开始
+     */
     const updateProgress = () => {
       const progress = {
-        tab0: '-',
         tab1: calculateTab1Progress(),
         tab2: calculateTab2Progress(),
         tab3: calculateTab3Progress(),
@@ -180,21 +185,21 @@ export default defineComponent({
       return `${completed}/${total}`
     }
 
-    // Tab5进度计算（支付结算）
+    // Tab5进度计算（房型设置）
     const calculateTab5Progress = () => {
-      let completed = 0
-      const total = 20
-      // 简化计算，实际应该检查所有字段
-      return `${completed}/${total}`
-    }
-
-    // Tab6进度计算（房型设置）
-    const calculateTab6Progress = () => {
       const total = 1
       const hasRooms = formData.roomTypes?.length > 0
       const roomCountMatch = formData.roomTypes?.reduce((sum, r) => sum + (r.roomCount || 0), 0) === formData.storeBasicInfo?.roomCount
       const completed = (hasRooms && roomCountMatch) ? 1 : 0
       return completed === total ? `✓` : `${completed}/${total}`
+    }
+
+    // Tab6进度计算（支付结算）
+    const calculateTab6Progress = () => {
+      let completed = 0
+      const total = 20
+      // 简化计算，实际应该检查所有字段
+      return `${completed}/${total}`
     }
 
     // 监听activeTab变化
@@ -208,6 +213,17 @@ export default defineComponent({
     )
 
     // 验证当前Tab
+    /**
+     * 验证当前Tab的数据完整性
+     * @returns {Promise<boolean>} 验证是否通过
+     *
+     * 验证规则：
+     * - Tab1: 门店亮点≥3项，所有必填字段不为空
+     * - Tab3: 必填时间字段 + 所有VIP等级的所有日期折扣都必须在规定范围内
+     * - Tab5: 房型总数必须等于门店总房间数（可弹窗确认）
+     *
+     * 失败时会通过 toast 提示具体错误信息
+     */
     const validateCurrentTab = async () => {
       const currentTab = props.activeTab
 

@@ -737,7 +737,20 @@ export default defineComponent({
     // 初始化数据
     // TODO: 从props.formData中初始化
 
-    // VIP折扣验证函数（支持每天不同折扣）
+    /**
+     * 验证VIP折扣是否在允许范围内
+     * @param {string} level - VIP等级 (VIP0-VIP6)
+     * @param {string} day - 星期 (monday-sunday, holiday)
+     * @param {number} min - 最小折扣百分比
+     * @param {number} max - 最大折扣百分比
+     * @returns {boolean} 是否通过验证
+     *
+     * 业务规则：
+     * - VIP等级越高，允许的折扣范围越小（折扣力度更大）
+     * - 节假日折扣优先级高于普通日期
+     * - 商户设置的折扣必须在平台规定范围内
+     * - 错误时设置错误状态（输入框红色边框），但不toast提示（提交时才提示）
+     */
     const validateVipDiscount = (level, day, min, max) => {
       const value = formValues.vipDiscounts[level][day]
 
@@ -756,7 +769,12 @@ export default defineComponent({
       return true
     }
 
-    // 数据变化处理 - 不使用watch，改用手动调用
+    /**
+     * 数据变化处理 - 手动调用emit通知父组件
+     * 将扁平化的 formValues 转换为嵌套的 operationPolicy 结构
+     *
+     * 重要：所有字段修改后都必须调用此函数，否则数据不会同步到父组件
+     */
     const handleChange = () => {
       emit('update', {
         operationPolicy: {
@@ -789,7 +807,9 @@ export default defineComponent({
             childPolicy: formValues.childBreakfastPolicy,
             childAgeLimit: formValues.childBreakfastAgeLimit,
             childHeightLimit: formValues.childBreakfastHeightLimit
-          }
+          },
+          // 会员折扣数据（新增）
+          vipDiscounts: formValues.vipDiscounts
         }
       })
     }

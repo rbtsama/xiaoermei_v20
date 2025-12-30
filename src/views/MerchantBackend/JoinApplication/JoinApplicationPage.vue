@@ -270,7 +270,7 @@ export default defineComponent({
       }
     })
 
-    onBeforeMount(() => {
+    onBeforeUnmount(() => {
       window.removeEventListener('scroll', handleScroll)
     })
 
