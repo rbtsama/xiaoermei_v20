@@ -429,14 +429,15 @@
               <div class="vip-input-wrapper">
                 <a-input-number
                   v-model="formValues.vipDiscounts[level.level]"
-                  :min="level.min"
-                  :max="level.max"
                   :precision="0"
                   :disabled="isLocked"
-                  @change="handleChange"
+                  @change="() => validateVipDiscount(level.level, level.min, level.max)"
                   style="width: 100%;"
                 />
                 <span class="percent-symbol">%</span>
+              </div>
+              <div v-if="vipDiscountErrors[level.level]" class="error-hint">
+                {{ vipDiscountErrors[level.level] }}
               </div>
             </div>
           </a-col>
@@ -472,6 +473,17 @@ export default defineComponent({
       { level: 'VIP5', min: 70, max: 75 },
       { level: 'VIP6', min: 65, max: 70 }
     ]
+
+    // VIP折扣错误提示
+    const vipDiscountErrors = reactive({
+      'VIP0': '',
+      'VIP1': '',
+      'VIP2': '',
+      'VIP3': '',
+      'VIP4': '',
+      'VIP5': '',
+      'VIP6': ''
+    })
 
     // 扁平化的表单数据 - 使用字符串而不是moment对象
     const formValues = reactive({
@@ -522,6 +534,25 @@ export default defineComponent({
     // 初始化数据
     // TODO: 从props.formData中初始化
 
+    // VIP折扣验证函数
+    const validateVipDiscount = (level, min, max) => {
+      const value = formValues.vipDiscounts[level]
+
+      if (value === null || value === undefined || value === '') {
+        vipDiscountErrors[level] = '请输入折扣百分比'
+        return false
+      }
+
+      if (value < min || value > max) {
+        vipDiscountErrors[level] = `折扣必须在${min}%-${max}%范围内`
+        return false
+      }
+
+      vipDiscountErrors[level] = ''
+      handleChange()
+      return true
+    }
+
     // 数据变化处理 - 不使用watch，改用手动调用
     const handleChange = () => {
       emit('update', {
@@ -563,6 +594,8 @@ export default defineComponent({
     return {
       formValues,
       vipLevels,
+      vipDiscountErrors,
+      validateVipDiscount,
       handleChange
     }
   }
@@ -661,6 +694,13 @@ export default defineComponent({
 .field-hint {
   font-size: @font-size-xs;
   color: @text-secondary;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.error-hint {
+  font-size: @font-size-xs;
+  color: @error-color;
   margin-top: 4px;
   line-height: 1.4;
 }

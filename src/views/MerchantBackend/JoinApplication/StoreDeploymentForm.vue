@@ -4,7 +4,7 @@
     <Tab1AccountStoreInfo
       v-if="activeTab === 'tab1'"
       :form-data="formData"
-      :is-locked="submittedTabs.tab1 && !editingTabs.tab1"
+      :is-locked="false"
       @update="handleFormUpdate"
     />
 
@@ -12,7 +12,7 @@
     <Tab2FacilitiesSurrounding
       v-if="activeTab === 'tab2'"
       :form-data="formData"
-      :is-locked="submittedTabs.tab2 && !editingTabs.tab2"
+      :is-locked="false"
       @update="handleFormUpdate"
     />
 
@@ -20,7 +20,7 @@
     <Tab3OperationPolicy
       v-if="activeTab === 'tab3'"
       :form-data="formData"
-      :is-locked="submittedTabs.tab3 && !editingTabs.tab3"
+      :is-locked="false"
       @update="handleFormUpdate"
     />
 
@@ -28,7 +28,7 @@
     <Tab4StoreDisplay
       v-if="activeTab === 'tab4'"
       :form-data="formData"
-      :is-locked="submittedTabs.tab4 && !editingTabs.tab4"
+      :is-locked="false"
       @update="handleFormUpdate"
     />
 
@@ -36,7 +36,7 @@
     <Tab5RoomTypeList
       v-if="activeTab === 'tab5'"
       :form-data="formData"
-      :is-locked="submittedTabs.tab5 && !editingTabs.tab5"
+      :is-locked="false"
       @update="handleFormUpdate"
     />
 
@@ -44,7 +44,7 @@
     <Tab6PaymentSettlement
       v-if="activeTab === 'tab6'"
       :form-data="formData"
-      :is-locked="submittedTabs.tab6 && !editingTabs.tab6"
+      :is-locked="false"
       @update="handleFormUpdate"
     />
   </div>
