@@ -439,17 +439,16 @@
 
           <!-- 本店折扣列 -->
           <template slot="discount" slot-scope="text, record">
-            <div class="discount-input-wrapper">
+            <div class="discount-cell">
               <a-input-number
                 v-model="formValues.vipDiscounts[record.level]"
                 :precision="0"
                 :disabled="isLocked"
                 @change="() => validateVipDiscount(record.level, record.min, record.max)"
-                style="width: 100px;"
+                style="width: 70px;"
                 size="small"
               />
-              <span class="percent-text">%</span>
-              <div v-if="vipDiscountErrors[record.level]" class="error-hint">
+              <div v-if="vipDiscountErrors[record.level]" class="error-text">
                 {{ vipDiscountErrors[record.level] }}
               </div>
             </div>
@@ -490,23 +489,24 @@ export default defineComponent({
     // 表格列配置
     const vipDiscountColumns = [
       {
-        title: '会员等级',
+        title: '等级',
         dataIndex: 'level',
         key: 'level',
-        width: 120,
+        width: 80,
         scopedSlots: { customRender: 'level' }
       },
       {
         title: '平台折扣范围',
         dataIndex: 'range',
         key: 'range',
-        width: 150,
+        width: 120,
         scopedSlots: { customRender: 'range' }
       },
       {
         title: '本店折扣',
         dataIndex: 'discount',
         key: 'discount',
+        align: 'center',
         scopedSlots: { customRender: 'discount' }
       }
     ]
@@ -790,20 +790,19 @@ export default defineComponent({
   width: 100%;
 }
 
-// 会员折扣表格样式
+// 会员折扣表格样式（与VIPDiscountConfigPage保持一致）
 .vip-discount-table {
   :deep(.ant-table-thead > tr > th) {
-    background: @bg-secondary;
-    border-bottom: 1px solid @border-primary;
+    background-color: @bg-secondary;
     color: @text-primary;
     font-weight: @font-weight-semibold;
-    font-size: @font-size-base;
+    border-bottom: 1px solid @border-primary;
     padding: 12px 16px;
   }
 
   :deep(.ant-table-tbody > tr) {
-    &:hover > td {
-      background: @bg-hover;
+    &:hover {
+      background-color: @bg-hover;
     }
 
     > td {
@@ -814,28 +813,25 @@ export default defineComponent({
   }
 
   .vip-level-text {
-    font-weight: @font-weight-semibold;
+    font-weight: @font-weight-medium;
     color: @text-primary;
   }
 
   .platform-range {
     font-size: @font-size-sm;
-    color: @text-secondary;
+    font-weight: @font-weight-medium;
+    color: @text-primary;
   }
 
-  .discount-input-wrapper {
+  .discount-cell {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
 
-    .percent-text {
-      font-size: @font-size-base;
-      color: @text-secondary;
-    }
-
-    .error-hint {
-      margin-top: 0;
-      margin-left: 8px;
+    .error-text {
+      font-size: @font-size-xs;
+      color: @error-color;
     }
   }
 }
