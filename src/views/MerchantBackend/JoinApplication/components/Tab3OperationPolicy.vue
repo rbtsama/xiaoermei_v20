@@ -441,22 +441,138 @@
             <span class="platform-range">{{ record.min }}% - {{ record.max }}%</span>
           </template>
 
-          <!-- 周一到周日和节假日 - 动态生成 -->
-          <template
-            v-for="day in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'holiday']"
-            #[`${day}Discount`]="{ text, record }"
-          >
-            <div :key="day" class="discount-cell">
+          <!-- 周一 -->
+          <template slot="mondayDiscount" slot-scope="text, record">
+            <div class="discount-cell">
               <a-input-number
-                v-model="formValues.vipDiscounts[record.level][day]"
+                v-model="formValues.vipDiscounts[record.level].monday"
                 :precision="0"
                 :disabled="isLocked"
-                @change="() => validateVipDiscount(record.level, day, record.min, record.max)"
+                @change="() => validateVipDiscount(record.level, 'monday', record.min, record.max)"
                 style="width: 70px;"
                 size="small"
               />
-              <div v-if="vipDiscountErrors[record.level] && vipDiscountErrors[record.level][day]" class="error-text">
-                {{ vipDiscountErrors[record.level][day] }}
+              <div v-if="vipDiscountErrors[record.level].monday" class="error-text">
+                {{ vipDiscountErrors[record.level].monday }}
+              </div>
+            </div>
+          </template>
+
+          <!-- 周二 -->
+          <template slot="tuesdayDiscount" slot-scope="text, record">
+            <div class="discount-cell">
+              <a-input-number
+                v-model="formValues.vipDiscounts[record.level].tuesday"
+                :precision="0"
+                :disabled="isLocked"
+                @change="() => validateVipDiscount(record.level, 'tuesday', record.min, record.max)"
+                style="width: 70px;"
+                size="small"
+              />
+              <div v-if="vipDiscountErrors[record.level].tuesday" class="error-text">
+                {{ vipDiscountErrors[record.level].tuesday }}
+              </div>
+            </div>
+          </template>
+
+          <!-- 周三 -->
+          <template slot="wednesdayDiscount" slot-scope="text, record">
+            <div class="discount-cell">
+              <a-input-number
+                v-model="formValues.vipDiscounts[record.level].wednesday"
+                :precision="0"
+                :disabled="isLocked"
+                @change="() => validateVipDiscount(record.level, 'wednesday', record.min, record.max)"
+                style="width: 70px;"
+                size="small"
+              />
+              <div v-if="vipDiscountErrors[record.level].wednesday" class="error-text">
+                {{ vipDiscountErrors[record.level].wednesday }}
+              </div>
+            </div>
+          </template>
+
+          <!-- 周四 -->
+          <template slot="thursdayDiscount" slot-scope="text, record">
+            <div class="discount-cell">
+              <a-input-number
+                v-model="formValues.vipDiscounts[record.level].thursday"
+                :precision="0"
+                :disabled="isLocked"
+                @change="() => validateVipDiscount(record.level, 'thursday', record.min, record.max)"
+                style="width: 70px;"
+                size="small"
+              />
+              <div v-if="vipDiscountErrors[record.level].thursday" class="error-text">
+                {{ vipDiscountErrors[record.level].thursday }}
+              </div>
+            </div>
+          </template>
+
+          <!-- 周五 -->
+          <template slot="fridayDiscount" slot-scope="text, record">
+            <div class="discount-cell">
+              <a-input-number
+                v-model="formValues.vipDiscounts[record.level].friday"
+                :precision="0"
+                :disabled="isLocked"
+                @change="() => validateVipDiscount(record.level, 'friday', record.min, record.max)"
+                style="width: 70px;"
+                size="small"
+              />
+              <div v-if="vipDiscountErrors[record.level].friday" class="error-text">
+                {{ vipDiscountErrors[record.level].friday }}
+              </div>
+            </div>
+          </template>
+
+          <!-- 周六 -->
+          <template slot="saturdayDiscount" slot-scope="text, record">
+            <div class="discount-cell">
+              <a-input-number
+                v-model="formValues.vipDiscounts[record.level].saturday"
+                :precision="0"
+                :disabled="isLocked"
+                @change="() => validateVipDiscount(record.level, 'saturday', record.min, record.max)"
+                style="width: 70px;"
+                size="small"
+              />
+              <div v-if="vipDiscountErrors[record.level].saturday" class="error-text">
+                {{ vipDiscountErrors[record.level].saturday }}
+              </div>
+            </div>
+          </template>
+
+          <!-- 周日 -->
+          <template slot="sundayDiscount" slot-scope="text, record">
+            <div class="discount-cell">
+              <a-input-number
+                v-model="formValues.vipDiscounts[record.level].sunday"
+                :precision="0"
+                :disabled="isLocked"
+                @change="() => validateVipDiscount(record.level, 'sunday', record.min, record.max)"
+                style="width: 70px;"
+                size="small"
+              />
+              <div v-if="vipDiscountErrors[record.level].sunday" class="error-text">
+                {{ vipDiscountErrors[record.level].sunday }}
+              </div>
+            </div>
+          </template>
+
+          <!-- 节假日 -->
+          <template slot="holidayDiscount" slot-scope="text, record">
+            <div class="discount-cell">
+              <a-input-number
+                v-model="formValues.vipDiscounts[record.level].holiday"
+                :precision="0"
+                :disabled="isLocked"
+                @change="() => validateVipDiscount(record.level, 'holiday', record.min, record.max)"
+                style="width: 70px;"
+                size="small"
+              />
+              <div v-if="vipDiscountErrors[record.level].holiday" class="error-text">
+                {{ vipDiscountErrors[record.level].holiday }}
               </div>
             </div>
           </template>
