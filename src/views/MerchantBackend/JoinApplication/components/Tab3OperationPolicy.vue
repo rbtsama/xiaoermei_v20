@@ -448,13 +448,12 @@
                 v-model="formValues.vipDiscounts[record.level].monday"
                 :precision="0"
                 :disabled="isLocked"
-                @change="() => validateVipDiscount(record.level, 'monday', record.min, record.max)"
+                :class="{ 'input-error': vipDiscountErrors[record.level].monday }"
+                @change="handleChange"
                 style="width: 70px;"
                 size="small"
               />
-              <div v-if="vipDiscountErrors[record.level].monday" class="error-text">
-                {{ vipDiscountErrors[record.level].monday }}
-              </div>
+              <span class="percent-text">%</span>
             </div>
           </template>
 
@@ -465,13 +464,12 @@
                 v-model="formValues.vipDiscounts[record.level].tuesday"
                 :precision="0"
                 :disabled="isLocked"
-                @change="() => validateVipDiscount(record.level, 'tuesday', record.min, record.max)"
+                :class="{ 'input-error': vipDiscountErrors[record.level].tuesday }"
+                @change="handleChange"
                 style="width: 70px;"
                 size="small"
               />
-              <div v-if="vipDiscountErrors[record.level].tuesday" class="error-text">
-                {{ vipDiscountErrors[record.level].tuesday }}
-              </div>
+              <span class="percent-text">%</span>
             </div>
           </template>
 
@@ -482,13 +480,12 @@
                 v-model="formValues.vipDiscounts[record.level].wednesday"
                 :precision="0"
                 :disabled="isLocked"
-                @change="() => validateVipDiscount(record.level, 'wednesday', record.min, record.max)"
+                :class="{ 'input-error': vipDiscountErrors[record.level].wednesday }"
+                @change="handleChange"
                 style="width: 70px;"
                 size="small"
               />
-              <div v-if="vipDiscountErrors[record.level].wednesday" class="error-text">
-                {{ vipDiscountErrors[record.level].wednesday }}
-              </div>
+              <span class="percent-text">%</span>
             </div>
           </template>
 
@@ -499,13 +496,12 @@
                 v-model="formValues.vipDiscounts[record.level].thursday"
                 :precision="0"
                 :disabled="isLocked"
-                @change="() => validateVipDiscount(record.level, 'thursday', record.min, record.max)"
+                :class="{ 'input-error': vipDiscountErrors[record.level].thursday }"
+                @change="handleChange"
                 style="width: 70px;"
                 size="small"
               />
-              <div v-if="vipDiscountErrors[record.level].thursday" class="error-text">
-                {{ vipDiscountErrors[record.level].thursday }}
-              </div>
+              <span class="percent-text">%</span>
             </div>
           </template>
 
@@ -516,13 +512,12 @@
                 v-model="formValues.vipDiscounts[record.level].friday"
                 :precision="0"
                 :disabled="isLocked"
-                @change="() => validateVipDiscount(record.level, 'friday', record.min, record.max)"
+                :class="{ 'input-error': vipDiscountErrors[record.level].friday }"
+                @change="handleChange"
                 style="width: 70px;"
                 size="small"
               />
-              <div v-if="vipDiscountErrors[record.level].friday" class="error-text">
-                {{ vipDiscountErrors[record.level].friday }}
-              </div>
+              <span class="percent-text">%</span>
             </div>
           </template>
 
@@ -533,13 +528,12 @@
                 v-model="formValues.vipDiscounts[record.level].saturday"
                 :precision="0"
                 :disabled="isLocked"
-                @change="() => validateVipDiscount(record.level, 'saturday', record.min, record.max)"
+                :class="{ 'input-error': vipDiscountErrors[record.level].saturday }"
+                @change="handleChange"
                 style="width: 70px;"
                 size="small"
               />
-              <div v-if="vipDiscountErrors[record.level].saturday" class="error-text">
-                {{ vipDiscountErrors[record.level].saturday }}
-              </div>
+              <span class="percent-text">%</span>
             </div>
           </template>
 
@@ -550,13 +544,12 @@
                 v-model="formValues.vipDiscounts[record.level].sunday"
                 :precision="0"
                 :disabled="isLocked"
-                @change="() => validateVipDiscount(record.level, 'sunday', record.min, record.max)"
+                :class="{ 'input-error': vipDiscountErrors[record.level].sunday }"
+                @change="handleChange"
                 style="width: 70px;"
                 size="small"
               />
-              <div v-if="vipDiscountErrors[record.level].sunday" class="error-text">
-                {{ vipDiscountErrors[record.level].sunday }}
-              </div>
+              <span class="percent-text">%</span>
             </div>
           </template>
 
@@ -567,13 +560,12 @@
                 v-model="formValues.vipDiscounts[record.level].holiday"
                 :precision="0"
                 :disabled="isLocked"
-                @change="() => validateVipDiscount(record.level, 'holiday', record.min, record.max)"
+                :class="{ 'input-error': vipDiscountErrors[record.level].holiday }"
+                @change="handleChange"
                 style="width: 70px;"
                 size="small"
               />
-              <div v-if="vipDiscountErrors[record.level].holiday" class="error-text">
-                {{ vipDiscountErrors[record.level].holiday }}
-              </div>
+              <span class="percent-text">%</span>
             </div>
           </template>
         </a-table>
@@ -619,7 +611,7 @@ export default defineComponent({
         scopedSlots: { customRender: 'level' }
       },
       {
-        title: '平台折扣范围',
+        title: '折扣范围',
         dataIndex: 'range',
         key: 'range',
         width: 120,
@@ -1020,11 +1012,22 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
 
-    .error-text {
-      font-size: @font-size-xs;
-      color: @error-color;
+    .percent-text {
+      font-size: @font-size-base;
+      color: @text-secondary;
+    }
+  }
+
+  // 错误状态的输入框（红色边框）
+  :deep(.input-error) {
+    border-color: @error-color !important;
+
+    &:focus,
+    &.ant-input-number-focused {
+      border-color: @error-color !important;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1) !important;
     }
   }
 }
