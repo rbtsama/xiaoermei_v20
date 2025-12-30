@@ -413,6 +413,56 @@
           </div>
         </template>
       </div>
+
+      <!-- 7. 会员折扣 -->
+      <div class="policy-section">
+        <div class="subsection-title">会员折扣 <span class="required">*</span></div>
+        <div class="field-hint" style="margin-bottom: 20px;">设置不同会员等级的折扣力度，等级越高折扣越大</div>
+
+        <!-- VIP0-VIP3 -->
+        <a-row :gutter="24" style="margin-bottom: 16px;">
+          <a-col :span="6" v-for="level in vipLevels.slice(0, 4)" :key="level.level">
+            <div class="vip-discount-item">
+              <label class="vip-label">{{ level.level }}</label>
+              <div class="vip-input-wrapper">
+                <a-input-number
+                  v-model="formValues.vipDiscounts[level.level]"
+                  :min="level.min"
+                  :max="level.max"
+                  :precision="0"
+                  :disabled="isLocked"
+                  @change="handleChange"
+                  style="width: 100%;"
+                />
+                <span class="percent-symbol">%</span>
+              </div>
+              <div class="vip-range">({{ level.min }}-{{ level.max }}%)</div>
+            </div>
+          </a-col>
+        </a-row>
+
+        <!-- VIP4-VIP6 -->
+        <a-row :gutter="24">
+          <a-col :span="6" v-for="level in vipLevels.slice(4, 7)" :key="level.level">
+            <div class="vip-discount-item">
+              <label class="vip-label">{{ level.level }}</label>
+              <div class="vip-input-wrapper">
+                <a-input-number
+                  v-model="formValues.vipDiscounts[level.level]"
+                  :min="level.min"
+                  :max="level.max"
+                  :precision="0"
+                  :disabled="isLocked"
+                  @change="handleChange"
+                  style="width: 100%;"
+                />
+                <span class="percent-symbol">%</span>
+              </div>
+              <div class="vip-range">({{ level.min }}-{{ level.max }}%)</div>
+            </div>
+          </a-col>
+        </a-row>
+      </div>
     </a-card>
   </div>
 </template>
@@ -433,6 +483,17 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    // VIP等级配置（模拟数据）
+    const vipLevels = [
+      { level: 'VIP0', min: 95, max: 100 },
+      { level: 'VIP1', min: 90, max: 95 },
+      { level: 'VIP2', min: 85, max: 90 },
+      { level: 'VIP3', min: 80, max: 85 },
+      { level: 'VIP4', min: 75, max: 80 },
+      { level: 'VIP5', min: 70, max: 75 },
+      { level: 'VIP6', min: 65, max: 70 }
+    ]
+
     // 扁平化的表单数据 - 使用字符串而不是moment对象
     const formValues = reactive({
       // 重要通知
@@ -465,7 +526,18 @@ export default defineComponent({
       breakfastFee: 0,
       childBreakfastPolicy: 'free',
       childBreakfastAgeLimit: 12,
-      childBreakfastHeightLimit: '1.2'
+      childBreakfastHeightLimit: '1.2',
+
+      // 会员折扣（默认值为各等级的最大百分比）
+      vipDiscounts: {
+        'VIP0': 100,
+        'VIP1': 95,
+        'VIP2': 90,
+        'VIP3': 85,
+        'VIP4': 80,
+        'VIP5': 75,
+        'VIP6': 70
+      }
     })
 
     // 初始化数据
@@ -511,6 +583,7 @@ export default defineComponent({
 
     return {
       formValues,
+      vipLevels,
       handleChange
     }
   }
@@ -658,5 +731,42 @@ export default defineComponent({
 
 :deep(.ant-time-picker) {
   width: 100%;
+}
+
+// 会员折扣样式
+.vip-discount-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .vip-label {
+    font-size: @font-size-base;
+    font-weight: @font-weight-semibold;
+    color: @text-primary;
+  }
+
+  .vip-input-wrapper {
+    position: relative;
+
+    .percent-symbol {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: @font-size-base;
+      color: @text-secondary;
+      pointer-events: none;
+    }
+
+    :deep(.ant-input-number) {
+      padding-right: 32px;
+    }
+  }
+
+  .vip-range {
+    font-size: @font-size-xs;
+    color: @text-secondary;
+    text-align: center;
+  }
 }
 </style>
