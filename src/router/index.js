@@ -25,6 +25,12 @@ const routes = [
     component: () => import('@/views/PlatformAdmin/MemberManagement/MembersPage.vue'),
     meta: { title: '会员查询' }
   },
+  {
+    path: '/platform-admin/member-management/commission',
+    name: 'CommissionManagement',
+    component: () => import('@/views/PlatformAdmin/MemberManagement/CommissionManagementPage.vue'),
+    meta: { title: '分销管理' }
+  },
 
   // 平台后台 - 优惠券管理
   {

@@ -12,6 +12,7 @@ import {
   mockInviteRecords,
   mockCommissionRecords,
 } from '@/mocks/memberService.mock'
+import { mockPlatformCommissionRecords } from '@/mocks/commissionManagement.mock'
 
 /**
  * 获取积分服务配置
@@ -91,5 +92,41 @@ export function generateAgentOrderQRCode(orderData: any): Promise<{ qrCodeUrl: s
         qrCodeUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
       })
     }, 300)
+  })
+}
+
+/**
+ * 获取平台分销奖励列表（平台后台）
+ * @param page - 页码
+ * @param pageSize - 每页数量
+ */
+export function getPlatformCommissionRecords(page: number, pageSize: number): Promise<{ records: CommissionRecord[], total: number }> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      // 按下单时间倒序排列
+      const sorted = [...mockPlatformCommissionRecords].sort((a, b) =>
+        new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime()
+      )
+      const start = (page - 1) * pageSize
+      const end = start + pageSize
+      resolve({
+        records: sorted.slice(start, end),
+        total: sorted.length
+      })
+    }, 300)
+  })
+}
+
+/**
+ * 导出分销奖励数据（平台后台）
+ */
+export function exportCommissionRecords(): Promise<Blob> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      // TODO: 接入真实API导出Excel
+      const csvContent = '商户名称,订单号,受邀会员,下单时间,支付金额\n'
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+      resolve(blob)
+    }, 500)
   })
 }

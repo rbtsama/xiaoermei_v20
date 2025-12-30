@@ -14,7 +14,8 @@ export const menuConfig = [
         title: '会员管理',
         key: 'member-management',
         children: [
-          { title: '会员查询', path: '/platform-admin/member-management/members', key: 'members' }
+          { title: '会员查询', path: '/platform-admin/member-management/members', key: 'members' },
+          { title: '分销管理', path: '/platform-admin/member-management/commission', key: 'commission' }
         ]
       },
       {

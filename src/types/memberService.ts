@@ -87,6 +87,7 @@ export interface InviteRecord {
  */
 export interface CommissionRecord {
   id: string
+  merchantName?: string   // 商户名称（平台后台需要）
   orderNo: string         // 订单号
   inviteePhone: string    // 受邀会员手机号
   orderTime: string       // 下单时间
