@@ -87,7 +87,6 @@ export default defineComponent({
   },
   setup(props, { emit, root }) {
     const formData = reactive({ ...mockEmptyFormData })
-    let autoSaveTimer = null
 
     // 加载草稿数据
     const loadDraft = async () => {
@@ -101,17 +100,7 @@ export default defineComponent({
       }
     }
 
-    // 自动保存
-    const triggerAutoSave = () => {
-      if (autoSaveTimer) {
-        clearTimeout(autoSaveTimer)
-      }
-      autoSaveTimer = setTimeout(async () => {
-        await performSave()
-      }, 600000) // 10分钟后自动保存
-    }
-
-    // 执行保存
+    // 执行保存（手动保存草稿）
     const performSave = async () => {
       try {
         await saveDraft(formData)
@@ -125,7 +114,6 @@ export default defineComponent({
     // 表单更新处理
     const handleFormUpdate = (updates) => {
       Object.assign(formData, updates)
-      triggerAutoSave()
       // 计算并更新进度
       updateProgress()
     }
@@ -365,9 +353,7 @@ export default defineComponent({
     })
 
     onBeforeUnmount(() => {
-      if (autoSaveTimer) {
-        clearTimeout(autoSaveTimer)
-      }
+      // 组件卸载时的清理工作
     })
 
     return {

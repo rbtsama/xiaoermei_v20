@@ -22,16 +22,6 @@
           <div class="header-actions">
             <!-- Tab1-6：未提交状态 -->
             <template v-if="!submittedTabs[activeTab]">
-              <!-- 自动保存状态 -->
-              <div class="save-status">
-                <a-icon v-if="autoSaveStatus === 'saving'" type="loading" />
-                <a-icon v-else-if="autoSaveStatus === 'saved'" type="check-circle" theme="filled" class="success-icon" />
-                <span class="status-text">
-                  <template v-if="autoSaveStatus === 'saving'">保存中...</template>
-                  <template v-else-if="autoSaveStatus === 'saved'">{{ lastSaveTime }} 自动保存</template>
-                </span>
-              </div>
-
               <a-button @click="handleSaveDraft" size="large" class="action-btn">
                 <a-icon type="save" />
                 保存草稿
@@ -75,8 +65,6 @@
             :submitted-tabs="submittedTabs"
             :editing-tabs="editingTabs"
             @progress-update="handleProgressUpdate"
-            @save-success="handleSaveSuccess"
-            @save-error="handleSaveError"
           />
         </div>
       </div>
@@ -92,12 +80,10 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, computed, onMounted, onBeforeMount } from '@vue/composition-api'
+import { defineComponent, ref, reactive, computed, onMounted, onBeforeUnmount } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import StoreDeploymentForm from './StoreDeploymentForm.vue'
 import FirstTimeGuideDialog from './components/FirstTimeGuideDialog.vue'
-import { AutoSaveStatus } from '@/types/storeDeployment'
-import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'StoreDeploymentPage',
@@ -109,8 +95,6 @@ export default defineComponent({
   setup(props, { root }) {
     const activeTab = ref('tab1')
     const isSticky = ref(false)
-    const autoSaveStatus = ref(AutoSaveStatus.IDLE)
-    const lastSaveTime = ref('')
     const formRef = ref(null)
     const showGuideDialog = ref(false)
 
@@ -167,17 +151,6 @@ export default defineComponent({
     // 保存草稿
     const handleSaveDraft = () => {
       root.$message.success('草稿已保存')
-    }
-
-    // 保存成功
-    const handleSaveSuccess = () => {
-      autoSaveStatus.value = AutoSaveStatus.SAVED
-      lastSaveTime.value = dayjs().format('HH:mm')
-    }
-
-    // 保存失败
-    const handleSaveError = () => {
-      autoSaveStatus.value = AutoSaveStatus.ERROR
     }
 
     // 提交本页
@@ -277,8 +250,6 @@ export default defineComponent({
     return {
       activeTab,
       isSticky,
-      autoSaveStatus,
-      lastSaveTime,
       submittedTabs,
       editingTabs,
       tabProgress,
@@ -292,8 +263,6 @@ export default defineComponent({
       handleSaveEdit,
       handleCancelEdit,
       handleProgressUpdate,
-      handleSaveSuccess,
-      handleSaveError,
       handleCloseGuide,
       handleStartFilling
     }
@@ -436,29 +405,6 @@ export default defineComponent({
 
 .tab-content {
   padding: 24px 0;
-}
-
-.save-status {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: @font-size-sm;
-  color: @text-secondary;
-
-  .success-icon {
-    color: @success-color;
-    font-size: 14px;
-  }
-
-  .error-icon {
-    color: @error-color;
-    font-size: 14px;
-  }
-
-  .status-text {
-    white-space: nowrap;
-    font-weight: @font-weight-medium;
-  }
 }
 
 // Tab提交状态图标
