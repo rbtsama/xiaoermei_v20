@@ -426,7 +426,7 @@
               <label class="vip-label">
                 {{ level.level }} <span class="vip-range-inline">({{ level.min }}-{{ level.max }}%)</span>
               </label>
-              <div class="vip-input-wrapper">
+              <div class="vip-input-group">
                 <a-input-number
                   v-model="formValues.vipDiscounts[level.level]"
                   :min="level.min"
@@ -434,7 +434,7 @@
                   :precision="0"
                   :disabled="isLocked"
                   @change="handleChange"
-                  style="width: 100%;"
+                  class="vip-input"
                 />
                 <span class="percent-symbol">%</span>
               </div>
@@ -734,21 +734,20 @@ export default defineComponent({
     }
   }
 
-  .vip-input-wrapper {
-    position: relative;
+  .vip-input-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 
-    .percent-symbol {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: @font-size-base;
-      color: @text-secondary;
-      pointer-events: none;
+    .vip-input {
+      flex: 1;
+      min-width: 0;
     }
 
-    :deep(.ant-input-number) {
-      padding-right: 32px;
+    .percent-symbol {
+      font-size: @font-size-base;
+      color: @text-secondary;
+      flex-shrink: 0;
     }
   }
 }
