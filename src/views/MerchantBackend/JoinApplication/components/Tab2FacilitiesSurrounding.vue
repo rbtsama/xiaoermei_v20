@@ -595,16 +595,16 @@ export default defineComponent({
     })
 
 
-    // 监听props变化
+    /**
+     * 监听props变化，保持数据同步
+     * 使用initSurroundingInfo确保数据处理逻辑一致
+     */
     watch(
       () => props.formData,
       (newData) => {
         localData.storeFacilities = { ...newData.storeFacilities }
-        localData.surroundingInfo = {
-          transportation: [...newData.surroundingInfo.transportation],
-          attractions: [...newData.surroundingInfo.attractions],
-          food: [...newData.surroundingInfo.food]
-        }
+        // 使用initSurroundingInfo统一处理，保证与初始化逻辑一致
+        localData.surroundingInfo = initSurroundingInfo(newData.surroundingInfo)
       },
       { deep: true }
     )
