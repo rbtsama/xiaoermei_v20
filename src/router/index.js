@@ -116,12 +116,6 @@ const routes = [
     meta: { title: '积分服务配置（未完成）' }
   },
   {
-    path: '/merchant-backend/vip-discount/config',
-    name: 'VIPDiscountConfig',
-    component: () => import('@/views/MerchantBackend/MemberService/VIPDiscountConfigPage.vue'),
-    meta: { title: 'VIP折扣配置（未完成）' }
-  },
-  {
     path: '/merchant-backend/agent-order/create',
     name: 'AgentOrderCreate',
     component: () => import('@/views/MerchantBackend/MemberService/AgentOrderCreatePage.vue'),

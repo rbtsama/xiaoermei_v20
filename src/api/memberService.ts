@@ -4,12 +4,10 @@
 
 import type {
   PointsServiceConfig,
-  MerchantVIPDiscountConfig,
   InviteRecord,
 } from '@/types/memberService'
 import {
   mockPointsServiceConfig,
-  mockMerchantVIPDiscountConfig,
   mockInviteRecords,
 } from '@/mocks/memberService.mock'
 
@@ -20,31 +18,6 @@ export function getPointsServiceConfig(): Promise<PointsServiceConfig> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(mockPointsServiceConfig)
-    }, 300)
-  })
-}
-
-/**
- * 获取VIP折扣配置
- */
-export function getMerchantVIPDiscountConfig(): Promise<MerchantVIPDiscountConfig> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(mockMerchantVIPDiscountConfig)
-    }, 300)
-  })
-}
-
-/**
- * 保存VIP折扣配置
- */
-export function saveMerchantVIPDiscountConfig(
-  config: MerchantVIPDiscountConfig
-): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // TODO: 接入真实API保存配置
-      resolve()
     }, 300)
   })
 }

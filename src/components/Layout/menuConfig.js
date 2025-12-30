@@ -67,7 +67,6 @@ export const menuConfig = [
         key: 'member-service',
         children: [
           { title: '积分服务配置', path: '/merchant-backend/points-service/config', key: 'points-service' },
-          { title: 'VIP折扣配置', path: '/merchant-backend/vip-discount/config', key: 'vip-discount' },
           { title: '代客下单', path: '/merchant-backend/agent-order/create', key: 'agent-order' },
           { title: '邀请会员', path: '/merchant-backend/old-customer/invite-member', key: 'invite-member' }
         ]
