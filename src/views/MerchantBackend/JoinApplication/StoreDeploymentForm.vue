@@ -277,7 +277,68 @@ export default defineComponent({
         }
       }
 
-      // TODO: 添加Tab2-4、Tab6的验证逻辑
+      // Tab3验证（运营政策）
+      if (currentTab === 'tab3') {
+        const policy = formData.operationPolicy
+
+        // 检查必填时间字段
+        if (!policy?.booking?.latestBookingTime) {
+          root.$message.error('请设置最晚预订时间')
+          return false
+        }
+        if (!policy?.booking?.checkInTime) {
+          root.$message.error('请设置办理入住时间')
+          return false
+        }
+        if (!policy?.booking?.checkOutTime) {
+          root.$message.error('请设置最晚退房时间')
+          return false
+        }
+
+        // 检查会员折扣（必填）
+        if (!policy?.vipDiscounts) {
+          root.$message.error('请设置会员折扣')
+          return false
+        }
+
+        // 验证所有VIP等级的折扣是否在范围内
+        const vipLevels = [
+          { level: 'VIP0', min: 95, max: 100 },
+          { level: 'VIP1', min: 90, max: 95 },
+          { level: 'VIP2', min: 85, max: 90 },
+          { level: 'VIP3', min: 80, max: 85 },
+          { level: 'VIP4', min: 75, max: 80 },
+          { level: 'VIP5', min: 70, max: 75 },
+          { level: 'VIP6', min: 65, max: 70 }
+        ]
+
+        const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday', 'holiday']
+        const dayNames = { monday: '周一', tuesday: '周二', wednesday: '周三', thursday: '周四', friday: '周五', saturday: '周六', sunday: '周日', holiday: '节假日' }
+
+        for (const vipLevel of vipLevels) {
+          const levelData = policy.vipDiscounts[vipLevel.level]
+          if (!levelData) {
+            root.$message.error(`请设置${vipLevel.level}的折扣`)
+            return false
+          }
+
+          for (const day of days) {
+            const value = levelData[day]
+
+            if (value === null || value === undefined || value === '') {
+              root.$message.error(`${vipLevel.level} ${dayNames[day]}折扣未填写`)
+              return false
+            }
+
+            if (value < vipLevel.min || value > vipLevel.max) {
+              root.$message.error(`${vipLevel.level} ${dayNames[day]}折扣必须在${vipLevel.min}%-${vipLevel.max}%范围内`)
+              return false
+            }
+          }
+        }
+      }
+
+      // TODO: 添加Tab2、Tab4、Tab6的验证逻辑
 
       return true
     }
