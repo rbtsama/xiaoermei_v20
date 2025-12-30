@@ -115,79 +115,114 @@ export const mockPointsServiceConfig: PointsServiceConfig = {
 export const mockInviteRecords: InviteRecord[] = [
   {
     id: 'invite-1',
-    inviteePhone: '13800138001',
-    invitedAt: '2025-12-30 14:30:00',
+    inviteePhone: '13912345678',
+    invitedAt: '2025-12-30 14:30:25',
     accountStatus: AccountStatus.REGISTERED,
     vipLevel: 3
   },
   {
     id: 'invite-2',
-    inviteePhone: '13800138002',
-    invitedAt: '2025-12-30 10:15:00',
+    inviteePhone: '13823456789',
+    invitedAt: '2025-12-30 10:15:40',
     accountStatus: AccountStatus.PRE_REGISTERED,
     vipLevel: 2
   },
   {
     id: 'invite-3',
-    inviteePhone: '13800138003',
-    invitedAt: '2025-12-29 16:45:00',
+    inviteePhone: '13734567890',
+    invitedAt: '2025-12-29 16:45:18',
     accountStatus: AccountStatus.REGISTERED,
     vipLevel: 1
   },
   {
     id: 'invite-4',
-    inviteePhone: '13800138004',
-    invitedAt: '2025-12-29 09:20:00',
+    inviteePhone: '13645678901',
+    invitedAt: '2025-12-29 09:20:33',
     accountStatus: AccountStatus.PRE_REGISTERED,
     vipLevel: 0
   },
   {
     id: 'invite-5',
-    inviteePhone: '13800138005',
-    invitedAt: '2025-12-28 18:30:00',
+    inviteePhone: '13556789012',
+    invitedAt: '2025-12-28 18:30:55',
     accountStatus: AccountStatus.REGISTERED,
     vipLevel: 3
+  },
+  {
+    id: 'invite-6',
+    inviteePhone: '13467890123',
+    invitedAt: '2025-12-28 11:25:12',
+    accountStatus: AccountStatus.PRE_REGISTERED,
+    vipLevel: 2
+  },
+  {
+    id: 'invite-7',
+    inviteePhone: '13378901234',
+    invitedAt: '2025-12-27 20:15:48',
+    accountStatus: AccountStatus.REGISTERED,
+    vipLevel: 1
+  },
+  {
+    id: 'invite-8',
+    inviteePhone: '13289012345',
+    invitedAt: '2025-12-27 15:40:22',
+    accountStatus: AccountStatus.REGISTERED,
+    vipLevel: 0
   }
 ]
 
 /**
- * 分销奖励记录 Mock
+ * 分销奖励记录 Mock（参考订单列表格式）
  */
 export const mockCommissionRecords: CommissionRecord[] = [
   {
     id: 'commission-1',
-    orderNo: 'ORD20251230001',
-    inviteePhone: '13800138001',
-    orderTime: '2025-12-30 15:30:00',
+    orderNo: '20251230100001',
+    inviteePhone: '13912345678',
+    orderTime: '2025-12-30 15:30:25',
     paymentAmount: 1280.00
   },
   {
     id: 'commission-2',
-    orderNo: 'ORD20251230002',
-    inviteePhone: '13800138003',
-    orderTime: '2025-12-30 11:20:00',
+    orderNo: '20251230100002',
+    inviteePhone: '13734567890',
+    orderTime: '2025-12-30 11:20:40',
     paymentAmount: 980.00
   },
   {
     id: 'commission-3',
-    orderNo: 'ORD20251229001',
-    inviteePhone: '13800138001',
-    orderTime: '2025-12-29 14:15:00',
+    orderNo: '20251229100001',
+    inviteePhone: '13912345678',
+    orderTime: '2025-12-29 14:15:18',
     paymentAmount: 1580.00
   },
   {
     id: 'commission-4',
-    orderNo: 'ORD20251229002',
-    inviteePhone: '13800138005',
-    orderTime: '2025-12-29 10:30:00',
+    orderNo: '20251229100002',
+    inviteePhone: '13556789012',
+    orderTime: '2025-12-29 10:30:55',
     paymentAmount: 2200.00
   },
   {
     id: 'commission-5',
-    orderNo: 'ORD20251228001',
-    inviteePhone: '13800138003',
-    orderTime: '2025-12-28 16:45:00',
+    orderNo: '20251228100001',
+    inviteePhone: '13734567890',
+    orderTime: '2025-12-28 16:45:33',
     paymentAmount: 1450.00
+  },
+  {
+    id: 'commission-6',
+    orderNo: '20251228100002',
+    inviteePhone: '13378901234',
+    orderTime: '2025-12-28 09:20:12',
+    paymentAmount: 880.00
+  },
+  {
+    id: 'commission-7',
+    orderNo: '20251227100001',
+    inviteePhone: '13289012345',
+    orderTime: '2025-12-27 18:50:45',
+    paymentAmount: 1680.00
   }
 ]
 
