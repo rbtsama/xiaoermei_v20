@@ -65,9 +65,9 @@ export function getInviteRecords(page: number, pageSize: number): Promise<{ reco
 export function getCommissionRecords(page: number, pageSize: number): Promise<{ records: CommissionRecord[], total: number }> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      // 按下单时间倒序排列
+      // 按离店时间倒序排列
       const sorted = [...mockCommissionRecords].sort((a, b) =>
-        new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime()
+        new Date(b.checkOutTime).getTime() - new Date(a.checkOutTime).getTime()
       )
       const start = (page - 1) * pageSize
       const end = start + pageSize
@@ -103,8 +103,10 @@ export function generateAgentOrderQRCode(orderData: any): Promise<{ qrCodeUrl: s
 export function getPlatformCommissionRecords(page: number, pageSize: number): Promise<{ records: CommissionRecord[], total: number }> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      // 平台后台数据已经是按订单号倒序（订单号包含时间）
-      const sorted = [...mockPlatformCommissionRecords]
+      // 按离店时间倒序排列
+      const sorted = [...mockPlatformCommissionRecords].sort((a, b) =>
+        new Date(b.checkOutTime).getTime() - new Date(a.checkOutTime).getTime()
+      )
       const start = (page - 1) * pageSize
       const end = start + pageSize
       resolve({

@@ -47,6 +47,14 @@
             </div>
           </template>
 
+          <!-- 离店时间 -->
+          <template slot="checkOutTime" slot-scope="text">
+            <div class="datetime-cell">
+              <div class="date">{{ formatDate(text) }}</div>
+              <div class="time">{{ formatTime(text) }}</div>
+            </div>
+          </template>
+
           <!-- 支付金额 -->
           <template slot="paymentAmount" slot-scope="text">
             <span class="amount-text">¥{{ text.toFixed(2) }}</span>
@@ -100,6 +108,13 @@ export default defineComponent({
         key: 'orderTime',
         width: 120,
         scopedSlots: { customRender: 'orderTime' }
+      },
+      {
+        title: '离店时间',
+        dataIndex: 'checkOutTime',
+        key: 'checkOutTime',
+        width: 120,
+        scopedSlots: { customRender: 'checkOutTime' }
       },
       {
         title: '支付金额',

@@ -16,7 +16,8 @@ export const mockPlatformCommissionRecords: CommissionRecord[] = [
     orderNo: '20251230100001',
     orderStatus: OrderStatus.CHECKED_OUT,
     customerName: '张三',
-    orderTime: '2025-12-30 15:30:25',
+    orderTime: '2025-12-28 15:30:25',
+    checkOutTime: '2025-12-30 12:00:00',
     paymentAmount: 1280.00
   },
   {
@@ -26,7 +27,8 @@ export const mockPlatformCommissionRecords: CommissionRecord[] = [
     orderNo: '20251230100002',
     orderStatus: OrderStatus.CHECKED_OUT,
     customerName: '李四',
-    orderTime: '2025-12-30 11:20:40',
+    orderTime: '2025-12-28 11:20:40',
+    checkOutTime: '2025-12-30 11:00:00',
     paymentAmount: 980.00
   },
   {
@@ -36,7 +38,8 @@ export const mockPlatformCommissionRecords: CommissionRecord[] = [
     orderNo: '20251229100001',
     orderStatus: OrderStatus.CHECKED_OUT,
     customerName: '张三',
-    orderTime: '2025-12-29 14:15:18',
+    orderTime: '2025-12-27 14:15:18',
+    checkOutTime: '2025-12-29 12:00:00',
     paymentAmount: 1580.00
   },
   {
@@ -46,7 +49,8 @@ export const mockPlatformCommissionRecords: CommissionRecord[] = [
     orderNo: '20251229100002',
     orderStatus: OrderStatus.CHECKED_OUT,
     customerName: '王五',
-    orderTime: '2025-12-29 10:30:55',
+    orderTime: '2025-12-27 10:30:55',
+    checkOutTime: '2025-12-29 11:00:00',
     paymentAmount: 2200.00
   },
   {
@@ -56,7 +60,8 @@ export const mockPlatformCommissionRecords: CommissionRecord[] = [
     orderNo: '20251228100001',
     orderStatus: OrderStatus.CHECKED_OUT,
     customerName: '李四',
-    orderTime: '2025-12-28 16:45:33',
+    orderTime: '2025-12-26 16:45:33',
+    checkOutTime: '2025-12-28 12:00:00',
     paymentAmount: 1450.00
   },
   {
@@ -66,7 +71,8 @@ export const mockPlatformCommissionRecords: CommissionRecord[] = [
     orderNo: '20251228100002',
     orderStatus: OrderStatus.CHECKED_OUT,
     customerName: '赵六',
-    orderTime: '2025-12-28 09:20:12',
+    orderTime: '2025-12-26 09:20:12',
+    checkOutTime: '2025-12-28 11:00:00',
     paymentAmount: 880.00
   },
   {
@@ -76,7 +82,8 @@ export const mockPlatformCommissionRecords: CommissionRecord[] = [
     orderNo: '20251227100001',
     orderStatus: OrderStatus.CHECKED_OUT,
     customerName: '孙七',
-    orderTime: '2025-12-27 18:50:45',
+    orderTime: '2025-12-25 18:50:45',
+    checkOutTime: '2025-12-27 12:00:00',
     paymentAmount: 1680.00
   },
   {
@@ -86,7 +93,8 @@ export const mockPlatformCommissionRecords: CommissionRecord[] = [
     orderNo: '20251227100002',
     orderStatus: OrderStatus.CHECKED_OUT,
     customerName: '张三',
-    orderTime: '2025-12-27 14:25:30',
+    orderTime: '2025-12-25 14:25:30',
+    checkOutTime: '2025-12-27 11:00:00',
     paymentAmount: 1350.00
   },
   {
@@ -96,7 +104,8 @@ export const mockPlatformCommissionRecords: CommissionRecord[] = [
     orderNo: '20251226100001',
     orderStatus: OrderStatus.CHECKED_OUT,
     customerName: '李四',
-    orderTime: '2025-12-26 20:10:15',
+    orderTime: '2025-12-24 20:10:15',
+    checkOutTime: '2025-12-26 12:00:00',
     paymentAmount: 1920.00
   },
   {
@@ -106,7 +115,8 @@ export const mockPlatformCommissionRecords: CommissionRecord[] = [
     orderNo: '20251226100002',
     orderStatus: OrderStatus.CHECKED_OUT,
     customerName: '王五',
-    orderTime: '2025-12-26 16:35:50',
+    orderTime: '2025-12-24 16:35:50',
+    checkOutTime: '2025-12-26 11:00:00',
     paymentAmount: 1150.00
   }
 ]
