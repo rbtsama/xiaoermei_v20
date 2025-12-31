@@ -160,7 +160,7 @@
               >
                 <a-button size="large">
                   <a-icon type="upload" />
-                  选择Excel文件
+                  上传邀请清单
                 </a-button>
               </a-upload>
               <a class="download-template" @click="handleDownloadTemplate">
@@ -168,8 +168,9 @@
                 下载模板
               </a>
             </div>
-            <div v-if="!uploadedFileName" class="upload-hint">
-              请先上传Excel文件，或点击"下载模板"查看文件格式要求
+            <div v-if="!uploadedFileName" class="upload-requirement">
+              <div class="requirement-item">• 手机号必填，11位数字</div>
+              <div class="requirement-item">• 姓名和性别选填，性别仅支持"男"或"女"</div>
             </div>
             <div v-if="uploadedFileName" class="upload-result">
               <a-icon type="file-excel" class="file-icon" />
@@ -594,13 +595,13 @@ export default defineComponent({
 
     .download-template {
       font-size: @font-size-sm;
-      color: @text-tertiary;
+      color: @brand-primary;
       cursor: pointer;
-      transition: color 0.2s;
+      transition: all 0.2s;
       text-decoration: none;
 
       &:hover {
-        color: @brand-primary;
+        color: @brand-primary-hover;
         text-decoration: underline;
       }
 
@@ -610,15 +611,20 @@ export default defineComponent({
     }
   }
 
-  .upload-hint {
-    padding: 12px 16px;
-    background: #fffbeb;
-    border: 1px solid #fde68a;
-    border-radius: @border-radius-base;
-    font-size: @font-size-sm;
-    color: #78350f;
+  .upload-requirement {
     margin-bottom: 20px;
-    line-height: 1.6;
+    padding: 12px 0;
+
+    .requirement-item {
+      font-size: @font-size-sm;
+      color: @text-secondary;
+      line-height: 1.8;
+      margin-bottom: 4px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
 
   .upload-result {
