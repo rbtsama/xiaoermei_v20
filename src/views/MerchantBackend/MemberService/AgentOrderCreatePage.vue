@@ -168,7 +168,11 @@ import { defineComponent, ref, reactive, computed } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import { generateAgentOrderQRCode } from '@/api/memberService'
 import dayjs from 'dayjs'
-import zhCN from 'ant-design-vue/es/locale/zh_CN'
+import 'dayjs/locale/zh-cn'
+import locale from 'ant-design-vue/es/date-picker/locale/zh_CN'
+
+// 设置dayjs全局中文
+dayjs.locale('zh-cn')
 
 export default defineComponent({
   name: 'AgentOrderCreatePage',
@@ -176,7 +180,6 @@ export default defineComponent({
   setup(props, { root }) {
     const submitting = ref(false)
     const qrModalVisible = ref(false)
-    const locale = zhCN
 
     const formData = reactive({
       checkInDate: null,
@@ -294,7 +297,7 @@ export default defineComponent({
       formData,
       submitting,
       qrModalVisible,
-      locale,
+      locale, // DatePicker的中文locale
       roomTypes,
       selectedRoom,
       calculateNights,
