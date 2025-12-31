@@ -22,8 +22,9 @@
         <div class="section">
           <label class="section-label">邀请方式</label>
           <a-radio-group v-model="inviteMode" class="mode-radio-group" @change="handleModeChange">
-            <a-radio value="batch">会员预注册批量导入</a-radio>
-            <a-radio value="qrcode">邀请客户自行扫码注册</a-radio>
+            <a-radio value="batch">批量邀请</a-radio>
+            <a-radio value="single">单个邀请</a-radio>
+            <a-radio value="qrcode">客户扫码</a-radio>
           </a-radio-group>
         </div>
 
@@ -148,22 +149,35 @@
 
         <!-- 3. 内容区域（根据邀请方式显示不同内容） -->
         <div class="section">
-          <!-- 批量导入模式 -->
+          <!-- 批量邀请模式（Excel上传） -->
           <div v-if="inviteMode === 'batch'" class="batch-content">
-            <label class="section-label">手机号列表</label>
-            <a-textarea
-              v-model="phoneText"
-              :rows="12"
-              placeholder="每行输入一个受邀手机号"
-              class="phone-textarea"
-            />
-            <div class="input-hint">
-              已输入 {{ phoneCount }} 个手机号
+            <label class="section-label">上传会员名单</label>
+            <div class="upload-area">
+              <a-upload
+                :before-upload="handleBeforeUpload"
+                :show-upload-list="false"
+                accept=".xlsx,.xls"
+              >
+                <a-button>
+                  <a-icon type="upload" />
+                  选择Excel文件
+                </a-button>
+              </a-upload>
+              <a class="download-template" @click="handleDownloadTemplate">
+                <a-icon type="download" />
+                下载模板
+              </a>
+            </div>
+            <div v-if="uploadedFileName" class="upload-result">
+              <a-icon type="file-excel" class="file-icon" />
+              <span class="file-name">{{ uploadedFileName }}</span>
+              <span class="file-count">（{{ uploadedCount }}条数据）</span>
             </div>
             <a-button
               type="primary"
               size="large"
               :loading="submitting"
+              :disabled="!uploadedFileName"
               @click="handleBatchInvite"
               class="invite-btn"
             >
@@ -172,8 +186,50 @@
             </a-button>
           </div>
 
-          <!-- 扫码邀请模式 -->
-          <div v-else class="qrcode-content">
+          <!-- 单个邀请模式 -->
+          <div v-else-if="inviteMode === 'single'" class="single-content">
+            <div class="form-item">
+              <label class="form-label">注册手机号 <span class="required">*</span></label>
+              <a-input
+                v-model="singleForm.phone"
+                placeholder="请输入手机号"
+                :maxLength="11"
+              />
+            </div>
+            <div class="form-item">
+              <label class="form-label">姓名（选填）</label>
+              <a-input
+                v-model="singleForm.name"
+                placeholder="请输入姓名"
+                :maxLength="20"
+              />
+            </div>
+            <div class="form-item">
+              <label class="form-label">性别（选填）</label>
+              <a-select
+                v-model="singleForm.gender"
+                placeholder="请选择性别"
+                style="width: 200px;"
+                allowClear
+              >
+                <a-select-option value="男">男</a-select-option>
+                <a-select-option value="女">女</a-select-option>
+              </a-select>
+            </div>
+            <a-button
+              type="primary"
+              size="large"
+              :loading="submitting"
+              @click="handleSingleInvite"
+              class="invite-btn"
+            >
+              <a-icon type="user-add" />
+              发送邀请
+            </a-button>
+          </div>
+
+          <!-- 客户扫码模式 -->
+          <div v-else-if="inviteMode === 'qrcode'" class="qrcode-content">
             <div class="qrcode-wrapper">
               <div class="qrcode-placeholder">
                 <a-icon type="qrcode" class="qr-icon" />
@@ -208,15 +264,20 @@ export default defineComponent({
     Sidebar
   },
   setup(props, { root }) {
-    const inviteMode = ref('batch') // 'batch' | 'qrcode'
-    const phoneText = ref('')
+    const inviteMode = ref('batch') // 'batch' | 'single' | 'qrcode'
     const selectedVipLevel = ref(0)
     const submitting = ref(false)
 
-    // 计算手机号数量
-    const phoneCount = computed(() => {
-      const phones = phoneText.value.trim().split('\n').filter(p => p.trim())
-      return phones.length
+    // 批量邀请数据
+    const uploadedFileName = ref('')
+    const uploadedCount = ref(0)
+    const uploadedData = ref([])
+
+    // 单个邀请表单
+    const singleForm = reactive({
+      phone: '',
+      name: '',
+      gender: undefined
     })
 
     /**
@@ -226,56 +287,89 @@ export default defineComponent({
      */
     const validatePhone = (phone) => {
       const trimmed = phone.trim()
-      // 11位数字
+      // 11位数字，1开头
       return /^1[3-9]\d{9}$/.test(trimmed)
     }
 
     /**
-     * 批量邀请会员
+     * 验证性别格式
+     * @param gender - 性别字符串
+     * @returns 验证后的值（男/女/undefined）
      */
-    const handleBatchInvite = async () => {
-      // 解析手机号列表
-      const lines = phoneText.value.trim().split('\n')
-      const phones = []
-      const errors = []
+    const validateGender = (gender) => {
+      if (!gender || gender.trim() === '') return undefined
+      const trimmed = gender.trim()
+      if (trimmed === '男' || trimmed === '女') return trimmed
+      return undefined // 不符合要求，当做空处理
+    }
 
-      lines.forEach((line, index) => {
-        const phone = line.trim()
-        if (!phone) return // 跳过空行
+    /**
+     * 下载Excel模板
+     */
+    const handleDownloadTemplate = () => {
+      // 创建CSV模板
+      const headers = ['注册手机号', '姓名（选填）', '性别（选填）']
+      const example = ['13800138000', '张三', '男']
+      const csvContent = '\uFEFF' + [headers.join(','), example.join(',')].join('\n')
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
 
-        if (!validatePhone(phone)) {
-          errors.push(`第${index + 1}行手机号格式不正确`)
-        } else {
-          phones.push(phone)
-        }
-      })
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = '会员邀请模板.csv'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+    }
 
-      // 校验失败
-      if (errors.length > 0) {
-        root.$message.error(errors[0]) // 只显示第一个错误
-        return
+    /**
+     * 处理Excel文件上传前
+     */
+    const handleBeforeUpload = (file) => {
+      // TODO: 解析Excel文件
+      // 这里使用模拟数据
+      const reader = new FileReader()
+
+      reader.onload = (e) => {
+        // 模拟解析结果
+        uploadedFileName.value = file.name
+        uploadedCount.value = 10 // 模拟10条数据
+        uploadedData.value = [] // TODO: 解析后的数据
+
+        root.$message.success('文件上传成功，请点击批量邀请')
       }
 
-      // 没有手机号
-      if (phones.length === 0) {
-        root.$message.warning('请输入至少一个手机号')
+      reader.readAsArrayBuffer(file)
+
+      return false // 阻止自动上传
+    }
+
+    /**
+     * 批量邀请会员（Excel）
+     */
+    const handleBatchInvite = async () => {
+      if (!uploadedFileName.value) {
+        root.$message.warning('请先上传Excel文件')
         return
       }
 
       // 二次确认弹窗
       root.$confirm({
         title: '确认批量邀请',
-        content: `确定邀请 ${phones.length} 位会员，并赠与 VIP${selectedVipLevel.value} 吗？`,
+        content: `确定邀请 ${uploadedCount.value} 位会员，并设置等级为 ${selectedVipLevel.value === 0 ? '注册会员' : 'VIP' + selectedVipLevel.value} 吗？`,
         okText: '确定',
         cancelText: '取消',
         onOk: async () => {
           try {
             submitting.value = true
-            await batchInviteMembers(phones, selectedVipLevel.value)
-            root.$message.success(`成功邀请 ${phones.length} 位会员`)
-            // 清空输入
-            phoneText.value = ''
-            selectedVipLevel.value = 0
+            // TODO: 调用API批量邀请
+            await new Promise(resolve => setTimeout(resolve, 1000))
+            root.$message.success(`成功邀请 ${uploadedCount.value} 位会员`)
+            // 清空
+            uploadedFileName.value = ''
+            uploadedCount.value = 0
+            uploadedData.value = []
           } catch (error) {
             root.$message.error('邀请失败，请重试')
             console.error(error)
@@ -284,6 +378,41 @@ export default defineComponent({
           }
         }
       })
+    }
+
+    /**
+     * 单个邀请会员
+     */
+    const handleSingleInvite = async () => {
+      // 验证手机号
+      if (!singleForm.phone) {
+        root.$message.error('请输入手机号')
+        return
+      }
+      if (!validatePhone(singleForm.phone)) {
+        root.$message.error('手机号格式不正确')
+        return
+      }
+
+      // 验证性别（如果填写了）
+      const validGender = validateGender(singleForm.gender)
+
+      try {
+        submitting.value = true
+        // TODO: 调用API单个邀请
+        await new Promise(resolve => setTimeout(resolve, 500))
+        const levelName = selectedVipLevel.value === 0 ? '注册会员' : 'VIP' + selectedVipLevel.value
+        root.$message.success(`成功发送邀请给 ${singleForm.phone}，等级：${levelName}`)
+        // 清空表单
+        singleForm.phone = ''
+        singleForm.name = ''
+        singleForm.gender = undefined
+      } catch (error) {
+        root.$message.error('发送邀请失败')
+        console.error(error)
+      } finally {
+        submitting.value = false
+      }
     }
 
     // 跳转到邀请记录页面
@@ -298,7 +427,12 @@ export default defineComponent({
 
     // 切换邀请模式时清空输入
     const handleModeChange = () => {
-      phoneText.value = ''
+      uploadedFileName.value = ''
+      uploadedCount.value = 0
+      uploadedData.value = []
+      singleForm.phone = ''
+      singleForm.name = ''
+      singleForm.gender = undefined
     }
 
     /**
@@ -320,11 +454,15 @@ export default defineComponent({
 
     return {
       inviteMode,
-      phoneText,
       selectedVipLevel,
       submitting,
-      phoneCount,
+      uploadedFileName,
+      uploadedCount,
+      singleForm,
+      handleDownloadTemplate,
+      handleBeforeUpload,
       handleBatchInvite,
+      handleSingleInvite,
       handleGoToRecords,
       handleGoToCommission,
       handleModeChange,
@@ -445,14 +583,88 @@ export default defineComponent({
 }
 
 .batch-content {
-  .phone-textarea {
-    margin-bottom: 8px;
+  .upload-area {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+
+    .download-template {
+      font-size: @font-size-sm;
+      color: @text-tertiary;
+      cursor: pointer;
+      transition: color 0.2s;
+
+      &:hover {
+        color: @brand-primary;
+      }
+
+      .anticon {
+        margin-right: 4px;
+      }
+    }
   }
 
-  .input-hint {
+  .upload-result {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: @bg-secondary;
+    border-radius: @border-radius-base;
     margin-bottom: 20px;
-    font-size: @font-size-sm;
-    color: @text-secondary;
+
+    .file-icon {
+      font-size: 20px;
+      color: @success-color;
+    }
+
+    .file-name {
+      font-size: @font-size-base;
+      color: @text-primary;
+      font-weight: @font-weight-medium;
+    }
+
+    .file-count {
+      font-size: @font-size-sm;
+      color: @text-secondary;
+    }
+  }
+
+  .invite-btn {
+    width: 100%;
+    height: 44px;
+    font-size: @font-size-base;
+    font-weight: @font-weight-medium;
+    border-radius: @border-radius-base;
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    }
+
+    &:disabled {
+      box-shadow: none;
+    }
+  }
+}
+
+.single-content {
+  .form-item {
+    margin-bottom: 24px;
+
+    .form-label {
+      display: block;
+      font-size: @font-size-base;
+      font-weight: @font-weight-medium;
+      color: @text-primary;
+      margin-bottom: 8px;
+
+      .required {
+        color: @error-color;
+        margin-left: 2px;
+      }
+    }
   }
 
   .invite-btn {
