@@ -22,6 +22,7 @@
             <a-date-picker
               v-model="formData.checkInDate"
               :disabled-date="disabledCheckInDate"
+              :locale="locale"
               format="YYYY-MM-DD"
               value-format="YYYY-MM-DD"
               placeholder="选择入住日期"
@@ -35,6 +36,7 @@
             <a-date-picker
               v-model="formData.checkOutDate"
               :disabled-date="disabledCheckOutDate"
+              :locale="locale"
               format="YYYY-MM-DD"
               value-format="YYYY-MM-DD"
               placeholder="选择离店日期"
@@ -169,6 +171,7 @@ import { defineComponent, ref, reactive, computed } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import { generateAgentOrderQRCode } from '@/api/memberService'
 import dayjs from 'dayjs'
+import zhCN from 'ant-design-vue/es/locale/zh_CN'
 
 export default defineComponent({
   name: 'AgentOrderCreatePage',
@@ -176,6 +179,7 @@ export default defineComponent({
   setup(props, { root }) {
     const submitting = ref(false)
     const qrModalVisible = ref(false)
+    const locale = zhCN
 
     const formData = reactive({
       checkInDate: null,
@@ -293,6 +297,7 @@ export default defineComponent({
       formData,
       submitting,
       qrModalVisible,
+      locale,
       roomTypes,
       selectedRoom,
       calculateNights,
