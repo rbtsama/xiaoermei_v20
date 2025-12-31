@@ -257,7 +257,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, computed } from '@vue/composition-api'
+import { defineComponent, ref, reactive } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import { batchInviteMembers } from '@/api/memberService'
 
