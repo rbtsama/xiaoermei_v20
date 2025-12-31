@@ -197,9 +197,9 @@
 
 <script lang="ts">
 import { defineComponent, computed } from '@vue/composition-api'
-import type { Order } from '../types/order.types'
-import type { RefundStatus } from '../types/order.types'
-import { ORDER_STATUS_LABELS } from '../types/order.types'
+import type { Order } from '@/views/PlatformAdmin/OrderManagement/types/order.types'
+import type { RefundStatus } from '@/views/PlatformAdmin/OrderManagement/types/order.types'
+import { ORDER_STATUS_LABELS } from '@/views/PlatformAdmin/OrderManagement/types/order.types'
 import dayjs from 'dayjs'
 
 export default defineComponent({
