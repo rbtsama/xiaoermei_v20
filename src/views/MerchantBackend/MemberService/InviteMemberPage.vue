@@ -158,7 +158,7 @@
                 :show-upload-list="false"
                 accept=".xlsx,.xls"
               >
-                <a-button>
+                <a-button size="large">
                   <a-icon type="upload" />
                   选择Excel文件
                 </a-button>
@@ -167,6 +167,9 @@
                 <a-icon type="download" />
                 下载模板
               </a>
+            </div>
+            <div v-if="!uploadedFileName" class="upload-hint">
+              请先上传Excel文件，或点击"下载模板"查看文件格式要求
             </div>
             <div v-if="uploadedFileName" class="upload-result">
               <a-icon type="file-excel" class="file-icon" />
@@ -594,15 +597,28 @@ export default defineComponent({
       color: @text-tertiary;
       cursor: pointer;
       transition: color 0.2s;
+      text-decoration: none;
 
       &:hover {
         color: @brand-primary;
+        text-decoration: underline;
       }
 
       .anticon {
         margin-right: 4px;
       }
     }
+  }
+
+  .upload-hint {
+    padding: 12px 16px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: @border-radius-base;
+    font-size: @font-size-sm;
+    color: #78350f;
+    margin-bottom: 20px;
+    line-height: 1.6;
   }
 
   .upload-result {
