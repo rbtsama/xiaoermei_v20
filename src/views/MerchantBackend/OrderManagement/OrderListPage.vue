@@ -264,7 +264,7 @@ export default defineComponent({
     MerchantNoteDialog
   },
 
-  setup() {
+  setup(props, { root }) {
     // ========== 状态管理 ==========
     const loading = ref(false)
     const orders = ref<Order[]>([])
@@ -374,7 +374,7 @@ export default defineComponent({
 
     // 取消订单
     const handleCancelOrder = (order: Order) => {
-      const modal = (this as any).$confirm({
+      root.$confirm({
         title: '确认取消订单',
         content: `订单号：${order.orderNumber}\n取消后订单状态将变为"已取消"，确定要取消吗？`,
         okText: '确认取消',
@@ -382,10 +382,10 @@ export default defineComponent({
         onOk: async () => {
           try {
             await OrderListService.cancelOrder(order.id)
-            ;(this as any).$message.success('订单已取消')
+            root.$message.success('订单已取消')
             fetchOrders()
           } catch (error: any) {
-            ;(this as any).$message.error(error.message || '取消订单失败')
+            root.$message.error(error.message || '取消订单失败')
           }
         }
       })
@@ -407,11 +407,11 @@ export default defineComponent({
     const handleSaveNote = async (payload: { orderId: string; note: string }) => {
       try {
         await OrderListService.updateMerchantNote(payload.orderId, payload.note)
-        ;(this as any).$message.success('备注保存成功')
+        root.$message.success('备注保存成功')
         handleCloseNote()
         fetchOrders()
       } catch (error) {
-        ;(this as any).$message.error('保存备注失败')
+        root.$message.error('保存备注失败')
       }
     }
 
