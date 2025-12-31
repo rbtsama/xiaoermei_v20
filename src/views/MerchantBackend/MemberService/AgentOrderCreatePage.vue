@@ -170,10 +170,46 @@ import { generateAgentOrderQRCode } from '@/api/memberService'
 import dayjs from 'dayjs'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
-import locale from 'ant-design-vue/es/date-picker/locale/zh_CN'
 
 // 设置moment全局中文（Ant Design Vue 1.x使用moment）
 moment.locale('zh-cn')
+
+// DatePicker的中文locale配置
+const locale = {
+  lang: {
+    placeholder: '请选择日期',
+    rangePlaceholder: ['开始日期', '结束日期'],
+    today: '今天',
+    now: '此刻',
+    backToToday: '返回今天',
+    ok: '确定',
+    clear: '清除',
+    month: '月',
+    year: '年',
+    timeSelect: '选择时间',
+    dateSelect: '选择日期',
+    monthSelect: '选择月份',
+    yearSelect: '选择年份',
+    decadeSelect: '选择年代',
+    yearFormat: 'YYYY年',
+    dateFormat: 'YYYY-MM-DD',
+    dayFormat: 'D日',
+    dateTimeFormat: 'YYYY-MM-DD HH:mm:ss',
+    monthFormat: 'M月',
+    monthBeforeYear: false,
+    previousMonth: '上个月 (PageUp)',
+    nextMonth: '下个月 (PageDown)',
+    previousYear: '上一年 (Control + left)',
+    nextYear: '下一年 (Control + right)',
+    previousDecade: '上十年',
+    nextDecade: '下十年',
+    previousCentury: '上世纪',
+    nextCentury: '下世纪'
+  },
+  timePickerLocale: {
+    placeholder: '请选择时间'
+  }
+}
 
 export default defineComponent({
   name: 'AgentOrderCreatePage',
