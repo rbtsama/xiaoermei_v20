@@ -55,6 +55,19 @@
           <template slot="customerName" slot-scope="text">
             <span class="customer-text">{{ text }}</span>
           </template>
+
+          <!-- 下单时间 -->
+          <template slot="orderTime" slot-scope="text">
+            <div class="datetime-cell">
+              <div class="date">{{ formatDate(text) }}</div>
+              <div class="time">{{ formatTime(text) }}</div>
+            </div>
+          </template>
+
+          <!-- 支付金额 -->
+          <template slot="paymentAmount" slot-scope="text">
+            <span class="amount-text">¥{{ text.toFixed(2) }}</span>
+          </template>
         </a-table>
       </a-card>
     </div>
@@ -66,6 +79,7 @@ import { defineComponent, ref, reactive, onMounted } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import { getPlatformCommissionRecords, exportCommissionRecords } from '@/api/memberService'
 import { OrderStatus } from '@/types/memberService'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'CommissionManagementPage',
@@ -119,8 +133,25 @@ export default defineComponent({
         key: 'customerName',
         width: 100,
         scopedSlots: { customRender: 'customerName' }
+      },
+      {
+        title: '下单时间',
+        dataIndex: 'orderTime',
+        key: 'orderTime',
+        width: 120,
+        scopedSlots: { customRender: 'orderTime' }
+      },
+      {
+        title: '支付金额',
+        dataIndex: 'paymentAmount',
+        key: 'paymentAmount',
+        width: 100,
+        scopedSlots: { customRender: 'paymentAmount' }
       }
     ]
+
+    const formatDate = (datetime) => datetime ? dayjs(datetime).format('YYYY-MM-DD') : '-'
+    const formatTime = (datetime) => datetime ? dayjs(datetime).format('HH:mm:ss') : '-'
 
     const getOrderStatusLabel = (status) => {
       const labels = {
@@ -199,6 +230,8 @@ export default defineComponent({
       tableData,
       pagination,
       columns,
+      formatDate,
+      formatTime,
       getOrderStatusLabel,
       getOrderStatusClass,
       handleTableChange,
@@ -301,6 +334,29 @@ export default defineComponent({
 .customer-text {
   font-weight: @font-weight-medium;
   color: @text-primary;
+}
+
+.datetime-cell {
+  .date {
+    display: block;
+    color: @text-primary;
+    font-size: @font-size-base;
+    line-height: 1.5;
+  }
+
+  .time {
+    display: block;
+    color: @text-secondary;
+    font-size: @font-size-sm;
+    line-height: 1.5;
+    margin-top: 2px;
+  }
+}
+
+.amount-text {
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+  font-size: @font-size-base;
 }
 
 .tag-green {
