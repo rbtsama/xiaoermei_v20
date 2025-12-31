@@ -434,7 +434,7 @@
           <!-- 等级列 -->
           <template slot="level" slot-scope="text, record">
             <div class="vip-level-wrapper">
-              <span class="vip-level-text">{{ text }}</span>
+              <span class="vip-level-text">{{ record.levelName || text }}</span>
               <a-tooltip placement="right" overlayClassName="vip-tooltip">
                 <template slot="title">
                   <div class="vip-info-content">
@@ -617,7 +617,7 @@ export default defineComponent({
   setup(props, { emit }) {
     // VIP等级配置（模拟数据）
     const vipLevels = [
-      { level: 'VIP0', min: 95, max: 100 },
+      { level: 'VIP0', levelName: '注册会员', min: 95, max: 100 },
       { level: 'VIP1', min: 90, max: 95 },
       { level: 'VIP2', min: 85, max: 90 },
       { level: 'VIP3', min: 80, max: 85 },
@@ -1114,6 +1114,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
   }
 
   .vip-level-text {
@@ -1164,33 +1165,34 @@ export default defineComponent({
 
 // VIP等级提示Tooltip样式
 :global(.vip-tooltip) {
-  max-width: 400px;
+  max-width: 500px;
 
   :deep(.ant-tooltip-inner) {
-    padding: 16px;
-    background: @bg-primary;
+    padding: 16px 20px;
+    background: #ffffff;
     border: 1px solid @border-primary;
     box-shadow: @shadow-lg;
     color: @text-primary;
   }
 
   :deep(.ant-tooltip-arrow::before) {
-    background: @bg-primary;
-    border-color: @border-primary;
+    background: #ffffff;
+    border: 1px solid @border-primary;
   }
 
   .vip-info-content {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 
     .info-row {
       display: flex;
       align-items: flex-start;
       gap: 8px;
-      line-height: 1.6;
+      line-height: 1.5;
 
       .info-label {
+        font-size: @font-size-sm;
         font-weight: @font-weight-semibold;
         color: @text-primary;
         white-space: nowrap;
@@ -1198,6 +1200,7 @@ export default defineComponent({
       }
 
       .info-value {
+        font-size: @font-size-sm;
         color: @text-primary;
         flex: 1;
       }
