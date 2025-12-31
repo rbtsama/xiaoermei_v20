@@ -79,18 +79,15 @@
             </div>
           </a-form-model-item>
 
-          <!-- 专属优惠总价 -->
-          <a-form-model-item label="专属优惠总价" required>
+          <!-- 专属总价 -->
+          <a-form-model-item label="专属总价（元）" required>
             <a-input-number
               v-model="formData.specialPrice"
               :min="0"
               :precision="2"
-              placeholder="输入优惠后的价格"
+              placeholder="988.46"
               style="width: 100%;"
             />
-            <div class="field-hint">
-              设置给客户的专属优惠价格
-            </div>
           </a-form-model-item>
 
           <!-- 限制购买人手机号 -->
@@ -106,7 +103,7 @@
           </a-form-model-item>
 
           <!-- 备注 -->
-          <a-form-model-item label="备注">
+          <a-form-model-item label="备注" :wrapper-col="{ span: 14 }">
             <a-textarea
               v-model="formData.notes"
               placeholder="订单备注信息"
