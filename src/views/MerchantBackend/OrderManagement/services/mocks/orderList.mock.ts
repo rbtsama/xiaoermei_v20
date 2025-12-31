@@ -40,7 +40,8 @@ export const mockOrderListData: Order[] = [
     checkInStatus: CheckInStatus.CHECKED_OUT,
     hasRefundRequest: true,
     refundRequestedAt: '2025-11-17 10:00:00',
-    refundAmount: 2
+    refundAmount: 2,
+    merchantNote: '客人要求退款，已联系确认'
   },
   {
     id: '2',
@@ -106,7 +107,8 @@ export const mockOrderListData: Order[] = [
     paymentStatus: PaymentStatus.PAID,
     checkInStatus: CheckInStatus.NOT_CHECKED_IN,
     paidAt: '2025-11-15 16:40:00',
-    hasRefundRequest: false
+    hasRefundRequest: false,
+    merchantNote: '客人要求早入住，已安排10点前到店办理'
   },
   {
     id: '4',
