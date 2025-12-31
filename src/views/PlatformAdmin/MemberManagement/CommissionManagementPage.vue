@@ -385,6 +385,12 @@ export default defineComponent({
       color: @text-primary;
       white-space: nowrap;
     }
+
+    // 确保placeholder正常显示
+    :deep(.ant-select-selection-placeholder) {
+      color: @text-tertiary !important;
+      opacity: 1 !important;
+    }
   }
 }
 
