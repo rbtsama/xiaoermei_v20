@@ -312,7 +312,7 @@ export default defineComponent({
      */
     const handleDownloadTemplate = () => {
       // 创建CSV模板
-      const headers = ['注册手机号', '姓名（选填）', '性别（选填）']
+      const headers = ['注册手机号', '姓名', '性别']
       const example = ['13800138000', '张三', '男']
       const csvContent = '\uFEFF' + [headers.join(','), example.join(',')].join('\n')
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
