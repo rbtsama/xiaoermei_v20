@@ -129,8 +129,8 @@ export default defineComponent({
     const exporting = ref(false)
     const tableData = ref([])
     const filters = reactive({
-      year: null,
-      month: null
+      year: undefined,
+      month: undefined
     })
     const pagination = reactive({
       current: 1,
@@ -387,9 +387,13 @@ export default defineComponent({
     }
 
     // 确保placeholder正常显示
-    :deep(.ant-select-selection-placeholder) {
+    :deep(.ant-select-selection__placeholder) {
       color: @text-tertiary !important;
       opacity: 1 !important;
+    }
+
+    :deep(.ant-select-selection-selected-value) {
+      color: @text-primary !important;
     }
   }
 }
