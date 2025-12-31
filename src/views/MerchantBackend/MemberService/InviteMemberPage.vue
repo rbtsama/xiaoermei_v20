@@ -17,62 +17,55 @@
       </div>
 
       <!-- 主内容区域 -->
-      <div class="content-wrapper">
-        <!-- 左侧：批量导入会员 -->
-        <a-card :bordered="false" class="import-card">
-          <template slot="title">
-            <span class="card-title">批量导入会员</span>
-          </template>
+      <a-card :bordered="false" class="main-card">
+        <!-- 1. 邀请方式选择 -->
+        <div class="section">
+          <label class="section-label">邀请方式</label>
+          <a-radio-group v-model="inviteMode" class="mode-radio-group" @change="handleModeChange">
+            <a-radio value="batch">会员预注册批量导入</a-radio>
+            <a-radio value="qrcode">扫码邀请</a-radio>
+          </a-radio-group>
+        </div>
 
-          <div class="import-content">
-            <!-- 手机号输入区 -->
-            <div class="phone-input-section">
-              <label class="input-label">手机号列表</label>
-              <a-textarea
-                v-model="phoneText"
-                :rows="12"
-                placeholder="每行输入一个受邀手机号"
-                class="phone-textarea"
-              />
-              <div class="input-hint">
-                已输入 {{ phoneCount }} 个手机号
-              </div>
-            </div>
+        <!-- 2. 会员等级设置 -->
+        <div class="section">
+          <label class="section-label">会员等级设置</label>
+          <a-radio-group v-model="selectedVipLevel" class="vip-radio-group">
+            <a-radio :value="0">VIP0</a-radio>
+            <a-radio :value="1">VIP1</a-radio>
+            <a-radio :value="2">VIP2</a-radio>
+            <a-radio :value="3">VIP3</a-radio>
+          </a-radio-group>
+        </div>
 
-            <!-- VIP等级选择 -->
-            <div class="vip-select-section">
-              <label class="input-label">赠送会员等级</label>
-              <a-radio-group v-model="selectedVipLevel" class="vip-radio-group">
-                <a-radio :value="0">VIP0</a-radio>
-                <a-radio :value="1">VIP1</a-radio>
-                <a-radio :value="2">VIP2</a-radio>
-                <a-radio :value="3">VIP3</a-radio>
-              </a-radio-group>
+        <!-- 3. 内容区域（根据邀请方式显示不同内容） -->
+        <div class="section">
+          <!-- 批量导入模式 -->
+          <div v-if="inviteMode === 'batch'" class="batch-content">
+            <label class="section-label">手机号列表</label>
+            <a-textarea
+              v-model="phoneText"
+              :rows="12"
+              placeholder="每行输入一个受邀手机号"
+              class="phone-textarea"
+            />
+            <div class="input-hint">
+              已输入 {{ phoneCount }} 个手机号
             </div>
-
-            <!-- 批量邀请按钮 -->
-            <div class="submit-section">
-              <a-button
-                type="primary"
-                size="large"
-                :loading="submitting"
-                @click="handleBatchInvite"
-                class="invite-btn"
-              >
-                <a-icon type="user-add" />
-                批量邀请
-              </a-button>
-            </div>
+            <a-button
+              type="primary"
+              size="large"
+              :loading="submitting"
+              @click="handleBatchInvite"
+              class="invite-btn"
+            >
+              <a-icon type="user-add" />
+              批量邀请
+            </a-button>
           </div>
-        </a-card>
 
-        <!-- 右侧：邀请二维码 -->
-        <a-card :bordered="false" class="qrcode-card">
-          <template slot="title">
-            <span class="card-title">扫码邀请</span>
-          </template>
-
-          <div class="qrcode-content">
+          <!-- 扫码邀请模式 -->
+          <div v-else class="qrcode-content">
             <div class="qrcode-wrapper">
               <div class="qrcode-placeholder">
                 <a-icon type="qrcode" class="qr-icon" />
@@ -82,8 +75,8 @@
             <p class="qrcode-text">扫码即可成为会员并享受折扣</p>
             <p class="qrcode-hint">会员可在平台享受专属优惠价格</p>
           </div>
-        </a-card>
-      </div>
+        </div>
+      </a-card>
     </div>
   </sidebar>
 </template>
@@ -99,6 +92,7 @@ export default defineComponent({
     Sidebar
   },
   setup(props, { root }) {
+    const inviteMode = ref('batch') // 'batch' | 'qrcode'
     const phoneText = ref('')
     const selectedVipLevel = ref(0)
     const submitting = ref(false)
@@ -186,14 +180,21 @@ export default defineComponent({
       root.$router.push('/merchant-backend/invite-member/commission')
     }
 
+    // 切换邀请模式时清空输入
+    const handleModeChange = () => {
+      phoneText.value = ''
+    }
+
     return {
+      inviteMode,
       phoneText,
       selectedVipLevel,
       submitting,
       phoneCount,
       handleBatchInvite,
       handleGoToRecords,
-      handleGoToCommission
+      handleGoToCommission,
+      handleModeChange
     }
   }
 })
@@ -234,48 +235,39 @@ export default defineComponent({
   }
 }
 
-.content-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 24px;
-}
-
-.import-card,
-.qrcode-card {
+.main-card {
   border-radius: @border-radius-lg;
   border: 1px solid @border-primary;
   box-shadow: @shadow-sm;
 
-  :deep(.ant-card-head) {
-    border-bottom: 1px solid @bg-tertiary;
-    padding: 16px 24px;
-  }
-
   :deep(.ant-card-body) {
-    padding: 24px;
+    padding: 32px;
   }
 }
 
-.card-title {
-  font-size: @font-size-lg;
-  font-weight: @font-weight-semibold;
-  color: @text-primary;
-}
+.section {
+  margin-bottom: 32px;
 
-.import-content {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
+  &:last-child {
+    margin-bottom: 0;
+  }
 
-.phone-input-section,
-.vip-select-section {
-  .input-label {
+  .section-label {
     display: block;
     font-size: @font-size-base;
-    font-weight: @font-weight-medium;
+    font-weight: @font-weight-semibold;
     color: @text-primary;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
+  }
+}
+
+.mode-radio-group {
+  display: flex;
+  gap: 32px;
+
+  :deep(.ant-radio-wrapper) {
+    font-size: @font-size-base;
+    color: @text-primary;
   }
 }
 
@@ -289,11 +281,6 @@ export default defineComponent({
   }
 }
 
-.input-hint {
-  margin-top: 8px;
-  font-size: @font-size-sm;
-  color: @text-secondary;
-}
 
 .vip-radio-group {
   display: flex;
@@ -305,7 +292,17 @@ export default defineComponent({
   }
 }
 
-.submit-section {
+.batch-content {
+  .phone-textarea {
+    margin-bottom: 8px;
+  }
+
+  .input-hint {
+    margin-bottom: 20px;
+    font-size: @font-size-sm;
+    color: @text-secondary;
+  }
+
   .invite-btn {
     width: 100%;
     height: 44px;
@@ -324,7 +321,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px 0;
+  padding: 40px 0;
 
   .qrcode-wrapper {
     width: 240px;
