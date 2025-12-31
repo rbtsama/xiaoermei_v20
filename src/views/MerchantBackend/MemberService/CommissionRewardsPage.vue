@@ -49,7 +49,7 @@
 
           <!-- 离店时间 -->
           <template slot="checkOutTime" slot-scope="text">
-            <div class="datetime-cell">
+            <div class="datetime-cell checkout-time">
               <div class="date">{{ formatDate(text) }}</div>
               <div class="time">{{ formatTime(text) }}</div>
             </div>
@@ -271,6 +271,17 @@ export default defineComponent({
     font-size: @font-size-sm;
     line-height: 1.5;
     margin-top: 2px;
+  }
+
+  &.checkout-time {
+    .date {
+      color: @brand-primary;
+    }
+
+    .time {
+      color: @brand-primary;
+      opacity: 0.8;
+    }
   }
 }
 

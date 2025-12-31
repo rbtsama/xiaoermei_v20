@@ -11,13 +11,47 @@
           </a-button>
         </div>
 
-        <!-- 说明提示 -->
-        <a-alert
-          message="受邀会员在平台下单，离店后，将会计入分销奖励"
-          type="info"
-          show-icon
-          class="info-alert"
-        />
+        <!-- 筛选和说明 -->
+        <div class="filter-section">
+          <a-alert
+            message="受邀会员在平台下单，离店后，将会计入分销奖励"
+            type="info"
+            show-icon
+            class="info-alert"
+          />
+          <div class="filter-controls">
+            <a-select
+              v-model="filters.year"
+              placeholder="选择年份"
+              style="width: 120px;"
+              @change="handleFilterChange"
+              allowClear
+            >
+              <a-select-option value="2025">2025年</a-select-option>
+              <a-select-option value="2024">2024年</a-select-option>
+            </a-select>
+            <a-select
+              v-model="filters.month"
+              placeholder="选择月份"
+              style="width: 120px;"
+              @change="handleFilterChange"
+              allowClear
+            >
+              <a-select-option :value="1">1月</a-select-option>
+              <a-select-option :value="2">2月</a-select-option>
+              <a-select-option :value="3">3月</a-select-option>
+              <a-select-option :value="4">4月</a-select-option>
+              <a-select-option :value="5">5月</a-select-option>
+              <a-select-option :value="6">6月</a-select-option>
+              <a-select-option :value="7">7月</a-select-option>
+              <a-select-option :value="8">8月</a-select-option>
+              <a-select-option :value="9">9月</a-select-option>
+              <a-select-option :value="10">10月</a-select-option>
+              <a-select-option :value="11">11月</a-select-option>
+              <a-select-option :value="12">12月</a-select-option>
+            </a-select>
+          </div>
+        </div>
 
         <!-- 表格 -->
         <a-table
@@ -66,7 +100,7 @@
 
           <!-- 离店时间 -->
           <template slot="checkOutTime" slot-scope="text">
-            <div class="datetime-cell">
+            <div class="datetime-cell checkout-time">
               <div class="date">{{ formatDate(text) }}</div>
               <div class="time">{{ formatTime(text) }}</div>
             </div>
@@ -96,6 +130,10 @@ export default defineComponent({
     const isLoading = ref(false)
     const exporting = ref(false)
     const tableData = ref([])
+    const filters = reactive({
+      year: null,
+      month: null
+    })
     const pagination = reactive({
       current: 1,
       pageSize: 10,
@@ -194,14 +232,38 @@ export default defineComponent({
       isLoading.value = true
       try {
         const { records, total } = await getPlatformCommissionRecords(pagination.current, pagination.pageSize)
-        tableData.value = records
-        pagination.total = total
+
+        // 前端筛选（按离店时间年月）
+        let filtered = records
+        if (filters.year || filters.month) {
+          filtered = records.filter(record => {
+            const checkOutDate = new Date(record.checkOutTime)
+            const year = checkOutDate.getFullYear()
+            const month = checkOutDate.getMonth() + 1
+
+            if (filters.year && year !== parseInt(filters.year)) {
+              return false
+            }
+            if (filters.month && month !== filters.month) {
+              return false
+            }
+            return true
+          })
+        }
+
+        tableData.value = filtered
+        pagination.total = filtered.length
       } catch (error) {
         root.$message.error('加载数据失败')
         console.error(error)
       } finally {
         isLoading.value = false
       }
+    }
+
+    const handleFilterChange = () => {
+      pagination.current = 1
+      fetchData()
     }
 
     const handleTableChange = (pag) => {
@@ -243,6 +305,7 @@ export default defineComponent({
       isLoading,
       exporting,
       tableData,
+      filters,
       pagination,
       columns,
       formatDate,
@@ -250,6 +313,7 @@ export default defineComponent({
       getOrderStatusLabel,
       getOrderStatusClass,
       handleTableChange,
+      handleFilterChange,
       handleExport
     }
   }
@@ -293,13 +357,28 @@ export default defineComponent({
   color: @text-primary;
 }
 
-.info-alert {
-  margin: 16px 24px;
-  border-radius: @border-radius-base;
+.filter-section {
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 
-  :deep(.ant-alert-message) {
-    font-size: @font-size-base;
-    color: @text-primary;
+  .info-alert {
+    flex: 1;
+    margin: 0;
+    border-radius: @border-radius-base;
+
+    :deep(.ant-alert-message) {
+      font-size: @font-size-base;
+      color: @text-primary;
+    }
+  }
+
+  .filter-controls {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
   }
 }
 
@@ -365,6 +444,17 @@ export default defineComponent({
     font-size: @font-size-sm;
     line-height: 1.5;
     margin-top: 2px;
+  }
+
+  &.checkout-time {
+    .date {
+      color: @brand-primary;
+    }
+
+    .time {
+      color: @brand-primary;
+      opacity: 0.8;
+    }
   }
 }
 
