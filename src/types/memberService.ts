@@ -83,13 +83,26 @@ export interface InviteRecord {
 }
 
 /**
+ * 订单状态枚举
+ */
+export enum OrderStatus {
+  PENDING = 'pending',           // 待确认
+  CONFIRMED = 'confirmed',       // 已确认
+  CHECKED_IN = 'checked_in',     // 已入住
+  CHECKED_OUT = 'checked_out',   // 已离店
+  CANCELLED = 'cancelled'        // 已取消
+}
+
+/**
  * 分销奖励记录
  */
 export interface CommissionRecord {
   id: string
   merchantName?: string   // 商户名称（平台后台需要）
-  orderNo: string         // 订单号
   inviteePhone: string    // 受邀会员手机号
-  orderTime: string       // 下单时间
-  paymentAmount: number   // 支付金额（元）
+  orderNo: string         // 订单号
+  orderStatus?: OrderStatus // 订单状态（平台后台需要）
+  customerName?: string   // 下单人姓名（平台后台需要）
+  orderTime?: string      // 下单时间（商户端需要）
+  paymentAmount?: number  // 支付金额（商户端需要）
 }

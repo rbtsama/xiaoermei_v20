@@ -34,27 +34,26 @@
             <span class="merchant-text">{{ text }}</span>
           </template>
 
-          <!-- 订单号 -->
-          <template slot="orderNo" slot-scope="text">
-            <span class="order-no">{{ text }}</span>
-          </template>
-
           <!-- 受邀会员 -->
           <template slot="inviteePhone" slot-scope="text">
             <span class="phone-text">{{ text }}</span>
           </template>
 
-          <!-- 下单时间 -->
-          <template slot="orderTime" slot-scope="text">
-            <div class="datetime-cell">
-              <div class="date">{{ formatDate(text) }}</div>
-              <div class="time">{{ formatTime(text) }}</div>
-            </div>
+          <!-- 订单号 -->
+          <template slot="orderNo" slot-scope="text">
+            <span class="order-no">{{ text }}</span>
           </template>
 
-          <!-- 支付金额 -->
-          <template slot="paymentAmount" slot-scope="text">
-            <span class="amount-text">¥{{ text.toFixed(2) }}</span>
+          <!-- 订单状态 -->
+          <template slot="orderStatus" slot-scope="text">
+            <a-tag :class="getOrderStatusClass(text)">
+              {{ getOrderStatusLabel(text) }}
+            </a-tag>
+          </template>
+
+          <!-- 下单人 -->
+          <template slot="customerName" slot-scope="text">
+            <span class="customer-text">{{ text }}</span>
           </template>
         </a-table>
       </a-card>
@@ -66,7 +65,7 @@
 import { defineComponent, ref, reactive, onMounted } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import { getPlatformCommissionRecords, exportCommissionRecords } from '@/api/memberService'
-import dayjs from 'dayjs'
+import { OrderStatus } from '@/types/memberService'
 
 export default defineComponent({
   name: 'CommissionManagementPage',
@@ -94,13 +93,6 @@ export default defineComponent({
         scopedSlots: { customRender: 'merchantName' }
       },
       {
-        title: '订单号',
-        dataIndex: 'orderNo',
-        key: 'orderNo',
-        width: 150,
-        scopedSlots: { customRender: 'orderNo' }
-      },
-      {
         title: '受邀会员',
         dataIndex: 'inviteePhone',
         key: 'inviteePhone',
@@ -108,23 +100,49 @@ export default defineComponent({
         scopedSlots: { customRender: 'inviteePhone' }
       },
       {
-        title: '下单时间',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
-        width: 120,
-        scopedSlots: { customRender: 'orderTime' }
+        title: '订单号',
+        dataIndex: 'orderNo',
+        key: 'orderNo',
+        width: 150,
+        scopedSlots: { customRender: 'orderNo' }
       },
       {
-        title: '支付金额',
-        dataIndex: 'paymentAmount',
-        key: 'paymentAmount',
+        title: '订单状态',
+        dataIndex: 'orderStatus',
+        key: 'orderStatus',
         width: 100,
-        scopedSlots: { customRender: 'paymentAmount' }
+        scopedSlots: { customRender: 'orderStatus' }
+      },
+      {
+        title: '下单人',
+        dataIndex: 'customerName',
+        key: 'customerName',
+        width: 100,
+        scopedSlots: { customRender: 'customerName' }
       }
     ]
 
-    const formatDate = (datetime) => datetime ? dayjs(datetime).format('YYYY-MM-DD') : '-'
-    const formatTime = (datetime) => datetime ? dayjs(datetime).format('HH:mm:ss') : '-'
+    const getOrderStatusLabel = (status) => {
+      const labels = {
+        [OrderStatus.PENDING]: '待确认',
+        [OrderStatus.CONFIRMED]: '已确认',
+        [OrderStatus.CHECKED_IN]: '已入住',
+        [OrderStatus.CHECKED_OUT]: '已离店',
+        [OrderStatus.CANCELLED]: '已取消'
+      }
+      return labels[status] || '-'
+    }
+
+    const getOrderStatusClass = (status) => {
+      const classes = {
+        [OrderStatus.PENDING]: 'tag-gray',
+        [OrderStatus.CONFIRMED]: 'tag-blue',
+        [OrderStatus.CHECKED_IN]: 'tag-purple',
+        [OrderStatus.CHECKED_OUT]: 'tag-green',
+        [OrderStatus.CANCELLED]: 'tag-red'
+      }
+      return classes[status] || 'tag-gray'
+    }
 
     const fetchData = async () => {
       isLoading.value = true
@@ -181,8 +199,8 @@ export default defineComponent({
       tableData,
       pagination,
       columns,
-      formatDate,
-      formatTime,
+      getOrderStatusLabel,
+      getOrderStatusClass,
       handleTableChange,
       handleExport
     }
@@ -280,26 +298,48 @@ export default defineComponent({
   color: @text-primary;
 }
 
-.datetime-cell {
-  .date {
-    display: block;
-    color: @text-primary;
-    font-size: @font-size-base;
-    line-height: 1.5;
-  }
-
-  .time {
-    display: block;
-    color: @text-secondary;
-    font-size: @font-size-sm;
-    line-height: 1.5;
-    margin-top: 2px;
-  }
+.customer-text {
+  font-weight: @font-weight-medium;
+  color: @text-primary;
 }
 
-.amount-text {
-  font-weight: @font-weight-semibold;
-  color: @text-primary;
-  font-size: @font-size-base;
+.tag-green {
+  color: #15803d;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.tag-gray {
+  color: #64748b;
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.tag-blue {
+  color: #1d4ed8;
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.tag-purple {
+  color: #7c3aed;
+  background: #f5f3ff;
+  border-color: #ddd6fe;
+}
+
+.tag-red {
+  color: #b91c1c;
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+:deep(.ant-tag) {
+  margin: 0;
+  padding: 2px 8px;
+  font-size: @font-size-xs;
+  font-weight: @font-weight-medium;
+  line-height: 20px;
+  border-radius: @border-radius-sm;
+  border-width: 1px;
 }
 </style>
