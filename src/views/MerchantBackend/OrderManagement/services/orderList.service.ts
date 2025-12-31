@@ -85,6 +85,58 @@ class OrderListService {
     this.mockData.splice(index, 1)
     return true
   }
+
+  /**
+   * 取消订单
+   * @param orderId 订单ID
+   * @returns 是否成功
+   */
+  async cancelOrder(orderId: string): Promise<boolean> {
+    await new Promise(resolve => setTimeout(resolve, 400))
+
+    const order = this.mockData.find(o => o.id === orderId)
+    if (!order) return false
+
+    // 只有待入住状态可以取消
+    if (order.status !== 'pending_checkin') {
+      throw new Error('只有待入住订单可以取消')
+    }
+
+    // 更新订单状态
+    order.status = 'cancelled' as any
+    order.cancelledAt = new Date().toISOString().replace('T', ' ').substring(0, 19)
+    order.cancelledBy = '商户'
+
+    return true
+  }
+
+  /**
+   * 更新商家备注
+   * @param orderId 订单ID
+   * @param note 备注内容
+   * @returns 是否成功
+   */
+  async updateMerchantNote(orderId: string, note: string): Promise<boolean> {
+    await new Promise(resolve => setTimeout(resolve, 300))
+
+    const order = this.mockData.find(o => o.id === orderId)
+    if (!order) return false
+
+    order.merchantNote = note
+    return true
+  }
+
+  /**
+   * 获取所有房型列表（用于筛选）
+   * @returns 房型列表
+   */
+  async getRoomTypes(): Promise<string[]> {
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    // 从Mock数据中提取所有唯一房型
+    const roomTypes = [...new Set(this.mockData.map(order => order.roomType))]
+    return roomTypes.sort()
+  }
 }
 
 export default new OrderListService()
