@@ -432,8 +432,33 @@
           class="vip-discount-table"
         >
           <!-- 等级列 -->
-          <template slot="level" slot-scope="text">
-            <span class="vip-level-text">{{ text }}</span>
+          <template slot="level" slot-scope="text, record">
+            <div class="vip-level-wrapper">
+              <span class="vip-level-text">{{ text }}</span>
+              <a-tooltip placement="right" overlayClassName="vip-tooltip">
+                <template slot="title">
+                  <div class="vip-info-content">
+                    <div class="info-row">
+                      <span class="info-label">获得等级条件：</span>
+                      <span class="info-value">{{ getVipCondition(text) }}</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-label">会员权益：</span>
+                      <span class="info-value">{{ getVipBenefit(text) }}</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-label">等级有效期：</span>
+                      <span class="info-value">{{ getVipValidity(text) }}</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-label">保级规则：</span>
+                      <span class="info-value">{{ getVipMaintain(text) }}</span>
+                    </div>
+                  </div>
+                </template>
+                <a-icon type="question-circle" class="vip-help-icon" />
+              </a-tooltip>
+            </div>
           </template>
 
           <!-- 平台折扣范围列 -->
@@ -738,6 +763,70 @@ export default defineComponent({
     // TODO: 从props.formData中初始化
 
     /**
+     * 获取VIP等级条件
+     */
+    const getVipCondition = (level) => {
+      const conditions = {
+        'VIP0': '注册即享',
+        'VIP1': '预订1次及以上',
+        'VIP2': '预订5次及以上',
+        'VIP3': '预订10次及以上',
+        'VIP4': '预订20次及以上',
+        'VIP5': '预订35次及以上',
+        'VIP6': '预订50次及以上'
+      }
+      return conditions[level] || '-'
+    }
+
+    /**
+     * 获取VIP会员权益
+     */
+    const getVipBenefit = (level) => {
+      const benefits = {
+        'VIP0': '-',
+        'VIP1': '获得等返回可购送亲友*1，消费1元累计1里程值',
+        'VIP2': '获得等返回可购送亲友*2，消费1元累计1里程值',
+        'VIP3': '获得等返回可购送亲友*3，消费1元累计1里程值',
+        'VIP4': '获得等返回可购送亲友*4，消费1元累计1里程值',
+        'VIP5': '获得等返回可购送亲友*5，消费1元累计1里程值',
+        'VIP6': '获得等返回可购送亲友*6，消费1元累计1里程值'
+      }
+      return benefits[level] || '-'
+    }
+
+    /**
+     * 获取VIP等级有效期
+     */
+    const getVipValidity = (level) => {
+      const validity = {
+        'VIP0': '-',
+        'VIP1': '2年',
+        'VIP2': '2年',
+        'VIP3': '2年',
+        'VIP4': '2年',
+        'VIP5': '2年',
+        'VIP6': '2年'
+      }
+      return validity[level] || '-'
+    }
+
+    /**
+     * 获取VIP保级规则
+     */
+    const getVipMaintain = (level) => {
+      const maintain = {
+        'VIP0': '-',
+        'VIP1': '预订1次及以上',
+        'VIP2': '预订3次及以上',
+        'VIP3': '预订6次及以上',
+        'VIP4': '预订12次及以上',
+        'VIP5': '预订20次及以上',
+        'VIP6': '预订30次及以上'
+      }
+      return maintain[level] || '-'
+    }
+
+    /**
      * 验证VIP折扣是否在允许范围内
      * @param {string} level - VIP等级 (VIP0-VIP6)
      * @param {string} day - 星期 (monday-sunday, holiday)
@@ -819,6 +908,10 @@ export default defineComponent({
       vipLevels,
       vipDiscountColumns,
       vipDiscountErrors,
+      getVipCondition,
+      getVipBenefit,
+      getVipValidity,
+      getVipMaintain,
       validateVipDiscount,
       handleChange
     }
@@ -1017,9 +1110,26 @@ export default defineComponent({
     }
   }
 
+  .vip-level-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
   .vip-level-text {
     font-weight: @font-weight-medium;
     color: @text-primary;
+  }
+
+  .vip-help-icon {
+    font-size: 14px;
+    color: @text-tertiary;
+    cursor: help;
+    transition: color 0.2s;
+
+    &:hover {
+      color: @brand-primary;
+    }
   }
 
   .platform-range {
@@ -1048,6 +1158,49 @@ export default defineComponent({
     &.ant-input-number-focused {
       border-color: @error-color !important;
       box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1) !important;
+    }
+  }
+}
+
+// VIP等级提示Tooltip样式
+:global(.vip-tooltip) {
+  max-width: 400px;
+
+  :deep(.ant-tooltip-inner) {
+    padding: 16px;
+    background: @bg-primary;
+    border: 1px solid @border-primary;
+    box-shadow: @shadow-lg;
+    color: @text-primary;
+  }
+
+  :deep(.ant-tooltip-arrow::before) {
+    background: @bg-primary;
+    border-color: @border-primary;
+  }
+
+  .vip-info-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.6;
+
+      .info-label {
+        font-weight: @font-weight-semibold;
+        color: @text-primary;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .info-value {
+        color: @text-primary;
+        flex: 1;
+      }
     }
   }
 }
