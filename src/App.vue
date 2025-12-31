@@ -8,7 +8,7 @@
 
 <script>
 import { defineComponent } from '@vue/composition-api'
-import zhCN from 'ant-design-vue/es/locale/zh_CN'
+import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
 
 export default defineComponent({
   name: 'App',
