@@ -174,6 +174,7 @@ export interface Order {
   checkedOutAt?: string
   completedAt?: string
   cancelledAt?: string
+  cancelledBy?: string  // 取消角色：'用户' | '商户' | '平台'
 
   // 退款信息
   hasRefundRequest: boolean
