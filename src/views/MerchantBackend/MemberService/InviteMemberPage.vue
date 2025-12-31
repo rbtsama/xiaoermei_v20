@@ -74,6 +74,14 @@
             </div>
             <p class="qrcode-text">扫码即可成为会员并享受折扣</p>
             <p class="qrcode-hint">会员可在平台享受专属优惠价格</p>
+            <a-button
+              type="primary"
+              @click="handleDownloadQRCode"
+              class="download-btn"
+            >
+              <a-icon type="download" />
+              下载邀请二维码（3天有效）
+            </a-button>
           </div>
         </div>
       </a-card>
@@ -185,6 +193,23 @@ export default defineComponent({
       phoneText.value = ''
     }
 
+    /**
+     * 下载邀请二维码
+     */
+    const handleDownloadQRCode = () => {
+      // TODO: 接入真实API获取二维码图片
+      // 这里使用占位符下载示例
+      root.$message.success('二维码下载成功（3天有效）')
+
+      // 实际下载逻辑（后续替换真实图片）
+      // const link = document.createElement('a')
+      // link.href = '/images/invite-qrcode.png'
+      // link.download = `邀请二维码_VIP${selectedVipLevel.value}.png`
+      // document.body.appendChild(link)
+      // link.click()
+      // document.body.removeChild(link)
+    }
+
     return {
       inviteMode,
       phoneText,
@@ -194,7 +219,8 @@ export default defineComponent({
       handleBatchInvite,
       handleGoToRecords,
       handleGoToCommission,
-      handleModeChange
+      handleModeChange,
+      handleDownloadQRCode
     }
   }
 })
@@ -373,7 +399,19 @@ export default defineComponent({
   .qrcode-hint {
     font-size: @font-size-sm;
     color: @text-secondary;
-    margin: 0;
+    margin: 0 0 24px 0;
+  }
+
+  .download-btn {
+    height: 40px;
+    padding: 0 24px;
+    font-size: @font-size-base;
+    border-radius: @border-radius-base;
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    }
   }
 }
 </style>
