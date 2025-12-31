@@ -22,9 +22,9 @@
         <div class="section">
           <label class="section-label">邀请方式</label>
           <a-radio-group v-model="inviteMode" class="mode-radio-group" @change="handleModeChange">
-            <a-radio value="batch">批量邀请</a-radio>
-            <a-radio value="single">单个邀请</a-radio>
-            <a-radio value="qrcode">客户扫码</a-radio>
+            <a-radio value="batch">批量邀请客户</a-radio>
+            <a-radio value="single">单个邀请客户</a-radio>
+            <a-radio value="qrcode">邀请客户扫码</a-radio>
           </a-radio-group>
         </div>
 
