@@ -20,10 +20,11 @@
             class="info-alert"
           />
           <div class="filter-controls">
+            <span class="filter-label">离店日期</span>
             <a-select
               v-model="filters.year"
-              placeholder="选择年份"
-              style="width: 120px;"
+              placeholder="年"
+              style="width: 100px;"
               @change="handleFilterChange"
               allowClear
             >
@@ -32,8 +33,8 @@
             </a-select>
             <a-select
               v-model="filters.month"
-              placeholder="选择月份"
-              style="width: 120px;"
+              placeholder="月"
+              style="width: 100px;"
               @change="handleFilterChange"
               allowClear
             >
@@ -374,8 +375,16 @@ export default defineComponent({
 
   .filter-controls {
     display: flex;
+    align-items: center;
     gap: 12px;
     flex-shrink: 0;
+
+    .filter-label {
+      font-size: @font-size-base;
+      font-weight: @font-weight-medium;
+      color: @text-primary;
+      white-space: nowrap;
+    }
   }
 }
 
