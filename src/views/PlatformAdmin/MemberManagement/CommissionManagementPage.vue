@@ -91,6 +91,11 @@
             <span class="customer-text">{{ text }}</span>
           </template>
 
+          <!-- 入住人 -->
+          <template slot="guestName" slot-scope="text">
+            <span class="guest-text">{{ text }}</span>
+          </template>
+
           <!-- 下单时间 -->
           <template slot="orderTime" slot-scope="text">
             <div class="datetime-cell">
@@ -177,6 +182,13 @@ export default defineComponent({
         key: 'customerName',
         width: 100,
         scopedSlots: { customRender: 'customerName' }
+      },
+      {
+        title: '入住人',
+        dataIndex: 'guestName',
+        key: 'guestName',
+        width: 100,
+        scopedSlots: { customRender: 'guestName' }
       },
       {
         title: '下单时间',
@@ -271,12 +283,35 @@ export default defineComponent({
     }
 
     /**
-     * 导出分销数据
+     * 导出分销数据（导出当前筛选后的数据，包含所有字段）
      */
     const handleExport = async () => {
       try {
         exporting.value = true
-        const blob = await exportCommissionRecords()
+
+        // 构建CSV内容（使用当前筛选后的数据）
+        const headers = ['商户名称', '受邀会员', '订单号', '订单状态', '下单人', '入住人', '下单时间', '离店日期', '支付金额']
+        const csvRows = [headers.join(',')]
+
+        // 导出当前tableData（已筛选）
+        tableData.value.forEach(record => {
+          const row = [
+            record.merchantName || '',
+            record.inviteePhone || '',
+            record.orderNo || '',
+            getOrderStatusLabel(record.orderStatus) || '',
+            record.customerName || '',
+            record.guestName || '',
+            record.orderTime || '',
+            formatDate(record.checkOutTime) || '',
+            record.paymentAmount ? `¥${record.paymentAmount.toFixed(2)}` : ''
+          ]
+          csvRows.push(row.join(','))
+        })
+
+        const csvContent = '\uFEFF' + csvRows.join('\n') // BOM for Excel
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+
         // 创建下载链接
         const url = window.URL.createObjectURL(blob)
         const link = document.createElement('a')
@@ -286,7 +321,8 @@ export default defineComponent({
         link.click()
         document.body.removeChild(link)
         window.URL.revokeObjectURL(url)
-        root.$message.success('导出成功')
+
+        root.$message.success(`成功导出 ${tableData.value.length} 条数据`)
       } catch (error) {
         root.$message.error('导出失败')
         console.error(error)
@@ -442,6 +478,11 @@ export default defineComponent({
 }
 
 .customer-text {
+  font-weight: @font-weight-medium;
+  color: @text-primary;
+}
+
+.guest-text {
   font-weight: @font-weight-medium;
   color: @text-primary;
 }

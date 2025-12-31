@@ -103,6 +103,7 @@ export interface CommissionRecord {
   orderNo: string         // 订单号
   orderStatus?: OrderStatus // 订单状态（平台后台需要）
   customerName?: string   // 下单人姓名（平台后台需要）
+  guestName?: string      // 入住人姓名（平台后台需要）
   orderTime?: string      // 下单时间
   checkOutTime: string    // 离店时间（必填，用于排序）
   paymentAmount?: number  // 支付金额
