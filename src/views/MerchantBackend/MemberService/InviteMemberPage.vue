@@ -201,7 +201,7 @@
               />
             </div>
             <div class="form-item">
-              <label class="form-label">姓名（选填）</label>
+              <label class="form-label">姓名</label>
               <a-input
                 v-model="singleForm.name"
                 placeholder="请输入姓名"
@@ -209,7 +209,7 @@
               />
             </div>
             <div class="form-item">
-              <label class="form-label">性别（选填）</label>
+              <label class="form-label">性别</label>
               <a-select
                 v-model="singleForm.gender"
                 placeholder="请选择性别"
