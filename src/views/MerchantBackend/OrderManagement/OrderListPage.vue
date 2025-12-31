@@ -214,7 +214,6 @@
                   v-if="record.status === OrderStatus.PENDING_CHECKIN"
                   size="small"
                   class="h-7"
-                  type="danger"
                   @click="handleCancelOrder(record)"
                 >
                   取消订单
@@ -233,7 +232,6 @@
                 <a-button
                   size="small"
                   class="h-7"
-                  type="primary"
                   @click="handleViewDetail(record)"
                 >
                   详情
@@ -295,17 +293,17 @@ export default defineComponent({
     const isNoteDialogOpen = ref(false)
     const selectedOrderForNote = ref<Order | null>(null)
 
-    // ========== 表格配置（商户端：去掉酒店列） ==========
+    // ========== 表格配置（参考平台端，去掉酒店列，房型放在入住日期后面） ==========
     const columns = [
       { title: '订单号', dataIndex: 'orderNumber', width: 140, scopedSlots: { customRender: 'orderNumber' } },
       { title: '状态', dataIndex: 'status', width: 100, scopedSlots: { customRender: 'status' } },
-      { title: '房型', dataIndex: 'roomType', width: 180, scopedSlots: { customRender: 'roomType' } },
       { title: '下单人', width: 140, scopedSlots: { customRender: 'userInfo' } },
       { title: '入住人', width: 100, scopedSlots: { customRender: 'guestInfo' } },
+      { title: '下单时间', dataIndex: 'createdAt', width: 160, scopedSlots: { customRender: 'createdAt' } },
       { title: '入住日期', width: 160, scopedSlots: { customRender: 'checkInDates' } },
+      { title: '房型', dataIndex: 'roomType', width: 180, scopedSlots: { customRender: 'roomType' } },
       { title: '支付金额', dataIndex: 'actualAmount', width: 100, scopedSlots: { customRender: 'actualAmount' } },
       { title: '退款记录', width: 120, scopedSlots: { customRender: 'refundRecord' } },
-      { title: '下单时间', dataIndex: 'createdAt', width: 160, scopedSlots: { customRender: 'createdAt' } },
       { title: '操作', width: 200, scopedSlots: { customRender: 'action' } }
     ]
 
