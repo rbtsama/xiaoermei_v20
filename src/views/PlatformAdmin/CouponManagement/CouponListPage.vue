@@ -418,38 +418,6 @@ export default defineComponent({
   gap: 8px;
 }
 
-// 自定义表格样式
-.custom-table {
-  :deep(.ant-table) {
-    font-size: @font-size-base;
-  }
-
-  :deep(.ant-table-thead > tr > th) {
-    background: @bg-secondary;
-    border-bottom: 1px solid @border-primary;
-    color: @text-primary;
-    font-weight: @font-weight-semibold;
-    font-size: @font-size-base;
-    padding: 12px 16px;
-  }
-
-  :deep(.ant-table-tbody > tr) {
-    &:hover > td {
-      background: @bg-hover;
-    }
-
-    > td {
-      border-bottom: 1px solid @border-primary;
-      padding: 12px 16px;
-      color: @text-primary;
-    }
-  }
-
-  :deep(.ant-table-pagination) {
-    padding: 16px 24px;
-  }
-}
-
 // ID 文本
 .id-text {
   font-family: @font-family;
@@ -514,59 +482,6 @@ export default defineComponent({
     color: @text-secondary;
     margin-top: 2px;
   }
-}
-
-// 日期时间单元格
-.datetime-cell {
-  .date {
-    display: block;
-    color: @text-primary;
-    font-size: @font-size-base;
-    line-height: 1.5;
-  }
-
-  .time {
-    display: block;
-    color: @text-secondary;
-    font-size: @font-size-sm;
-    line-height: 1.5;
-    margin-top: 2px;
-  }
-}
-
-// 标签样式
-.tag-orange {
-  color: #c2410c;
-  background: #fff7ed;
-  border-color: #fed7aa;
-}
-
-.tag-green {
-  color: #15803d;
-  background: #f0fdf4;
-  border-color: #bbf7d0;
-}
-
-.tag-blue {
-  color: #1d4ed8;
-  background: #eff6ff;
-  border-color: #bfdbfe;
-}
-
-.tag-gray {
-  color: #64748b;
-  background: #f8fafc;
-  border-color: #cbd5e1;
-}
-
-:deep(.ant-tag) {
-  margin: 0;
-  padding: 2px 8px;
-  font-size: @font-size-xs;
-  font-weight: @font-weight-medium;
-  line-height: 20px;
-  border-radius: @border-radius-sm;
-  border-width: 1px;
 }
 
 // 操作按钮
