@@ -194,6 +194,58 @@
           </a-form-model-item>
         </template>
 
+        <!-- 加床政策 -->
+        <a-form-model-item label="允许加床" required>
+          <a-radio-group v-model="localData.allowExtraBed">
+            <a-radio :value="false">不允许</a-radio>
+            <a-radio :value="true">允许</a-radio>
+          </a-radio-group>
+          <div class="field-hint">是否允许客人加床</div>
+        </a-form-model-item>
+
+        <!-- 加床配置（条件显示） -->
+        <template v-if="localData.allowExtraBed">
+          <!-- 普通加床 -->
+          <a-form-model-item label="加床（每张每晚/元）" required>
+            <a-radio-group v-model="localData.extraBedType">
+              <a-radio value="free">免费</a-radio>
+              <a-radio value="paid">收费</a-radio>
+            </a-radio-group>
+          </a-form-model-item>
+
+          <a-form-model-item v-if="localData.extraBedType === 'paid'" label="加床费用" required>
+            <a-input-number
+              v-model="localData.extraBedFee"
+              :min="0"
+              :precision="0"
+              placeholder="100"
+              style="width: 200px"
+            />
+            <span style="margin-left: 8px">元/张/晚</span>
+            <div class="field-hint">每张加床每晚的费用</div>
+          </a-form-model-item>
+
+          <!-- 婴儿床 -->
+          <a-form-model-item label="婴儿床加床（每张每晚/元）" required>
+            <a-radio-group v-model="localData.babyCribType">
+              <a-radio value="free">免费</a-radio>
+              <a-radio value="paid">收费</a-radio>
+            </a-radio-group>
+          </a-form-model-item>
+
+          <a-form-model-item v-if="localData.babyCribType === 'paid'" label="婴儿床费用" required>
+            <a-input-number
+              v-model="localData.babyCribFee"
+              :min="0"
+              :precision="0"
+              placeholder="50"
+              style="width: 200px"
+            />
+            <span style="margin-left: 8px">元/张/晚</span>
+            <div class="field-hint">每张婴儿床每晚的费用</div>
+          </a-form-model-item>
+        </template>
+
         <!-- 早餐数量 -->
         <a-form-model-item label="免费成人早餐数量" required>
           <a-input-number
@@ -469,6 +521,11 @@ export default defineComponent({
       allowExtraGuest: AllowExtraGuest.NOT_ALLOWED,
       maxExtraGuests: 0,
       extraGuestFee: 0,
+      allowExtraBed: false,
+      extraBedType: 'free',
+      extraBedFee: 0,
+      babyCribType: 'free',
+      babyCribFee: 0,
       freeAdultBreakfast: 0,
       freeChildBreakfast: 0,
       roomLayout: {
