@@ -488,12 +488,18 @@ body {
 }
 
 // Form 表单
-.ant-form-item-label > label,
-.ant-form-model-item-label > label {
-  color: @text-primary;
-  font-weight: @font-weight-medium;
-  font-size: @font-size-base;
-  line-height: 1.5715;  // 与Ant Design默认保持一致
+.ant-form-item-label,
+.ant-form-model-item-label {
+  // Ant Design默认是vertical-align: middle（居中）
+  // 改为top让标签始终在顶部，适配多行内容
+  vertical-align: top;
+
+  > label {
+    color: @text-primary;
+    font-weight: @font-weight-medium;
+    font-size: @font-size-base;
+    line-height: 1.5715;
+  }
 }
 
 .ant-form-item-explain,
