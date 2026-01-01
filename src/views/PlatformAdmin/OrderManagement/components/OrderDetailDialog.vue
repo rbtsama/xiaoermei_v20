@@ -299,7 +299,7 @@ export default defineComponent({
 .detail-card {
   border-radius: @border-radius-lg;
   border: 1px solid @border-primary;
-  background: #ffffff;
+  background: @bg-primary;
   box-shadow: @shadow-sm;
 
   :deep(.ant-card-body) {
@@ -309,9 +309,9 @@ export default defineComponent({
 
 // ========== 层级1: 分类标题 ==========
 .category-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: rgba(0,0,0,0.9);
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
   margin-bottom: 16px;
   padding-bottom: 12px;
   border-bottom: 1px solid @border-primary;
@@ -336,32 +336,32 @@ export default defineComponent({
 
 // ========== 层级2: 字段标签 ==========
 .field-label {
-  font-size: 13px;
-  font-weight: 400;
-  color: #666666;
+  font-size: @font-size-sm;
+  font-weight: @font-weight-normal;
+  color: @text-secondary;
 }
 
 // ========== 层级3: 数据值 ==========
 .field-value {
-  font-size: 14px;
-  font-weight: 500;
-  color: rgba(0,0,0,0.9);
+  font-size: @font-size-base;
+  font-weight: @font-weight-medium;
+  color: @text-primary;
   line-height: 1.5;
 }
 
 // 多行数据值（日期时间）
 .field-value-multi {
   .value-primary {
-    font-size: 14px;
-    font-weight: 500;
-    color: rgba(0,0,0,0.9);
+    font-size: @font-size-base;
+    font-weight: @font-weight-medium;
+    color: @text-primary;
     line-height: 1.5;
   }
 
   .value-secondary {
-    font-size: 13px;
-    font-weight: 400;
-    color: #666666;
+    font-size: @font-size-sm;
+    font-weight: @font-weight-normal;
+    color: @text-secondary;
     line-height: 1.5;
     margin-top: 2px;
   }
@@ -396,27 +396,27 @@ export default defineComponent({
 
 // 数据值颜色变体
 .value-discount {
-  color: #10b981 !important; // 绿色 - 优惠
+  color: @success-color !important;
 }
 
 .value-total {
-  color: #3b82f6 !important; // 蓝色 - 总金额
+  color: @brand-primary !important;
 }
 
 .value-reward {
-  color: #10b981 !important; // 绿色 - 积分奖励
+  color: @success-color !important;
 }
 
 .value-exchange {
-  color: #ef4444 !important; // 红色 - 积分换购
+  color: @error-color !important;
 }
 
 .value-refund {
-  color: #ef4444 !important; // 红色 - 退款
+  color: @error-color !important;
 }
 
 .value-muted {
-  color: #b1b1b1 !important; // 灰色 - 无数据
+  color: @text-tertiary !important;
 }
 
 // 积分服务样式
