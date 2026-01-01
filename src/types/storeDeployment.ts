@@ -291,6 +291,11 @@ export interface RoomType {
   roomFeatures: string[]        // 房型特色（有浴缸、有家庭套房、可加床、可拆分为双床）
   facilities: RoomFacilities    // 房型设施
   images: string[]              // 房型图片（最多10张）
+  allowExtraBed: boolean        // 是否允许加床
+  extraBedType?: 'free' | 'paid' // 加床类型（免费/收费）
+  extraBedFee?: number          // 加床费用（收费时必填，元/张/晚）
+  babyCribType?: 'free' | 'paid' // 婴儿床类型（免费/收费）
+  babyCribFee?: number          // 婴儿床费用（收费时必填，元/张/晚）
   freeAdultBreakfast: number    // 免费成人早餐数量
   freeChildBreakfast: number    // 免费儿童早餐数量
 }
