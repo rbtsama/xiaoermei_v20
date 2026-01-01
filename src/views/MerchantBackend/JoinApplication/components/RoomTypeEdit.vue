@@ -688,6 +688,29 @@ export default defineComponent({
         root.$message.error('请填写可住人数')
         return
       }
+      // 加床政策验证
+      if (localData.allowExtraBed === undefined || localData.allowExtraBed === null) {
+        root.$message.error('请选择是否允许加床')
+        return
+      }
+      if (localData.allowExtraBed) {
+        if (!localData.extraBedType) {
+          root.$message.error('请选择加床类型')
+          return
+        }
+        if (localData.extraBedType === 'paid' && (localData.extraBedFee === undefined || localData.extraBedFee === null)) {
+          root.$message.error('请填写加床费用')
+          return
+        }
+        if (!localData.babyCribType) {
+          root.$message.error('请选择婴儿床类型')
+          return
+        }
+        if (localData.babyCribType === 'paid' && (localData.babyCribFee === undefined || localData.babyCribFee === null)) {
+          root.$message.error('请填写婴儿床费用')
+          return
+        }
+      }
       if (localData.freeAdultBreakfast === undefined || localData.freeAdultBreakfast === null) {
         root.$message.error('请填写免费成人早餐数量')
         return
