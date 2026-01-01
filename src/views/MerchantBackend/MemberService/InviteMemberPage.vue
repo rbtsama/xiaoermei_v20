@@ -478,6 +478,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 @import '@/styles/variables.less';
+@import '@/styles/common.less';
 
 .page-container {
   padding: 24px;
@@ -492,7 +493,7 @@ export default defineComponent({
   margin-bottom: 24px;
 
   .page-title {
-    font-size: 24px;
+    font-size: @font-size-2xl;
     font-weight: @font-weight-semibold;
     color: @text-primary;
     margin: 0;
@@ -574,7 +575,7 @@ export default defineComponent({
     white-space: nowrap;
 
     .vip-help-icon {
-      font-size: 14px;
+      font-size: @font-size-base;
       color: @text-tertiary;
       cursor: help;
       transition: color 0.2s;
@@ -637,7 +638,7 @@ export default defineComponent({
     margin-bottom: 20px;
 
     .file-icon {
-      font-size: 20px;
+      font-size: @font-size-xl;
       color: @success-color;
     }
 
@@ -730,7 +731,7 @@ export default defineComponent({
       height: 100%;
 
       .qr-icon {
-        font-size: 80px;
+        font-size: @font-size-4xl;
         color: @text-tertiary;
         margin-bottom: 12px;
       }
@@ -781,14 +782,14 @@ export default defineComponent({
 
   :deep(.ant-tooltip-inner) {
     padding: 16px 20px;
-    background: #ffffff;
+    background: @bg-primary;
     border: 1px solid @border-primary;
     box-shadow: @shadow-lg;
     color: @text-primary;
   }
 
   :deep(.ant-tooltip-arrow::before) {
-    background: #ffffff;
+    background: @bg-primary;
     border: 1px solid @border-primary;
   }
 
