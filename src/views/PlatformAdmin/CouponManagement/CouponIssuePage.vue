@@ -662,9 +662,10 @@ export default defineComponent({
   }
 
   &:disabled {
-    background: @border-secondary;
+    background: @bg-tertiary;
     border-color: @border-secondary;
-    color: @text-disabled;
+    color: @text-secondary;
+    cursor: not-allowed;
   }
 
   :deep(.anticon) {
