@@ -85,6 +85,7 @@ export interface StoreBasicInfo {
   storeAddress: string          // 详细地址
   roomCount: number             // 房间数量
   openingYear: string           // 开业时间
+  recommendationTags?: string[] // 门店推荐标签（最多2项，非必填）
   slogan?: string               // slogan或门店推荐语
   storeDescription: string      // 门店介绍
 }
