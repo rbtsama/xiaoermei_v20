@@ -260,6 +260,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 @import '@/styles/variables.less';
+@import '@/styles/common.less';
 
 .sms-config-page {
   padding: 24px;
@@ -301,35 +302,10 @@ export default defineComponent({
   gap: 8px;
 }
 
-// 自定义表格样式
+// 自定义表格样式（继承common.less，仅覆盖特殊需求）
 .custom-table {
   :deep(.ant-table) {
     font-size: @font-size-base;
-  }
-
-  :deep(.ant-table-thead > tr > th) {
-    background: @bg-secondary;
-    border-bottom: 1px solid @border-primary;
-    color: @text-primary;
-    font-weight: @font-weight-semibold;
-    font-size: @font-size-base;
-    padding: 12px 16px;
-  }
-
-  :deep(.ant-table-tbody > tr) {
-    &:hover > td {
-      background: @bg-hover;
-    }
-
-    > td {
-      border-bottom: 1px solid @border-primary;
-      padding: 12px 16px;
-      color: @text-primary;
-    }
-  }
-
-  :deep(.ant-table-pagination) {
-    padding: 16px 24px;
   }
 }
 
@@ -360,34 +336,10 @@ export default defineComponent({
   vertical-align: middle;
 }
 
-// 日期时间单元格
-.datetime-cell {
-  .date {
-    display: block;
-    color: @text-primary;
-    font-size: @font-size-base;
-    line-height: 1.5;
-  }
-
-  .time {
-    display: block;
-    color: @text-secondary;
-    font-size: @font-size-sm;
-    line-height: 1.5;
-    margin-top: 2px;
-  }
-}
-
-// 操作按钮
-.action-btns {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-
-  .ant-btn-sm {
-    height: 28px;
-    padding: 0 12px;
-    font-size: @font-size-sm;
-  }
+// 操作按钮（自定义小尺寸样式）
+:deep(.action-btns .ant-btn-sm) {
+  height: 28px;
+  padding: 0 12px;
+  font-size: @font-size-sm;
 }
 </style>
