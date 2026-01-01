@@ -592,7 +592,7 @@ export default defineComponent({
   }
 }
 
-// 字段提示
+// 字段提示（已在common.less中定义，此处可删除但保留以提高可读性）
 .field-hint {
   font-size: @font-size-xs;
   color: @text-tertiary;
@@ -662,38 +662,14 @@ export default defineComponent({
   }
 
   &:disabled {
-    background: #cbd5e1;
-    border-color: #cbd5e1;
-    color: #94a3b8;
+    background: @border-secondary;
+    border-color: @border-secondary;
+    color: @text-disabled;
   }
 
   :deep(.anticon) {
     margin-right: 6px;
     font-size: 16px;
-  }
-}
-
-// 自定义表格样式
-.custom-table {
-  :deep(.ant-table-thead > tr > th) {
-    background: @bg-secondary;
-    border-bottom: 1px solid @border-primary;
-    color: @text-primary;
-    font-weight: @font-weight-semibold;
-    font-size: @font-size-base;
-    padding: 12px 16px;
-  }
-
-  :deep(.ant-table-tbody > tr) {
-    &:hover > td {
-      background: @bg-hover;
-    }
-
-    > td {
-      border-bottom: 1px solid @border-primary;
-      padding: 12px 16px;
-      color: @text-primary;
-    }
   }
 }
 
@@ -732,29 +708,6 @@ export default defineComponent({
 .text-no {
   color: @text-primary;
   font-size: @font-size-sm;
-}
-
-// 标签样式
-.tag-green {
-  color: #15803d;
-  background: #f0fdf4;
-  border-color: #bbf7d0;
-}
-
-.tag-gray {
-  color: #64748b;
-  background: #f8fafc;
-  border-color: #cbd5e1;
-}
-
-:deep(.ant-tag) {
-  margin: 0;
-  padding: 2px 8px;
-  font-size: @font-size-xs;
-  font-weight: @font-weight-medium;
-  line-height: 20px;
-  border-radius: @border-radius-sm;
-  border-width: 1px;
 }
 
 // 操作按钮
