@@ -169,6 +169,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 @import '@/styles/variables.less';
+@import '@/styles/common.less';
 
 .page-container {
   padding: 24px;
@@ -189,7 +190,7 @@ export default defineComponent({
   }
 
   .page-title {
-    font-size: 24px;
+    font-size: @font-size-2xl;
     font-weight: @font-weight-semibold;
     color: @text-primary;
     margin: 0;
@@ -216,33 +217,6 @@ export default defineComponent({
   }
 }
 
-.custom-table {
-  :deep(.ant-table-thead > tr > th) {
-    background: @bg-secondary;
-    border-bottom: 1px solid @border-primary;
-    color: @text-primary;
-    font-weight: @font-weight-semibold;
-    font-size: @font-size-base;
-    padding: 12px 16px;
-  }
-
-  :deep(.ant-table-tbody > tr) {
-    &:hover > td {
-      background: @bg-hover;
-    }
-
-    > td {
-      border-bottom: 1px solid @border-primary;
-      padding: 12px 16px;
-      color: @text-primary;
-    }
-  }
-
-  :deep(.ant-table-pagination) {
-    padding: 16px 24px;
-  }
-}
-
 .order-no {
   font-family: @font-family;
   font-weight: @font-weight-medium;
@@ -252,23 +226,6 @@ export default defineComponent({
 .phone-text {
   font-weight: @font-weight-medium;
   color: @text-primary;
-}
-
-.datetime-cell {
-  .date {
-    display: block;
-    color: @text-primary;
-    font-size: @font-size-base;
-    line-height: 1.5;
-  }
-
-  .time {
-    display: block;
-    color: @text-secondary;
-    font-size: @font-size-sm;
-    line-height: 1.5;
-    margin-top: 2px;
-  }
 }
 
 .checkout-date {
