@@ -440,18 +440,20 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
 // 类型提示
 .type-hint {
-  font-size: 12px;
-  color: #b1b1b1;
+  font-size: @font-size-xs;
+  color: @text-tertiary;
   margin-top: 8px;
   display: block;
 }
 
 // 字段提示
 .field-hint {
-  font-size: 12px;
-  color: #b1b1b1;
+  font-size: @font-size-xs;
+  color: @text-tertiary;
   margin-top: 4px;
   display: block;
 }
@@ -459,16 +461,16 @@ export default defineComponent({
 // 字符计数
 .char-count {
   text-align: right;
-  font-size: 12px;
-  color: #b1b1b1;
+  font-size: @font-size-xs;
+  color: @text-tertiary;
   margin-top: 4px;
 }
 
 // 商户承担输入框（禁用状态）
 .merchant-ratio-input {
   :deep(.ant-input-number-input) {
-    background-color: #f8fafc;
-    color: rgba(0, 0, 0, 0.9);
+    background-color: @bg-secondary;
+    color: @text-primary;
     cursor: not-allowed;
   }
 
@@ -482,21 +484,21 @@ export default defineComponent({
   .ant-radio-button-wrapper {
     height: 32px;
     line-height: 30px;
-    font-size: 13px;
-    border-color: #cbd5e1;
+    font-size: @font-size-sm;
+    border-color: @border-secondary;
 
     &:hover {
-      color: #3b82f6;
+      color: @brand-primary;
     }
   }
 
   .ant-radio-button-wrapper-checked {
-    background: #3b82f6;
-    border-color: #3b82f6;
+    background: @brand-primary;
+    border-color: @brand-primary;
 
     &:hover {
-      background: #2563eb;
-      border-color: #2563eb;
+      background: @brand-primary-hover;
+      border-color: @brand-primary-hover;
     }
   }
 }
@@ -505,26 +507,26 @@ export default defineComponent({
 :deep(.ant-input),
 :deep(.ant-input-number),
 :deep(.ant-textarea) {
-  border-radius: 6px;
-  border-color: #cbd5e1;
-  font-size: 14px;
+  border-radius: @border-radius-base;
+  border-color: @border-secondary;
+  font-size: @font-size-base;
 
   &:hover {
-    border-color: #94a3b8;
+    border-color: @text-disabled;
   }
 
   &:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    border-color: @brand-primary;
+    box-shadow: 0 0 0 2px @brand-primary-light;
   }
 
   &::placeholder {
-    color: #b1b1b1;
+    color: @text-tertiary;
   }
 }
 
 :deep(.ant-input-number-handler-wrap) {
-  border-radius: 0 6px 6px 0;
+  border-radius: 0 @border-radius-base @border-radius-base 0;
 }
 
 // 优化表单项间距
@@ -534,14 +536,14 @@ export default defineComponent({
 
 // 优化弹窗样式
 :deep(.ant-modal-header) {
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid @bg-hover;
   padding: 16px 24px;
 }
 
 :deep(.ant-modal-title) {
-  font-size: 16px;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.9);
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
 }
 
 :deep(.ant-modal-body) {
@@ -549,7 +551,7 @@ export default defineComponent({
 }
 
 :deep(.ant-modal-footer) {
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid @bg-hover;
   padding: 12px 16px;
 }
 
@@ -557,16 +559,16 @@ export default defineComponent({
 :deep(.ant-btn) {
   height: 32px;
   padding: 0 16px;
-  font-size: 14px;
-  border-radius: 6px;
+  font-size: @font-size-base;
+  border-radius: @border-radius-base;
 
   &.ant-btn-primary {
-    background: #3b82f6;
-    border-color: #3b82f6;
+    background: @brand-primary;
+    border-color: @brand-primary;
 
     &:hover {
-      background: #2563eb;
-      border-color: #2563eb;
+      background: @brand-primary-hover;
+      border-color: @brand-primary-hover;
     }
   }
 }
