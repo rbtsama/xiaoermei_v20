@@ -226,6 +226,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 @import '@/styles/variables.less';
+@import '@/styles/common.less';
 
 .points-service-page {
   padding: 24px;
@@ -269,33 +270,10 @@ export default defineComponent({
 
   .title-icon {
     color: @brand-primary;
-    font-size: 16px;
+    font-size: @font-size-lg;
   }
 }
 
-// 自定义表格样式
-.custom-table {
-  :deep(.ant-table-thead > tr > th) {
-    background: @bg-secondary;
-    border-bottom: 1px solid @border-primary;
-    color: @text-primary;
-    font-weight: @font-weight-semibold;
-    font-size: @font-size-base;
-    padding: 12px 16px;
-  }
-
-  :deep(.ant-table-tbody > tr) {
-    &:hover > td {
-      background: @bg-hover;
-    }
-
-    > td {
-      border-bottom: 1px solid @border-primary;
-      padding: 12px 16px;
-      color: @text-primary;
-    }
-  }
-}
 
 // 服务名称
 .service-name {
@@ -317,39 +295,10 @@ export default defineComponent({
   font-size: @font-size-base;
 }
 
-// 标签样式
-.tag-green {
-  color: #15803d;
-  background: #f0fdf4;
-  border-color: #bbf7d0;
-}
-
-.tag-gray {
-  color: #64748b;
-  background: #f8fafc;
-  border-color: #cbd5e1;
-}
-
-:deep(.ant-tag) {
-  margin: 0;
-  padding: 2px 8px;
-  font-size: @font-size-xs;
-  font-weight: @font-weight-medium;
-  line-height: 20px;
-  border-radius: @border-radius-sm;
-  border-width: 1px;
-}
-
-// 操作按钮
-.action-btns {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-
-  .ant-btn-sm {
-    height: 28px;
-    padding: 0 12px;
-    font-size: @font-size-sm;
-  }
+// 操作按钮（自定义小尺寸样式）
+:deep(.action-btns .ant-btn-sm) {
+  height: 28px;
+  padding: 0 12px;
+  font-size: @font-size-sm;
 }
 </style>
