@@ -149,7 +149,7 @@
             style="width: 100%"
           >
             <a-row :gutter="[16, 12]">
-              <a-col :span="8" v-for="tag in STORE_RECOMMENDATION_TAGS" :key="tag">
+              <a-col :span="6" v-for="tag in STORE_RECOMMENDATION_TAGS" :key="tag">
                 <a-checkbox
                   :value="tag"
                   :disabled="isLocked || isTagDisabled(tag)"
