@@ -126,7 +126,7 @@ export default defineComponent({
     const highlightCategories = ref([
       { key: 'architecture', title: '建筑与景观', options: HIGHLIGHTS_ARCHITECTURE.map((v, i) => ({ id: `arch_${i}`, label: v })) },
       { key: 'services', title: '服务与设施', options: HIGHLIGHTS_SERVICES.map((v, i) => ({ id: `serv_${i}`, label: v })) },
-      { key: 'storeTags', title: '门店推荐标签', options: STORE_RECOMMENDATION_TAGS.map((v, i) => ({ id: `tag_${i}`, label: v })) }
+      { key: 'store_tags', title: '门店推荐标签', options: STORE_RECOMMENDATION_TAGS.map((v, i) => ({ id: `tag_${i}`, label: v })) }
     ])
 
     // 门店设施分类

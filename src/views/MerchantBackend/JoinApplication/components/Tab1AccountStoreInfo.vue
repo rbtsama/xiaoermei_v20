@@ -372,7 +372,7 @@ export default defineComponent({
     // 加载门店推荐标签选项
     const loadRecommendationTags = async () => {
       try {
-        const tags = await getCategoryOptions('storeTags')
+        const tags = await getCategoryOptions('store_tags')
         STORE_RECOMMENDATION_TAGS.value = tags.map(o => o.label)
       } catch (error) {
         console.error('加载门店推荐标签失败:', error)
@@ -391,7 +391,7 @@ export default defineComponent({
       if (category === 'architecture' || category === 'services') {
         loadHighlightOptions()
       }
-      if (category === 'storeTags') {
+      if (category === 'store_tags') {
         loadRecommendationTags()
       }
     }
