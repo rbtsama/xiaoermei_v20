@@ -47,18 +47,9 @@
               <div class="material-item">
                 <span class="item-number">4</span>
                 <div class="item-content">
-                  <div class="item-title-wrapper">
-                    <span class="item-title">收款账户信息</span>
-                  </div>
+                  <span class="item-title">收款账户信息（银行卡号、开户行、开户名）</span>
+                  <div class="item-hint">公司提供对公账户，个体工商户提供法人个人银行卡</div>
                 </div>
-              </div>
-              <div class="material-sub-item">
-                <div class="sub-item-label">公司：</div>
-                <div class="sub-item-content">对公账户信息（银行卡号、开户行、开户名）</div>
-              </div>
-              <div class="material-sub-item">
-                <div class="sub-item-label">个体工商户：</div>
-                <div class="sub-item-content">法人个人银行卡信息（银行卡号、开户行、开户名）</div>
               </div>
             </div>
           </div>
