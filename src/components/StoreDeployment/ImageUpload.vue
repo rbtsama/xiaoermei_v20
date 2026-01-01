@@ -86,9 +86,9 @@
 </template>
 
 <script>
-import { defineComponent, ref, computed, watch } from '@vue/composition-api'
+import { defineComponent, ref, watch } from '@vue/composition-api'
 import draggable from 'vuedraggable'
-import { uploadImage, uploadImages } from '@/api/storeDeployment'
+import { uploadImage } from '@/api/storeDeployment'
 
 export default defineComponent({
   name: 'ImageUpload',
@@ -144,15 +144,6 @@ export default defineComponent({
 
     // 内部图片列表（用于显示和拖拽排序）
     const images = ref([])
-
-    // 提示文字
-    const hintText = computed(() => {
-      let hint = `支持 JPG、PNG、WEBP 格式，大小 <${props.maxSize}MB`
-      if (props.ratio) {
-        hint += `，建议比例 ${props.ratio}`
-      }
-      return hint
-    })
 
     // 初始化图片列表
     watch(
@@ -369,7 +360,7 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.9);
+  background: @mask-light;
 }
 
 .uploading-text {
@@ -388,7 +379,7 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: rgba(0, 0, 0, 0.5);
+  background: @mask-dark;
   opacity: 0;
   transition: opacity 0.2s;
 }
