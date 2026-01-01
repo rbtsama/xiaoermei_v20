@@ -311,6 +311,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 @import '@/styles/variables.less';
+@import '@/styles/common.less';
 
 .page-container {
   padding: 24px;
@@ -322,7 +323,7 @@ export default defineComponent({
   margin-bottom: 24px;
 
   .page-title {
-    font-size: 24px;
+    font-size: @font-size-2xl;
     font-weight: @font-weight-semibold;
     color: @text-primary;
     margin: 0;
@@ -350,12 +351,6 @@ export default defineComponent({
   color: @text-primary;
 }
 
-.field-hint {
-  font-size: @font-size-xs;
-  color: @text-secondary;
-  margin-top: 4px;
-  line-height: 1.4;
-}
 
 .unavailable-text {
   color: @text-tertiary;
@@ -365,7 +360,7 @@ export default defineComponent({
 
 .price-display {
   .price-value {
-    font-size: 20px;
+    font-size: @font-size-xl;
     font-weight: @font-weight-semibold;
     color: @brand-primary;
   }
@@ -412,7 +407,7 @@ export default defineComponent({
       justify-content: center;
 
       .qr-icon {
-        font-size: 80px;
+        font-size: @font-size-4xl;
         color: @text-tertiary;
         margin-bottom: 12px;
       }
