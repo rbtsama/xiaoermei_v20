@@ -141,6 +141,28 @@
           <div class="field-hint">门店开业年份</div>
         </a-form-model-item>
 
+        <a-form-model-item label="门店推荐标签">
+          <a-checkbox-group
+            v-model="localData.storeBasicInfo.recommendationTags"
+            :disabled="isLocked"
+            @change="handleChange"
+            style="width: 100%"
+          >
+            <a-row :gutter="[16, 12]">
+              <a-col :span="8" v-for="tag in STORE_RECOMMENDATION_TAGS" :key="tag">
+                <a-checkbox
+                  :value="tag"
+                  :disabled="isLocked || isTagDisabled(tag)"
+                  class="grid-checkbox"
+                >
+                  {{ tag }}
+                </a-checkbox>
+              </a-col>
+            </a-row>
+          </a-checkbox-group>
+          <div class="field-hint">选择最多2项能代表门店特色的标签，非必填</div>
+        </a-form-model-item>
+
         <a-form-model-item label="slogan或门店推荐语">
           <a-input
             v-model="localData.storeBasicInfo.slogan"
@@ -235,6 +257,9 @@ export default defineComponent({
     const HIGHLIGHTS_ARCHITECTURE = ref([])
     const HIGHLIGHTS_SERVICES = ref([])
 
+    // 门店推荐标签（从API动态加载）
+    const STORE_RECOMMENDATION_TAGS = ref([])
+
     // 省市区（县）数据（简化版，实际应使用完整的地区数据）
     const regionOptions = ref([
       {
@@ -326,7 +351,8 @@ export default defineComponent({
       accountInfo: { ...props.formData.accountInfo },
       storeBasicInfo: {
         ...props.formData.storeBasicInfo,
-        storeRegionArray: props.formData.storeBasicInfo?.storeRegionArray || []
+        storeRegionArray: props.formData.storeBasicInfo?.storeRegionArray || [],
+        recommendationTags: props.formData.storeBasicInfo?.recommendationTags || []
       },
       highlights: [...(props.formData.storeDisplay?.highlights || [])]
     })
@@ -343,16 +369,36 @@ export default defineComponent({
       }
     }
 
+    // 加载门店推荐标签选项
+    const loadRecommendationTags = async () => {
+      try {
+        const tags = await getCategoryOptions('storeTags')
+        STORE_RECOMMENDATION_TAGS.value = tags.map(o => o.label)
+      } catch (error) {
+        console.error('加载门店推荐标签失败:', error)
+      }
+    }
+
+    // 判断标签是否应该被禁用（已选2项时禁用未选中的）
+    const isTagDisabled = (tag) => {
+      const selected = localData.storeBasicInfo.recommendationTags || []
+      return selected.length >= 2 && !selected.includes(tag)
+    }
+
     // 监听选项配置更新
     const handleOptionsUpdate = (event) => {
       const { category } = event.detail
       if (category === 'architecture' || category === 'services') {
         loadHighlightOptions()
       }
+      if (category === 'storeTags') {
+        loadRecommendationTags()
+      }
     }
 
     onMounted(() => {
       loadHighlightOptions()
+      loadRecommendationTags()
       window.addEventListener('optionsConfigUpdated', handleOptionsUpdate)
     })
 
@@ -430,7 +476,9 @@ export default defineComponent({
       handleRegionChange,
       regionOptions,
       HIGHLIGHTS_ARCHITECTURE,
-      HIGHLIGHTS_SERVICES
+      HIGHLIGHTS_SERVICES,
+      STORE_RECOMMENDATION_TAGS,
+      isTagDisabled
     }
   }
 })
