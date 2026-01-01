@@ -233,11 +233,15 @@ export default defineComponent({
       })
       await initializeOptions(initialData)
 
-      // 确保新增的分类被初始化（如store_tags）
-      const allOptions = await import('@/api/optionsConfig').then(m => m.getAllOptions())
-      const currentData = await allOptions
-      if (currentData && !currentData['store_tags']) {
-        await saveCategoryOptions('store_tags', highlightCategories.value.find(c => c.key === 'store_tags')?.options || [])
+      // 确保新增的分类被初始化（如store_tags）- 强制更新
+      const { getAllOptions } = await import('@/api/optionsConfig')
+      const currentData = await getAllOptions()
+
+      // 如果store_tags不存在或为空，强制初始化
+      if (!currentData || !currentData['store_tags'] || currentData['store_tags'].length === 0) {
+        const storeTags = highlightCategories.value.find(c => c.key === 'store_tags')?.options || []
+        console.log('初始化门店推荐标签:', storeTags)
+        await saveCategoryOptions('store_tags', storeTags)
       }
     })
 
