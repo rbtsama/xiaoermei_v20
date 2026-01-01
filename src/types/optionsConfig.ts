@@ -17,7 +17,8 @@ export enum OptionCategory {
   CHILDREN = 'children',                                // 门店设施-儿童设施
   SPORTS = 'sports',                                    // 门店设施-运动设施
   WELLNESS = 'wellness',                                // 门店设施-康养设施
-  ACCESSIBILITY = 'accessibility'                       // 门店设施-无障碍设施
+  ACCESSIBILITY = 'accessibility',                      // 门店设施-无障碍设施
+  STORE_TAGS = 'store_tags'                             // 其他配置-门店推荐标签
 }
 
 // 配置项
