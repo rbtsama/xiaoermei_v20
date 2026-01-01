@@ -357,6 +357,10 @@ export const mockCompleteData: StoreDeploymentForm = {
         'https://example.com/images/room1_2.jpg',
         'https://example.com/images/room1_3.jpg'
       ],
+      allowExtraBed: true,
+      extraBedType: 'paid',
+      extraBedFee: 100,
+      babyCribType: 'free',
       freeAdultBreakfast: 2,
       freeChildBreakfast: 1
     },
@@ -411,6 +415,7 @@ export const mockCompleteData: StoreDeploymentForm = {
         'https://example.com/images/room2_2.jpg',
         'https://example.com/images/room2_3.jpg'
       ],
+      allowExtraBed: false,
       freeAdultBreakfast: 2,
       freeChildBreakfast: 0
     },
@@ -478,6 +483,10 @@ export const mockCompleteData: StoreDeploymentForm = {
         'https://example.com/images/room3_7.jpg',
         'https://example.com/images/room3_8.jpg'
       ],
+      allowExtraBed: true,
+      extraBedType: 'free',
+      babyCribType: 'paid',
+      babyCribFee: 50,
       freeAdultBreakfast: 4,
       freeChildBreakfast: 2
     }
