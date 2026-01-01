@@ -32,6 +32,7 @@ export const mockDraftData: StoreDeploymentForm = {
     storeAddress: '浙江省杭州市桐庐县富春江镇芦茨村',
     roomCount: 21,
     openingYear: '2016年',
+    recommendationTags: ['融于自然', '松弛自在'],
     slogan: '闭门深山，无计好眠。',
     storeDescription: ''
   },
@@ -153,6 +154,7 @@ export const mockCompleteData: StoreDeploymentForm = {
     storeAddress: '浙江省杭州市桐庐县富春江镇芦茨村芦茨湾',
     roomCount: 21,
     openingYear: '2016年',
+    recommendationTags: ['融于自然', '松弛自在'],
     slogan: '闭门深山，无计好眠。',
     storeDescription: `原乡芦茨位于富春江畔毗邻芦茨湾，几幢青瓦白墙小楼依次坐落在芦茨湾边上，推门望江水，开窗见青山。
 
@@ -519,6 +521,7 @@ export const mockEmptyFormData: StoreDeploymentForm = {
     storeAddress: '',
     roomCount: 0,
     openingYear: '',
+    recommendationTags: [],
     slogan: '',
     storeDescription: ''
   },
