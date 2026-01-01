@@ -474,11 +474,11 @@ export default defineComponent({
   height: 20px;
   line-height: 20px;
   text-align: center;
-  font-size: 12px;
-  font-weight: 600;
-  color: #475569;           // 深灰色文字
-  background-color: #f1f5f9; // 浅灰色底
-  border-radius: 50%;        // 圆形
+  font-size: @font-size-xs;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
+  background-color: @bg-tertiary;
+  border-radius: 50%;
 }
 
 .rounded-lg {
@@ -486,15 +486,15 @@ export default defineComponent({
 }
 
 .border-slate-200 {
-  border-color: #e2e8f0;
+  border-color: @border-primary;
 }
 
 .bg-white {
-  background-color: #ffffff;
+  background-color: @bg-primary;
 }
 
 .shadow-sm {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: @shadow-sm;
 }
 
 .grid {
@@ -559,46 +559,46 @@ export default defineComponent({
 }
 
 .text-sm {
-  font-size: 14px;
+  font-size: @font-size-base;
 }
 
 .text-xs {
-  font-size: 12px;
+  font-size: @font-size-xs;
 }
 
 .text-lg {
-  font-size: 18px;
+  font-size: @font-size-xl;
 }
 
 .font-semibold {
-  font-weight: 600;
+  font-weight: @font-weight-semibold;
 }
 
 .font-medium {
-  font-weight: 500;
+  font-weight: @font-weight-medium;
 }
 
 .text-blue-600 {
-  color: #2563eb;
+  color: @brand-primary-hover;
 }
 
 .border-blue-300 {
-  border-color: #93c5fd;
+  border-color: @brand-primary-light;
 }
 
 .border-slate-300 {
-  border-color: #cbd5e1;
+  border-color: @border-secondary;
 }
 
 .bg-blue-600 {
-  background-color: #2563eb;
+  background-color: @brand-primary-hover;
 }
 
 .whitespace-nowrap {
   white-space: nowrap;
 }
 
-/* 状态标签样式 */
+/* 状态标签样式 - 使用Tailwind utility类映射 */
 .bg-orange-100 {
   background-color: #ffedd5;
 }
@@ -610,14 +610,14 @@ export default defineComponent({
 }
 
 .bg-blue-100 {
-  background-color: #dbeafe;
+  background-color: @brand-primary-light;
 }
 .text-blue-700 {
   color: #1d4ed8;
 }
 
 .bg-slate-100 {
-  background-color: #f1f5f9;
+  background-color: @bg-tertiary;
 }
 .text-slate-700 {
   color: #334155;
@@ -647,28 +647,21 @@ export default defineComponent({
   border-color: #86efac;
 }
 
-.bg-slate-100 {
-  background-color: #f1f5f9;
-}
 .text-slate-600 {
   color: #475569;
 }
 
-.text-slate-500 {
-  color: #64748b;
-}
-
 // 列表页退款金额样式
 .refund-amount-red {
-  font-size: 13px;
-  color: #dc2626;
-  font-weight: 600;
+  font-size: @font-size-sm;
+  color: @error-color;
+  font-weight: @font-weight-semibold;
 }
 
 .refund-amount-gray {
-  font-size: 13px;
-  color: #94a3b8;
-  font-weight: 500;
+  font-size: @font-size-sm;
+  color: @text-tertiary;
+  font-weight: @font-weight-medium;
 }
 
 .flex-col {
