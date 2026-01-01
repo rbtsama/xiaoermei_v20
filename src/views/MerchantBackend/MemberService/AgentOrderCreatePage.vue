@@ -168,12 +168,7 @@ import { defineComponent, ref, reactive, computed } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import { generateAgentOrderQRCode } from '@/api/memberService'
 import dayjs from 'dayjs'
-import moment from 'moment'
-import 'moment/locale/zh-cn'
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
-
-// 设置moment全局中文（Ant Design Vue 1.x使用moment）
-moment.locale('zh-cn')
 
 export default defineComponent({
   name: 'AgentOrderCreatePage',

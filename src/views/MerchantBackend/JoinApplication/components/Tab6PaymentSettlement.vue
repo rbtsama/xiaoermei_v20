@@ -432,7 +432,6 @@
 
 <script>
 import { defineComponent, reactive, ref, watch } from '@vue/composition-api'
-import moment from 'moment'
 import ImageUpload from '@/components/StoreDeployment/ImageUpload.vue'
 import {
   EntityType,

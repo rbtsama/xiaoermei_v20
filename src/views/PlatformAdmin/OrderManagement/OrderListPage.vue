@@ -217,7 +217,6 @@ import OrderDetailDialog from './components/OrderDetailDialog.vue'
 import OrderService from './services/order.service'
 import type { Order, OrderFilterParams } from './types/order.types'
 import { OrderStatus, ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } from './types/order.types'
-import moment from 'moment'
 
 export default defineComponent({
   name: 'OrderListPage',
