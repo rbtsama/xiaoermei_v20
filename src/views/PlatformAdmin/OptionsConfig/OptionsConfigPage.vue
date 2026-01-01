@@ -253,6 +253,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 @import '@/styles/variables.less';
+@import '@/styles/common.less';
 
 .page-container {
   padding: 24px;
@@ -385,7 +386,7 @@ export default defineComponent({
 }
 
 .drag-handle {
-  font-size: 14px;
+  font-size: @font-size-base;
   color: @text-secondary;
   cursor: move;
   flex-shrink: 0;
@@ -408,7 +409,7 @@ export default defineComponent({
 }
 
 .close-icon {
-  font-size: 12px;
+  font-size: @font-size-xs;
   color: @text-secondary;
   cursor: pointer;
   flex-shrink: 0;
@@ -425,10 +426,4 @@ export default defineComponent({
   text-align: center;
 }
 
-.field-hint {
-  font-size: @font-size-xs;
-  color: @text-secondary;
-  margin-top: 4px;
-  line-height: 1.4;
-}
 </style>
