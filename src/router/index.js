@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Sidebar from '@/components/Layout/Sidebar.vue'
 
 Vue.use(VueRouter)
 
