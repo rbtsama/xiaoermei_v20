@@ -356,7 +356,9 @@ export const mockCompleteData: StoreDeploymentForm = {
         'https://example.com/images/room1_1.jpg',
         'https://example.com/images/room1_2.jpg',
         'https://example.com/images/room1_3.jpg'
-      ]
+      ],
+      freeAdultBreakfast: 2,
+      freeChildBreakfast: 1
     },
     {
       id: 'room_002',
@@ -408,7 +410,9 @@ export const mockCompleteData: StoreDeploymentForm = {
         'https://example.com/images/room2_1.jpg',
         'https://example.com/images/room2_2.jpg',
         'https://example.com/images/room2_3.jpg'
-      ]
+      ],
+      freeAdultBreakfast: 2,
+      freeChildBreakfast: 0
     },
     {
       id: 'room_003',
@@ -473,7 +477,9 @@ export const mockCompleteData: StoreDeploymentForm = {
         'https://example.com/images/room3_6.jpg',
         'https://example.com/images/room3_7.jpg',
         'https://example.com/images/room3_8.jpg'
-      ]
+      ],
+      freeAdultBreakfast: 4,
+      freeChildBreakfast: 2
     }
   ],
   createdAt: '2025-12-08 10:00:00',
