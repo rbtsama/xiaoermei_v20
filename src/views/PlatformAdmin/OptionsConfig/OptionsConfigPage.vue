@@ -232,6 +232,13 @@ export default defineComponent({
         initialData[cat.key] = cat.options
       })
       await initializeOptions(initialData)
+
+      // 确保新增的分类被初始化（如store_tags）
+      const allOptions = await import('@/api/optionsConfig').then(m => m.getAllOptions())
+      const currentData = await allOptions
+      if (currentData && !currentData['store_tags']) {
+        await saveCategoryOptions('store_tags', highlightCategories.value.find(c => c.key === 'store_tags')?.options || [])
+      }
     })
 
     return {
