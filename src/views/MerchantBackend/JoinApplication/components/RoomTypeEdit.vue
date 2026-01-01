@@ -247,26 +247,31 @@
         </template>
 
         <!-- 早餐数量 -->
-        <a-form-model-item label="免费成人早餐数量" required>
-          <a-input-number
-            v-model="localData.freeAdultBreakfast"
-            :min="0"
-            :precision="0"
-            placeholder="0"
-            style="width: 200px"
-          />
-          <div class="field-hint">该房型提供的免费成人早餐数量</div>
-        </a-form-model-item>
-
-        <a-form-model-item label="免费儿童早餐数量" required>
-          <a-input-number
-            v-model="localData.freeChildBreakfast"
-            :min="0"
-            :precision="0"
-            placeholder="0"
-            style="width: 200px"
-          />
-          <div class="field-hint">该房型提供的免费儿童早餐数量</div>
+        <a-form-model-item label="早餐数量" required>
+          <a-row :gutter="16" type="flex" align="middle">
+            <a-col flex="none"><span>成人</span></a-col>
+            <a-col flex="120px">
+              <a-input-number
+                v-model="localData.freeAdultBreakfast"
+                :min="0"
+                :precision="0"
+                placeholder="0"
+                style="width: 100%"
+              />
+            </a-col>
+            <a-col flex="none"><span>份，儿童</span></a-col>
+            <a-col flex="120px">
+              <a-input-number
+                v-model="localData.freeChildBreakfast"
+                :min="0"
+                :precision="0"
+                placeholder="0"
+                style="width: 100%"
+              />
+            </a-col>
+            <a-col flex="none"><span>份</span></a-col>
+          </a-row>
+          <div class="field-hint">该房型提供的免费早餐数量</div>
         </a-form-model-item>
 
         <!-- 房间布局 -->
