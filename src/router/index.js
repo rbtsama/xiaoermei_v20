@@ -12,7 +12,7 @@ const routes = [
 
   // 平台后台 - 订单管理
   {
-    path: '/order/list',
+    path: '/platform-admin/order-management/list',
     name: 'OrderList',
     component: () => import('@/views/PlatformAdmin/OrderManagement/OrderListPage.vue'),
     meta: { title: '订单列表' }
@@ -108,10 +108,10 @@ const routes = [
 
   // 商户端 - 订单管理
   {
-    path: '/hotel-backend/order-list',
-    name: 'HotelOrderList',
+    path: '/merchant-backend/order-management/list',
+    name: 'MerchantOrderList',
     component: () => import('@/views/MerchantBackend/OrderManagement/OrderListPage.vue'),
-    meta: { title: '订单列表（未完成）' }
+    meta: { title: '订单列表' }
   },
 
   // 商户端 - 会员服务

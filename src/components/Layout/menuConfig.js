@@ -7,7 +7,7 @@ export const menuConfig = [
         title: '订单管理',
         key: 'order-management',
         children: [
-          { title: '订单列表', path: '/order/list', key: 'order-list' }
+          { title: '订单列表', path: '/platform-admin/order-management/list', key: 'order-list' }
         ]
       },
       {
@@ -55,7 +55,7 @@ export const menuConfig = [
     title: '商户端',
     key: 'merchant-backend',
     children: [
-      { title: '订单列表', path: '/hotel-backend/order-list', key: 'hotel-order-list' },
+      { title: '订单列表', path: '/merchant-backend/order-management/list', key: 'merchant-order-list' },
       {
         title: '门店管理',
         key: 'store-management',
