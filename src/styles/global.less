@@ -488,24 +488,24 @@ body {
 }
 
 // Form 表单
+// 修复多行内容时标签不在顶部的问题
 .ant-form-item,
 .ant-form-model-item {
-  // 表单项默认顶部对齐，解决多行内容时标签居中的问题
-  :deep(.ant-form-item-control),
-  :deep(.ant-form-model-item-control) {
-    display: flex;
+  > .ant-row {
     align-items: flex-start !important;
   }
+}
 
-  // 单行输入框需要垂直居中
-  :deep(.ant-input),
-  :deep(.ant-input-number),
-  :deep(.ant-select),
-  :deep(.ant-picker),
-  :deep(.ant-radio-group),
-  :deep(.ant-switch) {
-    margin-top: 4px; // 轻微下移，与标签文字基线对齐
-  }
+// 单行输入框轻微下移，与标签基线对齐
+.ant-form-item-control .ant-input,
+.ant-form-item-control .ant-input-number,
+.ant-form-item-control .ant-select-selection,
+.ant-form-item-control .ant-picker,
+.ant-form-model-item-control .ant-input,
+.ant-form-model-item-control .ant-input-number,
+.ant-form-model-item-control .ant-select-selection,
+.ant-form-model-item-control .ant-picker {
+  margin-top: 4px;
 }
 
 .ant-form-item-label > label,
