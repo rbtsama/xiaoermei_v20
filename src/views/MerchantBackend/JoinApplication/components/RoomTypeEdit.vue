@@ -631,6 +631,14 @@ export default defineComponent({
         root.$message.error('请填写可住人数')
         return
       }
+      if (localData.freeAdultBreakfast === undefined || localData.freeAdultBreakfast === null) {
+        root.$message.error('请填写免费成人早餐数量')
+        return
+      }
+      if (localData.freeChildBreakfast === undefined || localData.freeChildBreakfast === null) {
+        root.$message.error('请填写免费儿童早餐数量')
+        return
+      }
       if (localData.images.length === 0) {
         root.$message.error('请至少上传1张房型图片')
         return
