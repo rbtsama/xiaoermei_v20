@@ -291,8 +291,8 @@ export interface RoomType {
   roomFeatures: string[]        // 房型特色（有浴缸、有家庭套房、可加床、可拆分为双床）
   facilities: RoomFacilities    // 房型设施
   images: string[]              // 房型图片（最多10张）
-  freeAdultBreakfast: number    // 免费成人早餐份数
-  freeChildBreakfast: number    // 免费儿童早餐份数
+  freeAdultBreakfast: number    // 免费成人早餐数量
+  freeChildBreakfast: number    // 免费儿童早餐数量
 }
 
 /**
