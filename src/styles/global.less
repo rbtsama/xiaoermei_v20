@@ -488,31 +488,12 @@ body {
 }
 
 // Form 表单
-// 修复多行内容时标签不在顶部的问题
-.ant-form-item,
-.ant-form-model-item {
-  > .ant-row {
-    align-items: flex-start !important;
-  }
-}
-
-// 单行输入框轻微下移，与标签基线对齐
-.ant-form-item-control .ant-input,
-.ant-form-item-control .ant-input-number,
-.ant-form-item-control .ant-select-selection,
-.ant-form-item-control .ant-picker,
-.ant-form-model-item-control .ant-input,
-.ant-form-model-item-control .ant-input-number,
-.ant-form-model-item-control .ant-select-selection,
-.ant-form-model-item-control .ant-picker {
-  margin-top: 4px;
-}
-
 .ant-form-item-label > label,
 .ant-form-model-item-label > label {
   color: @text-primary;
   font-weight: @font-weight-medium;
   font-size: @font-size-base;
+  line-height: 1.5715;  // 与Ant Design默认保持一致
 }
 
 .ant-form-item-explain,
