@@ -65,7 +65,7 @@
 
     <!-- 主内容区 -->
     <a-layout :style="{ marginLeft: collapsed ? '80px' : '256px', transition: 'margin-left 0.2s' }">
-      <a-layout-content style="margin: 0; min-height: 280px; background: #f0f2f5">
+      <a-layout-content :style="{ margin: 0, minHeight: '280px', background: contentBg }">
         <slot />
       </a-layout-content>
     </a-layout>
@@ -89,7 +89,7 @@ export default defineComponent({
     const openKeys = ref([])
     const isNavigating = ref(false) // 添加标志位，防止导航时触发 openKeys 更新
     const savedOpenKeys = ref([]) // 保存导航前的 openKeys 状态
-    const preventOpenChange = ref(false) // 完全阻止 openChange 更新
+    const contentBg = ref('#f0f2f5')
 
     // 获取所有一级和二级菜单的keys（默认全部展开）
     const getAllMenuKeys = () => {
@@ -235,6 +235,7 @@ export default defineComponent({
       collapsed,
       selectedKeys,
       openKeys,
+      contentBg,
       menuItems: menuConfig,
       onOpenChange,
       toggleCollapsed,
@@ -245,6 +246,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import '@/styles/variables.less';
+
 // 自定义侧边栏样式
 .custom-sider {
   overflow: auto;
@@ -256,7 +259,7 @@ export default defineComponent({
   :deep(.ant-layout-sider-children) {
     display: flex;
     flex-direction: column;
-    background: #001529;
+    background: @dark-bg-primary;
     height: 100%;
   }
 }
@@ -272,8 +275,8 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: #002140;
+  border-bottom: 1px solid @dark-border;
+  background: @dark-bg-secondary;
   flex-shrink: 0;
 
   .logo-link {
@@ -282,16 +285,16 @@ export default defineComponent({
 
   .logo-title {
     font-size: 18px;
-    font-weight: 600;
-    color: #ffffff;
+    font-weight: @font-weight-semibold;
+    color: @dark-text-primary;
     margin: 0;
     letter-spacing: 1px;
   }
 
   .logo-title-collapsed {
     font-size: 24px;
-    font-weight: 600;
-    color: #ffffff;
+    font-weight: @font-weight-semibold;
+    color: @dark-text-primary;
     margin: 0;
   }
 }
@@ -317,53 +320,53 @@ export default defineComponent({
 
   :deep(.ant-menu-item),
   :deep(.ant-menu-submenu-title) {
-    font-size: 14px;
+    font-size: @font-size-base;
     height: 40px;
     line-height: 40px;
     margin: 4px 8px;
-    border-radius: 6px;
+    border-radius: @border-radius-base;
     width: calc(100% - 16px);
     transition: background 0.2s ease, color 0.2s ease;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.08);
+      background: @dark-hover;
     }
   }
 
   :deep(.ant-menu-item-selected) {
-    background: #3b82f6 !important;
-    color: #ffffff !important;
-    font-weight: 500;
+    background: @brand-primary !important;
+    color: @dark-text-primary !important;
+    font-weight: @font-weight-medium;
 
     &::after {
       display: none;
     }
 
     &:hover {
-      background: #2563eb !important;
+      background: @brand-primary-hover !important;
     }
   }
 
   :deep(.ant-menu-submenu-active) {
     .ant-menu-submenu-title {
-      background: rgba(255, 255, 255, 0.08);
+      background: @dark-hover;
     }
   }
 
   :deep(.ant-menu-submenu-title) {
     .ant-menu-submenu-arrow {
-      color: rgba(255, 255, 255, 0.65);
+      color: @dark-text-secondary;
     }
   }
 
   :deep(.ant-menu-submenu-open) {
     .ant-menu-submenu-title {
-      color: #ffffff;
+      color: @dark-text-primary;
     }
   }
 
   :deep(.ant-menu-sub) {
-    background: rgba(0, 0, 0, 0.2);
+    background: @dark-submenu-bg;
   }
 
   :deep(.ant-menu-item) {
@@ -384,15 +387,15 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  background: #002140;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.65);
-  transition: all 0.2s;
+  background: @dark-bg-secondary;
+  border-top: 1px solid @dark-border;
+  color: @dark-text-secondary;
+  transition: @transition-base;
   flex-shrink: 0;
 
   &:hover {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.05);
+    color: @dark-text-primary;
+    background: @dark-hover-strong;
   }
 
   i {
@@ -407,15 +410,15 @@ export default defineComponent({
   }
 
   &::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1);
+    background: @dark-scrollbar-track;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
+    background: @dark-scrollbar-thumb;
     border-radius: 3px;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: @dark-scrollbar-thumb-hover;
     }
   }
 }
