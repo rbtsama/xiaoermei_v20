@@ -18,7 +18,7 @@
       />
 
       <!-- 筛选表单 - 按PRD优化 -->
-      <a-card class="rounded-xl border-slate-200 bg-white shadow-sm">
+      <a-card class="rounded-lg border-slate-200 bg-white shadow-sm">
         <!-- 第一行：订单状态、下单时间、入住时间 -->
         <div class="flex gap-4 items-end">
           <!-- 订单状态 -->
@@ -121,7 +121,7 @@
       </a-card>
 
       <!-- 订单列表 -->
-      <a-card class="rounded-xl border-slate-200 bg-white shadow-sm">
+      <a-card class="rounded-lg border-slate-200 bg-white shadow-sm">
         <div slot="title" class="text-lg font-semibold text-primary">订单列表</div>
 
         <div class="border border-slate-200 rounded-lg overflow-hidden">
@@ -584,12 +584,8 @@ export default defineComponent({
   border-radius: 50%;        // 圆形
 }
 
-.rounded-xl {
-  border-radius: 12px;
-}
-
 .rounded-lg {
-  border-radius: 8px;
+  border-radius: @border-radius-lg;
 }
 
 .border-slate-200 {
