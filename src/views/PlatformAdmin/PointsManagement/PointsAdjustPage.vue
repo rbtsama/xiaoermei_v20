@@ -418,6 +418,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 @import '@/styles/variables.less';
+@import '@/styles/common.less';
 
 // ========================================
 // 页面容器
@@ -752,7 +753,7 @@ export default defineComponent({
       border-color: @brand-primary;
 
       a {
-        color: #ffffff;
+        color: @bg-primary;
       }
     }
   }
