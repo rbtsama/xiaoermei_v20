@@ -178,8 +178,8 @@ export default defineComponent({
     const qrModalVisible = ref(false)
 
     const formData = reactive({
-      checkInDate: '',
-      checkOutDate: '',
+      checkInDate: null,
+      checkOutDate: null,
       roomType: null,
       salePrice: 0,
       specialPrice: null,
