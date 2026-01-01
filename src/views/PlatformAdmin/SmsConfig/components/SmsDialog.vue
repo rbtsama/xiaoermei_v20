@@ -142,40 +142,32 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-// 字段提示
-.field-hint {
-  font-size: 12px;
-  color: #b1b1b1;
-  margin-top: 4px;
-  display: block;
-}
+@import '@/styles/variables.less';
+@import '@/styles/common.less';
 
-// 字符计数
+// 字符计数（覆盖common.less的默认左对齐）
 .char-count {
-  text-align: right;
-  font-size: 12px;
-  color: #b1b1b1;
   margin-top: 4px;
 }
 
 // 优化输入框样式
 :deep(.ant-input),
 :deep(.ant-textarea) {
-  border-radius: 6px;
-  border-color: #cbd5e1;
-  font-size: 14px;
+  border-radius: @border-radius-base;
+  border-color: @border-secondary;
+  font-size: @font-size-base;
 
   &:hover {
-    border-color: #94a3b8;
+    border-color: @border-primary;
   }
 
   &:focus {
-    border-color: #3b82f6;
+    border-color: @brand-primary;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
   }
 
   &::placeholder {
-    color: #b1b1b1;
+    color: @text-tertiary;
   }
 }
 
@@ -186,14 +178,14 @@ export default defineComponent({
 
 // 优化弹窗样式
 :deep(.ant-modal-header) {
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid @border-primary;
   padding: 16px 24px;
 }
 
 :deep(.ant-modal-title) {
-  font-size: 16px;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.9);
+  font-size: @font-size-lg;
+  font-weight: @font-weight-semibold;
+  color: @text-primary;
 }
 
 :deep(.ant-modal-body) {
@@ -201,7 +193,7 @@ export default defineComponent({
 }
 
 :deep(.ant-modal-footer) {
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid @border-primary;
   padding: 12px 16px;
 }
 
@@ -209,16 +201,16 @@ export default defineComponent({
 :deep(.ant-btn) {
   height: 32px;
   padding: 0 16px;
-  font-size: 14px;
-  border-radius: 6px;
+  font-size: @font-size-base;
+  border-radius: @border-radius-base;
 
   &.ant-btn-primary {
-    background: #3b82f6;
-    border-color: #3b82f6;
+    background: @brand-primary;
+    border-color: @brand-primary;
 
     &:hover {
-      background: #2563eb;
-      border-color: #2563eb;
+      background: @brand-primary-hover;
+      border-color: @brand-primary-hover;
     }
   }
 }
