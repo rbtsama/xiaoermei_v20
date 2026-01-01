@@ -619,6 +619,21 @@ export const HIGHLIGHTS_SERVICES = [
 ]
 
 /**
+ * 门店推荐标签（其他配置）
+ * 用于商户端门店基本信息，最多选择2项
+ */
+export const STORE_RECOMMENDATION_TAGS = [
+  '亲子乐享',
+  '文艺复古',
+  '理想乡居',
+  '服务暖心',
+  '有烟火气',
+  '融于自然',
+  '松弛自在',
+  '宠物友好'
+]
+
+/**
  * 房型设施 - 客房设施
  */
 export const ROOM_FACILITIES = [
