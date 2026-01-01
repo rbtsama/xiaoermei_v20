@@ -29,19 +29,6 @@
               <span class="item-count">{{ item.options.length }}</span>
             </div>
           </div>
-
-          <div class="nav-section">
-            <div class="nav-title">其他配置</div>
-            <div
-              v-for="item in otherCategories"
-              :key="item.key"
-              :class="['nav-item', { active: currentCategory === item.key }]"
-              @click="currentCategory = item.key"
-            >
-              {{ item.title }}
-              <span class="item-count">{{ item.options.length }}</span>
-            </div>
-          </div>
         </div>
 
         <!-- 右侧选项管理 -->
@@ -138,7 +125,8 @@ export default defineComponent({
     // 门店亮点分类
     const highlightCategories = ref([
       { key: 'architecture', title: '建筑与景观', options: HIGHLIGHTS_ARCHITECTURE.map((v, i) => ({ id: `arch_${i}`, label: v })) },
-      { key: 'services', title: '服务与设施', options: HIGHLIGHTS_SERVICES.map((v, i) => ({ id: `serv_${i}`, label: v })) }
+      { key: 'services', title: '服务与设施', options: HIGHLIGHTS_SERVICES.map((v, i) => ({ id: `serv_${i}`, label: v })) },
+      { key: 'storeTags', title: '门店推荐标签', options: STORE_RECOMMENDATION_TAGS.map((v, i) => ({ id: `tag_${i}`, label: v })) }
     ])
 
     // 门店设施分类
@@ -157,14 +145,9 @@ export default defineComponent({
       { key: 'accessibility', title: '无障碍设施', options: ACCESSIBILITY_FACILITIES.map((v, i) => ({ id: `acc_${i}`, label: v })) }
     ])
 
-    // 其他配置分类
-    const otherCategories = ref([
-      { key: 'storeTags', title: '门店推荐标签', options: STORE_RECOMMENDATION_TAGS.map((v, i) => ({ id: `tag_${i}`, label: v })) }
-    ])
-
     // 当前选中分类的标题
     const currentCategoryTitle = computed(() => {
-      const all = [...highlightCategories.value, ...facilityCategories.value, ...otherCategories.value]
+      const all = [...highlightCategories.value, ...facilityCategories.value]
       const found = all.find(c => c.key === currentCategory.value)
       return found ? found.title : ''
     })
@@ -172,12 +155,12 @@ export default defineComponent({
     // 当前选中分类的选项
     const currentOptions = computed({
       get: () => {
-        const all = [...highlightCategories.value, ...facilityCategories.value, ...otherCategories.value]
+        const all = [...highlightCategories.value, ...facilityCategories.value]
         const found = all.find(c => c.key === currentCategory.value)
         return found ? found.options : []
       },
       set: (val) => {
-        const all = [...highlightCategories.value, ...facilityCategories.value, ...otherCategories.value]
+        const all = [...highlightCategories.value, ...facilityCategories.value]
         const found = all.find(c => c.key === currentCategory.value)
         if (found) {
           found.options = val
