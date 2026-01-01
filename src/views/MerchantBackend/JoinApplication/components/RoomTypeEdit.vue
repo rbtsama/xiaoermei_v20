@@ -194,6 +194,73 @@
           </a-form-model-item>
         </template>
 
+        <!-- 房间布局 -->
+        <a-form-model-item label="房间布局" required>
+          <a-row :gutter="12" type="flex" align="middle">
+            <a-col flex="none"><span>客厅</span></a-col>
+            <a-col flex="100px">
+              <a-input-number v-model="localData.roomLayout.livingRooms" :min="0" :precision="0" placeholder="0" style="width: 100%" />
+            </a-col>
+            <a-col flex="none"><span>间，卫生间</span></a-col>
+            <a-col flex="100px">
+              <a-input-number v-model="localData.roomLayout.bathrooms" :min="0" :precision="0" placeholder="1" style="width: 100%" />
+            </a-col>
+            <a-col flex="none"><span>间，卧室</span></a-col>
+            <a-col flex="100px">
+              <a-input-number v-model="localData.roomLayout.bedrooms" :min="1" :precision="0" placeholder="1" style="width: 100%" @change="handleBedroomsChange" />
+            </a-col>
+            <a-col flex="none"><span>间</span></a-col>
+          </a-row>
+          <div class="field-hint">配置房间的客厅、卫生间、卧室数量</div>
+        </a-form-model-item>
+
+        <!-- 床型配置（动态生成） -->
+        <template v-if="localData.roomLayout.bedrooms > 0">
+          <a-form-model-item label="床型配置" class="bed-config-wrapper">
+            <div
+              v-for="(bedroom, idx) in localData.roomLayout.bedroomConfigs"
+              :key="idx"
+              class="bedroom-config"
+            >
+              <div class="bedroom-header">
+                <span class="bedroom-label">卧室{{ idx + 1 }}：</span>
+                <span>床数量</span>
+                <a-input-number
+                  v-model="bedroom.bedCount"
+                  :min="1"
+                  :precision="0"
+                  placeholder="1"
+                  style="width: 80px; margin: 0 8px;"
+                  @change="handleBedCountChange(idx)"
+                />
+                <span>张</span>
+              </div>
+
+              <div class="beds-list">
+                <div
+                  v-for="(bed, bedIdx) in bedroom.beds"
+                  :key="bedIdx"
+                  class="bed-item"
+                >
+                  <span class="bed-label">床{{ bedIdx + 1 }}：</span>
+                  <span>床型</span>
+                  <a-select v-model="bed.type" placeholder="常规大床/单人床" style="width: 160px; margin: 0 8px;">
+                    <a-select-option v-for="t in bedTypeOptions" :key="t" :value="t">{{ t }}</a-select-option>
+                  </a-select>
+                  <span>，床宽</span>
+                  <a-select v-model="bed.width" style="width: 100px; margin: 0 8px;">
+                    <a-select-option v-for="w in bedWidthOptions" :key="w" :value="w">{{ w }}m</a-select-option>
+                  </a-select>
+                  <span>× 床长</span>
+                  <a-select v-model="bed.length" style="width: 100px; margin: 0 8px;">
+                    <a-select-option v-for="l in bedLengthOptions" :key="l" :value="l">{{ l }}m</a-select-option>
+                  </a-select>
+                </div>
+              </div>
+            </div>
+          </a-form-model-item>
+        </template>
+
         <!-- 加床政策 -->
         <a-form-model-item label="允许加床" required>
           <a-radio-group v-model="localData.allowExtraBed">
@@ -273,73 +340,6 @@
           </a-row>
           <div class="field-hint">该房型提供的免费早餐数量</div>
         </a-form-model-item>
-
-        <!-- 房间布局 -->
-        <a-form-model-item label="房间布局" required>
-          <a-row :gutter="12" type="flex" align="middle">
-            <a-col flex="none"><span>客厅</span></a-col>
-            <a-col flex="100px">
-              <a-input-number v-model="localData.roomLayout.livingRooms" :min="0" :precision="0" placeholder="0" style="width: 100%" />
-            </a-col>
-            <a-col flex="none"><span>间，卫生间</span></a-col>
-            <a-col flex="100px">
-              <a-input-number v-model="localData.roomLayout.bathrooms" :min="0" :precision="0" placeholder="1" style="width: 100%" />
-            </a-col>
-            <a-col flex="none"><span>间，卧室</span></a-col>
-            <a-col flex="100px">
-              <a-input-number v-model="localData.roomLayout.bedrooms" :min="1" :precision="0" placeholder="1" style="width: 100%" @change="handleBedroomsChange" />
-            </a-col>
-            <a-col flex="none"><span>间</span></a-col>
-          </a-row>
-          <div class="field-hint">配置房间的客厅、卫生间、卧室数量</div>
-        </a-form-model-item>
-
-        <!-- 床型配置（动态生成） -->
-        <template v-if="localData.roomLayout.bedrooms > 0">
-          <a-form-model-item label="床型配置" class="bed-config-wrapper">
-            <div
-              v-for="(bedroom, idx) in localData.roomLayout.bedroomConfigs"
-              :key="idx"
-              class="bedroom-config"
-            >
-              <div class="bedroom-header">
-                <span class="bedroom-label">卧室{{ idx + 1 }}：</span>
-                <span>床数量</span>
-                <a-input-number
-                  v-model="bedroom.bedCount"
-                  :min="1"
-                  :precision="0"
-                  placeholder="1"
-                  style="width: 80px; margin: 0 8px;"
-                  @change="handleBedCountChange(idx)"
-                />
-                <span>张</span>
-              </div>
-
-              <div class="beds-list">
-                <div
-                  v-for="(bed, bedIdx) in bedroom.beds"
-                  :key="bedIdx"
-                  class="bed-item"
-                >
-                  <span class="bed-label">床{{ bedIdx + 1 }}：</span>
-                  <span>床型</span>
-                  <a-select v-model="bed.type" placeholder="常规大床/单人床" style="width: 160px; margin: 0 8px;">
-                    <a-select-option v-for="t in bedTypeOptions" :key="t" :value="t">{{ t }}</a-select-option>
-                  </a-select>
-                  <span>，床宽</span>
-                  <a-select v-model="bed.width" style="width: 100px; margin: 0 8px;">
-                    <a-select-option v-for="w in bedWidthOptions" :key="w" :value="w">{{ w }}m</a-select-option>
-                  </a-select>
-                  <span>× 床长</span>
-                  <a-select v-model="bed.length" style="width: 100px; margin: 0 8px;">
-                    <a-select-option v-for="l in bedLengthOptions" :key="l" :value="l">{{ l }}m</a-select-option>
-                  </a-select>
-                </div>
-              </div>
-            </div>
-          </a-form-model-item>
-        </template>
 
         <!-- 房型设施分类 -->
         <div class="section-title section-spacing">房型设施</div>
