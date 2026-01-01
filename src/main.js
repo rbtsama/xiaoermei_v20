@@ -1,6 +1,4 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Vuex from 'vuex'
 import VueCompositionAPI from '@vue/composition-api'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
@@ -10,14 +8,7 @@ import store from './store'
 import './styles/theme.less'
 import './styles/global.less'
 
-// 配置 moment.js 中文语言包
-import moment from 'moment'
-import 'moment/locale/zh-cn'
-moment.locale('zh-cn')
-
 // 使用插件
-Vue.use(VueRouter)
-Vue.use(Vuex)
 Vue.use(VueCompositionAPI)
 Vue.use(Antd)
 
