@@ -109,11 +109,11 @@ export default defineComponent({
   }
 }
 
-// 字数统计
-.char-count {
-  text-align: right;
-  font-size: 12px;
-  color: @text-secondary;
-  margin-top: 4px;
-}
+// 字数统计（已在common.less中定义，此处可删除）
+// .char-count {
+//   text-align: right;
+//   font-size: @font-size-xs;
+//   color: @text-secondary;
+//   margin-top: 8px;
+// }
 </style>
