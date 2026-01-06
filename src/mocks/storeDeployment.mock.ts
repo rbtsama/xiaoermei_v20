@@ -29,7 +29,8 @@ export const mockDraftData: StoreDeploymentForm = {
   },
   storeBasicInfo: {
     storeName: '原乡芦茨',
-    storeAddress: '浙江省杭州市桐庐县富春江镇芦茨村',
+    storeRegionArray: ['浙江省', '杭州市', '桐庐县'],
+    storeAddress: '富春江镇芦茨村',
     roomCount: 21,
     openingYear: '2016年',
     recommendationTags: ['融于自然', '松弛自在'],
