@@ -66,8 +66,12 @@
         </a-table>
       </a-card>
 
-      <!-- 创建通知任务弹窗（待创建） -->
-      <!-- TODO: 添加创建通知任务弹窗组件 -->
+      <!-- 创建通知任务弹窗 -->
+      <create-notification-dialog
+        :visible.sync="dialogVisible"
+        @success="handleCreateSuccess"
+        @close="dialogVisible = false"
+      />
     </div>
   </sidebar>
 </template>
@@ -75,6 +79,7 @@
 <script>
 import { defineComponent, ref, reactive } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
+import CreateNotificationDialog from './CreateNotificationDialog.vue'
 import { mockNotificationRecords } from '@/mocks/notification.mock'
 import { NotificationType } from '@/types/notification'
 import dayjs from 'dayjs'
@@ -82,11 +87,13 @@ import dayjs from 'dayjs'
 export default defineComponent({
   name: 'NotificationTaskPage',
   components: {
-    Sidebar
+    Sidebar,
+    CreateNotificationDialog
   },
   setup(props, { root }) {
     const loading = ref(false)
     const records = ref([...mockNotificationRecords])
+    const dialogVisible = ref(false)
 
     const pagination = reactive({
       current: 1,
@@ -155,8 +162,13 @@ export default defineComponent({
     }
 
     const handleCreateTask = () => {
-      // TODO: 打开创建通知任务弹窗
-      root.$message.info('创建通知任务功能开发中...')
+      dialogVisible.value = true
+    }
+
+    const handleCreateSuccess = () => {
+      // 刷新列表
+      // TODO: 重新加载数据
+      root.$message.success('通知任务创建成功')
     }
 
     return {
@@ -164,11 +176,13 @@ export default defineComponent({
       records,
       pagination,
       columns,
+      dialogVisible,
       getTypeName,
       getTypeTagClass,
       formatDate,
       formatTime,
-      handleCreateTask
+      handleCreateTask,
+      handleCreateSuccess
     }
   }
 })
