@@ -35,6 +35,11 @@ export const menuConfig = [
         ]
       },
       {
+        title: '通知任务',
+        key: 'notification-task',
+        path: '/platform-admin/notification-management/task'
+      },
+      {
         title: '短信配置',
         key: 'sms-config',
         path: '/platform-admin/sms-config'
