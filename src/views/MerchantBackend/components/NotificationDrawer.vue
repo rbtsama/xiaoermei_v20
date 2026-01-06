@@ -9,17 +9,82 @@
     <!-- 标题栏 -->
     <div slot="title" class="drawer-header">
       <span class="drawer-title">通知</span>
-      <a-button size="small" @click="handleMarkAllRead">全部已读</a-button>
     </div>
 
-    <!-- 通知列表 -->
-    <div class="notification-list">
-      <div
-        v-for="item in notifications"
-        :key="item.id"
-        class="notification-item"
-        :class="{ 'notification-unread': item.status === NotificationStatus.UNREAD }"
-      >
+    <!-- Tab切换 -->
+    <a-tabs v-model="activeTab" class="notification-tabs">
+      <!-- 订单Tab -->
+      <a-tab-pane key="order" tab="订单">
+        <div class="notification-list">
+          <div
+            v-for="item in orderNotifications"
+            :key="item.id"
+            class="order-notification-item"
+          >
+            <!-- 订单类型标签 -->
+            <div class="order-header">
+              <a-tag :class="item.type === OrderChangeType.NEW_ORDER ? 'tag-green' : 'tag-red'">
+                {{ item.type === OrderChangeType.NEW_ORDER ? '新订单' : '订单取消' }}
+              </a-tag>
+              <span class="order-time">{{ formatTime(item.createdAt) }}</span>
+            </div>
+
+            <!-- 订单信息 -->
+            <div class="order-content">
+              <div class="order-info-row">
+                <span class="label">订单号：</span>
+                <span>{{ item.orderNo }}</span>
+              </div>
+              <div class="order-info-row">
+                <span class="label">入住人：</span>
+                <span>{{ item.guestNames }}</span>
+              </div>
+              <div class="order-info-row">
+                <span class="label">手机号：</span>
+                <span>{{ item.guestPhone }}</span>
+              </div>
+              <div class="order-info-row">
+                <span class="label">入离时间：</span>
+                <span>{{ formatOrderDate(item) }}</span>
+              </div>
+              <div class="order-info-row">
+                <span class="label">房型：</span>
+                <span>{{ item.roomType }}</span>
+              </div>
+              <div class="order-info-row">
+                <span class="label">金额：</span>
+                <span class="amount">{{ formatAmount(item.totalAmount) }}</span>
+              </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="order-actions">
+              <a-button size="small" @click="handleViewOrderFromDrawer(item.orderNo)">
+                查看详情
+              </a-button>
+            </div>
+          </div>
+
+          <!-- 空状态 -->
+          <div v-if="orderNotifications.length === 0" class="empty-state">
+            <a-icon type="inbox" class="empty-icon" />
+            <p class="empty-text">暂无订单通知</p>
+          </div>
+        </div>
+      </a-tab-pane>
+
+      <!-- 消息任务Tab -->
+      <a-tab-pane key="task" tab="消息任务">
+        <div class="tab-header">
+          <a-button size="small" @click="handleMarkAllRead">全部已读</a-button>
+        </div>
+        <div class="notification-list">
+          <div
+            v-for="item in notifications"
+            :key="item.id"
+            class="notification-item"
+            :class="{ 'notification-unread': item.status === NotificationStatus.UNREAD }"
+          >
         <!-- 通知头部 -->
         <div class="notification-header">
           <span class="notification-title">{{ item.title }}</span>
@@ -70,22 +135,23 @@
             </a-button>
             <span v-else class="read-tag">已完成</span>
           </template>
-        </div>
-      </div>
+          </div>
 
-      <!-- 空状态 -->
-      <div v-if="notifications.length === 0" class="empty-state">
-        <a-icon type="bell" class="empty-icon" />
-        <p class="empty-text">暂无通知</p>
-      </div>
-    </div>
+          <!-- 空状态 -->
+          <div v-if="notifications.length === 0" class="empty-state">
+            <a-icon type="bell" class="empty-icon" />
+            <p class="empty-text">暂无消息任务</p>
+          </div>
+        </div>
+      </a-tab-pane>
+    </a-tabs>
   </a-drawer>
 </template>
 
 <script>
 import { defineComponent, ref } from '@vue/composition-api'
-import { NotificationType, NotificationStatus } from '@/types/notification'
-import { mockNotifications } from '@/mocks/notification.mock'
+import { NotificationType, NotificationStatus, OrderChangeType } from '@/types/notification'
+import { mockNotifications, mockOrderChangeNotifications } from '@/mocks/notification.mock'
 import dayjs from 'dayjs'
 
 export default defineComponent({
@@ -97,8 +163,12 @@ export default defineComponent({
     }
   },
   setup(props, { emit, root }) {
+    // Tab状态
+    const activeTab = ref('order')
+
     // 使用Mock数据
     const notifications = ref([...mockNotifications])
+    const orderNotifications = ref([...mockOrderChangeNotifications])
 
     const formatTime = (time) => {
       if (!time) return ''
@@ -163,16 +233,39 @@ export default defineComponent({
       }
     }
 
+    const formatOrderDate = (item) => {
+      if (!item.checkInDate || !item.checkOutDate) return '-'
+      const checkIn = dayjs(item.checkInDate).format('YYYY/M/D')
+      const checkOut = dayjs(item.checkOutDate).format('YYYY/M/D')
+      return `${checkIn}-${checkOut}（${item.nights}晚）`
+    }
+
+    const formatAmount = (amount) => {
+      if (!amount && amount !== 0) return '-'
+      return `¥${amount.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+    }
+
+    const handleViewOrderFromDrawer = (orderNo) => {
+      emit('view-order', orderNo)
+      handleClose()
+    }
+
     return {
+      activeTab,
       notifications,
+      orderNotifications,
       NotificationType,
       NotificationStatus,
+      OrderChangeType,
       formatTime,
+      formatOrderDate,
+      formatAmount,
       handleClose,
       handleMarkAllRead,
       handleMarkRead,
       handleAgree,
-      handleViewTask
+      handleViewTask,
+      handleViewOrderFromDrawer
     }
   }
 })
@@ -291,6 +384,97 @@ export default defineComponent({
       font-size: @font-size-base;
       color: @text-secondary;
       margin: 0;
+    }
+  }
+}
+
+.notification-tabs {
+  :deep(.ant-tabs-bar) {
+    margin: 0;
+    padding: 0 24px;
+    border-bottom: 1px solid @border-primary;
+  }
+
+  :deep(.ant-tabs-nav) {
+    .ant-tabs-tab {
+      padding: 12px 16px;
+      font-size: @font-size-base;
+      color: @text-secondary;
+
+      &.ant-tabs-tab-active {
+        color: @brand-primary;
+        font-weight: @font-weight-semibold;
+      }
+    }
+  }
+
+  :deep(.ant-tabs-content) {
+    height: auto;
+  }
+}
+
+.tab-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 24px;
+  border-bottom: 1px solid @border-primary;
+}
+
+.order-notification-item {
+  padding: 16px 24px;
+  border-bottom: 1px solid @border-primary;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: @bg-hover;
+  }
+
+  .order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    .order-time {
+      font-size: @font-size-xs;
+      color: @text-tertiary;
+    }
+  }
+
+  .order-content {
+    margin-bottom: 12px;
+
+    .order-info-row {
+      display: flex;
+      margin-bottom: 6px;
+      font-size: @font-size-sm;
+      line-height: 1.5;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .label {
+        color: @text-secondary;
+        min-width: 70px;
+      }
+
+      .amount {
+        color: @error-color;
+        font-weight: @font-weight-semibold;
+      }
+    }
+  }
+
+  .order-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    .ant-btn-sm {
+      height: 28px;
+      padding: 0 12px;
+      font-size: @font-size-sm;
+      border-radius: @border-radius-base;
     }
   }
 }

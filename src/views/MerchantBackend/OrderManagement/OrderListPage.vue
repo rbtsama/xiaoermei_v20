@@ -41,6 +41,7 @@
       <!-- 通知抽屉 -->
       <notification-drawer
         :visible.sync="notificationDrawerVisible"
+        @view-order="handleViewOrderDetail"
         @close="notificationDrawerVisible = false"
       />
 
