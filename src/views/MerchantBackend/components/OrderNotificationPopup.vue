@@ -199,10 +199,6 @@ export default defineComponent({
         color: @text-primary;
         flex: 1;
 
-        &.guest-names {
-          font-weight: @font-weight-semibold;
-        }
-
         &.amount {
           color: @error-color;
           font-weight: @font-weight-semibold;

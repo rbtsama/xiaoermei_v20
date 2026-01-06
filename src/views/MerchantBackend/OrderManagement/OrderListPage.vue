@@ -362,8 +362,14 @@ export default defineComponent({
     // 查看订单详情
     const handleViewOrderDetail = (orderNo: string) => {
       console.log('查看订单详情:', orderNo)
-      // TODO: 打开订单详情弹窗或跳转
-      root.$message.info(`查看订单 ${orderNo}`)
+      // 查找订单数据
+      const order = orders.value.find(o => o.orderNumber === orderNo)
+      if (order) {
+        selectedOrder.value = order
+        isDetailDialogOpen.value = true
+      } else {
+        root.$message.warning('未找到订单信息')
+      }
     }
 
     // ========== 表格配置（参考平台端，去掉酒店列，房型放在入住日期后面） ==========
