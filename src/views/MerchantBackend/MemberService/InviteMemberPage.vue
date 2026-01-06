@@ -259,7 +259,7 @@
     <import-result-dialog
       :visible.sync="resultDialogVisible"
       :success-count="importResult.successCount"
-      :failed-list="importResult.failedList"
+      :failed-count="importResult.failedCount"
       @close="handleResultDialogClose"
     />
   </sidebar>
@@ -298,7 +298,7 @@ export default defineComponent({
     const resultDialogVisible = ref(false)
     const importResult = reactive({
       successCount: 0,
-      failedList: []
+      failedCount: 0
     })
 
     /**
@@ -388,15 +388,12 @@ export default defineComponent({
             await new Promise(resolve => setTimeout(resolve, 1000))
 
             // 模拟API返回结果：部分成功，部分失败
-            const mockFailedList = [
-              { phone: '13800138001', name: '张三', reason: '该手机号已被其他商户导入' },
-              { phone: '13800138005', name: '李四', reason: '该手机号已被其他商户导入' }
-            ]
-            const mockSuccessCount = uploadedCount.value - mockFailedList.length
+            const mockFailedCount = 2
+            const mockSuccessCount = uploadedCount.value - mockFailedCount
 
             // 设置结果并显示弹窗
             importResult.successCount = mockSuccessCount
-            importResult.failedList = mockFailedList
+            importResult.failedCount = mockFailedCount
             resultDialogVisible.value = true
 
             // 清空上传数据
@@ -441,15 +438,11 @@ export default defineComponent({
         if (isAlreadyImported) {
           // 失败：已被其他商户导入
           importResult.successCount = 0
-          importResult.failedList = [{
-            phone: singleForm.phone,
-            name: singleForm.name || '-',
-            reason: '该手机号已被其他商户导入'
-          }]
+          importResult.failedCount = 1
         } else {
           // 成功
           importResult.successCount = 1
-          importResult.failedList = []
+          importResult.failedCount = 0
         }
 
         // 显示结果弹窗
