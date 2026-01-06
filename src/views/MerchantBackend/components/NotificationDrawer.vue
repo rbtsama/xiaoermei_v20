@@ -167,9 +167,13 @@ export default defineComponent({
     // Tab状态
     const activeTab = ref('order')
 
-    // 使用Mock数据
-    const notifications = ref([...mockNotifications])
-    const orderNotifications = ref([...mockOrderChangeNotifications])
+    // 使用Mock数据（按时间倒序排列）
+    const notifications = ref(
+      [...mockNotifications].sort((a, b) => dayjs(b.createdAt).unix() - dayjs(a.createdAt).unix())
+    )
+    const orderNotifications = ref(
+      [...mockOrderChangeNotifications].sort((a, b) => dayjs(b.createdAt).unix() - dayjs(a.createdAt).unix())
+    )
 
     const formatTime = (time) => {
       if (!time) return ''
