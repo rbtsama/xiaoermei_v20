@@ -43,16 +43,9 @@
           <!-- 发送商户 -->
           <template slot="merchantList" slot-scope="text, record">
             <div class="merchant-list">
-              <a-tooltip placement="top">
-                <template slot="title">
-                  <div class="merchant-tooltip">
-                    <div v-for="(merchant, index) in record.merchantList" :key="index" class="merchant-item">
-                      {{ index + 1 }}. {{ merchant }}
-                    </div>
-                  </div>
-                </template>
-                <span class="merchant-count">{{ record.merchantCount }}个商户</span>
-              </a-tooltip>
+              <span class="merchant-count" @click="handleShowMerchants(record)">
+                {{ record.merchantCount }}个商户
+              </span>
             </div>
           </template>
 
@@ -72,6 +65,19 @@
         @success="handleCreateSuccess"
         @close="dialogVisible = false"
       />
+
+      <!-- 商户列表弹窗 -->
+      <a-modal
+        :visible="merchantDialogVisible"
+        title="发送商户"
+        :width="500"
+        :footer="null"
+        @cancel="merchantDialogVisible = false"
+      >
+        <div class="merchant-dialog-content">
+          {{ currentMerchantListText }}
+        </div>
+      </a-modal>
     </div>
   </sidebar>
 </template>
@@ -94,6 +100,8 @@ export default defineComponent({
     const loading = ref(false)
     const records = ref([...mockNotificationRecords])
     const dialogVisible = ref(false)
+    const merchantDialogVisible = ref(false)
+    const currentMerchantListText = ref('')
 
     const pagination = reactive({
       current: 1,
@@ -171,18 +179,26 @@ export default defineComponent({
       root.$message.success('通知任务创建成功')
     }
 
+    const handleShowMerchants = (record) => {
+      currentMerchantListText.value = record.merchantList.join('，')
+      merchantDialogVisible.value = true
+    }
+
     return {
       loading,
       records,
       pagination,
       columns,
       dialogVisible,
+      merchantDialogVisible,
+      currentMerchantListText,
       getTypeName,
       getTypeTagClass,
       formatDate,
       formatTime,
       handleCreateTask,
-      handleCreateSuccess
+      handleCreateSuccess,
+      handleShowMerchants
     }
   }
 })
@@ -273,15 +289,10 @@ export default defineComponent({
   }
 }
 
-.merchant-tooltip {
-  max-height: 300px;
-  overflow-y: auto;
-
-  .merchant-item {
-    padding: 4px 0;
-    font-size: @font-size-sm;
-    color: @text-primary;
-    line-height: 1.5;
-  }
+.merchant-dialog-content {
+  font-size: @font-size-base;
+  color: @text-primary;
+  line-height: 1.8;
+  padding: 8px 0;
 }
 </style>
