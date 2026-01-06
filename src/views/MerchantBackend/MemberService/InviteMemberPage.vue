@@ -254,18 +254,28 @@
         </div>
       </a-card>
     </div>
+
+    <!-- 导入结果弹窗 -->
+    <import-result-dialog
+      :visible.sync="resultDialogVisible"
+      :success-count="importResult.successCount"
+      :failed-list="importResult.failedList"
+      @close="handleResultDialogClose"
+    />
   </sidebar>
 </template>
 
 <script>
 import { defineComponent, ref, reactive } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
+import ImportResultDialog from './ImportResultDialog.vue'
 import { batchInviteMembers } from '@/api/memberService'
 
 export default defineComponent({
   name: 'InviteMemberPage',
   components: {
-    Sidebar
+    Sidebar,
+    ImportResultDialog
   },
   setup(props, { root }) {
     const inviteMode = ref('batch') // 'batch' | 'single' | 'qrcode'
@@ -282,6 +292,13 @@ export default defineComponent({
       phone: '',
       name: '',
       gender: undefined
+    })
+
+    // 导入结果弹窗
+    const resultDialogVisible = ref(false)
+    const importResult = reactive({
+      successCount: 0,
+      failedList: []
     })
 
     /**
@@ -367,10 +384,22 @@ export default defineComponent({
         onOk: async () => {
           try {
             submitting.value = true
-            // TODO: 调用API批量邀请
+            // TODO: 调用API批量邀请，检测重复
             await new Promise(resolve => setTimeout(resolve, 1000))
-            root.$message.success(`成功邀请 ${uploadedCount.value} 位会员`)
-            // 清空
+
+            // 模拟API返回结果：部分成功，部分失败
+            const mockFailedList = [
+              { phone: '13800138001', name: '张三', reason: '该手机号已被其他商户导入' },
+              { phone: '13800138005', name: '李四', reason: '该手机号已被其他商户导入' }
+            ]
+            const mockSuccessCount = uploadedCount.value - mockFailedList.length
+
+            // 设置结果并显示弹窗
+            importResult.successCount = mockSuccessCount
+            importResult.failedList = mockFailedList
+            resultDialogVisible.value = true
+
+            // 清空上传数据
             uploadedFileName.value = ''
             uploadedCount.value = 0
             uploadedData.value = []
@@ -403,10 +432,29 @@ export default defineComponent({
 
       try {
         submitting.value = true
-        // TODO: 调用API单个邀请
+        // TODO: 调用API单个邀请，检测重复
         await new Promise(resolve => setTimeout(resolve, 500))
-        const levelName = selectedVipLevel.value === 0 ? '注册会员' : 'VIP' + selectedVipLevel.value
-        root.$message.success(`成功发送邀请给 ${singleForm.phone}，等级：${levelName}`)
+
+        // 模拟API返回结果：随机成功或失败
+        const isAlreadyImported = Math.random() > 0.7 // 30%概率已被导入
+
+        if (isAlreadyImported) {
+          // 失败：已被其他商户导入
+          importResult.successCount = 0
+          importResult.failedList = [{
+            phone: singleForm.phone,
+            name: singleForm.name || '-',
+            reason: '该手机号已被其他商户导入'
+          }]
+        } else {
+          // 成功
+          importResult.successCount = 1
+          importResult.failedList = []
+        }
+
+        // 显示结果弹窗
+        resultDialogVisible.value = true
+
         // 清空表单
         singleForm.phone = ''
         singleForm.name = ''
@@ -456,6 +504,13 @@ export default defineComponent({
       // document.body.removeChild(link)
     }
 
+    /**
+     * 关闭结果弹窗
+     */
+    const handleResultDialogClose = () => {
+      resultDialogVisible.value = false
+    }
+
     return {
       inviteMode,
       selectedVipLevel,
@@ -463,6 +518,8 @@ export default defineComponent({
       uploadedFileName,
       uploadedCount,
       singleForm,
+      resultDialogVisible,
+      importResult,
       handleDownloadTemplate,
       handleBeforeUpload,
       handleBatchInvite,
@@ -470,7 +527,8 @@ export default defineComponent({
       handleGoToRecords,
       handleGoToCommission,
       handleModeChange,
-      handleDownloadQRCode
+      handleDownloadQRCode,
+      handleResultDialogClose
     }
   }
 })
