@@ -40,8 +40,7 @@
 
       <!-- 操作按钮 -->
       <div class="popup-footer">
-        <a-button @click="handleViewDetail">查看详情</a-button>
-        <a-button type="primary" @click="handleMarkRead">已读</a-button>
+        <a-button type="primary" @click="handleViewDetail">查看详情</a-button>
       </div>
     </div>
   </transition>
@@ -95,11 +94,6 @@ export default defineComponent({
       emit('close')
     }
 
-    const handleMarkRead = () => {
-      emit('mark-read', props.orderData.id)
-      handleClose()
-    }
-
     const handleViewDetail = () => {
       emit('view-detail', props.orderData.orderNo)
       handleClose()
@@ -112,7 +106,6 @@ export default defineComponent({
       checkInOutText,
       formatAmount,
       handleClose,
-      handleMarkRead,
       handleViewDetail
     }
   }

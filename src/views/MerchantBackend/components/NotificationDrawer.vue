@@ -102,6 +102,7 @@
               <template v-if="item.type === NotificationType.NOTIFICATION">
                 <a-button
                   v-if="item.status === NotificationStatus.UNREAD"
+                  type="primary"
                   size="small"
                   @click="handleMarkRead(item.id)"
                 >

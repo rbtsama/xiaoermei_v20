@@ -33,7 +33,6 @@
       <order-notification-popup
         :visible.sync="orderPopupVisible"
         :order-data="currentOrderNotification"
-        @mark-read="handleMarkOrderRead"
         @view-detail="handleViewOrderDetail"
         @close="orderPopupVisible = false"
       />
@@ -354,12 +353,6 @@ export default defineComponent({
       notificationDrawerVisible.value = true
     }
 
-    // 标记订单变化为已读
-    const handleMarkOrderRead = (id: string) => {
-      console.log('标记订单变化已读:', id)
-      // TODO: 调用API标记已读
-    }
-
     // 查看订单详情
     const handleViewOrderDetail = (orderNo: string) => {
       console.log('查看订单详情:', orderNo)
@@ -623,7 +616,6 @@ export default defineComponent({
 
       // 通知方法
       handleOpenNotificationDrawer,
-      handleMarkOrderRead,
       handleViewOrderDetail
     }
   }
