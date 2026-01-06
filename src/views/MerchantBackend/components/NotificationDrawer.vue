@@ -85,56 +85,57 @@
             class="notification-item"
             :class="{ 'notification-unread': item.status === NotificationStatus.UNREAD }"
           >
-        <!-- 通知头部 -->
-        <div class="notification-header">
-          <span class="notification-title">{{ item.title }}</span>
-          <span class="notification-time">{{ formatTime(item.createdAt) }}</span>
-        </div>
+            <!-- 通知头部 -->
+            <div class="notification-header">
+              <span class="notification-title">{{ item.title }}</span>
+              <span class="notification-time">{{ formatTime(item.createdAt) }}</span>
+            </div>
 
-        <!-- 通知内容 -->
-        <div class="notification-content">
-          {{ item.content }}
-        </div>
+            <!-- 通知内容 -->
+            <div class="notification-content">
+              {{ item.content }}
+            </div>
 
-        <!-- 通知操作按钮 -->
-        <div class="notification-actions">
-          <!-- 普通通知：已读按钮 -->
-          <template v-if="item.type === NotificationType.NOTIFICATION">
-            <a-button
-              v-if="item.status === NotificationStatus.UNREAD"
-              size="small"
-              @click="handleMarkRead(item.id)"
-            >
-              已读
-            </a-button>
-            <span v-else class="read-tag">已读</span>
-          </template>
+            <!-- 通知操作按钮 -->
+            <div class="notification-actions">
+              <!-- 普通通知：已读按钮 -->
+              <template v-if="item.type === NotificationType.NOTIFICATION">
+                <a-button
+                  v-if="item.status === NotificationStatus.UNREAD"
+                  size="small"
+                  @click="handleMarkRead(item.id)"
+                >
+                  已读
+                </a-button>
+                <span v-else class="read-tag">已读</span>
+              </template>
 
-          <!-- 需同意通知：同意按钮 -->
-          <template v-else-if="item.type === NotificationType.AGREEMENT_REQUIRED">
-            <a-button
-              v-if="item.status === NotificationStatus.UNREAD"
-              type="primary"
-              size="small"
-              @click="handleAgree(item.id)"
-            >
-              同意
-            </a-button>
-            <span v-else class="agreed-tag">已同意</span>
-          </template>
+              <!-- 需同意通知：同意按钮 -->
+              <template v-else-if="item.type === NotificationType.AGREEMENT_REQUIRED">
+                <a-button
+                  v-if="item.status === NotificationStatus.UNREAD"
+                  type="primary"
+                  size="small"
+                  @click="handleAgree(item.id)"
+                >
+                  同意
+                </a-button>
+                <span v-else class="agreed-tag">已同意</span>
+              </template>
 
-          <!-- 任务：去查看按钮 -->
-          <template v-else-if="item.type === NotificationType.TASK">
-            <a-button
-              v-if="item.status === NotificationStatus.UNREAD"
-              type="primary"
-              size="small"
-              @click="handleViewTask(item.id, item.link)"
-            >
-              去查看
-            </a-button>
-            <span v-else class="read-tag">已完成</span>
-          </template>
+              <!-- 任务：去查看按钮 -->
+              <template v-else-if="item.type === NotificationType.TASK">
+                <a-button
+                  v-if="item.status === NotificationStatus.UNREAD"
+                  type="primary"
+                  size="small"
+                  @click="handleViewTask(item.id, item.link)"
+                >
+                  去查看
+                </a-button>
+                <span v-else class="read-tag">已完成</span>
+              </template>
+            </div>
           </div>
 
           <!-- 空状态 -->
