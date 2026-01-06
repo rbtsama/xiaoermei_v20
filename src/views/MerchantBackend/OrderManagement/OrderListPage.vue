@@ -1,5 +1,17 @@
 <template>
   <sidebar>
+    <!-- 顶部导航栏 -->
+    <div class="top-navbar">
+      <div class="navbar-content">
+        <h1 class="page-title">订单列表</h1>
+        <div class="navbar-actions">
+          <a-badge :count="unreadCount" :overflow-count="99">
+            <a-icon type="bell" class="bell-icon" @click="handleOpenNotificationDrawer" />
+          </a-badge>
+        </div>
+      </div>
+    </div>
+
     <div class="p-6 space-y-6">
       <!-- 订单详情弹窗 -->
       <order-detail-dialog
@@ -16,6 +28,18 @@
         @close="handleCloseNote"
         @save="handleSaveNote"
       />
+
+      <!-- 订单变化弹窗 -->
+      <order-notification-popup
+        :visible.sync="orderPopupVisible"
+        :order-data="currentOrderNotification"
+        @mark-read="handleMarkOrderRead"
+        @view-detail="handleViewOrderDetail"
+        @close="orderPopupVisible = false"
+      />
+
+      <!-- 通知抽屉（待创建） -->
+      <!-- TODO: 添加通知抽屉组件 -->
 
       <!-- 筛选表单 - 按PRD优化 -->
       <a-card class="rounded-lg border-slate-200 bg-white shadow-sm">
@@ -250,16 +274,20 @@ import { defineComponent, reactive, ref, computed, onMounted } from '@vue/compos
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import OrderDetailDialog from './components/OrderDetailDialog.vue'
 import MerchantNoteDialog from './components/MerchantNoteDialog.vue'
+import OrderNotificationPopup from '@/views/MerchantBackend/components/OrderNotificationPopup.vue'
 import OrderListService from './services/orderList.service'
 import type { Order, OrderFilterParams } from '@/views/PlatformAdmin/OrderManagement/types/order.types'
 import { OrderStatus, ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } from '@/views/PlatformAdmin/OrderManagement/types/order.types'
+import { mockOrderChangeNotifications, mockNotifications } from '@/mocks/notification.mock'
+import { NotificationStatus } from '@/types/notification'
 
 export default defineComponent({
   name: 'MerchantOrderListPage',
   components: {
     Sidebar,
     OrderDetailDialog,
-    MerchantNoteDialog
+    MerchantNoteDialog,
+    OrderNotificationPopup
   },
 
   setup(props, { root }) {
@@ -292,6 +320,44 @@ export default defineComponent({
     // 备注弹窗
     const isNoteDialogOpen = ref(false)
     const selectedOrderForNote = ref<Order | null>(null)
+
+    // ========== 通知系统 ==========
+    // 未读通知数量
+    const unreadCount = computed(() => {
+      return mockNotifications.filter(n => n.status === NotificationStatus.UNREAD).length
+    })
+
+    // 订单变化弹窗
+    const orderPopupVisible = ref(false)
+    const currentOrderNotification = ref<any>({})
+
+    // 页面加载时随机显示一个订单变化通知
+    const showRandomOrderNotification = () => {
+      if (mockOrderChangeNotifications.length > 0) {
+        const randomIndex = Math.floor(Math.random() * mockOrderChangeNotifications.length)
+        currentOrderNotification.value = mockOrderChangeNotifications[randomIndex]
+        orderPopupVisible.value = true
+      }
+    }
+
+    // 打开通知抽屉
+    const handleOpenNotificationDrawer = () => {
+      // TODO: 打开通知抽屉
+      root.$message.info('通知抽屉功能开发中...')
+    }
+
+    // 标记订单变化为已读
+    const handleMarkOrderRead = (id: string) => {
+      console.log('标记订单变化已读:', id)
+      // TODO: 调用API标记已读
+    }
+
+    // 查看订单详情
+    const handleViewOrderDetail = (orderNo: string) => {
+      console.log('查看订单详情:', orderNo)
+      // TODO: 打开订单详情弹窗或跳转
+      root.$message.info(`查看订单 ${orderNo}`)
+    }
 
     // ========== 表格配置（参考平台端，去掉酒店列，房型放在入住日期后面） ==========
     const columns = [
@@ -492,6 +558,10 @@ export default defineComponent({
     onMounted(() => {
       fetchOrders()
       fetchRoomTypes()
+      // 页面加载后延迟1秒显示订单变化通知
+      setTimeout(() => {
+        showRandomOrderNotification()
+      }, 1000)
     })
 
     return {
@@ -506,6 +576,11 @@ export default defineComponent({
       selectedOrder,
       isNoteDialogOpen,
       selectedOrderForNote,
+
+      // 通知系统
+      unreadCount,
+      orderPopupVisible,
+      currentOrderNotification,
 
       // 表格
       columns,
@@ -529,7 +604,12 @@ export default defineComponent({
       getLatestRefundStatus,
       getLatestRefundAmount,
       getRefundAmountText,
-      getRefundAmountClass
+      getRefundAmountClass,
+
+      // 通知方法
+      handleOpenNotificationDrawer,
+      handleMarkOrderRead,
+      handleViewOrderDetail
     }
   }
 })
@@ -816,4 +896,52 @@ export default defineComponent({
 //   align-items: center;
 //   justify-content: center;
 // }
+
+// ========== 顶部导航栏样式 ==========
+.top-navbar {
+  background: @bg-primary;
+  border-bottom: 1px solid @border-primary;
+  box-shadow: @shadow-sm;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  .navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    max-width: 1800px;
+    margin: 0 auto;
+
+    .page-title {
+      font-size: @font-size-2xl;
+      font-weight: @font-weight-semibold;
+      color: @text-primary;
+      margin: 0;
+    }
+
+    .navbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .bell-icon {
+        font-size: 20px;
+        color: @text-secondary;
+        cursor: pointer;
+        transition: color 0.2s;
+
+        &:hover {
+          color: @brand-primary;
+        }
+      }
+
+      :deep(.ant-badge-count) {
+        background-color: @error-color;
+        box-shadow: 0 0 0 1px @bg-primary;
+      }
+    }
+  }
+}
 </style>
