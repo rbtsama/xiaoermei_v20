@@ -44,33 +44,26 @@
 
       <!-- 通知商户 -->
       <a-form-model-item label="通知商户" required>
-        <div class="merchant-select-container">
-          <div class="merchant-list">
-            <a-checkbox
-              v-model="selectAll"
-              :indeterminate="indeterminate"
-              @change="handleSelectAll"
-            >
-              全选
-            </a-checkbox>
-            <div class="merchant-items">
-              <div
-                v-for="merchant in merchants"
-                :key="merchant.id"
-                class="merchant-item"
-              >
-                <a-checkbox
-                  :checked="formData.merchantIds.includes(merchant.id)"
-                  @change="(e) => handleMerchantChange(e, merchant.id)"
-                >
-                  <div class="merchant-info">
-                    <span class="merchant-name">{{ merchant.storeName }}</span>
-                    <span class="merchant-time">上线时间：{{ formatDate(merchant.onlineTime) }}</span>
-                  </div>
-                </a-checkbox>
-              </div>
-            </div>
-          </div>
+        <div class="merchant-table-container">
+          <a-table
+            :columns="merchantColumns"
+            :data-source="merchants"
+            :row-selection="{
+              selectedRowKeys: formData.merchantIds,
+              onChange: handleSelectionChange
+            }"
+            :pagination="false"
+            :scroll="{ y: 300 }"
+            size="small"
+            rowKey="id"
+          >
+            <template slot="storeName" slot-scope="storeName">
+              <span class="store-name">{{ storeName }}</span>
+            </template>
+            <template slot="onlineTime" slot-scope="onlineTime">
+              <span class="online-time">{{ formatDateTime(onlineTime) }}</span>
+            </template>
+          </a-table>
           <div class="selected-count">已选择 {{ formData.merchantIds.length }} 个商户</div>
         </div>
       </a-form-model-item>
@@ -117,19 +110,23 @@ export default defineComponent({
       })
     )
 
-    // 全选状态
-    const selectAll = computed({
-      get: () => formData.merchantIds.length === merchants.value.length,
-      set: (val) => {}
-    })
+    // 商户表格列配置
+    const merchantColumns = [
+      {
+        title: '门店名称',
+        dataIndex: 'storeName',
+        scopedSlots: { customRender: 'storeName' }
+      },
+      {
+        title: '上线时间',
+        dataIndex: 'onlineTime',
+        width: 180,
+        scopedSlots: { customRender: 'onlineTime' }
+      }
+    ]
 
-    // 半选状态
-    const indeterminate = computed(() => {
-      return formData.merchantIds.length > 0 && formData.merchantIds.length < merchants.value.length
-    })
-
-    const formatDate = (datetime) => {
-      return datetime ? dayjs(datetime).format('YYYY-MM-DD') : '-'
+    const formatDateTime = (datetime) => {
+      return datetime ? dayjs(datetime).format('YYYY-MM-DD HH:mm') : '-'
     }
 
     const handleTypeChange = () => {
@@ -139,25 +136,8 @@ export default defineComponent({
       }
     }
 
-    const handleSelectAll = (e) => {
-      if (e.target.checked) {
-        formData.merchantIds = merchants.value.map(m => m.id)
-      } else {
-        formData.merchantIds = []
-      }
-    }
-
-    const handleMerchantChange = (e, merchantId) => {
-      if (e.target.checked) {
-        if (!formData.merchantIds.includes(merchantId)) {
-          formData.merchantIds.push(merchantId)
-        }
-      } else {
-        const index = formData.merchantIds.indexOf(merchantId)
-        if (index > -1) {
-          formData.merchantIds.splice(index, 1)
-        }
-      }
+    const handleSelectionChange = (selectedRowKeys) => {
+      formData.merchantIds = selectedRowKeys
     }
 
     const handleSubmit = async () => {
@@ -209,13 +189,11 @@ export default defineComponent({
       submitting,
       formData,
       merchants,
-      selectAll,
-      indeterminate,
+      merchantColumns,
       NotificationType,
-      formatDate,
+      formatDateTime,
       handleTypeChange,
-      handleSelectAll,
-      handleMerchantChange,
+      handleSelectionChange,
       handleSubmit,
       handleCancel
     }
@@ -257,64 +235,43 @@ export default defineComponent({
   line-height: 1.4;
 }
 
-.merchant-select-container {
+.merchant-table-container {
   border: 1px solid @border-primary;
   border-radius: @border-radius-base;
   overflow: hidden;
 
-  .merchant-list {
-    padding: 12px;
-    background: @bg-secondary;
-    max-height: 300px;
-    overflow-y: auto;
-
-    > .ant-checkbox-wrapper {
-      display: block;
-      margin-bottom: 12px;
-      padding-bottom: 12px;
+  :deep(.ant-table) {
+    .ant-table-thead > tr > th {
+      background: @bg-secondary;
       border-bottom: 1px solid @border-primary;
+      color: @text-primary;
       font-weight: @font-weight-semibold;
+      font-size: @font-size-sm;
+      padding: 10px 12px;
     }
 
-    .merchant-items {
-      margin-top: 8px;
+    .ant-table-tbody > tr {
+      &:hover > td {
+        background: @bg-hover;
+      }
 
-      .merchant-item {
-        margin-bottom: 8px;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-
-        :deep(.ant-checkbox-wrapper) {
-          width: 100%;
-          padding: 8px;
-          border-radius: @border-radius-base;
-          transition: background-color 0.2s;
-
-          &:hover {
-            background-color: @bg-hover;
-          }
-        }
-
-        .merchant-info {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-
-          .merchant-name {
-            font-size: @font-size-base;
-            color: @text-primary;
-            font-weight: @font-weight-medium;
-          }
-
-          .merchant-time {
-            font-size: @font-size-xs;
-            color: @text-secondary;
-          }
-        }
+      > td {
+        border-bottom: 1px solid @border-primary;
+        padding: 10px 12px;
+        font-size: @font-size-sm;
+        color: @text-primary;
       }
     }
+  }
+
+  .store-name {
+    font-size: @font-size-sm;
+    color: @text-primary;
+  }
+
+  .online-time {
+    font-size: @font-size-sm;
+    color: @text-secondary;
   }
 
   .selected-count {
