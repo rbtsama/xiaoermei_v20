@@ -38,8 +38,11 @@
         @close="orderPopupVisible = false"
       />
 
-      <!-- 通知抽屉（待创建） -->
-      <!-- TODO: 添加通知抽屉组件 -->
+      <!-- 通知抽屉 -->
+      <notification-drawer
+        :visible.sync="notificationDrawerVisible"
+        @close="notificationDrawerVisible = false"
+      />
 
       <!-- 筛选表单 - 按PRD优化 -->
       <a-card class="rounded-lg border-slate-200 bg-white shadow-sm">
@@ -275,6 +278,7 @@ import Sidebar from '@/components/Layout/Sidebar.vue'
 import OrderDetailDialog from './components/OrderDetailDialog.vue'
 import MerchantNoteDialog from './components/MerchantNoteDialog.vue'
 import OrderNotificationPopup from '@/views/MerchantBackend/components/OrderNotificationPopup.vue'
+import NotificationDrawer from '@/views/MerchantBackend/components/NotificationDrawer.vue'
 import OrderListService from './services/orderList.service'
 import type { Order, OrderFilterParams } from '@/views/PlatformAdmin/OrderManagement/types/order.types'
 import { OrderStatus, ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } from '@/views/PlatformAdmin/OrderManagement/types/order.types'
@@ -287,7 +291,8 @@ export default defineComponent({
     Sidebar,
     OrderDetailDialog,
     MerchantNoteDialog,
-    OrderNotificationPopup
+    OrderNotificationPopup,
+    NotificationDrawer
   },
 
   setup(props, { root }) {
@@ -331,6 +336,9 @@ export default defineComponent({
     const orderPopupVisible = ref(false)
     const currentOrderNotification = ref<any>({})
 
+    // 通知抽屉
+    const notificationDrawerVisible = ref(false)
+
     // 页面加载时随机显示一个订单变化通知
     const showRandomOrderNotification = () => {
       if (mockOrderChangeNotifications.length > 0) {
@@ -342,8 +350,7 @@ export default defineComponent({
 
     // 打开通知抽屉
     const handleOpenNotificationDrawer = () => {
-      // TODO: 打开通知抽屉
-      root.$message.info('通知抽屉功能开发中...')
+      notificationDrawerVisible.value = true
     }
 
     // 标记订单变化为已读
@@ -581,6 +588,7 @@ export default defineComponent({
       unreadCount,
       orderPopupVisible,
       currentOrderNotification,
+      notificationDrawerVisible,
 
       // 表格
       columns,
