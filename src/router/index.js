@@ -77,6 +77,14 @@ const routes = [
     meta: { title: '积分操作记录' }
   },
 
+  // 平台后台 - 通知管理
+  {
+    path: '/platform-admin/notification-management/task',
+    name: 'NotificationTask',
+    component: () => import('@/views/PlatformAdmin/NotificationManagement/NotificationTaskPage.vue'),
+    meta: { title: '通知任务' }
+  },
+
   // 平台后台 - 短信配置
   {
     path: '/platform-admin/sms-config',
