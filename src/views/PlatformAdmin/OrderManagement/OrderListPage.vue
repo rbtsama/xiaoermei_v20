@@ -100,17 +100,19 @@
             </div>
           </div>
         </div>
-      </a-card>
 
-      <!-- 订单列表 -->
-      <a-card class="rounded-lg border-slate-200 bg-white shadow-sm">
-        <div slot="title" class="flex justify-between items-center w-full">
-          <span class="text-lg font-semibold text-primary">订单列表</span>
-          <a-button @click="handleExport" :loading="exporting">
+        <!-- 第三行：导出按钮 -->
+        <div class="flex justify-end mt-4">
+          <a-button class="h-9 export-btn" :loading="exporting" @click="handleExport">
             <a-icon type="download" />
             导出
           </a-button>
         </div>
+      </a-card>
+
+      <!-- 订单列表 -->
+      <a-card class="rounded-lg border-slate-200 bg-white shadow-sm">
+        <div slot="title" class="text-lg font-semibold text-primary">订单列表</div>
 
         <div class="border border-slate-200 rounded-lg overflow-hidden">
           <a-table
@@ -778,6 +780,25 @@ export default defineComponent({
     &:hover {
       background-color: @bg-hover;  // hover 背景色
     }
+  }
+}
+
+// 导出按钮样式
+.export-btn {
+  background: @success-color;
+  border-color: @success-color;
+  color: #ffffff;
+
+  &:hover {
+    background: #059669;
+    border-color: #059669;
+    color: #ffffff;
+  }
+
+  &:focus {
+    background: @success-color;
+    border-color: @success-color;
+    color: #ffffff;
   }
 }
 </style>
