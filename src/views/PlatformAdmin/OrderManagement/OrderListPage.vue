@@ -89,7 +89,7 @@
           <!-- 按钮区域 -->
           <div class="space-y-2 col-span-3">
             <label class="text-sm text-secondary" style="visibility: hidden;">占位</label>
-            <div class="flex gap-2">
+            <div class="flex gap-2 justify-end">
               <a-button type="primary" class="h-9 bg-blue-600" @click="handleSearch">
                 <a-icon type="search" />
                 搜索
@@ -97,16 +97,12 @@
               <a-button class="h-9 border-slate-300" @click="handleReset">
                 重置
               </a-button>
+              <a-button class="h-9 export-btn" :loading="exporting" @click="handleExport">
+                <a-icon type="download" />
+                导出
+              </a-button>
             </div>
           </div>
-        </div>
-
-        <!-- 第三行：导出按钮 -->
-        <div class="flex justify-end mt-4">
-          <a-button class="h-9 export-btn" :loading="exporting" @click="handleExport">
-            <a-icon type="download" />
-            导出
-          </a-button>
         </div>
       </a-card>
 
