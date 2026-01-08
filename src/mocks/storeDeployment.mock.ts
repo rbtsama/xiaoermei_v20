@@ -184,15 +184,17 @@ export const mockCompleteData: StoreDeploymentForm = {
       {
         id: 'trans_001',
         locationName: '桐庐站',
+        travelMode: 'driving',
         distance: 24,
-        drivingTime: 25,
+        travelTime: 25,
         featured: true
       },
       {
         id: 'trans_002',
         locationName: '杭州东站',
+        travelMode: 'driving',
         distance: 68,
-        drivingTime: 65,
+        travelTime: 65,
         featured: false
       }
     ],
@@ -200,15 +202,17 @@ export const mockCompleteData: StoreDeploymentForm = {
       {
         id: 'attr_001',
         locationName: '富春江镇',
+        travelMode: 'driving',
         distance: 12,
-        drivingTime: 15,
+        travelTime: 15,
         featured: true
       },
       {
         id: 'attr_002',
         locationName: '芦茨湾',
+        travelMode: 'walking',
         distance: 0.5,
-        drivingTime: 2,
+        travelTime: 2,
         featured: false
       }
     ],
@@ -216,8 +220,9 @@ export const mockCompleteData: StoreDeploymentForm = {
       {
         id: 'food_001',
         locationName: '芦茨村',
+        travelMode: 'walking',
         distance: 2,
-        drivingTime: 10,
+        travelTime: 10,
         featured: false
       }
     ]

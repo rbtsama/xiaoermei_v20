@@ -82,6 +82,7 @@ export interface AccountInfo {
  */
 export interface StoreBasicInfo {
   storeName: string             // 门店名称
+  storeRegionArray?: string[]   // 省市区数组（平台预设，只读）
   storeAddress: string          // 详细地址
   roomCount: number             // 房间数量
   openingYear: string           // 开业时间
