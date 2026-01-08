@@ -104,8 +104,8 @@
 
       <!-- 订单列表 -->
       <a-card class="rounded-lg border-slate-200 bg-white shadow-sm">
-        <div slot="title" class="flex justify-between items-center w-full">
-          <span class="text-lg font-semibold text-primary">订单列表</span>
+        <div slot="title" class="text-lg font-semibold text-primary">订单列表</div>
+        <div slot="extra">
           <a-button class="export-btn" :loading="exporting" @click="handleExport">
             <a-icon type="download" />
             导出
