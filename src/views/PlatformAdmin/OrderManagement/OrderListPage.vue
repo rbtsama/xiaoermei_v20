@@ -104,7 +104,13 @@
 
       <!-- 订单列表 -->
       <a-card class="rounded-lg border-slate-200 bg-white shadow-sm">
-        <div slot="title" class="text-lg font-semibold text-primary">订单列表</div>
+        <div slot="title" class="flex justify-between items-center w-full">
+          <span class="text-lg font-semibold text-primary">订单列表</span>
+          <a-button @click="handleExport" :loading="exporting">
+            <a-icon type="download" />
+            导出
+          </a-button>
+        </div>
 
         <div class="border border-slate-200 rounded-lg overflow-hidden">
           <a-table
@@ -228,6 +234,7 @@ export default defineComponent({
   setup() {
     // ========== 状态管理 ==========
     const loading = ref(false)
+    const exporting = ref(false)
     const orders = ref<Order[]>([])
     const total = ref(0)
     const currentPage = ref(1)
@@ -329,6 +336,72 @@ export default defineComponent({
       isDetailDialogOpen.value = true
     }
 
+    /**
+     * 导出当前筛选的订单数据
+     */
+    const handleExport = async () => {
+      exporting.value = true
+      try {
+        // TODO: 调用API获取当前筛选条件下的所有订单数据
+
+        // 定义导出表头（28个字段）
+        const headers = [
+          // 基础信息
+          '订单号',
+          '订单状态',
+          '下单时间',
+          '支付单号',
+          '支付时间',
+          // 入住信息
+          '酒店名称',
+          '房型名称',
+          '入住日期',
+          '离店日期',
+          '入住晚数',
+          '预订间数',
+          '入住人数',
+          '下单人',
+          '下单人手机号',
+          '入住人',
+          '入住人手机号',
+          '房间号',
+          // 支付明细
+          '房费小计',
+          '优惠券优惠',
+          '积分抵扣',
+          '会员折扣',
+          '实付金额',
+          // 积分服务
+          '积分奖励',
+          '积分换购',
+          // 退款记录
+          '退款状态',
+          '退款金额',
+          '退款处理时间',
+          // 其他
+          '商家备注'
+        ]
+
+        // 模拟导出（生成CSV文件）
+        const csvContent = '\uFEFF' + headers.join(',') + '\n'
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+        const url = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.download = `订单列表_${new Date().getTime()}.csv`
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        window.URL.revokeObjectURL(url)
+
+        // TODO: 后续接入真实API时，需要实现完整的数据取值逻辑
+      } catch (error) {
+        console.error('导出失败:', error)
+      } finally {
+        exporting.value = false
+      }
+    }
+
     // ========== 样式辅助 ==========
     const getStatusTagClass = (status: OrderStatus) => {
       const color = ORDER_STATUS_COLORS[status]
@@ -401,6 +474,7 @@ export default defineComponent({
     return {
       // 状态
       loading,
+      exporting,
       orders,
       filters,
       orderCreatedRange,
@@ -421,6 +495,7 @@ export default defineComponent({
       handleReset,
       handleTableChange,
       handleViewDetail,
+      handleExport,
       getStatusTagClass,
       getRefundStatusClass,
       getLatestRefundStatus,
