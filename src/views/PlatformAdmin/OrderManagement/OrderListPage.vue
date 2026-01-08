@@ -100,19 +100,17 @@
             </div>
           </div>
         </div>
-
-        <!-- 第三行：导出按钮 -->
-        <div class="flex justify-end mt-4">
-          <a-button class="h-9 export-btn" :loading="exporting" @click="handleExport">
-            <a-icon type="download" />
-            导出
-          </a-button>
-        </div>
       </a-card>
 
       <!-- 订单列表 -->
       <a-card class="rounded-lg border-slate-200 bg-white shadow-sm">
-        <div slot="title" class="text-lg font-semibold text-primary">订单列表</div>
+        <div slot="title" class="flex justify-between items-center w-full">
+          <span class="text-lg font-semibold text-primary">订单列表</span>
+          <a-button class="export-btn" :loading="exporting" @click="handleExport">
+            <a-icon type="download" />
+            导出
+          </a-button>
+        </div>
 
         <div class="border border-slate-200 rounded-lg overflow-hidden">
           <a-table
