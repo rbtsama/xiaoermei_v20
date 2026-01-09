@@ -32,119 +32,56 @@
         <div class="section">
           <label class="section-label">会员等级设置</label>
           <a-radio-group v-model="selectedVipLevel" class="vip-radio-group">
-            <a-radio :value="0">
-              <span class="vip-level-with-tip">
-                注册会员
-                <a-tooltip placement="top" overlayClassName="vip-tooltip">
-                  <template slot="title">
-                    <div class="vip-info-content">
-                      <div class="info-row">
-                        <span class="info-label">获得等级条件：</span>
-                        <span class="info-value">注册即享</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">会员权益：</span>
-                        <span class="info-value">-</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">等级有效期：</span>
-                        <span class="info-value">-</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">保级规则：</span>
-                        <span class="info-value">-</span>
-                      </div>
-                    </div>
-                  </template>
-                  <a-icon type="question-circle" class="vip-help-icon" />
-                </a-tooltip>
-              </span>
-            </a-radio>
-            <a-radio :value="1">
-              <span class="vip-level-with-tip">
-                VIP1
-                <a-tooltip placement="top" overlayClassName="vip-tooltip">
-                  <template slot="title">
-                    <div class="vip-info-content">
-                      <div class="info-row">
-                        <span class="info-label">获得等级条件：</span>
-                        <span class="info-value">预订1次及以上</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">会员权益：</span>
-                        <span class="info-value">获得等返回可购送亲友*1，消费1元累计1里程值</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">等级有效期：</span>
-                        <span class="info-value">2年</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">保级规则：</span>
-                        <span class="info-value">预订1次及以上</span>
-                      </div>
-                    </div>
-                  </template>
-                  <a-icon type="question-circle" class="vip-help-icon" />
-                </a-tooltip>
-              </span>
-            </a-radio>
-            <a-radio :value="2">
-              <span class="vip-level-with-tip">
-                VIP2
-                <a-tooltip placement="top" overlayClassName="vip-tooltip">
-                  <template slot="title">
-                    <div class="vip-info-content">
-                      <div class="info-row">
-                        <span class="info-label">获得等级条件：</span>
-                        <span class="info-value">预订5次及以上</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">会员权益：</span>
-                        <span class="info-value">获得等返回可购送亲友*2，消费1元累计1里程值</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">等级有效期：</span>
-                        <span class="info-value">2年</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">保级规则：</span>
-                        <span class="info-value">预订3次及以上</span>
-                      </div>
-                    </div>
-                  </template>
-                  <a-icon type="question-circle" class="vip-help-icon" />
-                </a-tooltip>
-              </span>
-            </a-radio>
-            <a-radio :value="3">
-              <span class="vip-level-with-tip">
-                VIP3
-                <a-tooltip placement="top" overlayClassName="vip-tooltip">
-                  <template slot="title">
-                    <div class="vip-info-content">
-                      <div class="info-row">
-                        <span class="info-label">获得等级条件：</span>
-                        <span class="info-value">预订10次及以上</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">会员权益：</span>
-                        <span class="info-value">获得等返回可购送亲友*3，消费1元累计1里程值</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">等级有效期：</span>
-                        <span class="info-value">2年</span>
-                      </div>
-                      <div class="info-row">
-                        <span class="info-label">保级规则：</span>
-                        <span class="info-value">预订6次及以上</span>
-                      </div>
-                    </div>
-                  </template>
-                  <a-icon type="question-circle" class="vip-help-icon" />
-                </a-tooltip>
-              </span>
-            </a-radio>
+            <a-radio :value="0">注册会员</a-radio>
+            <a-radio :value="1">VIP1</a-radio>
+            <a-radio :value="2">VIP2</a-radio>
+            <a-radio :value="3">VIP3</a-radio>
           </a-radio-group>
+
+          <!-- VIP等级规则表格 -->
+          <div class="vip-rules-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>会员等级</th>
+                  <th>获得等级条件</th>
+                  <th>会员权益</th>
+                  <th>等级有效期</th>
+                  <th>保级规则</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="level-name">注册会员</td>
+                  <td>注册即享</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td class="level-name">VIP1</td>
+                  <td>预订1次及以上</td>
+                  <td>获得等返回可购送亲友*1，消费1元累计1里程值</td>
+                  <td>2年</td>
+                  <td>预订1次及以上</td>
+                </tr>
+                <tr>
+                  <td class="level-name">VIP2</td>
+                  <td>预订5次及以上</td>
+                  <td>获得等返回可购送亲友*2，消费1元累计1里程值</td>
+                  <td>2年</td>
+                  <td>预订3次及以上</td>
+                </tr>
+                <tr>
+                  <td class="level-name">VIP3</td>
+                  <td>预订10次及以上</td>
+                  <td>获得等返回可购送亲友*3，消费1元累计1里程值</td>
+                  <td>2年</td>
+                  <td>预订6次及以上</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <!-- 3. 内容区域（根据邀请方式显示不同内容） -->
@@ -933,26 +870,84 @@ export default defineComponent({
 .vip-radio-group {
   display: flex;
   gap: 24px;
+  margin-bottom: 20px;
 
   :deep(.ant-radio-wrapper) {
     font-size: @font-size-base;
     color: @text-primary;
   }
+}
 
-  .vip-level-with-tip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    white-space: nowrap;
+.vip-rules-table {
+  margin-top: 16px;
+  border-radius: @border-radius-base;
+  border: 1px solid @border-primary;
+  overflow: hidden;
 
-    .vip-help-icon {
-      font-size: @font-size-base;
-      color: @text-tertiary;
-      cursor: help;
-      transition: color 0.2s;
+  table {
+    width: 100%;
+    border-collapse: collapse;
 
-      &:hover {
-        color: @brand-primary;
+    thead {
+      background: @bg-secondary;
+
+      tr {
+        th {
+          padding: 12px 16px;
+          text-align: left;
+          font-size: @font-size-base;
+          font-weight: @font-weight-semibold;
+          color: @text-primary;
+          border-bottom: 1px solid @border-primary;
+
+          &:first-child {
+            width: 120px;
+          }
+
+          &:nth-child(2) {
+            width: 150px;
+          }
+
+          &:nth-child(3) {
+            min-width: 280px;
+          }
+
+          &:nth-child(4) {
+            width: 100px;
+          }
+
+          &:nth-child(5) {
+            width: 150px;
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        transition: background 0.2s;
+
+        &:hover {
+          background: @bg-hover;
+        }
+
+        &:not(:last-child) {
+          td {
+            border-bottom: 1px solid @border-primary;
+          }
+        }
+
+        td {
+          padding: 12px 16px;
+          font-size: @font-size-sm;
+          color: @text-primary;
+          line-height: 1.6;
+
+          &.level-name {
+            font-weight: @font-weight-medium;
+            color: @brand-primary;
+          }
+        }
       }
     }
   }
@@ -1153,48 +1148,4 @@ export default defineComponent({
   }
 }
 
-// VIP等级提示Tooltip样式（全局样式，与Tab3保持一致）
-:global(.vip-tooltip) {
-  max-width: 500px;
-
-  :deep(.ant-tooltip-inner) {
-    padding: 16px 20px;
-    background: @bg-primary;
-    border: 1px solid @border-primary;
-    box-shadow: @shadow-lg;
-    color: @text-primary;
-  }
-
-  :deep(.ant-tooltip-arrow::before) {
-    background: @bg-primary;
-    border: 1px solid @border-primary;
-  }
-
-  .vip-info-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    .info-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      line-height: 1.5;
-
-      .info-label {
-        font-size: @font-size-sm;
-        font-weight: @font-weight-semibold;
-        color: @text-primary;
-        white-space: nowrap;
-        flex-shrink: 0;
-      }
-
-      .info-value {
-        font-size: @font-size-sm;
-        color: @text-primary;
-        flex: 1;
-      }
-    }
-  }
-}
 </style>
