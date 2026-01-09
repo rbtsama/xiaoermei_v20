@@ -26,18 +26,23 @@
           rowKey="id"
           class="custom-table"
         >
-          <!-- 通知类型 -->
-          <template slot="type" slot-scope="type">
-            <a-tag :class="getTypeTagClass(type)">
-              {{ getTypeName(type) }}
-            </a-tag>
-          </template>
-
           <!-- 内容 -->
           <template slot="content" slot-scope="content">
             <div class="content-cell">
               {{ content }}
             </div>
+          </template>
+
+          <!-- 需要同意 -->
+          <template slot="requireAgreement" slot-scope="requireAgreement">
+            <a-tag v-if="requireAgreement" class="tag-orange">是</a-tag>
+            <span v-else class="text-gray">否</span>
+          </template>
+
+          <!-- 跳转链接 -->
+          <template slot="link" slot-scope="link">
+            <span v-if="link" class="link-text">{{ link }}</span>
+            <span v-else class="text-gray">无</span>
           </template>
 
           <!-- 发送商户 -->
@@ -87,7 +92,6 @@ import { defineComponent, ref, reactive } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import CreateNotificationDialog from './CreateNotificationDialog.vue'
 import { mockNotificationRecords } from '@/mocks/notification.mock'
-import { NotificationType } from '@/types/notification'
 import dayjs from 'dayjs'
 
 export default defineComponent({
@@ -115,15 +119,21 @@ export default defineComponent({
 
     const columns = [
       {
-        title: '类型',
-        dataIndex: 'type',
-        width: 120,
-        scopedSlots: { customRender: 'type' }
-      },
-      {
         title: '内容',
         dataIndex: 'content',
         scopedSlots: { customRender: 'content' }
+      },
+      {
+        title: '需要同意',
+        dataIndex: 'requireAgreement',
+        width: 100,
+        scopedSlots: { customRender: 'requireAgreement' }
+      },
+      {
+        title: '跳转链接',
+        dataIndex: 'link',
+        width: 180,
+        scopedSlots: { customRender: 'link' }
       },
       {
         title: '发送商户',
@@ -142,24 +152,6 @@ export default defineComponent({
         scopedSlots: { customRender: 'sentAt' }
       }
     ]
-
-    const getTypeName = (type) => {
-      const typeMap = {
-        [NotificationType.NOTIFICATION]: '通知',
-        [NotificationType.AGREEMENT_REQUIRED]: '需同意通知',
-        [NotificationType.TASK]: '任务'
-      }
-      return typeMap[type] || '-'
-    }
-
-    const getTypeTagClass = (type) => {
-      const classMap = {
-        [NotificationType.NOTIFICATION]: 'tag-blue',
-        [NotificationType.AGREEMENT_REQUIRED]: 'tag-orange',
-        [NotificationType.TASK]: 'tag-purple'
-      }
-      return classMap[type] || 'tag-gray'
-    }
 
     const formatDate = (datetime) => {
       return datetime ? dayjs(datetime).format('YYYY-MM-DD') : '-'
@@ -192,8 +184,6 @@ export default defineComponent({
       dialogVisible,
       merchantDialogVisible,
       currentMerchantListText,
-      getTypeName,
-      getTypeTagClass,
       formatDate,
       formatTime,
       handleCreateTask,
@@ -294,5 +284,16 @@ export default defineComponent({
   color: @text-primary;
   line-height: 1.8;
   padding: 8px 0;
+}
+
+.text-gray {
+  color: @text-tertiary;
+  font-size: @font-size-sm;
+}
+
+.link-text {
+  color: @brand-primary;
+  font-size: @font-size-sm;
+  word-break: break-all;
 }
 </style>
