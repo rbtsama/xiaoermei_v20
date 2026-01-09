@@ -98,43 +98,37 @@
 
             <!-- 通知操作按钮 -->
             <div class="notification-actions">
-              <!-- 普通通知：已读按钮 -->
-              <template v-if="item.type === NotificationType.NOTIFICATION">
+              <template v-if="item.status === NotificationStatus.UNREAD">
+                <!-- 需要同意：显示同意按钮（主按钮） -->
                 <a-button
-                  v-if="item.status === NotificationStatus.UNREAD"
-                  type="primary"
-                  size="small"
-                  @click="handleMarkRead(item.id)"
-                >
-                  已读
-                </a-button>
-                <span v-else class="read-tag">已读</span>
-              </template>
-
-              <!-- 需同意通知：同意按钮 -->
-              <template v-else-if="item.type === NotificationType.AGREEMENT_REQUIRED">
-                <a-button
-                  v-if="item.status === NotificationStatus.UNREAD"
+                  v-if="item.requireAgreement"
                   type="primary"
                   size="small"
                   @click="handleAgree(item.id)"
                 >
                   同意
                 </a-button>
-                <span v-else class="agreed-tag">已同意</span>
-              </template>
-
-              <!-- 任务：去查看按钮 -->
-              <template v-else-if="item.type === NotificationType.TASK">
+                <!-- 有跳转链接：显示查看详情按钮（副按钮） -->
                 <a-button
-                  v-if="item.status === NotificationStatus.UNREAD"
-                  type="primary"
+                  v-else-if="item.link"
                   size="small"
                   @click="handleViewTask(item.id, item.link)"
                 >
-                  去查看
+                  查看详情
                 </a-button>
-                <span v-else class="read-tag">已完成</span>
+                <!-- 普通通知：显示已读按钮（主按钮） -->
+                <a-button
+                  v-else
+                  type="primary"
+                  size="small"
+                  @click="handleMarkRead(item.id)"
+                >
+                  已读
+                </a-button>
+              </template>
+              <template v-else>
+                <span v-if="item.status === NotificationStatus.AGREED" class="agreed-tag">已同意</span>
+                <span v-else class="read-tag">已读</span>
               </template>
             </div>
           </div>
@@ -152,7 +146,7 @@
 
 <script>
 import { defineComponent, ref } from '@vue/composition-api'
-import { NotificationType, NotificationStatus, OrderChangeType } from '@/types/notification'
+import { NotificationStatus, OrderChangeType } from '@/types/notification'
 import { mockNotifications, mockOrderChangeNotifications } from '@/mocks/notification.mock'
 import dayjs from 'dayjs'
 
@@ -199,9 +193,9 @@ export default defineComponent({
     }
 
     const handleMarkAllRead = () => {
-      // 标记所有普通通知为已读
+      // 标记所有不需要同意且没有链接的通知为已读
       notifications.value = notifications.value.map(item => {
-        if (item.type === NotificationType.NOTIFICATION && item.status === NotificationStatus.UNREAD) {
+        if (!item.requireAgreement && !item.link && item.status === NotificationStatus.UNREAD) {
           return { ...item, status: NotificationStatus.READ }
         }
         return item
@@ -260,7 +254,6 @@ export default defineComponent({
       activeTab,
       notifications,
       orderNotifications,
-      NotificationType,
       NotificationStatus,
       OrderChangeType,
       formatTime,
