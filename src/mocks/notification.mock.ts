@@ -19,6 +19,15 @@ import {
 export const mockNotifications: NotificationItem[] = [
   {
     id: 'notif-1',
+    title: '酒店协议已更新',
+    content: '酒店服务协议已更新，请点击查看详情阅读后同意。',
+    requireAgreement: true,
+    link: '/merchant-backend/join-application/apply',
+    status: NotificationStatus.UNREAD,
+    createdAt: '2026-01-08 14:20:00'
+  },
+  {
+    id: 'notif-2',
     title: '系统维护通知',
     content: '平台将于2026年1月10日凌晨2:00-4:00进行系统维护，期间可能影响部分功能使用，请提前做好准备。',
     requireAgreement: false,
@@ -26,7 +35,7 @@ export const mockNotifications: NotificationItem[] = [
     createdAt: '2026-01-07 10:30:00'
   },
   {
-    id: 'notif-2',
+    id: 'notif-3',
     title: '服务协议更新',
     content: '平台服务协议已更新，请仔细阅读并同意最新版本的服务协议，以便继续使用平台服务。',
     requireAgreement: true,
@@ -34,7 +43,7 @@ export const mockNotifications: NotificationItem[] = [
     createdAt: '2026-01-06 15:20:00'
   },
   {
-    id: 'notif-3',
+    id: 'notif-4',
     title: '完善门店信息',
     content: '您的门店信息尚未完善，请尽快补充门店照片和描述，以提升曝光率。',
     requireAgreement: false,
@@ -43,7 +52,7 @@ export const mockNotifications: NotificationItem[] = [
     createdAt: '2026-01-05 09:15:00'
   },
   {
-    id: 'notif-4',
+    id: 'notif-5',
     title: '春节营销活动',
     content: '平台将于1月20日启动春节营销活动，现已开放报名，参与活动可获得流量扶持和优惠券支持。',
     requireAgreement: false,
@@ -51,7 +60,7 @@ export const mockNotifications: NotificationItem[] = [
     createdAt: '2026-01-04 14:00:00'
   },
   {
-    id: 'notif-5',
+    id: 'notif-6',
     title: '隐私政策更新',
     content: '根据最新法律法规要求，平台隐私政策已更新，请仔细阅读并同意。',
     requireAgreement: true,
@@ -59,7 +68,7 @@ export const mockNotifications: NotificationItem[] = [
     createdAt: '2026-01-03 11:30:00'
   },
   {
-    id: 'notif-6',
+    id: 'notif-7',
     title: '配置支付结算信息',
     content: '检测到您尚未配置支付结算信息，请尽快完成配置以便正常收款。',
     requireAgreement: false,
@@ -107,6 +116,16 @@ export const mockOrderChangeNotifications: OrderChangeNotification[] = [
 export const mockNotificationRecords: NotificationRecord[] = [
   {
     id: 'record-1',
+    content: '酒店协议已更新，请点击查看详情阅读后同意。',
+    requireAgreement: true,
+    link: '/merchant-backend/join-application/apply',
+    merchantList: ['原乡芦茨', '云栖山居', '溪山行旅'],
+    merchantCount: 3,
+    senderName: '张管理员',
+    sentAt: '2026-01-08 14:20:00'
+  },
+  {
+    id: 'record-2',
     content: '平台将于2026年1月10日凌晨2:00-4:00进行系统维护，期间可能影响部分功能使用，请提前做好准备。',
     requireAgreement: false,
     merchantList: ['原乡芦茨', '云栖山居', '溪山行旅', '桐庐山庄', '富春江畔'],
@@ -115,7 +134,7 @@ export const mockNotificationRecords: NotificationRecord[] = [
     sentAt: '2026-01-07 10:30:00'
   },
   {
-    id: 'record-2',
+    id: 'record-3',
     content: '平台服务协议已更新，请仔细阅读并同意最新版本的服务协议，以便继续使用平台服务。',
     requireAgreement: true,
     merchantList: ['原乡芦茨', '云栖山居', '溪山行旅'],
@@ -124,7 +143,7 @@ export const mockNotificationRecords: NotificationRecord[] = [
     sentAt: '2026-01-06 15:20:00'
   },
   {
-    id: 'record-3',
+    id: 'record-4',
     content: '您的门店信息尚未完善，请尽快补充门店照片和描述，以提升曝光率。',
     requireAgreement: false,
     link: '/merchant-backend/join-application/apply',
@@ -134,7 +153,7 @@ export const mockNotificationRecords: NotificationRecord[] = [
     sentAt: '2026-01-05 09:15:00'
   },
   {
-    id: 'record-4',
+    id: 'record-5',
     content: '平台将于1月20日启动春节营销活动，现已开放报名，参与活动可获得流量扶持和优惠券支持。',
     requireAgreement: false,
     merchantList: ['原乡芦茨', '云栖山居', '溪山行旅', '桐庐山庄', '富春江畔', '山水间', '竹林小筑', '梅岭客栈'],
@@ -143,7 +162,7 @@ export const mockNotificationRecords: NotificationRecord[] = [
     sentAt: '2026-01-04 14:00:00'
   },
   {
-    id: 'record-5',
+    id: 'record-6',
     content: '根据最新法律法规要求，平台隐私政策已更新，请仔细阅读并同意。',
     requireAgreement: true,
     merchantList: ['原乡芦茨', '云栖山居', '溪山行旅', '桐庐山庄', '富春江畔', '山水间'],
