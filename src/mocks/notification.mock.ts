@@ -9,7 +9,6 @@ import type {
   MerchantInfo
 } from '@/types/notification'
 import {
-  NotificationType,
   NotificationStatus,
   OrderChangeType
 } from '@/types/notification'
@@ -20,51 +19,51 @@ import {
 export const mockNotifications: NotificationItem[] = [
   {
     id: 'notif-1',
-    type: NotificationType.NOTIFICATION,
     title: '系统维护通知',
     content: '平台将于2026年1月10日凌晨2:00-4:00进行系统维护，期间可能影响部分功能使用，请提前做好准备。',
+    requireAgreement: false,
     status: NotificationStatus.UNREAD,
     createdAt: '2026-01-07 10:30:00'
   },
   {
     id: 'notif-2',
-    type: NotificationType.AGREEMENT_REQUIRED,
     title: '服务协议更新',
     content: '平台服务协议已更新，请仔细阅读并同意最新版本的服务协议，以便继续使用平台服务。',
+    requireAgreement: true,
     status: NotificationStatus.UNREAD,
     createdAt: '2026-01-06 15:20:00'
   },
   {
     id: 'notif-3',
-    type: NotificationType.TASK,
     title: '完善门店信息',
     content: '您的门店信息尚未完善，请尽快补充门店照片和描述，以提升曝光率。',
-    link: '/merchant-backend/store-config',
+    requireAgreement: false,
+    link: '/merchant-backend/join-application/apply',
     status: NotificationStatus.UNREAD,
     createdAt: '2026-01-05 09:15:00'
   },
   {
     id: 'notif-4',
-    type: NotificationType.NOTIFICATION,
     title: '春节营销活动',
     content: '平台将于1月20日启动春节营销活动，现已开放报名，参与活动可获得流量扶持和优惠券支持。',
+    requireAgreement: false,
     status: NotificationStatus.READ,
     createdAt: '2026-01-04 14:00:00'
   },
   {
     id: 'notif-5',
-    type: NotificationType.AGREEMENT_REQUIRED,
     title: '隐私政策更新',
     content: '根据最新法律法规要求，平台隐私政策已更新，请仔细阅读并同意。',
+    requireAgreement: true,
     status: NotificationStatus.AGREED,
     createdAt: '2026-01-03 11:30:00'
   },
   {
     id: 'notif-6',
-    type: NotificationType.TASK,
     title: '配置支付结算信息',
     content: '检测到您尚未配置支付结算信息，请尽快完成配置以便正常收款。',
-    link: '/merchant-backend/store-config',
+    requireAgreement: false,
+    link: '/merchant-backend/join-application/apply',
     status: NotificationStatus.READ,
     createdAt: '2026-01-02 16:45:00'
   }
@@ -108,8 +107,8 @@ export const mockOrderChangeNotifications: OrderChangeNotification[] = [
 export const mockNotificationRecords: NotificationRecord[] = [
   {
     id: 'record-1',
-    type: NotificationType.NOTIFICATION,
     content: '平台将于2026年1月10日凌晨2:00-4:00进行系统维护，期间可能影响部分功能使用，请提前做好准备。',
+    requireAgreement: false,
     merchantList: ['原乡芦茨', '云栖山居', '溪山行旅', '桐庐山庄', '富春江畔'],
     merchantCount: 5,
     senderName: '张管理员',
@@ -117,8 +116,8 @@ export const mockNotificationRecords: NotificationRecord[] = [
   },
   {
     id: 'record-2',
-    type: NotificationType.AGREEMENT_REQUIRED,
     content: '平台服务协议已更新，请仔细阅读并同意最新版本的服务协议，以便继续使用平台服务。',
+    requireAgreement: true,
     merchantList: ['原乡芦茨', '云栖山居', '溪山行旅'],
     merchantCount: 3,
     senderName: '李运营',
@@ -126,9 +125,9 @@ export const mockNotificationRecords: NotificationRecord[] = [
   },
   {
     id: 'record-3',
-    type: NotificationType.TASK,
     content: '您的门店信息尚未完善，请尽快补充门店照片和描述，以提升曝光率。',
-    link: '/merchant-backend/store-config',
+    requireAgreement: false,
+    link: '/merchant-backend/join-application/apply',
     merchantList: ['原乡芦茨', '桐庐山庄'],
     merchantCount: 2,
     senderName: '王运营',
@@ -136,8 +135,8 @@ export const mockNotificationRecords: NotificationRecord[] = [
   },
   {
     id: 'record-4',
-    type: NotificationType.NOTIFICATION,
     content: '平台将于1月20日启动春节营销活动，现已开放报名，参与活动可获得流量扶持和优惠券支持。',
+    requireAgreement: false,
     merchantList: ['原乡芦茨', '云栖山居', '溪山行旅', '桐庐山庄', '富春江畔', '山水间', '竹林小筑', '梅岭客栈'],
     merchantCount: 8,
     senderName: '张管理员',
@@ -145,8 +144,8 @@ export const mockNotificationRecords: NotificationRecord[] = [
   },
   {
     id: 'record-5',
-    type: NotificationType.AGREEMENT_REQUIRED,
     content: '根据最新法律法规要求，平台隐私政策已更新，请仔细阅读并同意。',
+    requireAgreement: true,
     merchantList: ['原乡芦茨', '云栖山居', '溪山行旅', '桐庐山庄', '富春江畔', '山水间'],
     merchantCount: 6,
     senderName: '李运营',
