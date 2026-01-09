@@ -12,15 +12,6 @@
       :label-col="{ span: 5 }"
       :wrapper-col="{ span: 18 }"
     >
-      <!-- 通知类型 -->
-      <a-form-model-item label="通知类型" required>
-        <a-radio-group v-model="formData.type" @change="handleTypeChange">
-          <a-radio :value="NotificationType.NOTIFICATION">通知</a-radio>
-          <a-radio :value="NotificationType.AGREEMENT_REQUIRED">需同意通知</a-radio>
-          <a-radio :value="NotificationType.TASK">任务</a-radio>
-        </a-radio-group>
-      </a-form-model-item>
-
       <!-- 通知内容 -->
       <a-form-model-item label="通知内容" required>
         <a-textarea
@@ -32,14 +23,28 @@
         <div class="char-count">{{ formData.content.length }}/500</div>
       </a-form-model-item>
 
-      <!-- 任务链接（仅任务类型显示） -->
-      <a-form-model-item v-if="formData.type === NotificationType.TASK" label="跳转链接" required>
+      <!-- 需要同意勾选 -->
+      <a-form-model-item label="选项">
+        <a-checkbox v-model="formData.requireAgreement">
+          需要同意
+        </a-checkbox>
+      </a-form-model-item>
+
+      <!-- 跳转链接勾选 -->
+      <a-form-model-item label=" " :colon="false">
+        <a-checkbox v-model="formData.hasLink">
+          跳转链接
+        </a-checkbox>
+      </a-form-model-item>
+
+      <!-- 链接地址（仅勾选跳转链接时显示） -->
+      <a-form-model-item v-if="formData.hasLink" label="链接地址" required>
         <a-input
           v-model="formData.link"
-          placeholder="/merchant-backend/store-config"
+          placeholder="/merchant-backend/join-application/apply"
           :maxLength="200"
         />
-        <div class="field-hint">点击"去查看"后的跳转地址</div>
+        <div class="field-hint">点击"查看详情"后的跳转地址</div>
       </a-form-model-item>
 
       <!-- 通知商户 -->
@@ -79,8 +84,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, reactive, computed } from '@vue/composition-api'
-import { NotificationType } from '@/types/notification'
+import { defineComponent, ref, reactive } from '@vue/composition-api'
 import { mockMerchantList } from '@/mocks/notification.mock'
 import dayjs from 'dayjs'
 
@@ -97,8 +101,9 @@ export default defineComponent({
     const submitting = ref(false)
 
     const formData = reactive({
-      type: NotificationType.NOTIFICATION,
       content: '',
+      requireAgreement: false,
+      hasLink: false,
       link: '',
       merchantIds: []
     })
@@ -129,13 +134,6 @@ export default defineComponent({
       return datetime ? dayjs(datetime).format('YYYY-MM-DD HH:mm') : '-'
     }
 
-    const handleTypeChange = () => {
-      // 切换类型时清空链接
-      if (formData.type !== NotificationType.TASK) {
-        formData.link = ''
-      }
-    }
-
     const handleSelectionChange = (selectedRowKeys) => {
       formData.merchantIds = selectedRowKeys
     }
@@ -147,8 +145,8 @@ export default defineComponent({
         return
       }
 
-      if (formData.type === NotificationType.TASK && !formData.link.trim()) {
-        root.$message.error('请输入跳转链接')
+      if (formData.hasLink && !formData.link.trim()) {
+        root.$message.error('请输入跳转链接地址')
         return
       }
 
@@ -175,8 +173,9 @@ export default defineComponent({
 
     const handleCancel = () => {
       // 重置表单
-      formData.type = NotificationType.NOTIFICATION
       formData.content = ''
+      formData.requireAgreement = false
+      formData.hasLink = false
       formData.link = ''
       formData.merchantIds = []
 
@@ -190,9 +189,7 @@ export default defineComponent({
       formData,
       merchants,
       merchantColumns,
-      NotificationType,
       formatDateTime,
-      handleTypeChange,
       handleSelectionChange,
       handleSubmit,
       handleCancel
