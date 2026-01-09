@@ -169,8 +169,13 @@
               </a>
             </div>
             <div v-if="!uploadedFileName" class="upload-requirement">
-              <div class="requirement-item">• 手机号必填，11位数字</div>
-              <div class="requirement-item">• 姓名和性别选填，性别仅支持"男"或"女"</div>
+              <div class="requirement-item">• 客户姓名：非必填</div>
+              <div class="requirement-item">• 客户手机号：必填，11位数字</div>
+              <div class="requirement-item">• 性别：非必填，男/女</div>
+              <div class="requirement-item">• 生日：非必填，格式 年/月/日（如"1997/09/07"）</div>
+              <div class="requirement-item">• 省、市、区：非必填，分开填写，导入后合并为一个字段</div>
+              <div class="requirement-item">• 邮箱：非必填，最长30位</div>
+              <div class="requirement-item">• 会员等级：必填，格式为VIP1至VIP10</div>
             </div>
             <div v-if="uploadedFileName" class="upload-result">
               <a-icon type="file-excel" class="file-icon" />
@@ -193,19 +198,19 @@
           <!-- 单个邀请模式 -->
           <div v-else-if="inviteMode === 'single'" class="single-content">
             <div class="form-item">
-              <label class="form-label">注册手机号 <span class="required">*</span></label>
+              <label class="form-label">客户手机号 <span class="required">*</span></label>
               <a-input
                 v-model="singleForm.phone"
-                placeholder="请输入手机号"
+                placeholder="请输入11位手机号"
                 :maxLength="11"
               />
             </div>
             <div class="form-item">
-              <label class="form-label">姓名</label>
+              <label class="form-label">客户姓名</label>
               <a-input
                 v-model="singleForm.name"
                 placeholder="请输入姓名"
-                :maxLength="20"
+                :maxLength="50"
               />
             </div>
             <div class="form-item">
@@ -218,6 +223,64 @@
               >
                 <a-select-option value="男">男</a-select-option>
                 <a-select-option value="女">女</a-select-option>
+              </a-select>
+            </div>
+            <div class="form-item">
+              <label class="form-label">生日</label>
+              <a-input
+                v-model="singleForm.birthday"
+                placeholder="格式：年/月/日（如1997/09/07）"
+                :maxLength="10"
+              />
+            </div>
+            <div class="form-item">
+              <label class="form-label">地址</label>
+              <div class="address-inputs">
+                <a-input
+                  v-model="singleForm.province"
+                  placeholder="省"
+                  :maxLength="20"
+                  style="width: 120px;"
+                />
+                <a-input
+                  v-model="singleForm.city"
+                  placeholder="市"
+                  :maxLength="20"
+                  style="width: 120px;"
+                />
+                <a-input
+                  v-model="singleForm.district"
+                  placeholder="区"
+                  :maxLength="20"
+                  style="width: 120px;"
+                />
+              </div>
+            </div>
+            <div class="form-item">
+              <label class="form-label">邮箱</label>
+              <a-input
+                v-model="singleForm.email"
+                placeholder="请输入邮箱（最长30位）"
+                :maxLength="30"
+              />
+            </div>
+            <div class="form-item">
+              <label class="form-label">会员等级 <span class="required">*</span></label>
+              <a-select
+                v-model="singleForm.vipLevel"
+                placeholder="请选择会员等级"
+                style="width: 200px;"
+              >
+                <a-select-option value="VIP1">VIP1</a-select-option>
+                <a-select-option value="VIP2">VIP2</a-select-option>
+                <a-select-option value="VIP3">VIP3</a-select-option>
+                <a-select-option value="VIP4">VIP4</a-select-option>
+                <a-select-option value="VIP5">VIP5</a-select-option>
+                <a-select-option value="VIP6">VIP6</a-select-option>
+                <a-select-option value="VIP7">VIP7</a-select-option>
+                <a-select-option value="VIP8">VIP8</a-select-option>
+                <a-select-option value="VIP9">VIP9</a-select-option>
+                <a-select-option value="VIP10">VIP10</a-select-option>
               </a-select>
             </div>
             <a-button
@@ -270,6 +333,8 @@ import { defineComponent, ref, reactive } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import ImportResultDialog from './ImportResultDialog.vue'
 import { batchInviteMembers } from '@/api/memberService'
+import * as XLSX from 'xlsx'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   name: 'InviteMemberPage',
@@ -291,7 +356,13 @@ export default defineComponent({
     const singleForm = reactive({
       phone: '',
       name: '',
-      gender: undefined
+      gender: undefined,
+      birthday: undefined,
+      province: '',
+      city: '',
+      district: '',
+      email: '',
+      vipLevel: 'VIP1'
     })
 
     // 导入结果弹窗
@@ -307,7 +378,8 @@ export default defineComponent({
      * @returns 是否合法
      */
     const validatePhone = (phone) => {
-      const trimmed = phone.trim()
+      if (!phone) return false
+      const trimmed = String(phone).trim()
       // 11位数字，1开头
       return /^1[3-9]\d{9}$/.test(trimmed)
     }
@@ -325,44 +397,231 @@ export default defineComponent({
     }
 
     /**
+     * 验证生日格式
+     * @param birthday - 生日字符串（年/月/日 如 1997/09/07）
+     * @returns { valid: boolean, formatted?: string, error?: string }
+     */
+    const validateBirthday = (birthday) => {
+      if (!birthday || String(birthday).trim() === '') {
+        return { valid: true, formatted: undefined }
+      }
+
+      const trimmed = String(birthday).trim()
+
+      // 尝试多种格式解析
+      const formats = ['YYYY/MM/DD', 'YYYY/M/D', 'YYYY-MM-DD', 'YYYY-M-D']
+      let parsed = null
+
+      for (const format of formats) {
+        parsed = dayjs(trimmed, format, true)
+        if (parsed.isValid()) break
+      }
+
+      if (!parsed || !parsed.isValid()) {
+        return { valid: false, error: '生日格式不正确，应为：年/月/日（如1997/09/07）' }
+      }
+
+      // 检查日期合理性
+      const year = parsed.year()
+      const currentYear = dayjs().year()
+      if (year < 1900 || year > currentYear) {
+        return { valid: false, error: '生日年份不合理' }
+      }
+
+      return { valid: true, formatted: parsed.format('YYYY/MM/DD') }
+    }
+
+    /**
+     * 验证邮箱格式
+     * @param email - 邮箱字符串
+     * @returns { valid: boolean, error?: string }
+     */
+    const validateEmail = (email) => {
+      if (!email || String(email).trim() === '') {
+        return { valid: true }
+      }
+
+      const trimmed = String(email).trim()
+
+      if (trimmed.length > 30) {
+        return { valid: false, error: '邮箱长度不能超过30位' }
+      }
+
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+      if (!emailRegex.test(trimmed)) {
+        return { valid: false, error: '邮箱格式不正确' }
+      }
+
+      return { valid: true }
+    }
+
+    /**
+     * 验证会员等级格式
+     * @param vipLevel - 会员等级字符串
+     * @returns { valid: boolean, level?: number, error?: string }
+     */
+    const validateVipLevel = (vipLevel) => {
+      if (!vipLevel || String(vipLevel).trim() === '') {
+        return { valid: false, error: '会员等级为必填项' }
+      }
+
+      const trimmed = String(vipLevel).trim().toUpperCase()
+      const match = trimmed.match(/^VIP(\d+)$/)
+
+      if (!match) {
+        return { valid: false, error: '会员等级格式不正确，应为VIP1至VIP10' }
+      }
+
+      const level = parseInt(match[1])
+      if (level < 1 || level > 10) {
+        return { valid: false, error: '会员等级应为VIP1至VIP10' }
+      }
+
+      return { valid: true, level }
+    }
+
+    /**
      * 下载Excel模板
      */
     const handleDownloadTemplate = () => {
-      // 创建CSV模板
-      const headers = ['注册手机号', '姓名', '性别']
-      const example = ['13800138000', '张三', '男']
-      const csvContent = '\uFEFF' + [headers.join(','), example.join(',')].join('\n')
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
-
-      const url = window.URL.createObjectURL(blob)
+      // 直接下载根目录的导入客户模板.xlsx文件
       const link = document.createElement('a')
-      link.href = url
-      link.download = '会员邀请模板.csv'
+      link.href = '/导入客户模板.xlsx'
+      link.download = '导入客户模板.xlsx'
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
     }
 
     /**
      * 处理Excel文件上传前
      */
     const handleBeforeUpload = (file) => {
-      // TODO: 解析Excel文件
-      // 这里使用模拟数据
       const reader = new FileReader()
 
       reader.onload = (e) => {
-        // 模拟解析结果
-        uploadedFileName.value = file.name
-        uploadedCount.value = 10 // 模拟10条数据
-        uploadedData.value = [] // TODO: 解析后的数据
+        try {
+          const data = new Uint8Array(e.target.result)
+          const workbook = XLSX.read(data, { type: 'array' })
 
-        root.$message.success('文件上传成功，请点击批量邀请')
+          // 读取第一个sheet
+          const firstSheetName = workbook.SheetNames[0]
+          const worksheet = workbook.Sheets[firstSheetName]
+
+          // 转换为JSON（从第2行开始读取，第1行是标题）
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
+
+          if (jsonData.length < 2) {
+            root.$message.error('Excel文件中没有数据')
+            return
+          }
+
+          // 解析数据（跳过第1行标题）
+          const parsedData = []
+          const errors = []
+
+          for (let i = 1; i < jsonData.length; i++) {
+            const row = jsonData[i]
+            const rowNum = i + 1
+
+            // 跳过空行
+            if (!row || row.length === 0 || !row.some(cell => cell !== null && cell !== undefined && cell !== '')) {
+              continue
+            }
+
+            const item = {
+              name: row[0] ? String(row[0]).trim() : '',
+              phone: row[1] ? String(row[1]).trim() : '',
+              gender: row[2] ? String(row[2]).trim() : '',
+              birthday: row[3] ? String(row[3]).trim() : '',
+              province: row[4] ? String(row[4]).trim() : '',
+              city: row[5] ? String(row[5]).trim() : '',
+              district: row[6] ? String(row[6]).trim() : '',
+              email: row[7] ? String(row[7]).trim() : '',
+              vipLevel: row[8] ? String(row[8]).trim() : '',
+              rowNum,
+              errors: []
+            }
+
+            // 验证手机号（必填）
+            if (!item.phone) {
+              item.errors.push('手机号为必填项')
+            } else if (!validatePhone(item.phone)) {
+              item.errors.push('手机号格式不正确，应为11位数字')
+            }
+
+            // 验证性别（非必填）
+            if (item.gender) {
+              const validGender = validateGender(item.gender)
+              if (!validGender) {
+                item.errors.push('性别格式不正确，应为"男"或"女"')
+              } else {
+                item.gender = validGender
+              }
+            }
+
+            // 验证生日（非必填）
+            if (item.birthday) {
+              const birthdayResult = validateBirthday(item.birthday)
+              if (!birthdayResult.valid) {
+                item.errors.push(birthdayResult.error)
+              } else {
+                item.birthday = birthdayResult.formatted
+              }
+            }
+
+            // 验证邮箱（非必填）
+            if (item.email) {
+              const emailResult = validateEmail(item.email)
+              if (!emailResult.valid) {
+                item.errors.push(emailResult.error)
+              }
+            }
+
+            // 验证会员等级（必填）
+            const vipResult = validateVipLevel(item.vipLevel)
+            if (!vipResult.valid) {
+              item.errors.push(vipResult.error)
+            } else {
+              item.vipLevel = vipResult.level
+            }
+
+            parsedData.push(item)
+
+            // 收集错误
+            if (item.errors.length > 0) {
+              errors.push(`第${rowNum}行: ${item.errors.join('; ')}`)
+            }
+          }
+
+          if (parsedData.length === 0) {
+            root.$message.error('Excel文件中没有有效数据')
+            return
+          }
+
+          // 如果有错误，显示错误信息
+          if (errors.length > 0) {
+            const errorMsg = `发现 ${errors.length} 条数据格式错误：\n${errors.slice(0, 5).join('\n')}${errors.length > 5 ? '\n...' : ''}`
+            root.$message.error({
+              content: errorMsg,
+              duration: 8
+            })
+            return
+          }
+
+          // 成功
+          uploadedFileName.value = file.name
+          uploadedCount.value = parsedData.length
+          uploadedData.value = parsedData
+
+          root.$message.success(`文件解析成功，共 ${parsedData.length} 条数据`)
+        } catch (error) {
+          console.error('Excel解析失败:', error)
+          root.$message.error('Excel文件解析失败，请检查文件格式')
+        }
       }
 
       reader.readAsArrayBuffer(file)
-
       return false // 阻止自动上传
     }
 
@@ -414,22 +673,71 @@ export default defineComponent({
      * 单个邀请会员
      */
     const handleSingleInvite = async () => {
-      // 验证手机号
+      // 验证手机号（必填）
       if (!singleForm.phone) {
         root.$message.error('请输入手机号')
         return
       }
       if (!validatePhone(singleForm.phone)) {
-        root.$message.error('手机号格式不正确')
+        root.$message.error('手机号格式不正确，应为11位数字')
         return
       }
 
-      // 验证性别（如果填写了）
-      const validGender = validateGender(singleForm.gender)
+      // 验证性别（非必填）
+      if (singleForm.gender) {
+        const validGender = validateGender(singleForm.gender)
+        if (!validGender) {
+          root.$message.error('性别格式不正确，应为"男"或"女"')
+          return
+        }
+      }
+
+      // 验证生日（非必填）
+      if (singleForm.birthday) {
+        const birthdayResult = validateBirthday(singleForm.birthday)
+        if (!birthdayResult.valid) {
+          root.$message.error(birthdayResult.error)
+          return
+        }
+      }
+
+      // 验证邮箱（非必填）
+      if (singleForm.email) {
+        const emailResult = validateEmail(singleForm.email)
+        if (!emailResult.valid) {
+          root.$message.error(emailResult.error)
+          return
+        }
+      }
+
+      // 验证会员等级（必填）
+      const vipResult = validateVipLevel(singleForm.vipLevel)
+      if (!vipResult.valid) {
+        root.$message.error(vipResult.error)
+        return
+      }
 
       try {
         submitting.value = true
+
+        // 构建地址字段（省市区合并）
+        const address = [singleForm.province, singleForm.city, singleForm.district]
+          .filter(item => item)
+          .join('')
+
         // TODO: 调用API单个邀请，检测重复
+        const inviteData = {
+          name: singleForm.name,
+          phone: singleForm.phone,
+          gender: singleForm.gender,
+          birthday: singleForm.birthday,
+          address,
+          email: singleForm.email,
+          vipLevel: vipResult.level
+        }
+
+        console.log('单个邀请数据:', inviteData)
+
         await new Promise(resolve => setTimeout(resolve, 500))
 
         // 模拟API返回结果：随机成功或失败
@@ -452,6 +760,12 @@ export default defineComponent({
         singleForm.phone = ''
         singleForm.name = ''
         singleForm.gender = undefined
+        singleForm.birthday = undefined
+        singleForm.province = ''
+        singleForm.city = ''
+        singleForm.district = ''
+        singleForm.email = ''
+        singleForm.vipLevel = 'VIP1'
       } catch (error) {
         root.$message.error('发送邀请失败')
         console.error(error)
@@ -478,6 +792,12 @@ export default defineComponent({
       singleForm.phone = ''
       singleForm.name = ''
       singleForm.gender = undefined
+      singleForm.birthday = undefined
+      singleForm.province = ''
+      singleForm.city = ''
+      singleForm.district = ''
+      singleForm.email = ''
+      singleForm.vipLevel = 'VIP1'
     }
 
     /**
@@ -739,6 +1059,12 @@ export default defineComponent({
         margin-left: 2px;
       }
     }
+  }
+
+  .address-inputs {
+    display: flex;
+    gap: 12px;
+    align-items: center;
   }
 
   .invite-btn {
