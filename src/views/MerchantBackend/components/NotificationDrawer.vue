@@ -99,24 +99,40 @@
             <!-- 通知操作按钮 -->
             <div class="notification-actions">
               <template v-if="item.status === NotificationStatus.UNREAD">
-                <!-- 需要同意：显示同意按钮（主按钮） -->
+                <!-- 需要同意 + 有链接：显示两个按钮 -->
+                <template v-if="item.requireAgreement && item.link">
+                  <a-button
+                    size="small"
+                    @click="handleViewTask(item.id, item.link, false)"
+                  >
+                    查看详情
+                  </a-button>
+                  <a-button
+                    type="primary"
+                    size="small"
+                    @click="handleAgree(item.id)"
+                  >
+                    同意
+                  </a-button>
+                </template>
+                <!-- 只需要同意：显示同意按钮 -->
                 <a-button
-                  v-if="item.requireAgreement"
+                  v-else-if="item.requireAgreement"
                   type="primary"
                   size="small"
                   @click="handleAgree(item.id)"
                 >
                   同意
                 </a-button>
-                <!-- 有跳转链接：显示查看详情按钮（副按钮） -->
+                <!-- 只有链接：显示查看详情按钮 -->
                 <a-button
                   v-else-if="item.link"
                   size="small"
-                  @click="handleViewTask(item.id, item.link)"
+                  @click="handleViewTask(item.id, item.link, true)"
                 >
                   查看详情
                 </a-button>
-                <!-- 普通通知：显示已读按钮（主按钮） -->
+                <!-- 普通通知：显示已读按钮 -->
                 <a-button
                   v-else
                   type="primary"
@@ -222,11 +238,14 @@ export default defineComponent({
       }
     }
 
-    const handleViewTask = (id, link) => {
+    const handleViewTask = (id, link, markAsRead = true) => {
       const item = notifications.value.find(n => n.id === id)
       if (item) {
-        item.status = NotificationStatus.READ
-        // TODO: 调用API更新已读状态
+        // 只有单独的链接通知才标记为已读
+        if (markAsRead) {
+          item.status = NotificationStatus.READ
+          // TODO: 调用API更新已读状态
+        }
         if (link) {
           root.$router.push(link)
         }
@@ -345,6 +364,7 @@ export default defineComponent({
     .notification-actions {
       display: flex;
       justify-content: flex-end;
+      gap: 8px;
 
       .ant-btn-sm {
         height: 28px;
