@@ -151,8 +151,8 @@
               <span class="info-value">¥{{ formData.specialPrice }}</span>
             </p>
             <p class="info-row">
-              <span class="info-label">有效期：</span>
-              <span class="info-value">24小时</span>
+              <span class="info-label">支付有效期：</span>
+              <span class="info-value">30分钟</span>
             </p>
           </div>
           <a-button type="primary" block @click="handleDownloadQR">
