@@ -87,6 +87,9 @@
               placeholder="988.46"
               style="width: 100%;"
             />
+            <div v-if="isPriceWarning" class="warning-hint">
+              价格可能过高，请检查
+            </div>
           </a-form-model-item>
 
           <!-- 限制购买人手机号 -->
@@ -198,6 +201,12 @@ export default defineComponent({
       return roomTypes.value.find(r => r.id === formData.roomType)
     })
 
+    // 专属总价是否过高（超过售卖总价的2倍）
+    const isPriceWarning = computed(() => {
+      if (!formData.specialPrice || !formData.salePrice) return false
+      return formData.specialPrice > formData.salePrice * 2
+    })
+
     // 计算住宿晚数
     const calculateNights = () => {
       if (!formData.checkInDate || !formData.checkOutDate) return 0
@@ -296,6 +305,7 @@ export default defineComponent({
       zhCN, // ConfigProvider的中文locale
       roomTypes,
       selectedRoom,
+      isPriceWarning,
       calculateNights,
       disabledCheckInDate,
       disabledCheckOutDate,
@@ -351,6 +361,12 @@ export default defineComponent({
   color: @text-primary;
 }
 
+.warning-hint {
+  font-size: @font-size-xs;
+  color: @warning-color;
+  margin-top: 4px;
+  line-height: 1.4;
+}
 
 .unavailable-text {
   color: @text-tertiary;
