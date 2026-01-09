@@ -269,9 +269,37 @@
 import { defineComponent, ref, reactive } from '@vue/composition-api'
 import Sidebar from '@/components/Layout/Sidebar.vue'
 import ImportResultDialog from './ImportResultDialog.vue'
-import { batchInviteMembers } from '@/api/memberService'
 import * as XLSX from 'xlsx'
 import dayjs from 'dayjs'
+
+/**
+ * 常量定义
+ */
+// Excel文件列索引常量（从0开始）
+const EXCEL_COLUMN = {
+  NAME: 0,       // 客户姓名
+  PHONE: 1,      // 客户手机号（必填）
+  GENDER: 2,     // 性别
+  BIRTHDAY: 3,   // 生日
+  PROVINCE: 4,   // 省
+  CITY: 5,       // 市
+  DISTRICT: 6,   // 区
+  EMAIL: 7,      // 邮箱
+  VIP_LEVEL: 8   // 会员等级（必填）
+}
+
+// 验证规则常量
+const VALIDATION = {
+  PHONE_LENGTH: 11,           // 手机号长度
+  EMAIL_MAX_LENGTH: 30,       // 邮箱最大长度
+  BIRTH_YEAR_MIN: 1900,       // 生日最小年份
+  VIP_LEVEL_MIN: 1,           // VIP等级最小值
+  VIP_LEVEL_MAX: 10,          // VIP等级最大值
+  ERROR_DISPLAY_LIMIT: 5      // 错误提示显示最大数量
+}
+
+// 默认值常量
+const DEFAULT_VIP_LEVEL = 'VIP1'
 
 export default defineComponent({
   name: 'InviteMemberPage',
@@ -280,63 +308,75 @@ export default defineComponent({
     ImportResultDialog
   },
   setup(props, { root }) {
-    const inviteMode = ref('batch') // 'batch' | 'single' | 'qrcode'
+    // ==================== 响应式数据 ====================
+
+    // 邀请方式：batch批量邀请 | single单个邀请 | qrcode扫码邀请
+    const inviteMode = ref('batch')
+
+    // 选中的VIP等级：0=注册会员，1-3=VIP1-VIP3
     const selectedVipLevel = ref(0)
+
+    // 提交中状态
     const submitting = ref(false)
 
     // 批量邀请数据
-    const uploadedFileName = ref('')
-    const uploadedCount = ref(0)
-    const uploadedData = ref([])
+    const uploadedFileName = ref('')  // 上传的文件名
+    const uploadedCount = ref(0)      // 上传的数据条数
+    const uploadedData = ref([])      // 上传的数据内容
 
-    // 单个邀请表单
+    // 单个邀请表单数据
     const singleForm = reactive({
-      phone: '',
-      name: '',
-      gender: undefined,
-      birthday: undefined,
-      province: '',
-      city: '',
-      district: '',
-      email: '',
-      vipLevel: 'VIP1'
+      phone: '',                    // 手机号（必填）
+      name: '',                     // 姓名
+      gender: undefined,            // 性别：男/女
+      birthday: undefined,          // 生日
+      province: '',                 // 省
+      city: '',                     // 市
+      district: '',                 // 区
+      email: '',                    // 邮箱
+      vipLevel: DEFAULT_VIP_LEVEL   // 会员等级（必填）
     })
 
-    // 导入结果弹窗
+    // 导入结果弹窗数据
     const resultDialogVisible = ref(false)
     const importResult = reactive({
-      successCount: 0,
-      failedCount: 0
+      successCount: 0,  // 成功数量
+      failedCount: 0    // 失败数量
     })
+
+    // ==================== 验证函数 ====================
 
     /**
      * 验证手机号格式
-     * @param phone - 手机号字符串
-     * @returns 是否合法
+     * @param {string} phone - 手机号字符串
+     * @returns {boolean} 是否合法
+     * 规则：必须为11位数字，且以1开头，第二位为3-9
      */
     const validatePhone = (phone) => {
       if (!phone) return false
       const trimmed = String(phone).trim()
-      // 11位数字，1开头
+      // 中国大陆手机号格式：1开头，第二位3-9，共11位数字
       return /^1[3-9]\d{9}$/.test(trimmed)
     }
 
     /**
      * 验证性别格式
-     * @param gender - 性别字符串
-     * @returns 验证后的值（男/女/undefined）
+     * @param {string} gender - 性别字符串
+     * @returns {string|undefined} 验证后的值（'男' | '女' | undefined）
+     * 规则：只接受"男"或"女"，其他值视为无效返回undefined
      */
     const validateGender = (gender) => {
       if (!gender || gender.trim() === '') return undefined
       const trimmed = gender.trim()
       if (trimmed === '男' || trimmed === '女') return trimmed
-      return undefined // 不符合要求，当做空处理
+      return undefined
     }
 
     /**
      * 验证生日格式
-     * @param birthday - 生日字符串（年/月/日 如 1997/09/07）
-     * @returns { valid: boolean, formatted?: string, error?: string }
+     * @param {string} birthday - 生日字符串
+     * @returns {{valid: boolean, formatted?: string, error?: string}}
+     * 规则：支持YYYY/MM/DD、YYYY-MM-DD等格式，年份范围1900-当前年
      */
     const validateBirthday = (birthday) => {
       if (!birthday || String(birthday).trim() === '') {
@@ -345,10 +385,11 @@ export default defineComponent({
 
       const trimmed = String(birthday).trim()
 
-      // 尝试多种格式解析
+      // 支持的日期格式
       const formats = ['YYYY/MM/DD', 'YYYY/M/D', 'YYYY-MM-DD', 'YYYY-M-D']
       let parsed = null
 
+      // 尝试各种格式解析
       for (const format of formats) {
         parsed = dayjs(trimmed, format, true)
         if (parsed.isValid()) break
@@ -358,10 +399,10 @@ export default defineComponent({
         return { valid: false, error: '生日格式不正确，应为：年/月/日（如1997/09/07）' }
       }
 
-      // 检查日期合理性
+      // 检查年份合理性
       const year = parsed.year()
       const currentYear = dayjs().year()
-      if (year < 1900 || year > currentYear) {
+      if (year < VALIDATION.BIRTH_YEAR_MIN || year > currentYear) {
         return { valid: false, error: '生日年份不合理' }
       }
 
@@ -370,8 +411,9 @@ export default defineComponent({
 
     /**
      * 验证邮箱格式
-     * @param email - 邮箱字符串
-     * @returns { valid: boolean, error?: string }
+     * @param {string} email - 邮箱字符串
+     * @returns {{valid: boolean, error?: string}}
+     * 规则：标准邮箱格式，最大长度30位
      */
     const validateEmail = (email) => {
       if (!email || String(email).trim() === '') {
@@ -380,10 +422,12 @@ export default defineComponent({
 
       const trimmed = String(email).trim()
 
-      if (trimmed.length > 30) {
-        return { valid: false, error: '邮箱长度不能超过30位' }
+      // 检查长度限制
+      if (trimmed.length > VALIDATION.EMAIL_MAX_LENGTH) {
+        return { valid: false, error: `邮箱长度不能超过${VALIDATION.EMAIL_MAX_LENGTH}位` }
       }
 
+      // 标准邮箱格式验证
       const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
       if (!emailRegex.test(trimmed)) {
         return { valid: false, error: '邮箱格式不正确' }
@@ -394,8 +438,9 @@ export default defineComponent({
 
     /**
      * 验证会员等级格式
-     * @param vipLevel - 会员等级字符串
-     * @returns { valid: boolean, level?: number, error?: string }
+     * @param {string} vipLevel - 会员等级字符串
+     * @returns {{valid: boolean, level?: number, error?: string}}
+     * 规则：必填，格式为VIP1至VIP10
      */
     const validateVipLevel = (vipLevel) => {
       if (!vipLevel || String(vipLevel).trim() === '') {
@@ -406,22 +451,24 @@ export default defineComponent({
       const match = trimmed.match(/^VIP(\d+)$/)
 
       if (!match) {
-        return { valid: false, error: '会员等级格式不正确，应为VIP1至VIP10' }
+        return { valid: false, error: `会员等级格式不正确，应为VIP${VALIDATION.VIP_LEVEL_MIN}至VIP${VALIDATION.VIP_LEVEL_MAX}` }
       }
 
       const level = parseInt(match[1])
-      if (level < 1 || level > 10) {
-        return { valid: false, error: '会员等级应为VIP1至VIP10' }
+      if (level < VALIDATION.VIP_LEVEL_MIN || level > VALIDATION.VIP_LEVEL_MAX) {
+        return { valid: false, error: `会员等级应为VIP${VALIDATION.VIP_LEVEL_MIN}至VIP${VALIDATION.VIP_LEVEL_MAX}` }
       }
 
       return { valid: true, level }
     }
 
+    // ==================== 业务函数 ====================
+
     /**
      * 下载Excel模板
+     * 触发浏览器下载public目录下的导入客户模板.xlsx文件
      */
     const handleDownloadTemplate = () => {
-      // 直接下载根目录的导入客户模板.xlsx文件
       const link = document.createElement('a')
       link.href = '/导入客户模板.xlsx'
       link.download = '导入客户模板.xlsx'
@@ -431,51 +478,63 @@ export default defineComponent({
     }
 
     /**
-     * 处理Excel文件上传前
+     * 处理Excel文件上传前的解析和验证
+     * @param {File} file - 上传的Excel文件
+     * @returns {boolean} false - 阻止自动上传
+     *
+     * 功能说明：
+     * 1. 使用FileReader读取Excel文件
+     * 2. 使用xlsx库解析文件内容
+     * 3. 逐行验证数据格式
+     * 4. 如有错误则提示，无错误则存储解析结果
      */
     const handleBeforeUpload = (file) => {
       const reader = new FileReader()
 
       reader.onload = (e) => {
         try {
+          // 读取Excel文件数据
           const data = new Uint8Array(e.target.result)
           const workbook = XLSX.read(data, { type: 'array' })
 
-          // 读取第一个sheet
+          // 获取第一个工作表
           const firstSheetName = workbook.SheetNames[0]
           const worksheet = workbook.Sheets[firstSheetName]
 
-          // 转换为JSON（从第2行开始读取，第1行是标题）
+          // 将工作表转换为JSON数组（包含标题行）
           const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
 
+          // 检查是否有数据（至少需要标题行+数据行）
           if (jsonData.length < 2) {
             root.$message.error('Excel文件中没有数据')
             return
           }
 
-          // 解析数据（跳过第1行标题）
+          // 解析数据
           const parsedData = []
           const errors = []
 
+          // 遍历数据行（跳过第一行标题）
           for (let i = 1; i < jsonData.length; i++) {
             const row = jsonData[i]
-            const rowNum = i + 1
+            const rowNum = i + 1 // Excel中的实际行号
 
-            // 跳过空行
+            // 跳过完全空白的行
             if (!row || row.length === 0 || !row.some(cell => cell !== null && cell !== undefined && cell !== '')) {
               continue
             }
 
+            // 构建数据项（使用常量定义的列索引）
             const item = {
-              name: row[0] ? String(row[0]).trim() : '',
-              phone: row[1] ? String(row[1]).trim() : '',
-              gender: row[2] ? String(row[2]).trim() : '',
-              birthday: row[3] ? String(row[3]).trim() : '',
-              province: row[4] ? String(row[4]).trim() : '',
-              city: row[5] ? String(row[5]).trim() : '',
-              district: row[6] ? String(row[6]).trim() : '',
-              email: row[7] ? String(row[7]).trim() : '',
-              vipLevel: row[8] ? String(row[8]).trim() : '',
+              name: row[EXCEL_COLUMN.NAME] ? String(row[EXCEL_COLUMN.NAME]).trim() : '',
+              phone: row[EXCEL_COLUMN.PHONE] ? String(row[EXCEL_COLUMN.PHONE]).trim() : '',
+              gender: row[EXCEL_COLUMN.GENDER] ? String(row[EXCEL_COLUMN.GENDER]).trim() : '',
+              birthday: row[EXCEL_COLUMN.BIRTHDAY] ? String(row[EXCEL_COLUMN.BIRTHDAY]).trim() : '',
+              province: row[EXCEL_COLUMN.PROVINCE] ? String(row[EXCEL_COLUMN.PROVINCE]).trim() : '',
+              city: row[EXCEL_COLUMN.CITY] ? String(row[EXCEL_COLUMN.CITY]).trim() : '',
+              district: row[EXCEL_COLUMN.DISTRICT] ? String(row[EXCEL_COLUMN.DISTRICT]).trim() : '',
+              email: row[EXCEL_COLUMN.EMAIL] ? String(row[EXCEL_COLUMN.EMAIL]).trim() : '',
+              vipLevel: row[EXCEL_COLUMN.VIP_LEVEL] ? String(row[EXCEL_COLUMN.VIP_LEVEL]).trim() : '',
               rowNum,
               errors: []
             }
@@ -536,9 +595,12 @@ export default defineComponent({
             return
           }
 
-          // 如果有错误，显示错误信息
+          // 如果有错误，显示错误信息（最多显示前N条）
           if (errors.length > 0) {
-            const errorMsg = `发现 ${errors.length} 条数据格式错误：\n${errors.slice(0, 5).join('\n')}${errors.length > 5 ? '\n...' : ''}`
+            const displayErrors = errors.slice(0, VALIDATION.ERROR_DISPLAY_LIMIT)
+            const hasMore = errors.length > VALIDATION.ERROR_DISPLAY_LIMIT
+            const errorMsg = `发现 ${errors.length} 条数据格式错误：\n${displayErrors.join('\n')}${hasMore ? '\n...' : ''}`
+
             root.$message.error({
               content: errorMsg,
               duration: 8
@@ -546,7 +608,7 @@ export default defineComponent({
             return
           }
 
-          // 成功
+          // 解析成功，保存数据
           uploadedFileName.value = file.name
           uploadedCount.value = parsedData.length
           uploadedData.value = parsedData
@@ -563,7 +625,22 @@ export default defineComponent({
     }
 
     /**
+     * 获取VIP等级显示名称
+     * @param {number} level - VIP等级数字 (0=注册会员, 1-10=VIP1-VIP10)
+     * @returns {string} 显示名称
+     */
+    const getVipLevelName = (level) => {
+      return level === 0 ? '注册会员' : `VIP${level}`
+    }
+
+    /**
      * 批量邀请会员（Excel）
+     * 功能：
+     * 1. 检查是否已上传文件
+     * 2. 二次确认邀请操作
+     * 3. 调用API执行批量邀请
+     * 4. 显示结果弹窗
+     * 5. 清空上传数据
      */
     const handleBatchInvite = async () => {
       if (!uploadedFileName.value) {
@@ -572,18 +649,26 @@ export default defineComponent({
       }
 
       // 二次确认弹窗
+      const vipLevelName = getVipLevelName(selectedVipLevel.value)
       root.$confirm({
         title: '确认批量邀请',
-        content: `确定邀请 ${uploadedCount.value} 位会员，并设置等级为 ${selectedVipLevel.value === 0 ? '注册会员' : 'VIP' + selectedVipLevel.value} 吗？`,
+        content: `确定邀请 ${uploadedCount.value} 位会员，并设置等级为 ${vipLevelName} 吗？`,
         okText: '确定',
         cancelText: '取消',
         onOk: async () => {
           try {
             submitting.value = true
-            // TODO: 调用API批量邀请，检测重复
+
+            // TODO: 调用真实API进行批量邀请
+            // const result = await batchInviteMembers({
+            //   members: uploadedData.value,
+            //   vipLevel: selectedVipLevel.value
+            // })
+
+            // 模拟API调用延迟
             await new Promise(resolve => setTimeout(resolve, 1000))
 
-            // 模拟API返回结果：部分成功，部分失败
+            // 模拟API返回结果（实际开发中应使用真实API返回的数据）
             const mockFailedCount = 2
             const mockSuccessCount = uploadedCount.value - mockFailedCount
 
@@ -598,7 +683,7 @@ export default defineComponent({
             uploadedData.value = []
           } catch (error) {
             root.$message.error('邀请失败，请重试')
-            console.error(error)
+            console.error('批量邀请失败:', error)
           } finally {
             submitting.value = false
           }
@@ -607,7 +692,27 @@ export default defineComponent({
     }
 
     /**
+     * 重置单个邀请表单
+     */
+    const resetSingleForm = () => {
+      singleForm.phone = ''
+      singleForm.name = ''
+      singleForm.gender = undefined
+      singleForm.birthday = undefined
+      singleForm.province = ''
+      singleForm.city = ''
+      singleForm.district = ''
+      singleForm.email = ''
+      singleForm.vipLevel = DEFAULT_VIP_LEVEL
+    }
+
+    /**
      * 单个邀请会员
+     * 功能：
+     * 1. 验证所有表单字段
+     * 2. 调用API发送邀请
+     * 3. 显示结果弹窗
+     * 4. 清空表单
      */
     const handleSingleInvite = async () => {
       // 验证手机号（必填）
@@ -616,7 +721,7 @@ export default defineComponent({
         return
       }
       if (!validatePhone(singleForm.phone)) {
-        root.$message.error('手机号格式不正确，应为11位数字')
+        root.$message.error(`手机号格式不正确，应为${VALIDATION.PHONE_LENGTH}位数字`)
         return
       }
 
@@ -657,12 +762,12 @@ export default defineComponent({
       try {
         submitting.value = true
 
-        // 构建地址字段（省市区合并）
+        // 构建地址字段（省市区合并，过滤空值）
         const address = [singleForm.province, singleForm.city, singleForm.district]
           .filter(item => item)
           .join('')
 
-        // TODO: 调用API单个邀请，检测重复
+        // 构建邀请数据
         const inviteData = {
           name: singleForm.name,
           phone: singleForm.phone,
@@ -673,19 +778,22 @@ export default defineComponent({
           vipLevel: vipResult.level
         }
 
+        // TODO: 调用真实API进行单个邀请
+        // const result = await inviteSingleMember(inviteData)
+
         console.log('单个邀请数据:', inviteData)
 
+        // 模拟API调用延迟
         await new Promise(resolve => setTimeout(resolve, 500))
 
-        // 模拟API返回结果：随机成功或失败
-        const isAlreadyImported = Math.random() > 0.7 // 30%概率已被导入
+        // 模拟API返回结果（实际开发中应使用真实API返回的数据）
+        // 30%概率模拟客户已被其他商户导入的情况
+        const isAlreadyImported = Math.random() > 0.7
 
         if (isAlreadyImported) {
-          // 失败：已被其他商户导入
           importResult.successCount = 0
           importResult.failedCount = 1
         } else {
-          // 成功
           importResult.successCount = 1
           importResult.failedCount = 0
         }
@@ -694,72 +802,70 @@ export default defineComponent({
         resultDialogVisible.value = true
 
         // 清空表单
-        singleForm.phone = ''
-        singleForm.name = ''
-        singleForm.gender = undefined
-        singleForm.birthday = undefined
-        singleForm.province = ''
-        singleForm.city = ''
-        singleForm.district = ''
-        singleForm.email = ''
-        singleForm.vipLevel = 'VIP1'
+        resetSingleForm()
       } catch (error) {
         root.$message.error('发送邀请失败')
-        console.error(error)
+        console.error('单个邀请失败:', error)
       } finally {
         submitting.value = false
       }
     }
 
-    // 跳转到邀请记录页面
+    // ==================== 路由跳转函数 ====================
+
+    /**
+     * 跳转到邀请记录页面
+     */
     const handleGoToRecords = () => {
       root.$router.push('/merchant-backend/invite-member/records')
     }
 
-    // 跳转到分销奖励页面
+    /**
+     * 跳转到分销奖励页面
+     */
     const handleGoToCommission = () => {
       root.$router.push('/merchant-backend/invite-member/commission')
     }
 
-    // 切换邀请模式时清空输入
+    // ==================== 其他处理函数 ====================
+
+    /**
+     * 切换邀请模式时清空所有输入数据
+     */
     const handleModeChange = () => {
+      // 清空批量邀请数据
       uploadedFileName.value = ''
       uploadedCount.value = 0
       uploadedData.value = []
-      singleForm.phone = ''
-      singleForm.name = ''
-      singleForm.gender = undefined
-      singleForm.birthday = undefined
-      singleForm.province = ''
-      singleForm.city = ''
-      singleForm.district = ''
-      singleForm.email = ''
-      singleForm.vipLevel = 'VIP1'
+
+      // 清空单个邀请表单
+      resetSingleForm()
     }
 
     /**
      * 下载邀请二维码
+     * TODO: 接入真实API获取二维码图片
      */
     const handleDownloadQRCode = () => {
-      // TODO: 接入真实API获取二维码图片
-      // 这里使用占位符下载示例
       root.$message.success('二维码下载成功（3天有效）')
 
-      // 实际下载逻辑（后续替换真实图片）
+      // TODO: 实现真实的二维码下载逻辑
       // const link = document.createElement('a')
-      // link.href = '/images/invite-qrcode.png'
-      // link.download = `邀请二维码_VIP${selectedVipLevel.value}.png`
+      // link.href = `/api/invite-qrcode?vipLevel=${selectedVipLevel.value}`
+      // link.download = `邀请二维码_${getVipLevelName(selectedVipLevel.value)}.png`
       // document.body.appendChild(link)
       // link.click()
       // document.body.removeChild(link)
     }
 
     /**
-     * 关闭结果弹窗
+     * 关闭导入结果弹窗
      */
     const handleResultDialogClose = () => {
       resultDialogVisible.value = false
     }
+
+    // ==================== 返回暴露的属性和方法 ====================
 
     return {
       inviteMode,
