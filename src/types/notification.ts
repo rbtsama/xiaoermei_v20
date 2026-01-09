@@ -3,15 +3,6 @@
  */
 
 /**
- * 通知类型枚举
- */
-export enum NotificationType {
-  NOTIFICATION = 'notification', // 普通通知
-  AGREEMENT_REQUIRED = 'agreement_required', // 需同意通知
-  TASK = 'task' // 任务
-}
-
-/**
  * 通知状态枚举
  */
 export enum NotificationStatus {
@@ -33,10 +24,10 @@ export enum OrderChangeType {
  */
 export interface NotificationItem {
   id: string
-  type: NotificationType
   title: string
   content: string
-  link?: string // 任务类型的跳转链接
+  requireAgreement: boolean // 是否需要同意
+  link?: string // 跳转链接（选填）
   status: NotificationStatus
   createdAt: string
 }
@@ -62,9 +53,10 @@ export interface OrderChangeNotification {
  * 平台后台创建通知任务表单
  */
 export interface NotificationTaskForm {
-  type: NotificationType
   content: string
-  link?: string // 任务类型需要填写链接
+  requireAgreement: boolean // 是否需要同意
+  hasLink: boolean // 是否有跳转链接
+  link?: string // 跳转链接（如果hasLink为true则必填）
   merchantIds: string[] // 选中的商户ID列表
 }
 
@@ -73,9 +65,9 @@ export interface NotificationTaskForm {
  */
 export interface NotificationRecord {
   id: string
-  type: NotificationType
   content: string
-  link?: string
+  requireAgreement: boolean // 是否需要同意
+  link?: string // 跳转链接
   merchantList: string[] // 发送商户名称列表
   merchantCount: number // 发送商户数量
   senderName: string
