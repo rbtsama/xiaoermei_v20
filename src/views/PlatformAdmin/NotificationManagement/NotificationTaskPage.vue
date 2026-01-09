@@ -35,14 +35,12 @@
 
           <!-- 需要同意 -->
           <template slot="requireAgreement" slot-scope="requireAgreement">
-            <a-tag v-if="requireAgreement" class="tag-orange">是</a-tag>
-            <span v-else class="text-gray">否</span>
+            <span class="normal-text">{{ requireAgreement ? '是' : '否' }}</span>
           </template>
 
           <!-- 跳转链接 -->
           <template slot="link" slot-scope="link">
-            <span v-if="link" class="link-text">{{ link }}</span>
-            <span v-else class="text-gray">无</span>
+            <span class="normal-text">{{ link || '无' }}</span>
           </template>
 
           <!-- 发送商户 -->
@@ -286,13 +284,8 @@ export default defineComponent({
   padding: 8px 0;
 }
 
-.text-gray {
-  color: @text-tertiary;
-  font-size: @font-size-sm;
-}
-
-.link-text {
-  color: @brand-primary;
+.normal-text {
+  color: @text-primary;
   font-size: @font-size-sm;
   word-break: break-all;
 }
