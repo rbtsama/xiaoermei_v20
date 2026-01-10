@@ -180,6 +180,17 @@
         <span class="field-hint">仅在此日期范围内可用（从开始日期0点到结束日期23:59:59）</span>
       </a-form-model-item>
 
+      <!-- 库存 -->
+      <a-form-model-item label="库存" prop="stock" required>
+        <a-input-number
+          v-model="form.stock"
+          :min="0"
+          placeholder="请输入库存数量"
+          style="width: 200px"
+        />
+        <div class="field-hint">0为不限制</div>
+      </a-form-model-item>
+
       <!-- 使用规则 -->
       <a-form-model-item label="使用规则" prop="usageRules">
         <a-textarea
@@ -243,6 +254,7 @@ export default defineComponent({
       validityType: 'days' as 'days' | 'dateRange',
       validDays: 30 as number | undefined,
       validDateRange: undefined as [string, string] | undefined,
+      stock: undefined as number | undefined,
       usageRules: '',
       remark: ''
     })
@@ -274,6 +286,10 @@ export default defineComponent({
       ],
       validityType: [
         { required: true, message: '请选择有效期类型' }
+      ],
+      stock: [
+        { required: true, message: '请输入库存', trigger: 'blur', type: 'number' },
+        { type: 'number', min: 0, message: '库存不能小于0', trigger: 'blur' }
       ]
     })
 
@@ -301,6 +317,7 @@ export default defineComponent({
           form.validDateRange = undefined
         }
 
+        form.stock = newCoupon.stock
         form.usageRules = newCoupon.usageRules || ''
         form.remark = newCoupon.remark || ''
       }
@@ -319,6 +336,7 @@ export default defineComponent({
         form.validityType = 'days'
         form.validDays = 30
         form.validDateRange = undefined
+        form.stock = undefined
         form.usageRules = ''
         form.remark = ''
         formRef.value?.resetFields()
@@ -333,6 +351,7 @@ export default defineComponent({
         form.validityType = 'days'
         form.validDays = 30
         form.validDateRange = undefined
+        form.stock = undefined
         form.usageRules = ''
         form.remark = ''
       }
@@ -381,6 +400,7 @@ export default defineComponent({
           type: form.type,
           platformRatio: form.platformRatio,
           merchantRatio: merchantRatio.value,
+          stock: form.stock,
           usageRules: form.usageRules,
           remark: form.remark,
           smsNotify: false

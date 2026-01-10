@@ -39,7 +39,7 @@
           :data-source="coupons"
           :pagination="paginationConfig"
           :loading="loading"
-          :scroll="{ x: 1300 }"
+          :scroll="{ x: 1390 }"
           row-key="id"
           class="custom-table"
           @change="handleTableChange"
@@ -85,6 +85,11 @@
               <div class="date-line">{{ record.validDateRange[1] }}</div>
             </div>
             <span v-else class="valid-text">—</span>
+          </template>
+
+          <!-- 库存 -->
+          <template slot="stock" slot-scope="stock">
+            <span class="stock-text">{{ stock === 0 ? '不限制' : stock }}</span>
           </template>
 
           <!-- 费用承担 -->
@@ -199,6 +204,13 @@ export default defineComponent({
         key: 'validDateRange',
         width: 140,
         scopedSlots: { customRender: 'validDateRange' }
+      },
+      {
+        title: '库存',
+        dataIndex: 'stock',
+        key: 'stock',
+        width: 90,
+        scopedSlots: { customRender: 'stock' }
       },
       {
         title: '费用承担',

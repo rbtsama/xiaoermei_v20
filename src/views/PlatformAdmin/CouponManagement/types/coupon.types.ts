@@ -39,6 +39,8 @@ export interface Coupon {
   validDays?: number
   // 有效日期范围（[开始日期, 结束日期]）- 与validDays二选一
   validDateRange?: [string, string]
+  // 库存（0=不限制，其他=可发放数量）- 必填
+  stock: number
   // 使用规则（用户可见）
   usageRules?: string
   // 备注说明（仅后台可见）
