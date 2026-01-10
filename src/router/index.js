@@ -159,6 +159,14 @@ const routes = [
     name: 'CommissionRewards',
     component: () => import('@/views/MerchantBackend/MemberService/CommissionRewardsPage.vue'),
     meta: { title: '分销奖励' }
+  },
+
+  // 商户端 - 活动管理
+  {
+    path: '/merchant-backend/activity-management/list',
+    name: 'MerchantActivityList',
+    component: () => import('@/views/MerchantBackend/ActivityManagement/ActivityListPage.vue'),
+    meta: { title: '活动列表' }
   }
 ]
 

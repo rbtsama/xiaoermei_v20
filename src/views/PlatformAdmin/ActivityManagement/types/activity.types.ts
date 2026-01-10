@@ -8,6 +8,11 @@
 export type ActivityStatus = 'not_started' | 'in_progress' | 'ended'
 
 /**
+ * 活动启用状态（商户端使用）
+ */
+export type ActivityEnableStatus = 'enabled' | 'disabled'
+
+/**
  * 活动主体
  */
 export interface Activity {
@@ -18,7 +23,7 @@ export interface Activity {
   rules: string                   // 活动规则（普通文本），最长500字符
   participationConditions: string[] // 参与条件（会员等级ID数组），如['VIP0','VIP1','VIP2']
   couponIds: string[]             // 派发优惠券ID数组
-  status?: ActivityStatus         // 状态（计算属性，查询时动态计算）
+  status?: ActivityStatus | ActivityEnableStatus // 状态（平台端：计算属性；商户端：enabled/disabled）
   createdAt: string               // 创建时间
   createdBy: string               // 创建人
 }
