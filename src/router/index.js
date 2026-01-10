@@ -57,6 +57,14 @@ const routes = [
     meta: { title: '操作记录' }
   },
 
+  // 平台后台 - 活动管理
+  {
+    path: '/platform-admin/activity-management/list',
+    name: 'ActivityList',
+    component: () => import('@/views/PlatformAdmin/ActivityManagement/ActivityListPage.vue'),
+    meta: { title: '活动列表' }
+  },
+
   // 平台后台 - 积分管理
   {
     path: '/platform-admin/points-management/config',

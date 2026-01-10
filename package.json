@@ -13,6 +13,8 @@
     "@vue/composition-api": "^1.7.2",
     "ant-design-vue": "^1.7.8",
     "dayjs": "^1.11.13",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "vue": "^2.6.12",

@@ -27,6 +27,13 @@ export const menuConfig = [
         ]
       },
       {
+        title: '活动管理',
+        key: 'activity-management',
+        children: [
+          { title: '活动列表', path: '/platform-admin/activity-management/list', key: 'activity-list' }
+        ]
+      },
+      {
         title: '积分管理',
         key: 'points-management',
         children: [
