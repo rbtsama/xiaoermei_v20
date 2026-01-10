@@ -305,22 +305,20 @@ export default defineComponent({
         const failedList = errors.slice(0, 5).join(', ')
         const moreText = errors.length > 5 ? ` 等${errors.length}个` : ''
 
+        let contentHtml = `<p>上传成功 <strong>${successCount}</strong> 个，失败 <strong>${failedCount}</strong> 个</p>`
+        if (failedCount > 0) {
+          contentHtml += `
+            <div style="margin-top: 12px;">
+              <p style="color: #ef4444;">失败文件：</p>
+              <p style="color: #666; line-height: 1.6;">${failedList}${moreText}</p>
+            </div>
+          `
+        }
+
         root.$modal.info({
           title: '校验结果',
           width: 500,
-          content: () => {
-            return (
-              <div>
-                <p>上传成功 <strong>{successCount}</strong> 个，失败 <strong>{failedCount}</strong> 个</p>
-                {failedCount > 0 && (
-                  <div>
-                    <p style="margin-top: 12px; color: #ef4444;">失败文件：</p>
-                    <p style="color: #666; line-height: 1.6;">{failedList}{moreText}</p>
-                  </div>
-                )}
-              </div>
-            )
-          }
+          content: (h) => h('div', { domProps: { innerHTML: contentHtml } })
         })
       } catch (error) {
         console.error('解析zip文件失败:', error)
