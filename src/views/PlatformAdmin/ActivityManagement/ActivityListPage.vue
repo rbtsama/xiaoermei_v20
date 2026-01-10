@@ -348,10 +348,12 @@ export default defineComponent({
         </div>
       `
 
-      root.$modal.info({
+      root.$confirm({
         title: activity.name,
         width: 600,
-        content: (h) => h('div', { domProps: { innerHTML: content } })
+        content: (h) => h('div', { domProps: { innerHTML: content } }),
+        okText: '确定',
+        cancelButtonProps: { style: { display: 'none' } }
       })
     }
 

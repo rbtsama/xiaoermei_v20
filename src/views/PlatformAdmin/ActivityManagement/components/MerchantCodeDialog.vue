@@ -315,10 +315,12 @@ export default defineComponent({
           `
         }
 
-        root.$modal.info({
+        root.$confirm({
           title: '校验结果',
           width: 500,
-          content: (h) => h('div', { domProps: { innerHTML: contentHtml } })
+          content: (h) => h('div', { domProps: { innerHTML: contentHtml } }),
+          okText: '确定',
+          cancelButtonProps: { style: { display: 'none' } }
         })
       } catch (error) {
         console.error('解析zip文件失败:', error)
