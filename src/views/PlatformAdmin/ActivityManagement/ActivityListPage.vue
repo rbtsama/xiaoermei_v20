@@ -338,20 +338,20 @@ export default defineComponent({
      * 查看活动
      */
     const handleView = (activity) => {
+      const content = `
+        <div>
+          <p><strong>活动时间：</strong>${activity.startTime} 至 ${activity.endTime}</p>
+          <p><strong>活动规则：</strong></p>
+          <div style="white-space: pre-wrap; line-height: 1.6;">${activity.rules}</div>
+          <p><strong>参与条件：</strong>${activity.participationConditions.join(', ')}</p>
+          <p><strong>派发优惠券：</strong>${activity.couponIds.length}张</p>
+        </div>
+      `
+
       root.$modal.info({
         title: activity.name,
         width: 600,
-        content: () => {
-          return (
-            <div>
-              <p><strong>活动时间：</strong>{activity.startTime} 至 {activity.endTime}</p>
-              <p><strong>活动规则：</strong></p>
-              <div style="white-space: pre-wrap; line-height: 1.6;">{activity.rules}</div>
-              <p><strong>参与条件：</strong>{activity.participationConditions.join(', ')}</p>
-              <p><strong>派发优惠券：</strong>{activity.couponIds.length}张</p>
-            </div>
-          )
-        }
+        content: (h) => h('div', { domProps: { innerHTML: content } })
       })
     }
 
