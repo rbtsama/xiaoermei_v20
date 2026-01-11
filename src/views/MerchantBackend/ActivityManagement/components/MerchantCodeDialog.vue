@@ -1,8 +1,8 @@
 <template>
   <a-modal
     :visible="visible"
-    :title="`活动码管理 - ${activity ? activity.name : ''}`"
-    width="600px"
+    title="活动码管理"
+    width="560px"
     :footer="null"
     @cancel="handleClose"
   >
@@ -10,47 +10,49 @@
       <!-- 说明文字 -->
       <div class="description">
         <a-icon type="info-circle" class="info-icon" />
-        <span class="info-text">商户活动码用于推广活动，客户扫码后可领取活动优惠券</span>
+        <span class="info-text">本店活动追踪码用于推广活动，活动海报用于宣传展示</span>
       </div>
 
       <!-- 操作按钮区 -->
       <div class="actions">
-        <!-- 下载活动码 -->
+        <!-- 下载本店活动追踪码 -->
         <div class="action-item">
           <a-button
             type="primary"
             size="large"
-            :loading="downloading"
-            @click="handleDownloadCode"
+            :loading="downloadingTracking"
+            @click="handleDownloadTrackingCode"
             class="action-btn"
           >
             <a-icon type="download" />
-            下载本店活动码
+            下载本店活动追踪码
           </a-button>
           <div class="action-hint">下载本门店的专属活动推广二维码</div>
         </div>
 
-        <!-- 上传活动码 -->
+        <!-- 上传本店活动海报 -->
         <div class="action-item">
           <a-upload
-            :before-upload="handleUploadCode"
+            :before-upload="handleUploadPoster"
             :show-upload-list="false"
-            accept=".zip,.png,.jpg"
+            accept=".png,.jpg,.jpeg"
           >
             <a-button size="large" class="action-btn">
               <a-icon type="upload" />
-              上传自定义活动码
+              上传本店活动海报
             </a-button>
           </a-upload>
-          <div class="action-hint">上传zip压缩包或单个图片文件进行校验</div>
+          <div class="action-hint">上传本门店的活动海报图片并校验（支持png、jpg格式）</div>
         </div>
       </div>
 
-      <!-- 当前活动码预览 -->
-      <div class="preview-section">
-        <div class="preview-label">当前活动码预览</div>
-        <div class="qr-code-wrapper">
-          <img :src="currentQRCode" alt="活动码" class="qr-code-image" />
+      <!-- 说明信息 -->
+      <div class="info-section">
+        <div class="info-title">文件要求</div>
+        <div class="info-content">
+          <p>• 追踪码：系统生成的专属二维码，客户扫码后可领取活动优惠券</p>
+          <p>• 海报：支持png、jpg格式，建议尺寸800x1200px</p>
+          <p>• 单个文件大小不超过10MB</p>
         </div>
       </div>
     </div>
@@ -76,7 +78,7 @@ export default defineComponent({
   },
 
   setup(props, { emit, root }) {
-    const downloading = ref(false)
+    const downloadingTracking = ref(false)
     const currentQRCode = ref('')
 
     // ==================== 业务函数 ====================
@@ -91,17 +93,16 @@ export default defineComponent({
     }
 
     /**
-     * 下载活动码
+     * 下载本店活动追踪码
      */
-    const handleDownloadCode = () => {
-      downloading.value = true
+    const handleDownloadTrackingCode = () => {
+      downloadingTracking.value = true
 
       try {
         // TODO: 调用API获取当前商户的活动码
-        // 这里模拟下载
         const link = document.createElement('a')
         link.href = currentQRCode.value
-        link.download = `${props.activity?.name || '活动'}_推广码.png`
+        link.download = '本店活动追踪码.png'
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
@@ -111,24 +112,24 @@ export default defineComponent({
         console.error('下载失败:', error)
         root.$message.error('下载失败，请重试')
       } finally {
-        downloading.value = false
+        downloadingTracking.value = false
       }
     }
 
     /**
-     * 上传活动码校验
+     * 上传本店活动海报并校验
      */
-    const handleUploadCode = async (file: File) => {
+    const handleUploadPoster = async (file: File) => {
       try {
         const fileName = file.name
         const fileSize = file.size
 
         // 校验文件格式
-        const validFormats = ['.zip', '.png', '.jpg', '.jpeg']
+        const validFormats = ['.png', '.jpg', '.jpeg']
         const isValidFormat = validFormats.some(format => fileName.toLowerCase().endsWith(format))
 
         if (!isValidFormat) {
-          root.$message.error('文件格式不正确，仅支持zip、png、jpg格式')
+          root.$message.error('文件格式不正确，仅支持png、jpg格式')
           return false
         }
 
@@ -140,10 +141,10 @@ export default defineComponent({
         }
 
         // 校验通过
-        root.$message.success('文件校验通过')
+        root.$message.success('海报上传成功，已校验通过')
 
         // TODO: 调用API上传文件
-        console.log('上传文件:', fileName, fileSize)
+        console.log('上传海报:', fileName, fileSize)
       } catch (error) {
         console.error('文件校验失败:', error)
         root.$message.error('文件校验失败')
@@ -171,10 +172,9 @@ export default defineComponent({
     // ==================== 返回暴露的属性和方法 ====================
 
     return {
-      downloading,
-      currentQRCode,
-      handleDownloadCode,
-      handleUploadCode,
+      downloadingTracking,
+      handleDownloadTrackingCode,
+      handleUploadPoster,
       handleClose
     }
   }
@@ -196,7 +196,7 @@ export default defineComponent({
   background: #e6f4ff;
   border: 1px solid #91caff;
   border-radius: @border-radius-base;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 
   .info-icon {
     color: #1677ff;
@@ -213,7 +213,7 @@ export default defineComponent({
 .actions {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
   margin-bottom: 32px;
 
   .action-item {
@@ -237,28 +237,33 @@ export default defineComponent({
   }
 }
 
-.preview-section {
-  .preview-label {
+.info-section {
+  padding: 16px;
+  background: @bg-secondary;
+  border-radius: @border-radius-base;
+
+  .info-title {
     font-size: @font-size-base;
-    font-weight: @font-weight-medium;
+    font-weight: @font-weight-semibold;
     color: @text-primary;
     margin-bottom: 12px;
   }
 
-  .qr-code-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 24px;
-    background: @bg-secondary;
-    border: 1px solid @border-primary;
-    border-radius: @border-radius-base;
+  .info-content {
+    p {
+      margin: 0;
+      padding: 4px 0;
+      font-size: @font-size-sm;
+      color: @text-secondary;
+      line-height: 1.6;
 
-    .qr-code-image {
-      width: 200px;
-      height: 200px;
-      border: 1px solid @border-primary;
-      border-radius: @border-radius-sm;
+      &:first-child {
+        padding-top: 0;
+      }
+
+      &:last-child {
+        padding-bottom: 0;
+      }
     }
   }
 }
