@@ -243,6 +243,11 @@ export default defineComponent({
     .upload-full-width {
       width: 100%;
       display: block;
+
+      :deep(.ant-upload) {
+        width: 100%;
+        display: block;
+      }
     }
 
     .action-btn {
