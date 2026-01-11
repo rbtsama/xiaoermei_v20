@@ -18,8 +18,8 @@ export const mockMerchantActivities: Activity[] = [
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1000', 'cp1011'], // 新用户满300减50 + 立减20新人券
     status: 'enabled', // 商户端需要状态字段（enabled/disabled）
-    createdAt: '2025-12-15 10:00:00',
-    createdBy: 'admin001'
+    createdAt: '2025-11-25 10:00:00',
+    createdBy: '王强'
   },
   {
     id: 'act1007',
@@ -30,8 +30,8 @@ export const mockMerchantActivities: Activity[] = [
     participationConditions: ['VIP0', 'VIP1', 'VIP2'],
     couponIds: ['cp1007', 'cp1010'], // 立减50 + 满600减100
     status: 'enabled',
-    createdAt: '2025-12-10 09:30:00',
-    createdBy: 'admin001'
+    createdAt: '2025-11-15 09:30:00',
+    createdBy: '张明'
   },
   {
     id: 'act1009',
@@ -42,7 +42,7 @@ export const mockMerchantActivities: Activity[] = [
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1014'], // 周年庆6折券
     status: 'disabled',
-    createdAt: '2026-01-02 10:15:00',
-    createdBy: 'admin003'
+    createdAt: '2025-11-30 10:15:00',
+    createdBy: '李娜'
   }
 ]

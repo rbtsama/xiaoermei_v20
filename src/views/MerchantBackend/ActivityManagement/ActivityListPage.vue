@@ -19,7 +19,7 @@
           :data-source="activities"
           :pagination="false"
           :loading="loading"
-          :scroll="{ x: 1460 }"
+          :scroll="{ x: 1340 }"
           row-key="id"
           class="custom-table"
         >
@@ -28,14 +28,13 @@
             <span class="name-text">{{ name }}</span>
           </template>
 
-          <!-- 开始时间 -->
-          <template slot="startTime" slot-scope="startTime">
-            <span class="date-text">{{ formatDate(startTime) }}</span>
-          </template>
-
-          <!-- 结束时间 -->
-          <template slot="endTime" slot-scope="endTime">
-            <span class="date-text">{{ formatDate(endTime) }}</span>
+          <!-- 活动时间 -->
+          <template slot="activityTime" slot-scope="text, record">
+            <div class="time-range-cell">
+              <div>{{ formatDate(record.startTime) }}</div>
+              <div class="time-separator">至</div>
+              <div>{{ formatDate(record.endTime) }}</div>
+            </div>
           </template>
 
           <!-- 会员限制 -->
@@ -66,10 +65,6 @@
               <a-button size="small" class="qrcode-btn" @click="handleManageCodes(record)">
                 <a-icon type="qrcode" />
                 活动码
-              </a-button>
-              <a-button size="small" @click="handleView(record)">
-                <a-icon type="eye" />
-                查看
               </a-button>
               <a-button
                 size="small"
@@ -129,18 +124,10 @@ export default defineComponent({
         scopedSlots: { customRender: 'name' }
       },
       {
-        title: '开始时间',
-        dataIndex: 'startTime',
-        key: 'startTime',
-        width: 120,
-        scopedSlots: { customRender: 'startTime' }
-      },
-      {
-        title: '结束时间',
-        dataIndex: 'endTime',
-        key: 'endTime',
-        width: 120,
-        scopedSlots: { customRender: 'endTime' }
+        title: '活动时间',
+        key: 'activityTime',
+        width: 200,
+        scopedSlots: { customRender: 'activityTime' }
       },
       {
         title: '会员限制',
@@ -173,7 +160,7 @@ export default defineComponent({
       {
         title: '操作',
         key: 'action',
-        width: 240,
+        width: 160,
         fixed: 'right',
         scopedSlots: { customRender: 'action' }
       }
@@ -238,32 +225,6 @@ export default defineComponent({
     }
 
     /**
-     * 查看活动
-     */
-    const handleView = (activity) => {
-      const startDate = formatDate(activity.startTime)
-      const endDate = formatDate(activity.endTime)
-
-      const content = `
-        <div>
-          <p><strong>活动时间：</strong>${startDate} 至 ${endDate}</p>
-          <p><strong>活动规则：</strong></p>
-          <div style="white-space: pre-wrap; line-height: 1.6;">${activity.rules}</div>
-          <p><strong>会员限制：</strong>${formatVipLevels(activity.participationConditions)}</p>
-          <p><strong>派发优惠券：</strong>${activity.couponIds.length}张</p>
-        </div>
-      `
-
-      root.$confirm({
-        title: activity.name,
-        width: 600,
-        content: (h) => h('div', { domProps: { innerHTML: content } }),
-        okText: '确定',
-        cancelButtonProps: { style: { display: 'none' } }
-      })
-    }
-
-    /**
      * 管理活动码
      */
     const handleManageCodes = (activity) => {
@@ -316,7 +277,6 @@ export default defineComponent({
       formatDate,
       formatVipLevels,
       formatCouponNames,
-      handleView,
       handleManageCodes,
       handleToggleStatus
     }
@@ -387,6 +347,19 @@ export default defineComponent({
 .creator-text {
   color: @text-secondary;
   font-size: @font-size-sm;
+}
+
+.time-range-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: @font-size-sm;
+  color: @text-primary;
+
+  .time-separator {
+    color: @text-tertiary;
+    font-size: @font-size-xs;
+  }
 }
 
 .action-btns {

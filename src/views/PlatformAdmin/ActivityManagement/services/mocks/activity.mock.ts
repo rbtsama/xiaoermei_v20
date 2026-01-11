@@ -18,8 +18,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受春节特惠优惠券。每位会员限领1次，优惠券有效期30天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1005', 'cp1013'], // 春节特惠满1000减200 + 满1500减300大额券
-    createdAt: '2026-01-10 10:00:00',
-    createdBy: 'admin001'
+    createdAt: '2025-12-28 10:00:00',
+    createdBy: '张明'
   },
   {
     id: 'act1001',
@@ -29,8 +29,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受情人节特惠优惠券。每位会员限领1次，优惠券有效期7天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1003'], // 情人节特惠满500减80
-    createdAt: '2026-01-25 13:45:00',
-    createdBy: 'admin001'
+    createdAt: '2025-12-25 13:45:00',
+    createdBy: '李娜'
   },
   {
     id: 'act1002',
@@ -40,8 +40,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受VIP专属优惠券。限VIP2及以上会员参与，每位会员限领1次，优惠券有效期60天。',
     participationConditions: ['VIP2', 'VIP3'],
     couponIds: ['cp1006', 'cp1004'], // 生日专享7折券 + 会员专享9折券
-    createdAt: '2026-01-15 11:00:00',
-    createdBy: 'admin002'
+    createdAt: '2025-12-20 11:00:00',
+    createdBy: '王强'
   },
   {
     id: 'act1003',
@@ -51,8 +51,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受寒假特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期30天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1012', 'cp1010'], // 寒假特惠9折券 + 满600减100
-    createdAt: '2026-01-05 14:30:00',
-    createdBy: 'admin002'
+    createdAt: '2025-12-15 14:30:00',
+    createdBy: '张明'
   },
   {
     id: 'act1004',
@@ -62,8 +62,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受春季踏青优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期30天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1001', 'cp1010'], // 周末特惠8折券 + 满600减100
-    createdAt: '2026-02-10 09:30:00',
-    createdBy: 'admin003'
+    createdAt: '2025-12-18 09:30:00',
+    createdBy: '李娜'
   },
 
   // ==================== 进行中的活动（5个）====================
@@ -75,8 +75,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受新年特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期30天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1000', 'cp1011'], // 新用户满300减50 + 立减20新人券
-    createdAt: '2025-12-15 10:00:00',
-    createdBy: 'admin001'
+    createdAt: '2025-11-25 10:00:00',
+    createdBy: '王强'
   },
   {
     id: 'act1006',
@@ -86,8 +86,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受会员日特惠优惠券。限VIP1及以上会员参与，每位会员限领1次，优惠券有效期30天。',
     participationConditions: ['VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1009', 'cp1004'], // 会员日85折券 + 会员专享9折券
-    createdAt: '2025-12-28 14:20:00',
-    createdBy: 'admin002'
+    createdAt: '2025-11-28 14:20:00',
+    createdBy: '李娜'
   },
   {
     id: 'act1007',
@@ -97,8 +97,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受冬季特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期14天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2'],
     couponIds: ['cp1007', 'cp1010'], // 立减50 + 满600减100
-    createdAt: '2025-12-10 09:30:00',
-    createdBy: 'admin001'
+    createdAt: '2025-11-15 09:30:00',
+    createdBy: '张明'
   },
   {
     id: 'act1008',
@@ -108,8 +108,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受生日特惠优惠券。限VIP1及以上会员参与，每位会员限领1次，优惠券有效期30天。',
     participationConditions: ['VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1006'], // 生日专享7折券
-    createdAt: '2025-12-20 16:00:00',
-    createdBy: 'admin002'
+    createdAt: '2025-11-22 16:00:00',
+    createdBy: '王强'
   },
   {
     id: 'act1009',
@@ -119,8 +119,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受周年庆特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期30天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1014'], // 周年庆6折券
-    createdAt: '2026-01-02 10:15:00',
-    createdBy: 'admin003'
+    createdAt: '2025-11-30 10:15:00',
+    createdBy: '李娜'
   },
 
   // ==================== 已结束的活动（5个）====================
@@ -132,8 +132,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受圣诞特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期7天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1001', 'cp1002'], // 周末特惠8折券 + 立减30元
-    createdAt: '2025-12-10 11:00:00',
-    createdBy: 'admin001'
+    createdAt: '2025-11-10 11:00:00',
+    createdBy: '张明'
   },
   {
     id: 'act1011',
@@ -143,8 +143,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受双12特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期7天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2'],
     couponIds: ['cp1010', 'cp1000'], // 满600减100 + 新用户满300减50
-    createdAt: '2025-12-01 09:00:00',
-    createdBy: 'admin002'
+    createdAt: '2025-11-05 09:00:00',
+    createdBy: '李娜'
   },
   {
     id: 'act1012',
@@ -154,8 +154,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受感恩特惠优惠券。限VIP2及以上会员参与，每位会员限领1次，优惠券有效期7天。',
     participationConditions: ['VIP2', 'VIP3'],
     couponIds: ['cp1004', 'cp1009'], // 会员专享9折券 + 会员日85折券
-    createdAt: '2025-11-15 14:30:00',
-    createdBy: 'admin001'
+    createdAt: '2025-10-28 14:30:00',
+    createdBy: '王强'
   },
   {
     id: 'act1013',
@@ -165,8 +165,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受黑五特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期3天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1007', 'cp1011'], // 立减50 + 立减20新人券
-    createdAt: '2025-11-20 10:00:00',
-    createdBy: 'admin002'
+    createdAt: '2025-10-25 10:00:00',
+    createdBy: '李娜'
   },
   {
     id: 'act1014',
@@ -176,8 +176,8 @@ export const mockActivities: Activity[] = [
     rules: '活动期间，通过专属二维码预订享受元旦特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期7天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2'],
     couponIds: ['cp1008', 'cp1002'], // 元旦特惠满800减120 + 立减30元
-    createdAt: '2025-12-20 09:15:00',
-    createdBy: 'admin003'
+    createdAt: '2025-11-18 09:15:00',
+    createdBy: '张明'
   }
 ]
 
