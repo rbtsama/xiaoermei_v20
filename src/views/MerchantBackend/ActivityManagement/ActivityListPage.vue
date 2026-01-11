@@ -31,9 +31,14 @@
           <!-- 活动时间 -->
           <template slot="activityTime" slot-scope="text, record">
             <div class="time-range-cell">
-              <div>{{ formatDate(record.startTime) }}</div>
-              <div class="time-separator">至</div>
-              <div>{{ formatDate(record.endTime) }}</div>
+              <div class="flex items-center gap-1">
+                <span class="date-icon-start">始</span>
+                <span class="text-primary">{{ formatDate(record.startTime) }}</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="date-icon-end">止</span>
+                <span class="text-primary">{{ formatDate(record.endTime) }}</span>
+              </div>
             </div>
           </template>
 
@@ -352,13 +357,47 @@ export default defineComponent({
 .time-range-cell {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
   font-size: @font-size-sm;
-  color: @text-primary;
 
-  .time-separator {
-    color: @text-tertiary;
+  .flex {
+    display: flex;
+  }
+
+  .items-center {
+    align-items: center;
+  }
+
+  .gap-1 {
+    gap: 4px;
+  }
+
+  .text-primary {
+    color: @text-primary;
+  }
+
+  .date-icon-start,
+  .date-icon-end {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 20px;
     font-size: @font-size-xs;
+    font-weight: @font-weight-medium;
+    border-radius: @border-radius-sm;
+  }
+
+  .date-icon-start {
+    color: #15803d;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+  }
+
+  .date-icon-end {
+    color: #c2410c;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
   }
 }
 
@@ -374,18 +413,19 @@ export default defineComponent({
     font-size: @font-size-sm;
   }
 
-  // 活动码按钮 - 渐变背景
+  // 活动码按钮 - 清淡渐变背景
   .qrcode-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    color: #ffffff;
+    background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+    border: 1px solid #93c5fd;
+    color: #1e40af;
     transition: all 0.3s ease;
 
     &:hover {
-      background: linear-gradient(135deg, #5a67d8 0%, #6b3fa0 100%);
+      background: linear-gradient(135deg, #bfdbfe 0%, #c7d2fe 100%);
+      border-color: #60a5fa;
       transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
-      color: #ffffff;
+      box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+      color: #1e40af;
     }
 
     &:active {
@@ -393,7 +433,7 @@ export default defineComponent({
     }
 
     .anticon {
-      color: #ffffff;
+      color: #1e40af;
     }
   }
 }

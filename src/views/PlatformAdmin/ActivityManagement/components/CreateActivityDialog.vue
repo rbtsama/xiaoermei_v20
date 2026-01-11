@@ -42,7 +42,7 @@
       <a-form-model-item label="活动规则" prop="rules">
         <a-textarea
           v-model="form.rules"
-          placeholder="活动期间，凡通过专属二维码预订的订单，均可享受专属优惠券。每个会员限领1次..."
+          placeholder="请填写活动详细规则，会展示给商家作为详细的说明查看"
           :rows="5"
           :maxLength="500"
         />
