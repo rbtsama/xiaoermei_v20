@@ -137,6 +137,7 @@ import ActivityDataDialog from './components/ActivityDataDialog.vue'
 import ActivityService from './services/activity.service'
 import CouponService from '../CouponManagement/services/coupon.service'
 import dayjs from 'dayjs'
+import * as XLSX from 'xlsx'
 
 // VIP等级名称映射
 const VIP_LEVEL_NAMES = {
@@ -362,11 +363,54 @@ export default defineComponent({
     }
 
     /**
-     * 查看数据
+     * 查看数据（直接下载Excel）
      */
-    const handleViewData = (activity) => {
-      selectedActivity.value = activity
-      isDataDialogOpen.value = true
+    const handleViewData = async (activity) => {
+      try {
+        // 获取优惠券发放明细数据
+        const details = await ActivityService.getCouponDistributionDetails(activity.id)
+
+        if (!details || details.length === 0) {
+          root.$message.warning('暂无数据可导出')
+          return
+        }
+
+        // 构建Excel数据
+        const headers = ['优惠券名称', '发放数量']
+        const rows = details.map(item => [
+          item.couponName,
+          item.distributionCount
+        ])
+
+        // 计算累计发放总数
+        const totalCount = details.reduce((sum, item) => sum + item.distributionCount, 0)
+        rows.push(['累计发放', totalCount])
+
+        // 创建工作表
+        const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows])
+
+        // 设置列宽
+        worksheet['!cols'] = [
+          { wch: 30 }, // 优惠券名称列宽
+          { wch: 15 }  // 发放数量列宽
+        ]
+
+        // 创建工作簿
+        const workbook = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(workbook, worksheet, '优惠券发放明细')
+
+        // 生成文件名（包含T-1日期）
+        const t1Date = ActivityService.getT1Date()
+        const fileName = `${activity.name}_数据统计_${t1Date}.xlsx`
+
+        // 导出文件
+        XLSX.writeFile(workbook, fileName)
+
+        root.$message.success('数据导出成功')
+      } catch (error) {
+        console.error('导出数据失败:', error)
+        root.$message.error('导出数据失败')
+      }
     }
 
     /**
