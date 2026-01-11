@@ -19,7 +19,7 @@
           :data-source="activities"
           :pagination="false"
           :loading="loading"
-          :scroll="{ x: 1400 }"
+          :scroll="{ x: 1280 }"
           row-key="id"
           class="custom-table"
         >
@@ -35,18 +35,12 @@
 
           <!-- 开始时间 -->
           <template slot="startTime" slot-scope="startTime">
-            <div class="datetime-cell">
-              <div class="date">{{ formatDate(startTime) }}</div>
-              <div class="time">{{ formatTime(startTime) }}</div>
-            </div>
+            <span class="date-text">{{ formatDate(startTime) }}</span>
           </template>
 
           <!-- 结束时间 -->
           <template slot="endTime" slot-scope="endTime">
-            <div class="datetime-cell">
-              <div class="date">{{ formatDate(endTime) }}</div>
-              <div class="time">{{ formatTime(endTime) }}</div>
-            </div>
+            <span class="date-text">{{ formatDate(endTime) }}</span>
           </template>
 
           <!-- 会员限制 -->
@@ -145,14 +139,14 @@ export default defineComponent({
         title: '开始时间',
         dataIndex: 'startTime',
         key: 'startTime',
-        width: 160,
+        width: 120,
         scopedSlots: { customRender: 'startTime' }
       },
       {
         title: '结束时间',
         dataIndex: 'endTime',
         key: 'endTime',
-        width: 160,
+        width: 120,
         scopedSlots: { customRender: 'endTime' }
       },
       {
@@ -188,17 +182,10 @@ export default defineComponent({
     // ==================== 工具函数 ====================
 
     /**
-     * 格式化日期
+     * 格式化日期（只显示日期部分）
      */
     const formatDate = (datetime) => {
       return datetime ? dayjs(datetime).format('YYYY-MM-DD') : '-'
-    }
-
-    /**
-     * 格式化时间
-     */
-    const formatTime = (datetime) => {
-      return datetime ? dayjs(datetime).format('HH:mm:ss') : '-'
     }
 
     /**
@@ -231,9 +218,12 @@ export default defineComponent({
      * 查看活动
      */
     const handleView = (activity) => {
+      const startDate = formatDate(activity.startTime)
+      const endDate = formatDate(activity.endTime)
+
       const content = `
         <div>
-          <p><strong>活动时间：</strong>${activity.startTime} 至 ${activity.endTime}</p>
+          <p><strong>活动时间：</strong>${startDate} 至 ${endDate}</p>
           <p><strong>活动规则：</strong></p>
           <div style="white-space: pre-wrap; line-height: 1.6;">${activity.rules}</div>
           <p><strong>会员限制：</strong>${formatVipLevels(activity.participationConditions)}</p>
@@ -300,7 +290,6 @@ export default defineComponent({
       isMerchantCodeDialogOpen,
       selectedActivity,
       formatDate,
-      formatTime,
       formatVipLevels,
       handleView,
       handleManageCodes,
@@ -357,6 +346,11 @@ export default defineComponent({
 .name-text {
   color: @text-primary;
   font-weight: @font-weight-medium;
+}
+
+.date-text {
+  color: @text-primary;
+  font-size: @font-size-sm;
 }
 
 .vip-levels-cell {

@@ -30,13 +30,12 @@
       <a-form-model-item label="活动时间" prop="timeRange">
         <a-range-picker
           v-model="form.timeRange"
-          show-time
-          format="YYYY-MM-DD HH:mm:ss"
-          value-format="YYYY-MM-DD HH:mm:ss"
+          format="YYYY-MM-DD"
+          value-format="YYYY-MM-DD"
           style="width: 100%"
-          :placeholder="['开始时间', '结束时间']"
+          :placeholder="['开始日期', '结束日期']"
         />
-        <div class="field-hint">活动状态根据时间自动流转</div>
+        <div class="field-hint">活动状态根据时间自动流转（开始日期0点至结束日期23:59）</div>
       </a-form-model-item>
 
       <!-- 活动规则 -->
@@ -222,10 +221,11 @@ export default defineComponent({
 
         loading.value = true
 
+        // 将日期补充为完整时间：开始日期00:00:00，结束日期23:59:59
         const activityData: any = {
           name: form.name,
-          startTime: form.timeRange![0],
-          endTime: form.timeRange![1],
+          startTime: `${form.timeRange![0]} 00:00:00`,
+          endTime: `${form.timeRange![1]} 23:59:59`,
           rules: form.rules,
           participationConditions: form.participationConditions,
           couponIds: form.couponIds
@@ -263,7 +263,11 @@ export default defineComponent({
     watch(() => props.activity, (newActivity) => {
       if (newActivity && props.mode === 'edit') {
         form.name = newActivity.name
-        form.timeRange = [newActivity.startTime, newActivity.endTime]
+        // 将完整时间格式转换为日期格式（YYYY-MM-DD HH:mm:ss -> YYYY-MM-DD）
+        form.timeRange = [
+          newActivity.startTime.split(' ')[0],
+          newActivity.endTime.split(' ')[0]
+        ]
         form.rules = newActivity.rules
         form.participationConditions = [...newActivity.participationConditions]
         form.couponIds = [...newActivity.couponIds]
