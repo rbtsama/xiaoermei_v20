@@ -7,18 +7,11 @@
     @cancel="handleClose"
   >
     <div class="code-management-content">
-      <!-- 说明文字 -->
-      <div class="description">
-        <a-icon type="info-circle" class="info-icon" />
-        <span class="info-text">本店活动追踪码用于推广活动，活动海报用于宣传展示</span>
-      </div>
-
       <!-- 操作按钮区 -->
       <div class="actions">
         <!-- 下载本店活动追踪码 -->
         <div class="action-item">
           <a-button
-            type="primary"
             size="large"
             :loading="downloadingTracking"
             @click="handleDownloadTrackingCode"
@@ -50,8 +43,8 @@
       <div class="info-section">
         <div class="info-title">文件要求</div>
         <div class="info-content">
-          <p>• 追踪码：系统生成的专属二维码，客户扫码后可领取活动优惠券</p>
-          <p>• 海报：支持png、jpg格式，建议尺寸800x1200px</p>
+          <p>• 追踪码文件名：商户名.png（如"原乡芦茨.png"）</p>
+          <p>• 海报文件名：商户名.png 或 商户名.jpg（如"原乡芦茨.png"）</p>
           <p>• 单个文件大小不超过10MB</p>
         </div>
       </div>
@@ -99,10 +92,13 @@ export default defineComponent({
       downloadingTracking.value = true
 
       try {
-        // TODO: 调用API获取当前商户的活动码
+        // TODO: 调用API获取当前商户的活动码和商户名
+        // 这里使用模拟商户名
+        const merchantName = '原乡芦茨' // 实际应从登录用户获取
+
         const link = document.createElement('a')
         link.href = currentQRCode.value
-        link.download = '本店活动追踪码.png'
+        link.download = `${merchantName}.png`
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
@@ -188,33 +184,11 @@ export default defineComponent({
   padding: 8px 0;
 }
 
-.description {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  background: #e6f4ff;
-  border: 1px solid #91caff;
-  border-radius: @border-radius-base;
-  margin-bottom: 32px;
-
-  .info-icon {
-    color: #1677ff;
-    font-size: @font-size-base;
-  }
-
-  .info-text {
-    color: @text-primary;
-    font-size: @font-size-sm;
-    line-height: 1.6;
-  }
-}
-
 .actions {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  margin-bottom: 32px;
+  gap: 20px;
+  margin-bottom: 24px;
 
   .action-item {
     display: flex;
@@ -227,6 +201,15 @@ export default defineComponent({
       font-size: @font-size-base;
       font-weight: @font-weight-medium;
       border-radius: @border-radius-base;
+      background: @bg-primary;
+      border: 1px solid @border-primary;
+      color: @text-primary;
+      transition: @transition-base;
+
+      &:hover {
+        border-color: @brand-primary;
+        color: @brand-primary;
+      }
     }
 
     .action-hint {
