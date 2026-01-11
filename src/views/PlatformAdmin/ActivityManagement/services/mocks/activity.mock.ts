@@ -15,7 +15,7 @@ export const mockActivities: Activity[] = [
     name: '春节新春大促',
     startTime: '2026-02-01 00:00:00',
     endTime: '2026-02-28 23:59:59',
-    rules: '活动期间，凡通过专属二维码预订的订单，均可享受专属优惠券。每个会员限领1次，优惠券有效期30天。春节期间入住享受额外优惠，先到先得。',
+    rules: '活动期间，通过专属二维码预订享受春节特惠优惠券。每位会员限领1次，优惠券有效期30天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1005', 'cp1013'], // 春节特惠满1000减200 + 满1500减300大额券
     createdAt: '2026-01-10 10:00:00',
@@ -23,35 +23,35 @@ export const mockActivities: Activity[] = [
   },
   {
     id: 'act1001',
-    name: '寒假亲子套餐活动',
-    startTime: '2026-01-20 00:00:00',
-    endTime: '2026-02-15 23:59:59',
-    rules: '针对家庭出游用户，扫描专属二维码后可领取亲子套餐优惠券组合。限VIP1及以上会员参与。优惠券可叠加使用，畅享家庭欢乐时光。',
-    participationConditions: ['VIP1', 'VIP2', 'VIP3'],
-    couponIds: ['cp1012', 'cp1010'], // 寒假特惠9折券 + 满600减100
-    createdAt: '2026-01-08 14:30:00',
-    createdBy: 'admin002'
-  },
-  {
-    id: 'act1002',
     name: '情人节浪漫套餐',
     startTime: '2026-02-10 00:00:00',
     endTime: '2026-02-20 23:59:59',
-    rules: '情人节特别企划，情侣专属优惠。通过专属二维码预订情侣房型，享受浪漫优惠。所有会员均可参与，优惠券有效期7天。',
+    rules: '活动期间，通过专属二维码预订享受情人节特惠优惠券。每位会员限领1次，优惠券有效期7天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1003'], // 情人节特惠满500减80
     createdAt: '2026-01-25 13:45:00',
     createdBy: 'admin001'
   },
   {
-    id: 'act1003',
-    name: 'VIP尊享月',
+    id: 'act1002',
+    name: 'VIP会员专享月',
     startTime: '2026-01-25 00:00:00',
     endTime: '2026-02-25 23:59:59',
-    rules: 'VIP高级会员专享活动，限VIP2及以上会员。扫码领取高额折扣券，尊享尊贵体验。每位会员限领一次，优惠券有效期60天。',
+    rules: '活动期间，通过专属二维码预订享受VIP专属优惠券。限VIP2及以上会员参与，每位会员限领1次，优惠券有效期60天。',
     participationConditions: ['VIP2', 'VIP3'],
-    couponIds: ['cp1006', 'cp1013', 'cp1004'], // 生日专享7折券 + 满1500减300 + 会员专享9折券
-    createdAt: '2026-01-12 11:00:00',
+    couponIds: ['cp1006', 'cp1004'], // 生日专享7折券 + 会员专享9折券
+    createdAt: '2026-01-15 11:00:00',
+    createdBy: 'admin002'
+  },
+  {
+    id: 'act1003',
+    name: '寒假亲子游活动',
+    startTime: '2026-01-20 00:00:00',
+    endTime: '2026-02-15 23:59:59',
+    rules: '活动期间，通过专属二维码预订享受寒假特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期30天。',
+    participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
+    couponIds: ['cp1012', 'cp1010'], // 寒假特惠9折券 + 满600减100
+    createdAt: '2026-01-05 14:30:00',
     createdBy: 'admin002'
   },
   {
@@ -59,10 +59,10 @@ export const mockActivities: Activity[] = [
     name: '三月踏青季',
     startTime: '2026-03-01 00:00:00',
     endTime: '2026-03-31 23:59:59',
-    rules: '春暖花开，踏青出游。活动期间通过专属二维码预订，享受春季特惠。所有会员等级均可参与，多重优惠券组合使用。',
+    rules: '活动期间，通过专属二维码预订享受春季踏青优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期30天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
-    couponIds: ['cp1001', 'cp1009', 'cp1010'], // 周末特惠8折券 + 会员日85折券 + 满600减100
-    createdAt: '2026-02-15 09:30:00',
+    couponIds: ['cp1001', 'cp1010'], // 周末特惠8折券 + 满600减100
+    createdAt: '2026-02-10 09:30:00',
     createdBy: 'admin003'
   },
 
@@ -72,18 +72,18 @@ export const mockActivities: Activity[] = [
     name: '新年开门红',
     startTime: '2026-01-01 00:00:00',
     endTime: '2026-01-20 23:59:59',
-    rules: '新年首月特惠，所有会员扫码即享新年礼包。优惠券组合丰富，满足不同消费需求。限时抢购，数量有限。',
+    rules: '活动期间，通过专属二维码预订享受新年特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期30天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
-    couponIds: ['cp1000', 'cp1002', 'cp1011'], // 新用户满300减50 + 立减30 + 立减20新人券
+    couponIds: ['cp1000', 'cp1011'], // 新用户满300减50 + 立减20新人券
     createdAt: '2025-12-15 10:00:00',
-    createdBy: 'admin003'
+    createdBy: 'admin001'
   },
   {
     id: 'act1006',
     name: '会员日专属福利',
     startTime: '2026-01-05 00:00:00',
     endTime: '2026-01-18 23:59:59',
-    rules: '每月18号会员日活动，VIP1及以上会员专享。多张优惠券可叠加使用，享受最大优惠。扫码即领，限量发放。',
+    rules: '活动期间，通过专属二维码预订享受会员日特惠优惠券。限VIP1及以上会员参与，每位会员限领1次，优惠券有效期30天。',
     participationConditions: ['VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1009', 'cp1004'], // 会员日85折券 + 会员专享9折券
     createdAt: '2025-12-28 14:20:00',
@@ -94,7 +94,7 @@ export const mockActivities: Activity[] = [
     name: '冬季暖心优惠',
     startTime: '2025-12-20 00:00:00',
     endTime: '2026-01-15 23:59:59',
-    rules: '冬季特惠，暖心价格。所有等级会员均可参与，扫码领券立减。优惠券有效期14天，全场民宿通用。',
+    rules: '活动期间，通过专属二维码预订享受冬季特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期14天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2'],
     couponIds: ['cp1007', 'cp1010'], // 立减50 + 满600减100
     createdAt: '2025-12-10 09:30:00',
@@ -105,22 +105,22 @@ export const mockActivities: Activity[] = [
     name: '生日月特惠',
     startTime: '2026-01-01 00:00:00',
     endTime: '2026-01-31 23:59:59',
-    rules: '生日当月会员专享，凭生日信息验证后领取生日专属优惠券。需上传身份证验证，审核通过后发放。限VIP1及以上会员。',
+    rules: '活动期间，通过专属二维码预订享受生日特惠优惠券。限VIP1及以上会员参与，每位会员限领1次，优惠券有效期30天。',
     participationConditions: ['VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1006'], // 生日专享7折券
-    createdAt: '2025-12-18 16:00:00',
-    createdBy: 'admin003'
+    createdAt: '2025-12-20 16:00:00',
+    createdBy: 'admin002'
   },
   {
     id: 'act1009',
-    name: '周年庆预热',
+    name: '周年庆预热活动',
     startTime: '2026-01-08 00:00:00',
     endTime: '2026-01-25 23:59:59',
-    rules: '平台周年庆预热活动，提前领券享优惠。限时抢购，先到先得。所有会员等级均可参与，优惠券数量有限。',
+    rules: '活动期间，通过专属二维码预订享受周年庆特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期30天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1014'], // 周年庆6折券
     createdAt: '2026-01-02 10:15:00',
-    createdBy: 'admin002'
+    createdBy: 'admin003'
   },
 
   // ==================== 已结束的活动（5个）====================
@@ -129,7 +129,7 @@ export const mockActivities: Activity[] = [
     name: '圣诞狂欢节',
     startTime: '2025-12-20 00:00:00',
     endTime: '2025-12-26 23:59:59',
-    rules: '圣诞特惠，扫码领券享折扣。所有会员均可参与，优惠券有效期7天。活动期间预订享受双倍优惠，错过等一年。',
+    rules: '活动期间，通过专属二维码预订享受圣诞特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期7天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1001', 'cp1002'], // 周末特惠8折券 + 立减30元
     createdAt: '2025-12-10 11:00:00',
@@ -140,7 +140,7 @@ export const mockActivities: Activity[] = [
     name: '双12购物节',
     startTime: '2025-12-10 00:00:00',
     endTime: '2025-12-15 23:59:59',
-    rules: '双12特惠，全场满减。通过专属二维码预订，享受双倍优惠。新老会员均享优惠，先到先得，售完即止。',
+    rules: '活动期间，通过专属二维码预订享受双12特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期7天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2'],
     couponIds: ['cp1010', 'cp1000'], // 满600减100 + 新用户满300减50
     createdAt: '2025-12-01 09:00:00',
@@ -148,36 +148,36 @@ export const mockActivities: Activity[] = [
   },
   {
     id: 'act1012',
-    name: '感恩节回馈',
+    name: '感恩节回馈活动',
     startTime: '2025-11-25 00:00:00',
     endTime: '2025-11-30 23:59:59',
-    rules: '感恩回馈老会员，扫码领取感恩优惠券。限VIP2及以上老会员参与，优惠力度空前，感恩有你一路相伴。',
+    rules: '活动期间，通过专属二维码预订享受感恩特惠优惠券。限VIP2及以上会员参与，每位会员限领1次，优惠券有效期7天。',
     participationConditions: ['VIP2', 'VIP3'],
     couponIds: ['cp1004', 'cp1009'], // 会员专享9折券 + 会员日85折券
     createdAt: '2025-11-15 14:30:00',
-    createdBy: 'admin003'
+    createdBy: 'admin001'
   },
   {
     id: 'act1013',
     name: '黑五限时抢购',
     startTime: '2025-11-28 00:00:00',
     endTime: '2025-11-29 23:59:59',
-    rules: '黑五24小时限时抢购，优惠券数量有限，先到先得。所有会员等级均可参与，每人限领一次，仅限当天使用。',
+    rules: '活动期间，通过专属二维码预订享受黑五特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期3天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     couponIds: ['cp1007', 'cp1011'], // 立减50 + 立减20新人券
     createdAt: '2025-11-20 10:00:00',
-    createdBy: 'admin001'
+    createdBy: 'admin002'
   },
   {
     id: 'act1014',
     name: '元旦跨年促销',
     startTime: '2025-12-28 00:00:00',
     endTime: '2026-01-05 23:59:59',
-    rules: '元旦跨年特惠活动，通过商户专属二维码预订，立享优惠券福利。新老会员均可参与，优惠券有效期7天。',
+    rules: '活动期间，通过专属二维码预订享受元旦特惠优惠券。所有会员均可参与，每位会员限领1次，优惠券有效期7天。',
     participationConditions: ['VIP0', 'VIP1', 'VIP2'],
     couponIds: ['cp1008', 'cp1002'], // 元旦特惠满800减120 + 立减30元
     createdAt: '2025-12-20 09:15:00',
-    createdBy: 'admin001'
+    createdBy: 'admin003'
   }
 ]
 

@@ -126,11 +126,11 @@ class ActivityService {
   }
 
   /**
-   * 更新活动（仅未开始状态可编辑）
+   * 更新活动（所有状态均可编辑）
    * @param {string} id - 活动ID
    * @param {Partial<Activity>} data - 更新数据
    * @returns {Promise<Activity>} 更新后的活动对象
-   * @throws {Error} 如果活动不存在或状态不允许编辑
+   * @throws {Error} 如果活动不存在
    */
   async updateActivity(id: string, data: Partial<Activity>): Promise<Activity> {
     await new Promise(resolve => setTimeout(resolve, 400))
@@ -141,12 +141,6 @@ class ActivityService {
     }
 
     const activity = this.activities[index]
-    const status = this.calculateActivityStatus(activity)
-
-    // 校验：只能编辑未开始的活动
-    if (status !== 'not_started') {
-      throw new Error('只能编辑未开始的活动')
-    }
 
     // 更新活动数据（保留id、createdAt、createdBy）
     this.activities[index] = {

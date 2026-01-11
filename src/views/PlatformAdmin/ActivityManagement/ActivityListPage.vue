@@ -108,11 +108,7 @@
                 <a-icon type="eye" />
                 查看
               </a-button>
-              <a-button
-                v-if="record.status === 'not_started'"
-                size="small"
-                @click="handleEdit(record)"
-              >
+              <a-button size="small" @click="handleEdit(record)">
                 <a-icon type="edit" />
                 编辑
               </a-button>
