@@ -230,7 +230,7 @@ export default defineComponent({
       {
         title: '操作',
         key: 'action',
-        width: 220,
+        width: 260,
         fixed: 'right',
         scopedSlots: { customRender: 'action' }
       }
@@ -472,13 +472,13 @@ export default defineComponent({
 
 .action-btns {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 
   .ant-btn-sm {
     height: 28px;
-    padding: 0 12px;
+    padding: 0 10px;
     font-size: @font-size-sm;
   }
 }
