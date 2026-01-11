@@ -47,16 +47,11 @@
           :data-source="activities"
           :pagination="paginationConfig"
           :loading="loading"
-          :scroll="{ x: 1360 }"
+          :scroll="{ x: 1540 }"
           row-key="id"
           class="custom-table"
           @change="handleTableChange"
         >
-          <!-- 活动ID -->
-          <template slot="id" slot-scope="id">
-            <span class="id-text">{{ id }}</span>
-          </template>
-
           <!-- 活动名称 -->
           <template slot="name" slot-scope="name">
             <span class="name-text">{{ name }}</span>
@@ -81,12 +76,17 @@
 
           <!-- 参与条件 -->
           <template slot="participationConditions" slot-scope="conditions">
-            <span class="conditions-text">{{ conditions.length }}个等级</span>
+            <span class="conditions-text">{{ formatVipLevels(conditions) }}</span>
           </template>
 
           <!-- 派发优惠券 -->
           <template slot="couponIds" slot-scope="couponIds">
-            <span class="coupons-text">{{ couponIds.length }}张券</span>
+            <span class="coupons-text">{{ formatCouponNames(couponIds) }}</span>
+          </template>
+
+          <!-- 创建人 -->
+          <template slot="createdBy" slot-scope="createdBy">
+            <span class="creator-text">{{ createdBy }}</span>
           </template>
 
           <!-- 创建时间 -->
@@ -139,7 +139,16 @@ import CreateActivityDialog from './components/CreateActivityDialog.vue'
 import MerchantCodeDialog from './components/MerchantCodeDialog.vue'
 import ActivityDataDialog from './components/ActivityDataDialog.vue'
 import ActivityService from './services/activity.service'
+import CouponService from '../CouponManagement/services/coupon.service'
 import dayjs from 'dayjs'
+
+// VIP等级名称映射
+const VIP_LEVEL_NAMES = {
+  VIP0: '注册会员',
+  VIP1: 'VIP1',
+  VIP2: 'VIP2',
+  VIP3: 'VIP3'
+}
 
 export default defineComponent({
   name: 'ActivityListPage',
@@ -154,6 +163,7 @@ export default defineComponent({
 
     const loading = ref(false)
     const activities = ref([])
+    const allCoupons = ref([]) // 优惠券列表（用于显示名称）
 
     // Dialog状态
     const isCreateDialogOpen = ref(false)
@@ -165,13 +175,6 @@ export default defineComponent({
 
     // 表格列定义
     const columns = [
-      {
-        title: '活动ID',
-        dataIndex: 'id',
-        key: 'id',
-        width: 100,
-        scopedSlots: { customRender: 'id' }
-      },
       {
         title: '活动名称',
         dataIndex: 'name',
@@ -204,14 +207,14 @@ export default defineComponent({
         title: '参与条件',
         dataIndex: 'participationConditions',
         key: 'participationConditions',
-        width: 110,
+        width: 200,
         scopedSlots: { customRender: 'participationConditions' }
       },
       {
         title: '派发优惠券',
         dataIndex: 'couponIds',
         key: 'couponIds',
-        width: 120,
+        width: 280,
         scopedSlots: { customRender: 'couponIds' }
       },
       {
@@ -220,6 +223,13 @@ export default defineComponent({
         key: 'createdAt',
         width: 140,
         scopedSlots: { customRender: 'createdAt' }
+      },
+      {
+        title: '创建人',
+        dataIndex: 'createdBy',
+        key: 'createdBy',
+        width: 100,
+        scopedSlots: { customRender: 'createdBy' }
       },
       {
         title: '操作',
@@ -251,6 +261,25 @@ export default defineComponent({
     }
 
     /**
+     * 格式化VIP等级列表
+     */
+    const formatVipLevels = (conditions) => {
+      if (!conditions || conditions.length === 0) return '无限制'
+      return conditions.map(id => VIP_LEVEL_NAMES[id] || id).join(', ')
+    }
+
+    /**
+     * 格式化优惠券名称列表
+     */
+    const formatCouponNames = (couponIds) => {
+      if (!couponIds || couponIds.length === 0) return '-'
+      return couponIds.map(id => {
+        const coupon = allCoupons.value.find(c => c.id === id)
+        return coupon ? coupon.name : id
+      }).join(', ')
+    }
+
+    /**
      * 获取状态标签样式类名
      */
     const getStatusTagClass = (status) => {
@@ -275,6 +304,18 @@ export default defineComponent({
     }
 
     // ==================== 业务函数 ====================
+
+    /**
+     * 加载优惠券列表
+     */
+    const loadCoupons = async () => {
+      try {
+        const result = await CouponService.getCoupons()
+        allCoupons.value = result.data || []
+      } catch (error) {
+        console.error('加载优惠券列表失败:', error)
+      }
+    }
 
     /**
      * 加载活动列表
@@ -373,6 +414,7 @@ export default defineComponent({
     // ==================== 生命周期 ====================
 
     onMounted(() => {
+      loadCoupons()
       fetchActivities()
     })
 
@@ -390,6 +432,8 @@ export default defineComponent({
       editingActivity,
       selectedActivity,
       formatDate,
+      formatVipLevels,
+      formatCouponNames,
       getStatusTagClass,
       getStatusText,
       handleTableChange,
@@ -460,6 +504,11 @@ export default defineComponent({
 
 .conditions-text,
 .coupons-text {
+  color: @text-secondary;
+  font-size: @font-size-sm;
+}
+
+.creator-text {
   color: @text-secondary;
   font-size: @font-size-sm;
 }
