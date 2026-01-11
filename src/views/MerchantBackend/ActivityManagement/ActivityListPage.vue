@@ -31,11 +31,11 @@
           <template slot="activityTime" slot-scope="text, record">
             <div class="time-range-cell">
               <div class="flex items-center gap-1">
-                <span class="date-icon-in">入</span>
+                <span class="date-icon-start">起</span>
                 <span class="text-primary">{{ formatDate(record.startTime) }}</span>
               </div>
               <div class="flex items-center gap-1">
-                <span class="date-icon-out">离</span>
+                <span class="date-icon-end">止</span>
                 <span class="text-primary">{{ formatDate(record.endTime) }}</span>
               </div>
             </div>
@@ -365,8 +365,8 @@ export default defineComponent({
     color: @text-primary;
   }
 
-  .date-icon-in,
-  .date-icon-out {
+  .date-icon-start,
+  .date-icon-end {
     display: inline-block;
     width: 20px;
     height: 20px;

@@ -29,6 +29,7 @@
             :before-upload="handleUploadPosters"
             :show-upload-list="false"
             accept=".zip"
+            class="upload-full-width"
           >
             <a-button size="large" class="action-btn">
               <a-icon type="upload" />
@@ -238,6 +239,11 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     gap: 8px;
+
+    .upload-full-width {
+      width: 100%;
+      display: block;
+    }
 
     .action-btn {
       width: 100%;
