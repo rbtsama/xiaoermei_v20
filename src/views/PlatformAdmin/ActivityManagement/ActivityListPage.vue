@@ -47,7 +47,6 @@
           :data-source="activities"
           :pagination="paginationConfig"
           :loading="loading"
-          :scroll="{ x: 1420 }"
           row-key="id"
           class="custom-table"
           @change="handleTableChange"
@@ -61,11 +60,11 @@
           <template slot="activityTime" slot-scope="text, record">
             <div class="time-range-cell">
               <div class="flex items-center gap-1">
-                <span class="date-icon-start">始</span>
+                <span class="date-icon-in">入</span>
                 <span class="text-primary">{{ formatDate(record.startTime) }}</span>
               </div>
               <div class="flex items-center gap-1">
-                <span class="date-icon-end">止</span>
+                <span class="date-icon-out">离</span>
                 <span class="text-primary">{{ formatDate(record.endTime) }}</span>
               </div>
             </div>
@@ -80,17 +79,17 @@
 
           <!-- 参与条件 -->
           <template slot="participationConditions" slot-scope="conditions">
-            <span class="conditions-text">{{ formatVipLevels(conditions) }}</span>
+            <span class="text-primary-content">{{ formatVipLevels(conditions) }}</span>
           </template>
 
           <!-- 派发优惠券 -->
           <template slot="couponIds" slot-scope="couponIds">
-            <span class="coupons-text">{{ formatCouponNames(couponIds) }}</span>
+            <span class="text-primary-content">{{ formatCouponNames(couponIds) }}</span>
           </template>
 
           <!-- 创建人 -->
           <template slot="createdBy" slot-scope="createdBy">
-            <span class="creator-text">{{ createdBy }}</span>
+            <span class="text-primary-content">{{ createdBy }}</span>
           </template>
 
           <!-- 创建时间 -->
@@ -176,48 +175,44 @@ export default defineComponent({
         title: '活动名称',
         dataIndex: 'name',
         key: 'name',
-        width: 200,
         scopedSlots: { customRender: 'name' }
       },
       {
         title: '活动时间',
         key: 'activityTime',
-        width: 200,
+        width: 150,
         scopedSlots: { customRender: 'activityTime' }
       },
       {
         title: '状态',
         dataIndex: 'status',
         key: 'status',
-        width: 100,
+        width: 90,
         scopedSlots: { customRender: 'status' }
       },
       {
         title: '参与条件',
         dataIndex: 'participationConditions',
         key: 'participationConditions',
-        width: 200,
         scopedSlots: { customRender: 'participationConditions' }
       },
       {
         title: '派发优惠券',
         dataIndex: 'couponIds',
         key: 'couponIds',
-        width: 280,
         scopedSlots: { customRender: 'couponIds' }
       },
       {
         title: '创建时间',
         dataIndex: 'createdAt',
         key: 'createdAt',
-        width: 140,
+        width: 120,
         scopedSlots: { customRender: 'createdAt' }
       },
       {
         title: '创建人',
         dataIndex: 'createdBy',
         key: 'createdBy',
-        width: 100,
         scopedSlots: { customRender: 'createdBy' }
       },
       {
@@ -472,14 +467,8 @@ export default defineComponent({
   font-size: @font-size-sm;
 }
 
-.conditions-text,
-.coupons-text {
-  color: @text-secondary;
-  font-size: @font-size-sm;
-}
-
-.creator-text {
-  color: @text-secondary;
+.text-primary-content {
+  color: @text-primary;
   font-size: @font-size-sm;
 }
 
@@ -505,28 +494,18 @@ export default defineComponent({
     color: @text-primary;
   }
 
-  .date-icon-start,
-  .date-icon-end {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
+  .date-icon-in,
+  .date-icon-out {
+    display: inline-block;
+    width: 20px;
     height: 20px;
+    line-height: 20px;
+    text-align: center;
     font-size: @font-size-xs;
-    font-weight: @font-weight-medium;
-    border-radius: @border-radius-sm;
-  }
-
-  .date-icon-start {
-    color: #15803d;
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-  }
-
-  .date-icon-end {
-    color: #c2410c;
-    background: #fff7ed;
-    border: 1px solid #fed7aa;
+    font-weight: @font-weight-semibold;
+    color: @text-primary;
+    background-color: @bg-tertiary;
+    border-radius: 50%;
   }
 }
 
