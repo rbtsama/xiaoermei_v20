@@ -100,7 +100,7 @@
           <!-- 操作 -->
           <template slot="action" slot-scope="text, record">
             <div class="action-btns">
-              <a-button size="small" @click="handleManageCodes(record)">
+              <a-button size="small" class="qrcode-btn" @click="handleManageCodes(record)">
                 <a-icon type="qrcode" />
                 活动码
               </a-button>
@@ -119,6 +119,7 @@
               <a-button
                 v-if="record.status !== 'not_started'"
                 size="small"
+                class="data-btn"
                 @click="handleViewData(record)"
               >
                 <a-icon type="bar-chart" />
@@ -523,6 +524,46 @@ export default defineComponent({
     height: 28px;
     padding: 0 10px;
     font-size: @font-size-sm;
+  }
+
+  // 活动码按钮 - 渐变背景
+  .qrcode-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: #ffffff;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(135deg, #5a67d8 0%, #6b3fa0 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+      color: #ffffff;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    .anticon {
+      color: #ffffff;
+    }
+  }
+
+  // 数据按钮 - 浅橙色背景
+  .data-btn {
+    background: #fff7ed;
+    border-color: #fed7aa;
+    color: #c2410c;
+
+    &:hover {
+      background: #ffedd5;
+      border-color: #fdba74;
+      color: #c2410c;
+    }
+
+    .anticon {
+      color: #c2410c;
+    }
   }
 }
 </style>
