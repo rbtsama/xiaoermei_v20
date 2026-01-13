@@ -62,7 +62,7 @@
             >
               <div class="strategy-row">
                 <div class="strategy-name-display">{{ strategy.name }}</div>
-                <span class="field-label">平台补贴挂牌价</span>
+                <span class="field-label">平台补贴挂牌价的比例</span>
                 <a-input-number
                   v-model="strategy.platformDiscount"
                   :min="0"
@@ -72,7 +72,7 @@
                 >
                   <template slot="addonAfter">%</template>
                 </a-input-number>
-                <span class="field-label">商户补贴挂牌价</span>
+                <span class="field-label">商户补贴挂牌价的比例</span>
                 <a-input-number
                   v-model="strategy.merchantDiscount"
                   :min="0"
