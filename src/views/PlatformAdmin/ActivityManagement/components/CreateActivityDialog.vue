@@ -200,12 +200,28 @@ import dayjs from 'dayjs'
 interface FormData {
   name: string
   timeRange: [string, string] | undefined
+  participationConditions: string[]
   platformBudget: number
   remainingBudget: number
   strategies: DiscountStrategy[]
   applicableStores: string[]
   bookingRestrictions: (BookingRestriction & { dateError?: string })[]
 }
+
+
+// VIP等级列表
+const VIP_LEVELS = [
+  { id: 'VIP0', name: '注册会员' },
+  { id: 'VIP1', name: 'VIP1' },
+  { id: 'VIP2', name: 'VIP2' },
+  { id: 'VIP3', name: 'VIP3' },
+  { id: 'VIP4', name: 'VIP4' },
+  { id: 'VIP5', name: 'VIP5' },
+  { id: 'VIP6', name: 'VIP6' },
+  { id: 'VIP7', name: 'VIP7' },
+  { id: 'VIP8', name: 'VIP8' },
+  { id: 'VIP9', name: 'VIP9' }
+]
 
 export default defineComponent({
   name: 'CreateActivityDialog',
@@ -228,6 +244,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const formRef = ref<any>(null)
+    const vipLevels = ref(VIP_LEVELS)
     const isSubmitting = ref(false)
     const showStoreDialog = ref(false)
 
@@ -271,6 +288,17 @@ export default defineComponent({
       }
       const names = getStoreNamesByIds(form.applicableStores)
       return names.join('、')
+    }
+
+
+    // 会员等级切换
+    function handleVipLevelToggle(levelId: string): void {
+      const index = form.participationConditions.indexOf(levelId)
+      if (index > -1) {
+        form.participationConditions.splice(index, 1)
+      } else {
+        form.participationConditions.push(levelId)
+      }
     }
 
     // 添加策略
@@ -465,6 +493,7 @@ export default defineComponent({
     function resetForm(): void {
       form.name = ''
       form.timeRange = undefined
+      form.participationConditions = []
       form.platformBudget = 0
       form.remainingBudget = 0
       form.strategies = [
@@ -495,6 +524,7 @@ export default defineComponent({
         if (newActivity && props.mode === 'edit' && props.visible) {
           form.name = newActivity.name
           form.timeRange = [newActivity.startDate, newActivity.endDate]
+          form.participationConditions = [...newActivity.participationConditions]
           form.platformBudget = newActivity.platformBudget
           form.remainingBudget = newActivity.remainingBudget
           form.strategies = newActivity.strategies.map((s) => ({ ...s }))
@@ -524,10 +554,12 @@ export default defineComponent({
       formRef,
       isSubmitting,
       showStoreDialog,
+      vipLevels,
       form,
       formRules,
       disabledDate,
       getStoreDisplayText,
+      handleVipLevelToggle,
       handleAddStrategy,
       handleRemoveStrategy,
       handleAddRestriction,
@@ -640,4 +672,28 @@ export default defineComponent({
   max-height: 70vh;
   overflow-y: auto;
 }
+
+// 会员等级多选网格（5列）
+.checkbox-grid-5col {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px 16px;
+
+  :deep(.ant-checkbox-wrapper) {
+    padding: 10px 12px;
+    border: 1px solid @border-primary;
+    border-radius: @border-radius-base;
+    transition: all 0.2s;
+
+    &:hover {
+      border-color: @brand-primary;
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    .ant-checkbox {
+      margin-right: 6px;
+    }
+  }
+}
+
 </style>

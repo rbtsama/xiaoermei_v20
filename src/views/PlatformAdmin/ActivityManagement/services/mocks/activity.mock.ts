@@ -16,6 +16,7 @@ export const mockActivities: Activity[] = [
     startTime: '2026-02-01 00:00:00',
     endTime: '2026-02-14 23:59:59',
     status: 'enabled',
+    participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     platformBudget: 100000,
     remainingBudget: 3982.72,
     strategies: [
@@ -37,6 +38,7 @@ export const mockActivities: Activity[] = [
     startTime: '2026-03-01 00:00:00',
     endTime: '2026-03-31 23:59:59',
     status: 'enabled',
+    participationConditions: ['VIP1', 'VIP2', 'VIP3'],
     platformBudget: 50000,
     remainingBudget: 15000,
     strategies: [
@@ -57,6 +59,7 @@ export const mockActivities: Activity[] = [
     startTime: '2026-04-03 00:00:00',
     endTime: '2026-04-05 23:59:59',
     status: 'enabled',
+    participationConditions: ['VIP2', 'VIP3'],
     platformBudget: 80000,
     remainingBudget: 52800,
     strategies: [
@@ -75,6 +78,7 @@ export const mockActivities: Activity[] = [
     startTime: '2026-05-01 00:00:00',
     endTime: '2026-05-05 23:59:59',
     status: 'enabled',
+    participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3', 'VIP4'],
     platformBudget: 200000,
     remainingBudget: 185000,
     strategies: [
@@ -99,6 +103,7 @@ export const mockActivities: Activity[] = [
     startTime: '2026-01-01 00:00:00',
     endTime: '2026-01-03 23:59:59',
     status: 'disabled',
+    participationConditions: ['VIP1', 'VIP2', 'VIP3'],
     platformBudget: 60000,
     remainingBudget: 8500,
     strategies: [
@@ -117,6 +122,7 @@ export const mockActivities: Activity[] = [
     startTime: '2026-01-20 00:00:00',
     endTime: '2026-02-15 23:59:59',
     status: 'disabled',
+    participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3'],
     platformBudget: 120000,
     remainingBudget: 45000,
     strategies: [
@@ -137,6 +143,7 @@ export const mockActivities: Activity[] = [
     startTime: '2026-06-01 00:00:00',
     endTime: '2026-06-30 23:59:59',
     status: 'disabled',
+    participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3', 'VIP4', 'VIP5'],
     platformBudget: 150000,
     remainingBudget: 150000,
     strategies: [
@@ -160,6 +167,7 @@ export const mockActivities: Activity[] = [
     startTime: '2026-07-01 00:00:00',
     endTime: '2026-07-31 23:59:59',
     status: 'disabled',
+    participationConditions: ['VIP2', 'VIP3', 'VIP4', 'VIP5', 'VIP6'],
     platformBudget: 90000,
     remainingBudget: 90000,
     strategies: [

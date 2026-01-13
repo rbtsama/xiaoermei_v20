@@ -33,6 +33,8 @@ export interface Activity {
   startTime: string               // 开始时间，格式：'YYYY-MM-DD HH:mm:ss'
   endTime: string                 // 结束时间，格式：'YYYY-MM-DD HH:mm:ss'
   status: ActivityStatus          // 活动状态：启用/禁用
+  participationConditions: string[]  // 参与条件（会员等级ID数组）
+
 
   // 策略配置
   platformBudget: number          // 平台预算（元）

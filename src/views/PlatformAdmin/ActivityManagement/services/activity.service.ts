@@ -71,6 +71,7 @@ class ActivityService {
       startTime: data.startTime!,
       endTime: data.endTime!,
       status: 'disabled',  // 默认禁用
+      participationConditions: data.participationConditions!,
       platformBudget: data.platformBudget!,
       remainingBudget: data.platformBudget!,  // 初始剩余=总预算
       strategies: data.strategies!,
@@ -106,6 +107,7 @@ class ActivityService {
       name: data.name !== undefined ? data.name : activity.name,
       startTime: data.startTime !== undefined ? data.startTime : activity.startTime,
       endTime: data.endTime !== undefined ? data.endTime : activity.endTime,
+      participationConditions: data.participationConditions !== undefined ? data.participationConditions : activity.participationConditions,
       platformBudget: data.platformBudget !== undefined ? data.platformBudget : activity.platformBudget,
       strategies: data.strategies !== undefined ? data.strategies : activity.strategies,
       applicableStores: data.applicableStores !== undefined ? data.applicableStores : activity.applicableStores,
