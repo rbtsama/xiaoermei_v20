@@ -61,42 +61,36 @@
               :key="index"
               class="strategy-item"
             >
-              <div class="strategy-header">
+              <div class="strategy-row">
                 <div class="strategy-name-display">{{ strategy.name }}</div>
+                <span class="field-label">平台补贴挂牌价</span>
+                <a-input-number
+                  v-model="strategy.platformDiscount"
+                  :min="0"
+                  :max="100"
+                  :precision="2"
+                  style="width: 120px"
+                >
+                  <template slot="addonAfter">%</template>
+                </a-input-number>
+                <span class="field-label">商户补贴挂牌价</span>
+                <a-input-number
+                  v-model="strategy.merchantDiscount"
+                  :min="0"
+                  :max="100"
+                  :precision="2"
+                  style="width: 120px"
+                >
+                  <template slot="addonAfter">%</template>
+                </a-input-number>
                 <a-button
-                  v-if="form.strategies.length > 1"
                   type="danger"
                   size="small"
                   @click="handleRemoveStrategy(index)"
+                  :disabled="index === 0"
                 >
                   <a-icon type="delete" />删除
                 </a-button>
-              </div>
-              <div class="strategy-fields">
-                <div class="field-group">
-                  <span class="field-label">平台补贴挂牌价</span>
-                  <a-input-number
-                    v-model="strategy.platformDiscount"
-                    :min="0"
-                    :max="100"
-                    :precision="1"
-                    style="width: 120px"
-                  >
-                    <template slot="addonAfter">%</template>
-                  </a-input-number>
-                </div>
-                <div class="field-group">
-                  <span class="field-label">商户补贴挂牌价</span>
-                  <a-input-number
-                    v-model="strategy.merchantDiscount"
-                    :min="0"
-                    :max="100"
-                    :precision="1"
-                    style="width: 120px"
-                  >
-                    <template slot="addonAfter">%</template>
-                  </a-input-number>
-                </div>
               </div>
             </div>
             <a-button
@@ -624,41 +618,24 @@ export default defineComponent({
   }
 }
 
-.strategy-header {
+.strategy-row,
+.restriction-row {
   display: flex;
-  justify-content: space-between;
+  gap: 12px;
   align-items: center;
-  margin-bottom: 12px;
 }
 
 .strategy-name-display {
-  font-size: @font-size-base;
-  font-weight: @font-weight-medium;
+  font-size: @font-size-sm;
   color: @text-primary;
-}
-
-.strategy-fields {
-  display: flex;
-  gap: 24px;
-  align-items: center;
-}
-
-.field-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font-weight: @font-weight-medium;
+  min-width: 80px;
 }
 
 .field-label {
   font-size: @font-size-sm;
   color: @text-secondary;
   white-space: nowrap;
-}
-
-.restriction-row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
 }
 
 .date-separator {
