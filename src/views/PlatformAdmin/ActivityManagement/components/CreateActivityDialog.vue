@@ -504,7 +504,7 @@ export default defineComponent({
 
     // 取消
     function handleCancel(): void {
-      emit('cancel')
+      emit('close')
       resetForm()
     }
 

@@ -100,7 +100,6 @@ export default defineComponent({
      */
     const handleConfirm = () => {
       emit('confirm', [...selectedStoreIds.value])
-      emit('update:visible', false)
     }
 
     /**
@@ -109,7 +108,7 @@ export default defineComponent({
     const handleCancel = () => {
       // 重置为原始值
       selectedStoreIds.value = [...props.value]
-      emit('update:visible', false)
+      emit('cancel')
     }
 
     // 监听外部value变化，同步到内部

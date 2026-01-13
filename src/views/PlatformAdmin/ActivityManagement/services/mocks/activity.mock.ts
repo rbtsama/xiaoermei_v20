@@ -180,4 +180,52 @@ export const mockActivities: Activity[] = [
     createdAt: '2026-01-14 10:30:00',
     createdBy: '王强'
   }
+,
+  {
+    id: 'act1008',
+    name: '暑期特惠季',
+    startTime: '2026-08-01 00:00:00',
+    endTime: '2026-08-31 23:59:59',
+    status: 'enabled',
+    participationConditions: ['VIP5', 'VIP6', 'VIP7', 'VIP8', 'VIP9'],
+    platformBudget: 180000,
+    remainingBudget: 120000,
+    strategies: [
+      { name: '策略1', platformDiscount: 35.5, merchantDiscount: 20.5 },
+      { name: '策略2', platformDiscount: 28.8, merchantDiscount: 25.2 }
+    ],
+    applicableStores: ['store-001', 'store-003', 'store-005', 'store-007', 'store-009'],
+    bookingRestrictions: [
+      { dateRange: ['2026-08-01', '2026-08-15'], strategyName: '策略1' },
+      { dateRange: ['2026-08-16', '2026-08-31'], strategyName: '策略2' }
+    ],
+    createdAt: '2026-01-13 16:20:00',
+    createdBy: '李娜'
+  },
+  {
+    id: 'act1009',
+    name: '中秋国庆双节',
+    startTime: '2026-09-25 00:00:00',
+    endTime: '2026-10-08 23:59:59',
+    status: 'disabled',
+    participationConditions: ['VIP0', 'VIP1', 'VIP2', 'VIP3', 'VIP4', 'VIP5', 'VIP6', 'VIP7', 'VIP8', 'VIP9'],
+    platformBudget: 300000,
+    remainingBudget: 300000,
+    strategies: [
+      { name: '策略1', platformDiscount: 25, merchantDiscount: 20 },
+      { name: '策略2', platformDiscount: 30, merchantDiscount: 25 },
+      { name: '策略3', platformDiscount: 35, merchantDiscount: 30 },
+      { name: '策略4', platformDiscount: 40, merchantDiscount: 35 },
+      { name: '策略5', platformDiscount: 22.5, merchantDiscount: 17.5 }
+    ],
+    applicableStores: ['store-001', 'store-002', 'store-003', 'store-004', 'store-005', 'store-006', 'store-007', 'store-008', 'store-009', 'store-010'],
+    bookingRestrictions: [
+      { dateRange: ['2026-09-25', '2026-09-29'], strategyName: '策略1' },
+      { dateRange: ['2026-09-30', '2026-10-02'], strategyName: '策略2' },
+      { dateRange: ['2026-10-03', '2026-10-05'], strategyName: '策略3' },
+      { dateRange: ['2026-10-06', '2026-10-08'], strategyName: '策略4' }
+    ],
+    createdAt: '2026-01-14 14:45:00',
+    createdBy: '张明'
+  }
 ]
