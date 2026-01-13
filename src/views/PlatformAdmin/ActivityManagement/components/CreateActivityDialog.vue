@@ -661,13 +661,6 @@ export default defineComponent({
   align-items: center;
 }
 
-  .ant-input-number {
-    :deep(.ant-input-number-handler-wrap) {
-      opacity: 1;
-    }
-  }
-}
-
 .date-separator {
   color: @text-secondary;
   font-size: @font-size-base;
