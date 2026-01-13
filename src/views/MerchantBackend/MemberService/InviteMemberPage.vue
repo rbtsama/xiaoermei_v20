@@ -310,8 +310,6 @@
                 <p class="placeholder-text">邀请二维码</p>
               </div>
             </div>
-            <p class="qrcode-text">扫码即可成为会员并享受折扣</p>
-            <p class="qrcode-hint">会员可在平台享受专属优惠价格</p>
             <a-button
               type="primary"
               @click="handleDownloadQRCode"
@@ -1088,8 +1086,7 @@ export default defineComponent({
             min-width: 280px;
           }
 
-          &:nth-child(4) {
-            width: 100px;
+          L0px;
           }
 
           &:nth-child(5) {
@@ -1260,7 +1257,7 @@ export default defineComponent({
 .qrcode-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   padding: 40px 0;
 
 
@@ -1277,14 +1274,20 @@ export default defineComponent({
       text-align: left;
     }
 
+
+  .vip-rules-table {
+    width: 100%;
+    max-width: 1000px;
+  }
+
     .vip-radio-group {
       justify-content: flex-start;
     }
   }
 
   .qrcode-wrapper {
-    width: 240px;
-    height: 240px;
+    width: 180px;
+    height: 180px;
     padding: 16px;
     background: @bg-secondary;
     border-radius: @border-radius-base;
@@ -1293,6 +1296,7 @@ export default defineComponent({
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    align-self: center;
 
     .qrcode-placeholder {
       display: flex;
