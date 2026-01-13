@@ -54,15 +54,6 @@
           />
           <div class="field-hint">单位：元</div>
         </a-form-model-item>
-
-        <a-form-model-item label="剩余预算">
-          <a-input
-            :value="`¥${form.remainingBudget.toFixed(2)}`"
-            disabled
-            style="width: 100%"
-          />
-        </a-form-model-item>
-
         <a-form-model-item label="优惠策略" required>
           <div class="strategies-container">
             <div
@@ -71,29 +62,26 @@
               class="strategy-item"
             >
               <div class="strategy-row">
-                <a-input
-                  v-model="strategy.name"
-                  placeholder="策略名称"
-                  :maxLength="30"
-                  style="width: 200px"
-                />
+                <div class="strategy-name-display">{{ strategy.name }}</div>
+                <span class="field-label">平台补贴挂牌价</span>
                 <a-input-number
                   v-model="strategy.platformDiscount"
                   :min="0"
                   :max="100"
                   :precision="0"
                   style="width: 140px"
-                  placeholder="平台优惠"
+                  placeholder="平台补贴挂牌价"
                 >
                   <template slot="addonAfter">%</template>
                 </a-input-number>
+                <span class="field-label">商户补贴挂牌价</span>
                 <a-input-number
                   v-model="strategy.merchantDiscount"
                   :min="0"
                   :max="100"
                   :precision="0"
                   style="width: 140px"
-                  placeholder="商户优惠"
+                  placeholder="商户补贴挂牌价"
                 >
                   <template slot="addonAfter">%</template>
                 </a-input-number>
@@ -138,7 +126,7 @@
           <div class="field-hint">点击选择适用门店</div>
         </a-form-model-item>
 
-        <a-form-model-item label="日期限制" required>
+        <a-form-model-item label="入住日期限制" required>
           <div class="restrictions-container">
             <div
               v-for="(restriction, index) in form.bookingRestrictions"
@@ -163,6 +151,7 @@
                   style="width: 180px"
                   @change="() => validateDateOverlap(index)"
                 />
+                <span class="field-label">补贴策略</span>
                 <a-select
                   v-model="restriction.strategyId"
                   placeholder="选择策略"
@@ -636,6 +625,21 @@ export default defineComponent({
   display: flex;
   gap: 12px;
   align-items: center;
+
+.strategy-name-display {
+  font-size: @font-size-base;
+  font-weight: @font-weight-medium;
+  color: @text-primary;
+  padding: 4px 11px;
+  min-width: 200px;
+}
+
+.field-label {
+  font-size: @font-size-sm;
+  color: @text-secondary;
+  white-space: nowrap;
+  margin-right: 8px;
+}
 
   .ant-input-number {
     :deep(.ant-input-number-handler-wrap) {
