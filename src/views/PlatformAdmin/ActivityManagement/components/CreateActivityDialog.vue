@@ -288,6 +288,10 @@ export default defineComponent({
     const formRules = {
       name: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
       timeRange: [{ required: true, message: '请选择活动时间', trigger: 'change' }],
+      participationConditions: [
+        { required: true, message: '请选择参与条件', trigger: 'change', type: 'array' },
+        { type: 'array', min: 1, message: '至少选择一个会员等级', trigger: 'change' }
+      ],
       platformBudget: [{ required: true, message: '请输入平台预算', trigger: 'blur' }]
     }
 
