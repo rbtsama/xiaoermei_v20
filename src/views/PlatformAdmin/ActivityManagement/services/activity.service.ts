@@ -5,14 +5,10 @@
 import dayjs from 'dayjs'
 import type {
   Activity,
-  ActivityStatus,
-  MerchantActivityCode,
-  CouponDistributionDetail,
-  ActivityDataStats,
   PaginationParams,
   PaginatedResult
 } from '../types/activity.types'
-import { mockActivities, mockMerchants, mockActivityDataStats, generateMockQRCode } from './mocks'
+import { mockActivities } from './mocks/activity.mock'
 
 /**
  * 活动管理服务类
@@ -21,42 +17,15 @@ class ActivityService {
   private activities: Activity[] = [...mockActivities]
 
   /**
-   * 计算活动状态
-   * @param {Activity} activity - 活动对象
-   * @returns {ActivityStatus} 活动状态
-   * @private
-   */
-  private calculateActivityStatus(activity: Activity): ActivityStatus {
-    const now = dayjs()
-    const start = dayjs(activity.startTime)
-    const end = dayjs(activity.endTime)
-
-    if (now.isBefore(start)) {
-      return 'not_started'
-    } else if (now.isAfter(end)) {
-      return 'ended'
-    } else {
-      return 'in_progress'
-    }
-  }
-
-  /**
-   * 获取活动列表（带状态计算和分页）
+   * 获取活动列表（带分页）
    * @param {PaginationParams} params - 分页参数
    * @returns {Promise<PaginatedResult<Activity>>} 分页结果
    */
   async getActivities(params?: PaginationParams): Promise<PaginatedResult<Activity>> {
-    // 模拟API延迟
     await new Promise(resolve => setTimeout(resolve, 300))
 
-    // 计算每个活动的状态
-    const activitiesWithStatus = this.activities.map(activity => ({
-      ...activity,
-      status: this.calculateActivityStatus(activity)
-    }))
-
     // 按创建时间倒序排列
-    const sorted = activitiesWithStatus.sort((a, b) =>
+    const sorted = this.activities.sort((a, b) =>
       dayjs(b.createdAt).unix() - dayjs(a.createdAt).unix()
     )
 
@@ -82,14 +51,8 @@ class ActivityService {
    */
   async getActivityById(id: string): Promise<Activity | null> {
     await new Promise(resolve => setTimeout(resolve, 200))
-
     const activity = this.activities.find(a => a.id === id)
-    if (!activity) return null
-
-    return {
-      ...activity,
-      status: this.calculateActivityStatus(activity)
-    }
+    return activity ? { ...activity } : null
   }
 
   /**
@@ -100,33 +63,29 @@ class ActivityService {
   async createActivity(data: Partial<Activity>): Promise<Activity> {
     await new Promise(resolve => setTimeout(resolve, 400))
 
-    // 生成新ID（递增）
     const newId = `act${1000 + this.activities.length}`
 
-    // 构建新活动对象
     const newActivity: Activity = {
       id: newId,
       name: data.name!,
       startTime: data.startTime!,
       endTime: data.endTime!,
-      rules: data.rules!,
-      participationConditions: data.participationConditions!,
-      couponIds: data.couponIds!,
+      status: 'disabled',  // 默认禁用
+      platformBudget: data.platformBudget!,
+      remainingBudget: data.platformBudget!,  // 初始剩余=总预算
+      strategies: data.strategies!,
+      applicableStores: data.applicableStores!,
+      bookingRestrictions: data.bookingRestrictions!,
       createdAt: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-      createdBy: 'admin001' // TODO: 从登录用户获取
+      createdBy: '系统管理员'
     }
 
-    // 添加到列表开头
     this.activities.unshift(newActivity)
-
-    return {
-      ...newActivity,
-      status: this.calculateActivityStatus(newActivity)
-    }
+    return { ...newActivity }
   }
 
   /**
-   * 更新活动（所有状态均可编辑）
+   * 更新活动
    * @param {string} id - 活动ID
    * @param {Partial<Activity>} data - 更新数据
    * @returns {Promise<Activity>} 更新后的活动对象
@@ -142,59 +101,38 @@ class ActivityService {
 
     const activity = this.activities[index]
 
-    // 更新活动数据（保留id、createdAt、createdBy）
     this.activities[index] = {
       ...activity,
       name: data.name !== undefined ? data.name : activity.name,
       startTime: data.startTime !== undefined ? data.startTime : activity.startTime,
       endTime: data.endTime !== undefined ? data.endTime : activity.endTime,
-      rules: data.rules !== undefined ? data.rules : activity.rules,
-      participationConditions: data.participationConditions !== undefined ? data.participationConditions : activity.participationConditions,
-      couponIds: data.couponIds !== undefined ? data.couponIds : activity.couponIds
+      platformBudget: data.platformBudget !== undefined ? data.platformBudget : activity.platformBudget,
+      strategies: data.strategies !== undefined ? data.strategies : activity.strategies,
+      applicableStores: data.applicableStores !== undefined ? data.applicableStores : activity.applicableStores,
+      bookingRestrictions: data.bookingRestrictions !== undefined ? data.bookingRestrictions : activity.bookingRestrictions
     }
 
-    return {
-      ...this.activities[index],
-      status: this.calculateActivityStatus(this.activities[index])
+    return { ...this.activities[index] }
+  }
+
+  /**
+   * 切换活动启用/禁用状态
+   * @param {string} id - 活动ID
+   * @returns {Promise<Activity>} 更新后的活动对象
+   * @throws {Error} 如果活动不存在
+   */
+  async toggleActivityStatus(id: string): Promise<Activity> {
+    await new Promise(resolve => setTimeout(resolve, 300))
+
+    const index = this.activities.findIndex(a => a.id === id)
+    if (index === -1) {
+      throw new Error('活动不存在')
     }
-  }
 
-  /**
-   * 获取商户活动码列表
-   * @param {string} activityId - 活动ID
-   * @returns {Promise<MerchantActivityCode[]>} 商户活动码列表
-   */
-  async getMerchantCodes(activityId: string): Promise<MerchantActivityCode[]> {
-    await new Promise(resolve => setTimeout(resolve, 300))
+    const activity = this.activities[index]
+    activity.status = activity.status === 'enabled' ? 'disabled' : 'enabled'
 
-    // 为每个商户生成专属二维码
-    return mockMerchants.map(merchant => ({
-      merchantId: merchant.id,
-      merchantName: merchant.merchantName,
-      storeName: merchant.storeName,
-      qrCode: generateMockQRCode(activityId, merchant.id),
-      activityId
-    }))
-  }
-
-  /**
-   * 获取优惠券发放明细（T-1数据）
-   * @param {string} activityId - 活动ID
-   * @returns {Promise<CouponDistributionDetail[]>} 优惠券发放明细列表
-   */
-  async getCouponDistributionDetails(activityId: string): Promise<CouponDistributionDetail[]> {
-    await new Promise(resolve => setTimeout(resolve, 300))
-
-    const stats = mockActivityDataStats.find(s => s.activityId === activityId)
-    return stats ? stats.details : []
-  }
-
-  /**
-   * 获取T-1日期（昨日）
-   * @returns {string} 昨日日期，格式：YYYY-MM-DD
-   */
-  getT1Date(): string {
-    return dayjs().subtract(1, 'day').format('YYYY-MM-DD')
+    return { ...activity }
   }
 }
 
