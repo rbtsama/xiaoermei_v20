@@ -28,63 +28,7 @@
           </a-radio-group>
         </div>
 
-        <!-- 2. 会员等级设置 -->
-        <div class="section">
-          <label class="section-label">会员等级设置</label>
-          <a-radio-group v-model="selectedVipLevel" class="vip-radio-group">
-            <a-radio :value="0">注册会员</a-radio>
-            <a-radio :value="1">VIP1</a-radio>
-            <a-radio :value="2">VIP2</a-radio>
-            <a-radio :value="3">VIP3</a-radio>
-          </a-radio-group>
-
-          <!-- VIP等级规则表格 -->
-          <div class="vip-rules-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>会员等级</th>
-                  <th>获得等级条件</th>
-                  <th>会员权益</th>
-                  <th>等级有效期</th>
-                  <th>保级规则</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="level-name">注册会员</td>
-                  <td>注册即享</td>
-                  <td>-</td>
-                  <td>-</td>
-                  <td>-</td>
-                </tr>
-                <tr>
-                  <td class="level-name">VIP1</td>
-                  <td>预订1次及以上</td>
-                  <td>获得等返回可购送亲友*1，消费1元累计1里程值</td>
-                  <td>2年</td>
-                  <td>预订1次及以上</td>
-                </tr>
-                <tr>
-                  <td class="level-name">VIP2</td>
-                  <td>预订5次及以上</td>
-                  <td>获得等返回可购送亲友*2，消费1元累计1里程值</td>
-                  <td>2年</td>
-                  <td>预订3次及以上</td>
-                </tr>
-                <tr>
-                  <td class="level-name">VIP3</td>
-                  <td>预订10次及以上</td>
-                  <td>获得等返回可购送亲友*3，消费1元累计1里程值</td>
-                  <td>2年</td>
-                  <td>预订6次及以上</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- 3. 内容区域（根据邀请方式显示不同内容） -->
+        <!-- 2. 内容区域（根据邀请方式显示不同内容） -->
         <div class="section">
           <!-- 批量邀请模式（Excel上传） -->
           <div v-if="inviteMode === 'batch'" class="batch-content">
@@ -118,6 +62,45 @@
               <a-icon type="file-excel" class="file-icon" />
               <span class="file-name">{{ uploadedFileName }}</span>
               <span class="file-count">（{{ uploadedCount }}条数据）</span>
+
+            <!-- VIP等级规则表格 -->
+            <div class="vip-rules-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>会员等级</th>
+                    <th>获得等级条件</th>
+                    <th>会员权益</th>
+                    <th>等级有效期</th>
+                    <th>保级规则</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="level-name">VIP1</td>
+                    <td>预订1次及以上</td>
+                    <td>获得等返回可购送亲友*1，消费1元累计1里程值</td>
+                    <td>2年</td>
+                    <td>预订1次及以上</td>
+                  </tr>
+                  <tr>
+                    <td class="level-name">VIP2</td>
+                    <td>预订5次及以上</td>
+                    <td>获得等返回可购送亲友*2，消费1元累计1里程值</td>
+                    <td>2年</td>
+                    <td>预订3次及以上</td>
+                  </tr>
+                  <tr>
+                    <td class="level-name">VIP3</td>
+                    <td>预订10次及以上</td>
+                    <td>获得等返回可购送亲友*3，消费1元累计1里程值</td>
+                    <td>2年</td>
+                    <td>预订6次及以上</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
             </div>
             <a-button
               type="primary"
@@ -220,6 +203,45 @@
                 <a-select-option value="VIP10">VIP10</a-select-option>
               </a-select>
             </div>
+
+            <!-- VIP等级规则表格 -->
+            <div class="vip-rules-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>会员等级</th>
+                    <th>获得等级条件</th>
+                    <th>会员权益</th>
+                    <th>等级有效期</th>
+                    <th>保级规则</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="level-name">VIP1</td>
+                    <td>预订1次及以上</td>
+                    <td>获得等返回可购送亲友*1，消费1元累计1里程值</td>
+                    <td>2年</td>
+                    <td>预订1次及以上</td>
+                  </tr>
+                  <tr>
+                    <td class="level-name">VIP2</td>
+                    <td>预订5次及以上</td>
+                    <td>获得等返回可购送亲友*2，消费1元累计1里程值</td>
+                    <td>2年</td>
+                    <td>预订3次及以上</td>
+                  </tr>
+                  <tr>
+                    <td class="level-name">VIP3</td>
+                    <td>预订10次及以上</td>
+                    <td>获得等返回可购送亲友*3，消费1元累计1里程值</td>
+                    <td>2年</td>
+                    <td>预订6次及以上</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
             <a-button
               type="primary"
               size="large"
@@ -234,6 +256,54 @@
 
           <!-- 客户扫码模式 -->
           <div v-else-if="inviteMode === 'qrcode'" class="qrcode-content">
+            <!-- 会员等级设置 -->
+            <div class="qrcode-vip-level">
+              <label class="section-label">会员等级设置</label>
+              <a-radio-group v-model="selectedVipLevel" class="vip-radio-group">
+                <a-radio :value="1">VIP1</a-radio>
+                <a-radio :value="2">VIP2</a-radio>
+                <a-radio :value="3">VIP3</a-radio>
+              </a-radio-group>
+            </div>
+
+            <!-- VIP等级规则表格 -->
+            <div class="vip-rules-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>会员等级</th>
+                    <th>获得等级条件</th>
+                    <th>会员权益</th>
+                    <th>等级有效期</th>
+                    <th>保级规则</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="level-name">VIP1</td>
+                    <td>预订1次及以上</td>
+                    <td>获得等返回可购送亲友*1，消费1元累计1里程值</td>
+                    <td>2年</td>
+                    <td>预订1次及以上</td>
+                  </tr>
+                  <tr>
+                    <td class="level-name">VIP2</td>
+                    <td>预订5次及以上</td>
+                    <td>获得等返回可购送亲友*2，消费1元累计1里程值</td>
+                    <td>2年</td>
+                    <td>预订3次及以上</td>
+                  </tr>
+                  <tr>
+                    <td class="level-name">VIP3</td>
+                    <td>预订10次及以上</td>
+                    <td>获得等返回可购送亲友*3，消费1元累计1里程值</td>
+                    <td>2年</td>
+                    <td>预订6次及以上</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
             <div class="qrcode-wrapper">
               <div class="qrcode-placeholder">
                 <a-icon type="qrcode" class="qr-icon" />
@@ -313,8 +383,8 @@ export default defineComponent({
     // 邀请方式：batch批量邀请 | single单个邀请 | qrcode扫码邀请
     const inviteMode = ref('batch')
 
-    // 选中的VIP等级：0=注册会员，1-3=VIP1-VIP3
-    const selectedVipLevel = ref(0)
+    // 选中的VIP等级：1-3=VIP1-VIP3（扫码模式使用）
+    const selectedVipLevel = ref(1)
 
     // 提交中状态
     const submitting = ref(false)
@@ -630,7 +700,7 @@ export default defineComponent({
      * @returns {string} 显示名称
      */
     const getVipLevelName = (level) => {
-      return level === 0 ? '注册会员' : `VIP${level}`
+      return `VIP${level}`
     }
 
     /**
@@ -649,10 +719,9 @@ export default defineComponent({
       }
 
       // 二次确认弹窗
-      const vipLevelName = getVipLevelName(selectedVipLevel.value)
       root.$confirm({
-        title: '确认批量邀请',
-        content: `确定邀请 ${uploadedCount.value} 位会员，并设置等级为 ${vipLevelName} 吗？`,
+        title: \'确认批量邀请\',
+        content: `确定邀请 ${uploadedCount.value} 位会员吗？`,
         okText: '确定',
         cancelText: '取消',
         onOk: async () => {
@@ -986,6 +1055,7 @@ export default defineComponent({
 
 .vip-rules-table {
   margin-top: 16px;
+  margin-bottom: 24px;
   border-radius: @border-radius-base;
   border: 1px solid @border-primary;
   overflow: hidden;
@@ -1187,6 +1257,25 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   padding: 40px 0;
+
+
+  .qrcode-vip-level {
+    width: 100%;
+    margin-bottom: 32px;
+
+    .section-label {
+      display: block;
+      font-size: @font-size-base;
+      font-weight: @font-weight-semibold;
+      color: @text-primary;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .vip-radio-group {
+      justify-content: flex-start;
+    }
+  }
 
   .qrcode-wrapper {
     width: 240px;
