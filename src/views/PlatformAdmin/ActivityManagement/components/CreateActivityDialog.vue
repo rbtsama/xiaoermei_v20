@@ -182,7 +182,7 @@
     <!-- 门店选择对话框 -->
     <StoreSelectDialog
       :visible="showStoreDialog"
-      :selected-store-ids="form.applicableStores"
+      :value="form.applicableStores"
       @confirm="handleStoreChange"
       @cancel="showStoreDialog = false"
     />
