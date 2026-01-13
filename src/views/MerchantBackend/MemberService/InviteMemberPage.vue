@@ -711,7 +711,7 @@ export default defineComponent({
 
       // 二次确认弹窗
       root.$confirm({
-        title: \'确认批量邀请\',
+        title: '确认批量邀请',
         content: `确定邀请 ${uploadedCount.value} 位会员吗？`,
         okText: '确定',
         cancelText: '取消',
