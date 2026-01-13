@@ -265,6 +265,7 @@ export default defineComponent({
     const form = reactive<FormData>({
       name: '',
       timeRange: undefined,
+      participationConditions: [],
       platformBudget: 0,
       remainingBudget: 0,
       strategies: [
