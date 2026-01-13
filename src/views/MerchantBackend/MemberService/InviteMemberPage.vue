@@ -687,7 +687,7 @@ export default defineComponent({
 
     /**
      * 获取VIP等级显示名称
-     * @param {number} level - VIP等级数字 (0=注册会员, 1-10=VIP1-VIP10)
+     * @param {number} level - VIP等级数字 (1-3=VIP1-VIP3)
      * @returns {string} 显示名称
      */
     const getVipLevelName = (level) => {
@@ -1079,7 +1079,8 @@ export default defineComponent({
             min-width: 280px;
           }
 
-          L0px;
+          &:nth-child(4) {
+            width: 140px;
           }
 
           &:nth-child(5) {
