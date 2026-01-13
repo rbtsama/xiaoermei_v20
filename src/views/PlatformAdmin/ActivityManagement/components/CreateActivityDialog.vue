@@ -35,6 +35,20 @@
             :disabled-date="disabledDate"
           />
         </a-form-model-item>
+
+        <a-form-model-item label="会员等级" prop="participationConditions" required>
+          <div class="checkbox-grid-5col">
+            <a-checkbox
+              v-for="level in vipLevels"
+              :key="level.id"
+              :checked="form.participationConditions.includes(level.id)"
+              @change="handleVipLevelToggle(level.id)"
+            >
+              {{ level.name }}
+            </a-checkbox>
+          </div>
+          <div class="field-hint">选择可参与活动的会员等级</div>
+        </a-form-model-item>
       </div>
 
       <div class="section-divider"></div>
