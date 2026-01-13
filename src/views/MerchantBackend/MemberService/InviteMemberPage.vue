@@ -194,13 +194,6 @@
                 <a-select-option value="VIP1">VIP1</a-select-option>
                 <a-select-option value="VIP2">VIP2</a-select-option>
                 <a-select-option value="VIP3">VIP3</a-select-option>
-                <a-select-option value="VIP4">VIP4</a-select-option>
-                <a-select-option value="VIP5">VIP5</a-select-option>
-                <a-select-option value="VIP6">VIP6</a-select-option>
-                <a-select-option value="VIP7">VIP7</a-select-option>
-                <a-select-option value="VIP8">VIP8</a-select-option>
-                <a-select-option value="VIP9">VIP9</a-select-option>
-                <a-select-option value="VIP10">VIP10</a-select-option>
               </a-select>
             </div>
 
@@ -1248,8 +1241,17 @@ export default defineComponent({
     border-radius: @border-radius-base;
     box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
 
-    &:hover {
+    &:hover:not(:disabled) {
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    }
+
+    &:disabled {
+      background: #f0f0f0 !important;
+      border-color: #d9d9d9 !important;
+      color: rgba(0, 0, 0, 0.25) !important;
+      box-shadow: none !important;
+      cursor: not-allowed;
+      opacity: 1;
     }
   }
 }
