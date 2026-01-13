@@ -542,7 +542,7 @@ export default defineComponent({
       (newActivity) => {
         if (newActivity && props.mode === 'edit' && props.visible) {
           form.name = newActivity.name
-          form.timeRange = [newActivity.startDate, newActivity.endDate]
+          form.timeRange = [newActivity.startTime.split(' ')[0], newActivity.endTime.split(' ')[0]]
           form.participationConditions = [...newActivity.participationConditions]
           form.platformBudget = newActivity.platformBudget
           form.remainingBudget = newActivity.remainingBudget
