@@ -56,7 +56,7 @@
               <div class="requirement-item">• 生日：非必填，格式 年/月/日（如"1997/09/07"）</div>
               <div class="requirement-item">• 省、市、区：非必填，分开填写，导入后合并为一个字段</div>
               <div class="requirement-item">• 邮箱：非必填，最长30位</div>
-              <div class="requirement-item">• 会员等级：必填，格式为VIP1至VIP10</div>
+              <div class="requirement-item">• 会员等级：必填，格式为VIP1至VIP3</div>
             </div>
             <div v-if="uploadedFileName" class="upload-result">
               <a-icon type="file-excel" class="file-icon" />
@@ -355,7 +355,7 @@ const VALIDATION = {
   EMAIL_MAX_LENGTH: 30,       // 邮箱最大长度
   BIRTH_YEAR_MIN: 1900,       // 生日最小年份
   VIP_LEVEL_MIN: 1,           // VIP等级最小值
-  VIP_LEVEL_MAX: 10,          // VIP等级最大值
+  VIP_LEVEL_MAX: 3,           // VIP等级最大值
   ERROR_DISPLAY_LIMIT: 5      // 错误提示显示最大数量
 }
 
