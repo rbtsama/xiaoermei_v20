@@ -64,13 +64,6 @@
             </span>
           </template>
 
-          <!-- 状态 -->
-          <template slot="status" slot-scope="status">
-            <a-tag :class="getStatusTagClass(status)">
-              {{ getStatusText(status) }}
-            </a-tag>
-          </template>
-
           <!-- 创建人 -->
           <template slot="createdBy" slot-scope="createdBy">
             <span class="text-primary-content">{{ createdBy }}</span>
@@ -133,15 +126,10 @@ export default defineComponent({
     // 表格列定义
     const columns = [
       {
-        title: 'ID',
-        dataIndex: 'id',
-        key: 'id',
-        width: 100
-      },
-      {
-        title: '活动名称',
-        dataIndex: 'name',
-        key: 'name',
+        title: \'活动名称\',
+        dataIndex: \'name\',
+        key: \'name\',
+        width: 200,
         scopedSlots: { customRender: 'name' }
       },
       {
@@ -151,17 +139,10 @@ export default defineComponent({
         scopedSlots: { customRender: 'activityTime' }
       },
       {
-        title: '平台预算',
+        title: \'平台预算（元）\',
         key: 'platformBudget',
         width: 150,
         scopedSlots: { customRender: 'platformBudget' }
-      },
-      {
-        title: '状态',
-        dataIndex: 'status',
-        key: 'status',
-        width: 90,
-        scopedSlots: { customRender: 'status' }
       },
       {
         title: '创建人',
@@ -211,20 +192,6 @@ export default defineComponent({
      */
     const formatTime = (datetime) => {
       return datetime ? dayjs(datetime).format('HH:mm:ss') : '-'
-    }
-
-    /**
-     * 获取状态标签样式类名
-     */
-    const getStatusTagClass = (status) => {
-      return status === 'enabled' ? 'tag-green' : 'tag-gray'
-    }
-
-    /**
-     * 获取状态显示文本
-     */
-    const getStatusText = (status) => {
-      return status === 'enabled' ? '已启用' : '已禁用'
     }
 
     // ==================== 业务函数 ====================
@@ -322,8 +289,6 @@ export default defineComponent({
       editingActivity,
       formatDate,
       formatTime,
-      getStatusTagClass,
-      getStatusText,
       handleTableChange,
       handleCreate,
       handleEdit,
