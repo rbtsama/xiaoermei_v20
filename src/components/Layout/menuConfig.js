@@ -84,13 +84,6 @@ export const menuConfig = [
           { title: '邀请会员', path: '/merchant-backend/old-customer/invite-member', key: 'invite-member' }
         ]
       },
-      {
-        title: '活动管理',
-        key: 'merchant-activity-management',
-        children: [
-          { title: '活动列表', path: '/merchant-backend/activity-management/list', key: 'merchant-activity-list' }
-        ]
-      }
     ]
   }
 ]
