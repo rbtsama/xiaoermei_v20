@@ -126,9 +126,9 @@ export default defineComponent({
     // 表格列定义
     const columns = [
       {
-        title: \'活动名称\',
-        dataIndex: \'name\',
-        key: \'name\',
+        title: '活动名称',
+        dataIndex: 'name',
+        key: 'name',
         width: 200,
         scopedSlots: { customRender: 'name' }
       },
@@ -139,7 +139,7 @@ export default defineComponent({
         scopedSlots: { customRender: 'activityTime' }
       },
       {
-        title: \'平台预算（元）\',
+        title: '平台预算（元）',
         key: 'platformBudget',
         width: 150,
         scopedSlots: { customRender: 'platformBudget' }
