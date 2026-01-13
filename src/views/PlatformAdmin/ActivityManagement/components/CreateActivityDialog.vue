@@ -248,12 +248,12 @@ export default defineComponent({
       required: true
     },
     mode: {
-      type: String as PropType<'create' | 'edit'>,
+      type: String,
       default: 'create'
     },
     activity: {
-      type: Object as PropType<Activity | null>,
-      default: null
+      type: Object,
+      default: () => null
     }
   },
   setup(props, { emit }) {
