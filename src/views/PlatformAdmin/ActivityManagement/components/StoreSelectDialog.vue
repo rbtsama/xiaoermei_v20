@@ -99,7 +99,7 @@ export default defineComponent({
      * 确认选择
      */
     const handleConfirm = () => {
-      emit('change', [...selectedStoreIds.value])
+      emit('confirm', [...selectedStoreIds.value])
       emit('update:visible', false)
     }
 
