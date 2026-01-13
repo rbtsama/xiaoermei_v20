@@ -1348,6 +1348,7 @@ export default defineComponent({
     font-size: @font-size-base;
     border-radius: @border-radius-base;
     box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+    align-self: center;
 
     &:hover {
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
