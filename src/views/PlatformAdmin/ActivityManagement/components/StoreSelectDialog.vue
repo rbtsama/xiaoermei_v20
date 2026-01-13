@@ -107,6 +107,8 @@ export default defineComponent({
      * 取消选择
      */
     const handleCancel = () => {
+      // 重置为原始值
+      selectedStoreIds.value = [...props.value]
       emit('update:visible', false)
     }
 
