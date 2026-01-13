@@ -43,16 +43,15 @@
       <div class="form-section">
         <div class="section-title">策略配置</div>
 
-        <a-form-model-item label="平台预算" prop="platformBudget" required>
+        <a-form-model-item label="平台预算（元）" prop="platformBudget" required>
           <a-input-number
             v-model="form.platformBudget"
             :min="0"
             :max="10000000"
-            :precision="2"
+            :precision="0"
             style="width: 100%"
             placeholder="请输入平台预算"
           />
-          <div class="field-hint">单位：元</div>
         </a-form-model-item>
         <a-form-model-item label="优惠策略" required>
           <div class="strategies-container">
@@ -132,33 +131,24 @@
               class="restriction-item"
             >
               <div class="restriction-row">
-                <a-date-picker
-                  v-model="restriction.startDate"
+                <a-range-picker
+                  v-model="restriction.dateRange"
                   format="YYYY-MM-DD"
-                  valueFormat="YYYY-MM-DD"
-                  placeholder="开始日期"
-                  style="width: 180px"
-                  @change="() => validateDateOverlap(index)"
-                />
-                <span class="date-separator">至</span>
-                <a-date-picker
-                  v-model="restriction.endDate"
-                  format="YYYY-MM-DD"
-                  valueFormat="YYYY-MM-DD"
-                  placeholder="结束日期"
-                  style="width: 180px"
+                  value-format="YYYY-MM-DD"
+                  :placeholder="['开始日期', '结束日期']"
+                  style="width: 380px"
                   @change="() => validateDateOverlap(index)"
                 />
                 <span class="field-label">补贴策略</span>
                 <a-select
-                  v-model="restriction.strategyId"
+                  v-model="restriction.strategyName"
                   placeholder="选择策略"
                   style="width: 180px"
                 >
                   <a-select-option
                     v-for="strategy in form.strategies"
-                    :key="strategy.id"
-                    :value="strategy.id"
+                    :key="strategy.name"
+                    :value="strategy.name"
                   >
                     {{ strategy.name }}
                   </a-select-option>
@@ -248,7 +238,6 @@ export default defineComponent({
       remainingBudget: 0,
       strategies: [
         {
-          id: generateId(),
           name: '策略1',
           platformDiscount: 0,
           merchantDiscount: 0
@@ -257,11 +246,9 @@ export default defineComponent({
       applicableStores: [],
       bookingRestrictions: [
         {
-          id: generateId(),
-          startDate: '',
-          endDate: '',
-          strategyId: '',
-          dateError: undefined
+          dateRange: undefined,
+          strategyName: '',
+          dateError: ''
         }
       ]
     })
@@ -270,11 +257,6 @@ export default defineComponent({
       name: [{ required: true, message: '请输入活动名称', trigger: 'blur' }],
       timeRange: [{ required: true, message: '请选择活动时间', trigger: 'change' }],
       platformBudget: [{ required: true, message: '请输入平台预算', trigger: 'blur' }]
-    }
-
-    // 生成唯一ID
-    function generateId(): string {
-      return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
     }
 
     // 禁用过去的日期
@@ -295,7 +277,6 @@ export default defineComponent({
     function handleAddStrategy(): void {
       const nextNumber = form.strategies.length + 1
       form.strategies.push({
-        id: generateId(),
         name: `策略${nextNumber}`,
         platformDiscount: 0,
         merchantDiscount: 0
@@ -324,11 +305,9 @@ export default defineComponent({
     // 添加限制
     function handleAddRestriction(): void {
       form.bookingRestrictions.push({
-        id: generateId(),
-        startDate: '',
-        endDate: '',
-        strategyId: form.strategies[0]?.id || '',
-        dateError: undefined
+        dateRange: undefined,
+        strategyName: '',
+        dateError: ''
       })
     }
 
@@ -347,12 +326,12 @@ export default defineComponent({
       // 清除当前错误
       current.dateError = undefined
 
-      if (!current.startDate || !current.endDate) {
+      if (!current.dateRange || !current.dateRange[0] || !current.dateRange[1]) {
         return
       }
 
-      const currentStart = dayjs(current.startDate)
-      const currentEnd = dayjs(current.endDate)
+      const currentStart = dayjs(current.dateRange[0])
+      const currentEnd = dayjs(current.dateRange[1])
 
       // 检查开始日期是否大于结束日期
       if (currentStart.isAfter(currentEnd)) {
@@ -367,8 +346,8 @@ export default defineComponent({
         const other = form.bookingRestrictions[i]
         if (!other.startDate || !other.endDate) continue
 
-        const otherStart = dayjs(other.startDate)
-        const otherEnd = dayjs(other.endDate)
+        const otherStart = dayjs(other.dateRange[0])
+        const otherEnd = dayjs(other.dateRange[1])
 
         // 检查日期范围是否重叠
         const isOverlap =
@@ -423,9 +402,10 @@ export default defineComponent({
       // 校验日期限制
       const hasInvalidRestriction = form.bookingRestrictions.some(
         (restriction) =>
-          !restriction.startDate ||
-          !restriction.endDate ||
-          !restriction.strategyId ||
+          !restriction.dateRange ||
+          !restriction.dateRange[0] ||
+          !restriction.dateRange[1] ||
+          !restriction.strategyName ||
           restriction.dateError
       )
 
@@ -449,10 +429,8 @@ export default defineComponent({
         })),
         applicableStores: form.applicableStores,
         bookingRestrictions: form.bookingRestrictions.map((r) => ({
-          id: r.id,
-          startDate: r.startDate,
-          endDate: r.endDate,
-          strategyId: r.strategyId
+          dateRange: r.dateRange,
+          strategyName: r.strategyName
         }))
       }
 
@@ -491,7 +469,6 @@ export default defineComponent({
       form.remainingBudget = 0
       form.strategies = [
         {
-          id: generateId(),
           name: '策略1',
           platformDiscount: 0,
           merchantDiscount: 0
@@ -500,11 +477,9 @@ export default defineComponent({
       form.applicableStores = []
       form.bookingRestrictions = [
         {
-          id: generateId(),
-          startDate: '',
-          endDate: '',
-          strategyId: '',
-          dateError: undefined
+          dateRange: undefined,
+          strategyName: '',
+          dateError: ''
         }
       ]
 
@@ -636,11 +611,6 @@ export default defineComponent({
   font-size: @font-size-sm;
   color: @text-secondary;
   white-space: nowrap;
-}
-
-.date-separator {
-  color: @text-secondary;
-  font-size: @font-size-base;
 }
 
 .add-btn {
