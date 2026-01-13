@@ -62,6 +62,7 @@
               <a-icon type="file-excel" class="file-icon" />
               <span class="file-name">{{ uploadedFileName }}</span>
               <span class="file-count">（{{ uploadedCount }}条数据）</span>
+            </div>
 
             <!-- VIP等级规则表格 -->
             <div class="vip-rules-table">
@@ -101,7 +102,6 @@
               </table>
             </div>
 
-            </div>
             <a-button
               type="primary"
               size="large"
@@ -1204,12 +1204,17 @@ export default defineComponent({
     border-radius: @border-radius-base;
     box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
 
-    &:hover {
+    &:hover:not(:disabled) {
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
     }
 
     &:disabled {
-      box-shadow: none;
+      background: #f0f0f0 !important;
+      border-color: #d9d9d9 !important;
+      color: rgba(0, 0, 0, 0.25) !important;
+      box-shadow: none !important;
+      cursor: not-allowed;
+      opacity: 1;
     }
   }
 }
