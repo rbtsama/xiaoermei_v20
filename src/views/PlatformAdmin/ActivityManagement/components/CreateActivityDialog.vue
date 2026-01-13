@@ -114,7 +114,7 @@
           <a-input
             :value="getStoreDisplayText()"
             placeholder="请选择适用门店"
-            readonly
+            read-only
             @click="showStoreDialog = true"
             style="cursor: pointer"
           >
