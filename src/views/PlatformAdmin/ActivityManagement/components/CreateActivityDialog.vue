@@ -391,7 +391,7 @@ export default defineComponent({
         if (i === index) continue
 
         const other = form.bookingRestrictions[i]
-        if (!other.startDate || !other.endDate) continue
+        if (!other.dateRange || !other.dateRange[0] || !other.dateRange[1]) continue
 
         const otherStart = dayjs(other.dateRange[0])
         const otherEnd = dayjs(other.dateRange[1])
@@ -464,12 +464,11 @@ export default defineComponent({
       // 构建提交数据
       const activityData: Partial<Activity> = {
         name: form.name,
-        startDate: form.timeRange![0],
-        endDate: form.timeRange![1],
+        startTime: `${form.timeRange![0]} 00:00:00`,
+        endTime: `${form.timeRange![1]} 23:59:59`,
+        participationConditions: form.participationConditions,
         platformBudget: form.platformBudget,
-        remainingBudget: form.remainingBudget,
         strategies: form.strategies.map((s) => ({
-          id: s.id,
           name: s.name,
           platformDiscount: s.platformDiscount,
           merchantDiscount: s.merchantDiscount

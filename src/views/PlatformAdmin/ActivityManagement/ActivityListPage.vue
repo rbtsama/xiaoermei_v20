@@ -338,7 +338,6 @@ export default defineComponent({
 }
 
 .id-text {
-  font-family: 'Courier New', monospace;
   color: @text-secondary;
   font-size: @font-size-sm;
 }

@@ -179,8 +179,7 @@ export const mockActivities: Activity[] = [
     ],
     createdAt: '2026-01-14 10:30:00',
     createdBy: '王强'
-  }
-,
+  },
   {
     id: 'act1008',
     name: '暑期特惠季',

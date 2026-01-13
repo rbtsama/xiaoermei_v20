@@ -73,7 +73,7 @@ class ActivityService {
       status: 'disabled',  // 默认禁用
       participationConditions: data.participationConditions!,
       platformBudget: data.platformBudget!,
-      remainingBudget: data.platformBudget!,  // 初始剩余=总预算
+      remainingBudget: data.platformBudget!, // 初始剩余=总预算  // 初始剩余=总预算
       strategies: data.strategies!,
       applicableStores: data.applicableStores!,
       bookingRestrictions: data.bookingRestrictions!,
