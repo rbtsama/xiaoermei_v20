@@ -265,8 +265,8 @@ export default defineComponent({
       platformRatio: 50,
       validityType: 'days' as 'days' | 'dateRange',
       validDays: 30 as number | undefined,
-      validDateRange: undefined as [string, string] | undefined,
-      bookableDateRange: undefined as [string, string] | undefined,
+      validDateRange: undefined as [string, string] | undefined | null,
+      bookableDateRange: null as [string, string] | undefined | null,
       stock: undefined as number | undefined,
       usageRules: '',
       remark: ''
@@ -330,7 +330,7 @@ export default defineComponent({
           form.validDateRange = undefined
         }
 
-        form.bookableDateRange = newCoupon.bookableDateRange
+        form.bookableDateRange = newCoupon.bookableDateRange || null
         form.stock = newCoupon.stock
         form.usageRules = newCoupon.usageRules || ''
         form.remark = newCoupon.remark || ''
@@ -350,7 +350,7 @@ export default defineComponent({
         form.validityType = 'days'
         form.validDays = 30
         form.validDateRange = undefined
-        form.bookableDateRange = undefined
+        form.bookableDateRange = null
         form.stock = undefined
         form.usageRules = ''
         form.remark = ''
@@ -366,7 +366,7 @@ export default defineComponent({
         form.validityType = 'days'
         form.validDays = 30
         form.validDateRange = undefined
-        form.bookableDateRange = undefined
+        form.bookableDateRange = null
         form.stock = undefined
         form.usageRules = ''
         form.remark = ''
@@ -430,7 +430,7 @@ export default defineComponent({
         }
 
         // 添加可订日期（可选）
-        if (form.bookableDateRange && form.bookableDateRange.length === 2) {
+        if (form.bookableDateRange && Array.isArray(form.bookableDateRange) && form.bookableDateRange.length === 2) {
           couponData.bookableDateRange = form.bookableDateRange
         }
 
