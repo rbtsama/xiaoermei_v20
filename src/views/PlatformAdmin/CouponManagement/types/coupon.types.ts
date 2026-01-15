@@ -70,7 +70,7 @@ export interface CouponFilterParams {
 export interface SceneDistribution {
   id: string
   // 场景类型
-  scene: 'registration' | 'checkout' | 'first_order' | 'birthday'
+  scene: 'registration' | 'checkout' | 'first_order' | 'birthday' | 'activity_scan'
   // 场景名称
   sceneName: string
   // 触发时机描述

@@ -451,7 +451,8 @@ export default defineComponent({
         registration: '注册发放',
         first_order: '首单发放',
         checkout: '离店发放',
-        birthday: '生日发放'
+        birthday: '生日发放',
+        activity_scan: '新春特惠活动'
       }
       return map[scene] || scene
     }
@@ -461,7 +462,8 @@ export default defineComponent({
         registration: '用户注册成功时',
         first_order: '用户首单完成时',
         checkout: '订单离店时',
-        birthday: '用户生日当天'
+        birthday: '用户生日当天',
+        activity_scan: '活动扫码'
       }
       return map[scene] || ''
     }
