@@ -37,8 +37,10 @@ export interface Coupon {
   merchantRatio: number
   // 有效天数（0=永久，其他=发放后N天23:59过期）- 与validDateRange二选一
   validDays?: number
-  // 有效日期范围（[开始日期, 结束日期]）- 与validDays二选一
+  // 有效日期范围（[开始日期, 结束日期]）- 与validDays二选一 - 限制下单时间
   validDateRange?: [string, string]
+  // 可订日期范围（[开始日期, 结束日期]）- 限制入住日期
+  bookableDateRange?: [string, string]
   // 库存（0=不限制，其他=可发放数量）- 必填
   stock: number
   // 使用规则（用户可见）

@@ -39,7 +39,7 @@
           :data-source="coupons"
           :pagination="paginationConfig"
           :loading="loading"
-          :scroll="{ x: 1390 }"
+          :scroll="{ x: 1530 }"
           row-key="id"
           class="custom-table"
           @change="handleTableChange"
@@ -83,6 +83,15 @@
             <div v-if="record.validDateRange && record.validDateRange.length === 2" class="date-range-cell">
               <div class="date-line">{{ record.validDateRange[0] }}</div>
               <div class="date-line">{{ record.validDateRange[1] }}</div>
+            </div>
+            <span v-else class="valid-text">—</span>
+          </template>
+
+          <!-- 可订日期 -->
+          <template slot="bookableDateRange" slot-scope="text, record">
+            <div v-if="record.bookableDateRange && record.bookableDateRange.length === 2" class="date-range-cell">
+              <div class="date-line">{{ record.bookableDateRange[0] }}</div>
+              <div class="date-line">{{ record.bookableDateRange[1] }}</div>
             </div>
             <span v-else class="valid-text">—</span>
           </template>
@@ -204,6 +213,13 @@ export default defineComponent({
         key: 'validDateRange',
         width: 140,
         scopedSlots: { customRender: 'validDateRange' }
+      },
+      {
+        title: '可订日期',
+        dataIndex: 'bookableDateRange',
+        key: 'bookableDateRange',
+        width: 140,
+        scopedSlots: { customRender: 'bookableDateRange' }
       },
       {
         title: '库存',

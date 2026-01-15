@@ -177,7 +177,19 @@
           style="width: 100%"
           :show-time="false"
         />
-        <span class="field-hint">仅在此日期范围内可用（从开始日期0点到结束日期23:59:59）</span>
+        <span class="field-hint">限制下单时间：仅在此日期范围内可用（从开始日期0点到结束日期23:59:59）</span>
+      </a-form-model-item>
+
+      <!-- 可订日期 -->
+      <a-form-model-item label="可订日期" prop="bookableDateRange">
+        <a-range-picker
+          v-model="form.bookableDateRange"
+          format="YYYY-MM-DD"
+          value-format="YYYY-MM-DD"
+          style="width: 100%"
+          :show-time="false"
+        />
+        <span class="field-hint">限制入住日期：订单的入住日期必须在此范围内（可不填）</span>
       </a-form-model-item>
 
       <!-- 库存 -->
@@ -254,6 +266,7 @@ export default defineComponent({
       validityType: 'days' as 'days' | 'dateRange',
       validDays: 30 as number | undefined,
       validDateRange: undefined as [string, string] | undefined,
+      bookableDateRange: undefined as [string, string] | undefined,
       stock: undefined as number | undefined,
       usageRules: '',
       remark: ''
@@ -317,6 +330,7 @@ export default defineComponent({
           form.validDateRange = undefined
         }
 
+        form.bookableDateRange = newCoupon.bookableDateRange
         form.stock = newCoupon.stock
         form.usageRules = newCoupon.usageRules || ''
         form.remark = newCoupon.remark || ''
@@ -336,6 +350,7 @@ export default defineComponent({
         form.validityType = 'days'
         form.validDays = 30
         form.validDateRange = undefined
+        form.bookableDateRange = undefined
         form.stock = undefined
         form.usageRules = ''
         form.remark = ''
@@ -351,6 +366,7 @@ export default defineComponent({
         form.validityType = 'days'
         form.validDays = 30
         form.validDateRange = undefined
+        form.bookableDateRange = undefined
         form.stock = undefined
         form.usageRules = ''
         form.remark = ''
@@ -411,6 +427,11 @@ export default defineComponent({
           couponData.validDays = form.validDays
         } else {
           couponData.validDateRange = form.validDateRange
+        }
+
+        // 添加可订日期（可选）
+        if (form.bookableDateRange && form.bookableDateRange.length === 2) {
+          couponData.bookableDateRange = form.bookableDateRange
         }
 
         // 根据类型添加对应字段
