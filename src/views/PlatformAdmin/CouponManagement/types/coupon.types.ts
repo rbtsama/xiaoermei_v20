@@ -81,6 +81,8 @@ export interface SceneDistribution {
   couponName: string | null
   // 关联优惠券备注（用于显示）
   couponRemark: string | null
+  // 每人限领次数（0表示不限）
+  limitPerUser: number
   // 短信通知开关
   smsNotify: boolean
   // 状态

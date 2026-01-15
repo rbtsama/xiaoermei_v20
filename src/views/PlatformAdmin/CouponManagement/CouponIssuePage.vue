@@ -124,6 +124,11 @@
             <span v-else class="empty-text">未配置</span>
           </template>
 
+          <!-- 每人限领次数 -->
+          <template slot="limitPerUser" slot-scope="limitPerUser">
+            <span class="limit-text">{{ limitPerUser === 0 ? '不限' : `${limitPerUser}次` }}</span>
+          </template>
+
           <!-- 短信通知 -->
           <template slot="smsNotify" slot-scope="smsNotify">
             <span :class="smsNotify ? 'text-yes' : 'text-no'">
@@ -214,6 +219,16 @@
               </a-select-option>
             </a-select>
           </a-form-model-item>
+          <a-form-model-item label="每人限领次数">
+            <a-input-number
+              v-model="sceneForm.limitPerUser"
+              :min="0"
+              :max="999"
+              placeholder="0表示不限"
+              style="width: 100%"
+            />
+            <div class="field-hint">0表示不限制，其他数字表示每人限领几次</div>
+          </a-form-model-item>
           <a-form-model-item label="短信通知">
             <a-checkbox v-model="sceneForm.smsNotify">
               发送短信通知
@@ -271,6 +286,7 @@ export default defineComponent({
     const editingScene = ref(null)
     const sceneForm = reactive({
       couponId: '',
+      limitPerUser: 0,
       smsNotify: false
     })
 
@@ -292,6 +308,14 @@ export default defineComponent({
         title: '派发优惠券',
         key: 'coupon',
         scopedSlots: { customRender: 'coupon' }
+      },
+      {
+        title: '每人限领次数',
+        dataIndex: 'limitPerUser',
+        key: 'limitPerUser',
+        width: 120,
+        align: 'center',
+        scopedSlots: { customRender: 'limitPerUser' }
       },
       {
         title: '短信通知',
@@ -410,6 +434,7 @@ export default defineComponent({
     const handleEditScene = (scene) => {
       editingScene.value = scene
       sceneForm.couponId = scene.couponId || ''
+      sceneForm.limitPerUser = scene.limitPerUser || 0
       sceneForm.smsNotify = scene.smsNotify
       sceneDialogVisible.value = true
     }
@@ -419,6 +444,7 @@ export default defineComponent({
       try {
         await CouponService.updateSceneDistribution(editingScene.value.id, {
           couponId: sceneForm.couponId,
+          limitPerUser: sceneForm.limitPerUser,
           smsNotify: sceneForm.smsNotify
         })
         root.$message.success('保存成功')
@@ -698,6 +724,12 @@ export default defineComponent({
 // 空文本
 .empty-text {
   color: @text-tertiary;
+  font-size: @font-size-sm;
+}
+
+// 限领次数文本
+.limit-text {
+  color: @text-primary;
   font-size: @font-size-sm;
 }
 
