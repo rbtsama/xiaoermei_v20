@@ -300,17 +300,27 @@
             <div class="qrcode-wrapper">
               <div class="qrcode-placeholder">
                 <a-icon type="qrcode" class="qr-icon" />
-                <p class="placeholder-text">邀请二维码</p>
+                <p class="placeholder-text">邀请二维码（30分钟有效）</p>
               </div>
             </div>
-            <a-button
-              type="primary"
-              @click="handleDownloadQRCode"
-              class="download-btn"
-            >
-              <a-icon type="download" />
-              下载邀请二维码（3天有效）
-            </a-button>
+            <div class="qrcode-actions">
+              <a-button
+                @click="handleRefreshQRCode"
+                class="refresh-btn"
+                :loading="refreshing"
+              >
+                <a-icon type="reload" />
+                刷新二维码
+              </a-button>
+              <a-button
+                type="primary"
+                @click="handleDownloadQRCode"
+                class="download-btn"
+              >
+                <a-icon type="download" />
+                下载邀请二维码
+              </a-button>
+            </div>
           </div>
         </div>
       </a-card>
@@ -379,6 +389,9 @@ export default defineComponent({
 
     // 提交中状态
     const submitting = ref(false)
+
+    // 刷新二维码中状态
+    const refreshing = ref(false)
 
     // 批量邀请数据
     const uploadedFileName = ref('')  // 上传的文件名
@@ -903,11 +916,36 @@ export default defineComponent({
     }
 
     /**
+     * 刷新邀请二维码
+     * TODO: 接入真实API重新生成二维码
+     */
+    const handleRefreshQRCode = async () => {
+      try {
+        refreshing.value = true
+
+        // TODO: 调用真实API重新生成二维码
+        // const result = await refreshInviteQRCode({
+        //   vipLevel: selectedVipLevel.value
+        // })
+
+        // 模拟API调用延迟
+        await new Promise(resolve => setTimeout(resolve, 800))
+
+        root.$message.success('二维码已刷新（30分钟有效）')
+      } catch (error) {
+        root.$message.error('刷新二维码失败，请重试')
+        console.error('刷新二维码失败:', error)
+      } finally {
+        refreshing.value = false
+      }
+    }
+
+    /**
      * 下载邀请二维码
      * TODO: 接入真实API获取二维码图片
      */
     const handleDownloadQRCode = () => {
-      root.$message.success('二维码下载成功（3天有效）')
+      root.$message.success('二维码下载成功')
 
       // TODO: 实现真实的二维码下载逻辑
       // const link = document.createElement('a')
@@ -931,6 +969,7 @@ export default defineComponent({
       inviteMode,
       selectedVipLevel,
       submitting,
+      refreshing,
       uploadedFileName,
       uploadedCount,
       singleForm,
@@ -943,6 +982,7 @@ export default defineComponent({
       handleGoToRecords,
       handleGoToCommission,
       handleModeChange,
+      handleRefreshQRCode,
       handleDownloadQRCode,
       handleResultDialogClose
     }
@@ -1342,16 +1382,34 @@ export default defineComponent({
     margin: 0 0 24px 0;
   }
 
-  .download-btn {
-    height: 40px;
-    padding: 0 24px;
-    font-size: @font-size-base;
-    border-radius: @border-radius-base;
-    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+  .qrcode-actions {
+    display: flex;
+    gap: 12px;
     align-self: center;
 
-    &:hover {
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    .refresh-btn,
+    .download-btn {
+      height: 40px;
+      padding: 0 24px;
+      font-size: @font-size-base;
+      border-radius: @border-radius-base;
+    }
+
+    .refresh-btn {
+      border-color: @border-secondary;
+
+      &:hover:not(:disabled) {
+        border-color: @brand-primary;
+        color: @brand-primary;
+      }
+    }
+
+    .download-btn {
+      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+      }
     }
   }
 }
